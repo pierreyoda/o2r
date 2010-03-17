@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Detailed report on module Button-->
+<CCCC_Project>
+<module_summary>
+<lines_of_code value="32" level="0" />
+<lines_of_code_per_member_function value="******" level="0" />
+<McCabes_cyclomatic_complexity value="6" level="0" />
+<McCabes_cyclomatic_complexity_per_member_function value="******" level="2" />
+<lines_of_code value="0" level="0" />
+<lines_of_code_per_member_function value="********" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+<weighted_methods_per_class_unity value="6" level="0" />
+<weighted_methods_per_class_visibility value="0" level="0" />
+<depth_of_inheritance_tree value="0" level="0" />
+<number_of_children value="0" level="0" />
+<coupling_between_objects value="4" level="0" />
+<IF4 value="0" level="0" />
+<IF4_per_member_function value="********" level="0" />
+<IF4_visible value="0" level="0" />
+<IF4_visible_per_member_function value="********" level="0" />
+<IF4_concrete value="0" level="0" />
+<IF4_concrete_per_member_function value="********" level="0" />
+</module_summary>
+<module_detail>
+<description>definition</description>
+<source_reference file="src\gui\Button.hpp" line="6" />
+<lines_of_code value="7" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</module_detail>
+<procedural_detail>
+<member_function>
+<name>Button(const string &amp;,const Vector2f &amp;,const Vector2f &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\Button.cpp" line="3" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\Button.hpp" line="9" />
+</extent>
+<lines_of_code value="11" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>getBorder()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\Button.hpp" line="16" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>getText()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\Button.hpp" line="15" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>isMouseOver(const Vector2f &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\Button.cpp" line="14" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\Button.hpp" line="11" />
+</extent>
+<lines_of_code value="6" level="0" />
+<McCabes_cyclomatic_complexity value="4" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>setBorderWidth(const int &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\Button.cpp" line="20" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\Button.hpp" line="14" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>setText(const string &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\Button.hpp" line="13" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+</procedural_detail>
+<structural_detail>
+<module>
+<name>Button</name>
+<client_module>
+</client_module>
+<supplier_module>
+<name>Shape</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\gui\Button.hpp" line="19" />
+</extent>
+<name>Text</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\gui\Button.hpp" line="20" />
+</extent>
+<name>Vector2f</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\Button.cpp" line="3" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\Button.cpp" line="3" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\Button.cpp" line="14" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\Button.hpp" line="9" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\Button.hpp" line="9" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\Button.hpp" line="11" />
+</extent>
+<name>string</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\Button.cpp" line="3" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\Button.hpp" line="9" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\Button.hpp" line="13" />
+</extent>
+</supplier_module>
+</module>
+</structural_detail>
+</CCCC_Project>

@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Detailed report on module AStarAlgorithm-->
+<CCCC_Project>
+<module_summary>
+<lines_of_code value="118" level="0" />
+<lines_of_code_per_member_function value="******" level="0" />
+<McCabes_cyclomatic_complexity value="21" level="0" />
+<McCabes_cyclomatic_complexity_per_member_function value="******" level="2" />
+<lines_of_code value="9" level="0" />
+<lines_of_code_per_member_function value="********" level="2" />
+<lines_of_code_per_line_of_comment value="13.111" level="1" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="2.333" level="0" />
+<weighted_methods_per_class_unity value="9" level="0" />
+<weighted_methods_per_class_visibility value="4" level="0" />
+<depth_of_inheritance_tree value="0" level="0" />
+<number_of_children value="0" level="0" />
+<coupling_between_objects value="4" level="0" />
+<IF4 value="0" level="0" />
+<IF4_per_member_function value="********" level="0" />
+<IF4_visible value="0" level="0" />
+<IF4_visible_per_member_function value="********" level="0" />
+<IF4_concrete value="0" level="0" />
+<IF4_concrete_per_member_function value="********" level="0" />
+</module_summary>
+<module_detail>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="32" />
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</module_detail>
+<procedural_detail>
+<member_function>
+<name>AStarAlgorithm()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="6" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="35" />
+</extent>
+<lines_of_code value="4" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>addAjacentCases(l_list &amp;,l_list &amp;,ipair &amp;,const Point &amp;,const Level &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="66" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="43" />
+</extent>
+<lines_of_code value="15" level="0" />
+<McCabes_cyclomatic_complexity value="4" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>addNext(const ipair &amp;,ipair &amp;,l_list &amp;,l_list &amp;,const Point &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="80" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="45" />
+</extent>
+<lines_of_code value="22" level="0" />
+<McCabes_cyclomatic_complexity value="3" level="0" />
+<lines_of_comment value="1" level="0" />
+<lines_of_code_per_line_of_comment value="22.000" level="1" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>bestNode(const l_list &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="119" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="50" />
+</extent>
+<lines_of_code value="15" level="0" />
+<McCabes_cyclomatic_complexity value="3" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>isClear(const int &amp;,const int &amp;,const Level &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="114" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="49" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>pathfinding(const Point &amp;,const Point &amp;,const Level &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="16" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="38" />
+</extent>
+<lines_of_code value="36" level="1" />
+<McCabes_cyclomatic_complexity value="8" level="0" />
+<lines_of_comment value="8" level="0" />
+<lines_of_code_per_line_of_comment value="4.500" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="1.000" level="0" />
+</member_function>
+<member_function>
+<name>pound(const Point &amp;,const Point &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="103" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="40" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>pound(const int &amp;,const int &amp;,const int &amp;,const int &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="108" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="47" />
+</extent>
+<lines_of_code value="7" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>~AStarAlgorithm()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="11" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="36" />
+</extent>
+<lines_of_code value="4" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+</procedural_detail>
+<structural_detail>
+<module>
+<name>AStarAlgorithm</name>
+<client_module>
+</client_module>
+<supplier_module>
+<name>Level</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="17" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="67" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="114" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="39" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="44" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="49" />
+</extent>
+<name>Point</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="16" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="16" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="67" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="81" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="103" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="103" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="38" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="38" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="40" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="40" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="44" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="46" />
+</extent>
+<name>ipair</name>
+<visible>false</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="67" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="80" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="80" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="44" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="45" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="45" />
+</extent>
+<name>l_list</name>
+<visible>false</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="66" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="66" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="80" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="81" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="119" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="43" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="43" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="45" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="46" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="50" />
+</extent>
+</supplier_module>
+</module>
+</structural_detail>
+</CCCC_Project>

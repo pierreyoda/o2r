@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Detailed report on module HudManager-->
+<CCCC_Project>
+<module_summary>
+<lines_of_code value="173" level="0" />
+<lines_of_code_per_member_function value="******" level="0" />
+<McCabes_cyclomatic_complexity value="25" level="0" />
+<McCabes_cyclomatic_complexity_per_member_function value="******" level="2" />
+<lines_of_code value="2" level="0" />
+<lines_of_code_per_member_function value="********" level="2" />
+<lines_of_code_per_line_of_comment value="86.500" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="12.500" level="2" />
+<weighted_methods_per_class_unity value="8" level="0" />
+<weighted_methods_per_class_visibility value="3" level="0" />
+<depth_of_inheritance_tree value="0" level="0" />
+<number_of_children value="0" level="0" />
+<coupling_between_objects value="7" level="0" />
+<IF4 value="36" level="0" />
+<IF4_per_member_function value="********" level="2" />
+<IF4_visible value="36" level="1" />
+<IF4_visible_per_member_function value="********" level="2" />
+<IF4_concrete value="25" level="0" />
+<IF4_concrete_per_member_function value="********" level="2" />
+</module_summary>
+<module_detail>
+<description>definition</description>
+<source_reference file="src\gui\HudManager.hpp" line="6" />
+<lines_of_code value="11" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</module_detail>
+<procedural_detail>
+<member_function>
+<name>HudManager()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\HudManager.cpp" line="9" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\HudManager.hpp" line="9" />
+</extent>
+<lines_of_code value="10" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>createHud()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\HudManager.cpp" line="20" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\HudManager.hpp" line="11" />
+</extent>
+<lines_of_code value="30" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="2" level="0" />
+<lines_of_code_per_line_of_comment value="15.000" level="1" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>drawFps(RenderTarget &amp;,const float &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\HudManager.cpp" line="145" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\HudManager.hpp" line="16" />
+</extent>
+<lines_of_code value="35" level="1" />
+<McCabes_cyclomatic_complexity value="6" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+</member_function>
+<member_function>
+<name>drawHud(const int &amp;,const int &amp;,const bool &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\HudManager.cpp" line="60" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\HudManager.hpp" line="14" />
+</extent>
+<lines_of_code value="29" level="0" />
+<McCabes_cyclomatic_complexity value="7" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+</member_function>
+<member_function>
+<name>newGameStarted()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\HudManager.cpp" line="54" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\HudManager.hpp" line="12" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>updateNbOfCats(const int &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\HudManager.cpp" line="102" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\HudManager.hpp" line="20" />
+</extent>
+<lines_of_code value="12" level="0" />
+<McCabes_cyclomatic_complexity value="3" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>updateNbOfRemainingLifes(const int &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\HudManager.cpp" line="114" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\HudManager.hpp" line="21" />
+</extent>
+<lines_of_code value="29" level="0" />
+<McCabes_cyclomatic_complexity value="6" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+</member_function>
+<member_function>
+<name>updateScore()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\gui\HudManager.cpp" line="90" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\gui\HudManager.hpp" line="19" />
+</extent>
+<lines_of_code value="12" level="0" />
+<McCabes_cyclomatic_complexity value="3" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+</procedural_detail>
+<structural_detail>
+<module>
+<name>HudManager</name>
+<client_module>
+<name>Engine</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Engine.hpp" line="31" />
+</extent>
+</client_module>
+<supplier_module>
+<name>RenderImage</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\gui\HudManager.hpp" line="23" />
+</extent>
+<name>RenderTarget</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\HudManager.cpp" line="145" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\HudManager.hpp" line="16" />
+</extent>
+<name>Shape</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\gui\HudManager.hpp" line="27" />
+</extent>
+<name>Sprite</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\gui\HudManager.hpp" line="24" />
+</extent>
+<extent>
+<description>has by value</description>
+<source_reference file="src\gui\HudManager.hpp" line="26" />
+</extent>
+<name>Text</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\gui\HudManager.hpp" line="25" />
+</extent>
+<name>bool</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\HudManager.cpp" line="61" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\gui\HudManager.hpp" line="15" />
+</extent>
+<extent>
+<description>has by value</description>
+<source_reference file="src\gui\HudManager.hpp" line="28" />
+</extent>
+</supplier_module>
+</module>
+</structural_detail>
+</CCCC_Project>

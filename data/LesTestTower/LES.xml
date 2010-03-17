@@ -1,0 +1,6 @@
+<LES basedir="data/towertest">
+	<!-- LES blocks/walls images inversion -->
+	<element char="u" img="stairsup.png" type="STAIRS" fromBaseDir="1"/>
+	<element char="1" img="wall.png" type="BLOCK" fromBaseDir="1"/>
+	<element char="2" img="block.png" type="WALL" fromBaseDir="1"/>
+</LES>

@@ -1,0 +1,23 @@
+﻿<!-- Example tower provided with O2R 0.6 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<Tower basedir="data/towertest">
+	<floor ref="testtower1.txt"/> <!-- 'name="..." can be used to redefine a personal name 
+		(warning : this name will be used for stairs) -->
+	<floor ref="testtower2.txt"/>
+	<floor ref="testtower3.txt"/>
+	<!-- Level Extension System custom cases - can be in another file by linking with : <LES ref="..."/> -->
+	<LES basedir="data/towertest">
+		<!-- 'fromBaseDir' = searchs image in base module dir (data/base/) -->
+		<element char="U" img="stairsup.png" type="STAIRS" fromBaseDir="1"/>
+		<element char="D" img="stairsdown.png" type="STAIRS" fromBaseDir="1"/>
+		<element char="1" img="wall.png" type="BLOCK" fromBaseDir="1"/>
+		<element char="2" img="block.png" type="WALL" fromBaseDir="1"/>
+	</LES>
+	<!-- Stairs description - as LES, 'ref="..."' can be used too -->
+	<stairs> <!-- 'persoflag="X" can be used to redefine a personal flag (which separes level name and stair char -->
+		<staircase from="00:u" to="01:d" bothdir="1"/>
+		<staircase from="01:u" to="02:d" bothdir="1"/>
+		<finalstaircase from="02-u" message="Congratulations!
+ You have sucessfully completed this example tower!"/> <!-- Watch out for line breaks! -->
+	</stairs>
+</Tower>

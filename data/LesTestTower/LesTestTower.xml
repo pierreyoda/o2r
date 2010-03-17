@@ -1,0 +1,12 @@
+﻿<!-- Example tower provided with O2R 0.6 -->
+<?xml version="1.0" encoding="UTF-8"?>
+<Tower basedir="data/towertest">
+	<floor ref="testtower1.txt"/>
+	<floor ref="testtower2.txt"/>
+	<floor ref="testtower3.txt"/>
+	<stairs>
+		<finalstaircase from="00-u" message="Congratulations!
+ You have sucessfully completed this example tower!"/>
+	</stairs>
+	<LES ref="LES.xml"/>
+</Tower>

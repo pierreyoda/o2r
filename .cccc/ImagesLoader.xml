@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Detailed report on module ImagesLoader-->
+<CCCC_Project>
+<module_summary>
+<lines_of_code value="83" level="0" />
+<lines_of_code_per_member_function value="******" level="0" />
+<McCabes_cyclomatic_complexity value="25" level="0" />
+<McCabes_cyclomatic_complexity_per_member_function value="******" level="2" />
+<lines_of_code value="0" level="0" />
+<lines_of_code_per_member_function value="********" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+<weighted_methods_per_class_unity value="6" level="0" />
+<weighted_methods_per_class_visibility value="1" level="0" />
+<depth_of_inheritance_tree value="0" level="0" />
+<number_of_children value="0" level="0" />
+<coupling_between_objects value="4" level="0" />
+<IF4 value="0" level="0" />
+<IF4_per_member_function value="********" level="0" />
+<IF4_visible value="0" level="0" />
+<IF4_visible_per_member_function value="********" level="0" />
+<IF4_concrete value="0" level="0" />
+<IF4_concrete_per_member_function value="********" level="0" />
+</module_summary>
+<module_detail>
+<description>definition</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="10" />
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</module_detail>
+<procedural_detail>
+<member_function>
+<name>ImagesLoader()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="13" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>checkFolderExistence(const path &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="87" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="21" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>checkFolderExistence(const string &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="82" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="20" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>findAndLoadPresentFiles(fileList &amp;,const string &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="56" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="19" />
+</extent>
+<lines_of_code value="23" level="0" />
+<McCabes_cyclomatic_complexity value="8" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+</member_function>
+<member_function>
+<name>findDefinedFiles(fileList &amp;,const string &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="36" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="18" />
+</extent>
+<lines_of_code value="19" level="0" />
+<McCabes_cyclomatic_complexity value="4" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>loadImages(const string &amp;,const bool &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="10" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="15" />
+</extent>
+<lines_of_code value="25" level="0" />
+<McCabes_cyclomatic_complexity value="11" level="1" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+</member_function>
+</procedural_detail>
+<structural_detail>
+<module>
+<name>ImagesLoader</name>
+<client_module>
+</client_module>
+<supplier_module>
+<name>bool</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="10" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="15" />
+</extent>
+<name>fileList</name>
+<visible>false</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="36" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="56" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="18" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="19" />
+</extent>
+<name>path</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="87" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="21" />
+</extent>
+<name>string</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="10" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="36" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="56" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.cpp" line="82" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="15" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="18" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="19" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\tools\ImagesLoader.hpp" line="20" />
+</extent>
+</supplier_module>
+</module>
+</structural_detail>
+</CCCC_Project>

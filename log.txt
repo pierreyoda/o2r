@@ -1,0 +1,33 @@
+--- Launch of the program ---
+Launched on Tue Mar 16 11:41:45 2010
+Version : 0.6-BETA
+
+Interpreting arguments...
+  No arguments.
+
+Finding base files... Loading base files...
+	data/base/block.png
+	data/base/blur.sfx (Shader)
+	data/base/cat.png
+	data/base/cat_awaiting.png
+	data/base/cheese.png
+	data/base/colorize.sfx (Shader)
+	data/base/hole.png
+	data/base/icon.png
+	data/base/lifes.png
+	data/base/mouse.png
+	data/base/mousetrap.png
+	data/base/stairs.png
+	data/base/stairsdown.png
+	data/base/stairsup.png
+	data/base/void.png
+	data/base/wall.png
+Finding module(s) files... No module(s) specified : skipping step.
+
+Initializing game engine.
+Launching game engine.
+Launching game...
+Reading level 'data/1.txt'.
+Initializing game.
+
+--- End of the program [0 minute(s), 5 second(s)] ---

@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Detailed report on module Mouse-->
+<CCCC_Project>
+<module_summary>
+<lines_of_code value="141" level="0" />
+<lines_of_code_per_member_function value="******" level="0" />
+<McCabes_cyclomatic_complexity value="38" level="0" />
+<McCabes_cyclomatic_complexity_per_member_function value="******" level="2" />
+<lines_of_code value="0" level="0" />
+<lines_of_code_per_member_function value="********" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+<weighted_methods_per_class_unity value="14" level="0" />
+<weighted_methods_per_class_visibility value="0" level="0" />
+<depth_of_inheritance_tree value="1" level="0" />
+<number_of_children value="0" level="0" />
+<coupling_between_objects value="8" level="0" />
+<IF4 value="144" level="1" />
+<IF4_per_member_function value="********" level="2" />
+<IF4_visible value="144" level="2" />
+<IF4_visible_per_member_function value="********" level="2" />
+<IF4_concrete value="4" level="0" />
+<IF4_concrete_per_member_function value="********" level="2" />
+</module_summary>
+<module_detail>
+<description>definition</description>
+<source_reference file="src\Mouse.hpp" line="15" />
+<lines_of_code value="9" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</module_detail>
+<procedural_detail>
+<member_function>
+<name>Mouse(Level &amp;,l_cats &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="4" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>Mouse(Level &amp;,vector &amp;)</name>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="18" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>checkBlocks(const Vector2i &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="84" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="30" />
+</extent>
+<lines_of_code value="24" level="0" />
+<McCabes_cyclomatic_complexity value="7" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+</member_function>
+<member_function>
+<name>cheesePresent(const Vector2i &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="108" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="31" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="2" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>dead()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.hpp" line="25" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>die()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="15" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="21" />
+</extent>
+<lines_of_code value="11" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>estimatePosSecurity(const Vector2i &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="127" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="33" />
+</extent>
+<lines_of_code value="8" level="0" />
+<McCabes_cyclomatic_complexity value="2" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>move(const Vector2i &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="32" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="23" />
+</extent>
+<lines_of_code value="25" level="0" />
+<McCabes_cyclomatic_complexity value="11" level="1" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+</member_function>
+<member_function>
+<name>remainingLifes()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.hpp" line="26" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>respawn(...)</name>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="29" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>respawn(const int &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="57" />
+</extent>
+<lines_of_code value="26" level="0" />
+<McCabes_cyclomatic_complexity value="8" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+</member_function>
+<member_function>
+<name>revive()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="26" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="22" />
+</extent>
+<lines_of_code value="6" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>trappedByWalls(const Vector2i &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="113" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="32" />
+</extent>
+<lines_of_code value="14" level="0" />
+<McCabes_cyclomatic_complexity value="5" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="0" />
+</member_function>
+<member_function>
+<name>~Mouse()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Mouse.cpp" line="10" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Mouse.hpp" line="19" />
+</extent>
+<lines_of_code value="4" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+</procedural_detail>
+<structural_detail>
+<module>
+<name>Mouse</name>
+<client_module>
+<name>Engine</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>has by reference</description>
+<source_reference file="src\Engine.hpp" line="30" />
+</extent>
+<name>Game</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Game.hpp" line="37" />
+</extent>
+</client_module>
+<supplier_module>
+<name>Level</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.cpp" line="4" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.hpp" line="18" />
+</extent>
+<extent>
+<description>has by reference</description>
+<source_reference file="src\Mouse.hpp" line="35" />
+</extent>
+<name>Object</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>inheritance</description>
+<source_reference file="src\Mouse.hpp" line="15" />
+</extent>
+<name>Vector2i</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.cpp" line="32" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.cpp" line="84" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.cpp" line="108" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.cpp" line="113" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.cpp" line="127" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.hpp" line="23" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.hpp" line="30" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.hpp" line="31" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.hpp" line="32" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.hpp" line="33" />
+</extent>
+<name>bool</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Mouse.hpp" line="38" />
+</extent>
+<name>l_cats</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.cpp" line="4" />
+</extent>
+<extent>
+<description>has by reference</description>
+<source_reference file="src\Mouse.hpp" line="36" />
+</extent>
+<name>vector</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.hpp" line="18" />
+</extent>
+</supplier_module>
+</module>
+</structural_detail>
+</CCCC_Project>
