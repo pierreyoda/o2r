@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--Detailed report on module Level-->
+<CCCC_Project>
+<module_summary>
+<lines_of_code value="168" level="0" />
+<lines_of_code_per_member_function value="******" level="0" />
+<McCabes_cyclomatic_complexity value="40" level="0" />
+<McCabes_cyclomatic_complexity_per_member_function value="******" level="2" />
+<lines_of_code value="2" level="0" />
+<lines_of_code_per_member_function value="********" level="2" />
+<lines_of_code_per_line_of_comment value="84.000" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="20.000" level="2" />
+<weighted_methods_per_class_unity value="21" level="0" />
+<weighted_methods_per_class_visibility value="2" level="0" />
+<depth_of_inheritance_tree value="0" level="0" />
+<number_of_children value="0" level="0" />
+<coupling_between_objects value="14" level="0" />
+<IF4 value="2304" level="2" />
+<IF4_per_member_function value="********" level="2" />
+<IF4_visible value="1764" level="2" />
+<IF4_visible_per_member_function value="********" level="2" />
+<IF4_concrete value="0" level="0" />
+<IF4_concrete_per_member_function value="********" level="0" />
+</module_summary>
+<module_detail>
+<description>definition</description>
+<source_reference file="src\Level.hpp" line="20" />
+<lines_of_code value="13" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="2" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</module_detail>
+<procedural_detail>
+<member_function>
+<name>Level()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="6" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="23" />
+</extent>
+<lines_of_code value="10" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>clearLevel()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="22" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="28" />
+</extent>
+<lines_of_code value="7" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>content()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.hpp" line="55" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>getCaseType(const Vector2i &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="132" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="52" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>getCaseType(const int &amp;,const int &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="137" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="53" />
+</extent>
+<lines_of_code value="7" level="0" />
+<McCabes_cyclomatic_complexity value="6" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="2" />
+</member_function>
+<member_function>
+<name>getFilename()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.hpp" line="56" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>getMouseStartPos()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.hpp" line="49" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>getNbOfRandomWalls()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.hpp" line="50" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>getRenderResult(const bool &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="60" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="26" />
+</extent>
+<lines_of_code value="10" level="0" />
+<McCabes_cyclomatic_complexity value="2" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>hasChanged()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.hpp" line="48" />
+</extent>
+<lines_of_code value="1" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>nbOfCasetype(const CASETYPE &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="110" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="54" />
+</extent>
+<lines_of_code value="14" level="0" />
+<McCabes_cyclomatic_complexity value="4" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>randomWalls()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="41" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="31" />
+</extent>
+<lines_of_code value="19" level="0" />
+<McCabes_cyclomatic_complexity value="5" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="0" />
+</member_function>
+<member_function>
+<name>render(const bool &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="70" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="59" />
+</extent>
+<lines_of_code value="18" level="0" />
+<McCabes_cyclomatic_complexity value="5" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="0" />
+</member_function>
+<member_function>
+<name>renderDrawable(RenderTarget &amp;,const Vector2i &amp;,const CASETYPE &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="90" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="60" />
+</extent>
+<lines_of_code value="21" level="0" />
+<McCabes_cyclomatic_complexity value="3" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="******" level="2" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>resetLevel()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="29" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="29" />
+</extent>
+<lines_of_code value="6" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>resizeLevel()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="35" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="30" />
+</extent>
+<lines_of_code value="6" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>setCaseType(const Vector2i &amp;,const CASETYPE &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="124" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="51" />
+</extent>
+<lines_of_code value="8" level="0" />
+<McCabes_cyclomatic_complexity value="5" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="******" level="0" />
+</member_function>
+<member_function>
+<name>setFilename(const string &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.hpp" line="43" />
+</extent>
+<lines_of_code value="4" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>setMouseStartPos(const Vector2i &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.hpp" line="33" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="1" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>setNbOfRandomWalls(const int &amp;)</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.hpp" line="38" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="2" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+<member_function>
+<name>~Level()</name>
+<extent>
+<description>definition</description>
+<source_reference file="src\Level.cpp" line="17" />
+</extent>
+<extent>
+<description>declaration</description>
+<source_reference file="src\Level.hpp" line="24" />
+</extent>
+<lines_of_code value="5" level="0" />
+<McCabes_cyclomatic_complexity value="0" level="0" />
+<lines_of_comment value="0" level="0" />
+<lines_of_code_per_line_of_comment value="------" level="0" />
+<McCabes_cyclomatic_complexity_per_line_of_comment value="------" level="0" />
+</member_function>
+</procedural_detail>
+<structural_detail>
+<module>
+<name>Level</name>
+<client_module>
+<name>AStarAlgorithm</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="17" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="67" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.cpp" line="114" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="39" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="44" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\algorithm\AStarAlgorithm.hpp" line="49" />
+</extent>
+<name>Cat</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Cat.cpp" line="27" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Cat.cpp" line="90" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Cat.cpp" line="134" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Cat.hpp" line="21" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Cat.hpp" line="23" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Cat.hpp" line="33" />
+</extent>
+<name>Game</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>has by reference</description>
+<source_reference file="src\Game.hpp" line="34" />
+</extent>
+<name>LevelFileInterpreter</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.cpp" line="18" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.cpp" line="45" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.cpp" line="70" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.cpp" line="111" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.cpp" line="135" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.cpp" line="146" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.hpp" line="10" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.hpp" line="12" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.hpp" line="15" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.hpp" line="16" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.hpp" line="17" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\LevelFileInterpreter.hpp" line="19" />
+</extent>
+<name>Mouse</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.cpp" line="4" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Mouse.hpp" line="18" />
+</extent>
+<extent>
+<description>has by reference</description>
+<source_reference file="src\Mouse.hpp" line="35" />
+</extent>
+<name>Tower</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Tower.hpp" line="15" />
+</extent>
+</client_module>
+<supplier_module>
+<name>Object</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Level.hpp" line="66" />
+</extent>
+<name>RenderImage</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Level.hpp" line="63" />
+</extent>
+<name>RenderTarget</name>
+<visible>true</visible>
+<concrete>false</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.cpp" line="90" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.hpp" line="60" />
+</extent>
+<name>Sprite</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Level.hpp" line="64" />
+</extent>
+<name>Vector2i</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.cpp" line="90" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.cpp" line="124" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.cpp" line="132" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.hpp" line="33" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.hpp" line="51" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.hpp" line="52" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.hpp" line="60" />
+</extent>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Level.hpp" line="67" />
+</extent>
+<name>bool</name>
+<visible>false</visible>
+<concrete>true</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.cpp" line="60" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.cpp" line="70" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.hpp" line="26" />
+</extent>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.hpp" line="59" />
+</extent>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Level.hpp" line="70" />
+</extent>
+<name>string</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>pass by reference</description>
+<source_reference file="src\Level.hpp" line="43" />
+</extent>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Level.hpp" line="68" />
+</extent>
+<name>vector</name>
+<visible>true</visible>
+<concrete>true</concrete>
+<extent>
+<description>has by value</description>
+<source_reference file="src\Level.hpp" line="65" />
+</extent>
+</supplier_module>
+</module>
+</structural_detail>
+</CCCC_Project>

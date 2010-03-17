@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Open Rodent&apos;s Revenge" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="OpenRodentsRevenge_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-lsfml-graphics-s-d" />
+					<Add option="-lsfml-window-s-d" />
+					<Add option="-lsfml-system-s-d" />
+					<Add option="-ltinyxmld" />
+					<Add option="-lboost_filesystem-mgw44-mt-d" />
+					<Add option="-lboost_system-mgw44-mt-d" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="OpenRodentsRevenge" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O3" />
+					<Add option="-O2" />
+					<Add option="-O1" />
+					<Add option="-O" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="-lsfml-graphics-s" />
+					<Add option="-lsfml-window-s" />
+					<Add option="-lsfml-system-s" />
+					<Add option="-ltinyxml" />
+					<Add option="-lboost_filesystem-mgw44-mt" />
+					<Add option="-lboost_system-mgw44-mt" />
+				</Linker>
+			</Target>
+			<Target title="Profiled">
+				<Option output="OpenRodentsRevenge_p" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Profiled\" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-Os" />
+					<Add option="-O3" />
+					<Add option="-O2" />
+					<Add option="-O1" />
+					<Add option="-O" />
+					<Add option="-pg" />
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-pg -lgmon" />
+					<Add option="-lsfml-graphics-s" />
+					<Add option="-lsfml-window-s" />
+					<Add option="-lsfml-system-s" />
+					<Add option="-ltinyxml" />
+					<Add option="-lboost_filesystem-mgw44-mt" />
+					<Add option="-lboost_system-mgw44-mt" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+			<Add directory="$(#tinyxml.include)" />
+			<Add directory="$(#sfml2.include)" />
+			<Add directory="$(#boost)" />
+		</Compiler>
+		<Linker>
+			<Add directory="$(#sfml2.lib)" />
+			<Add directory="$(#boost.lib)" />
+			<Add directory="$(#tinyxml.lib)" />
+		</Linker>
+		<Unit filename="resources.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
+		<Unit filename="src\Cat.cpp" />
+		<Unit filename="src\Cat.hpp" />
+		<Unit filename="src\Engine.cpp" />
+		<Unit filename="src\Engine.hpp" />
+		<Unit filename="src\Game.cpp" />
+		<Unit filename="src\Game.hpp" />
+		<Unit filename="src\GlobalVariables.cpp" />
+		<Unit filename="src\GlobalVariables.hpp" />
+		<Unit filename="src\Level.cpp" />
+		<Unit filename="src\Level.hpp" />
+		<Unit filename="src\LevelFileInterpreter.cpp" />
+		<Unit filename="src\LevelFileInterpreter.hpp" />
+		<Unit filename="src\Mouse.cpp" />
+		<Unit filename="src\Mouse.hpp" />
+		<Unit filename="src\Object.cpp" />
+		<Unit filename="src\Object.hpp" />
+		<Unit filename="src\Tower.cpp" />
+		<Unit filename="src\Tower.hpp" />
+		<Unit filename="src\TowerFileInterpreter.cpp" />
+		<Unit filename="src\TowerFileInterpreter.hpp" />
+		<Unit filename="src\algorithm\AStarAlgorithm.cpp" />
+		<Unit filename="src\algorithm\AStarAlgorithm.hpp" />
+		<Unit filename="src\constantes.hpp" />
+		<Unit filename="src\gui\Button.cpp" />
+		<Unit filename="src\gui\Button.hpp" />
+		<Unit filename="src\gui\ErrorScreens.cpp" />
+		<Unit filename="src\gui\ErrorScreens.hpp" />
+		<Unit filename="src\gui\HudManager.cpp" />
+		<Unit filename="src\gui\HudManager.hpp" />
+		<Unit filename="src\gui\TextBox.cpp" />
+		<Unit filename="src\gui\TextBox.hpp" />
+		<Unit filename="src\main.cpp" />
+		<Unit filename="src\tools\FilesLoader.cpp" />
+		<Unit filename="src\tools\FilesLoader.hpp" />
+		<Unit filename="src\tools\ImageManager.cpp" />
+		<Unit filename="src\tools\ImageManager.hpp" />
+		<Unit filename="src\tools\ProgramOptions.cpp" />
+		<Unit filename="src\tools\ProgramOptions.hpp" />
+		<Unit filename="src\tools\ResourceManager.hpp" />
+		<Unit filename="src\tools\ShaderManager.cpp" />
+		<Unit filename="src\tools\ShaderManager.hpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<wxsmith version="1">
+				<gui name="wxWidgets" src="" main="" init_handlers="necessary" language="CPP" />
+			</wxsmith>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
