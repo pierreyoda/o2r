@@ -5,16 +5,27 @@
 #include <SFML/Graphics.hpp>
 #include "Button.hpp"
 
+typedef bool (*pRunFonction)(sf::RenderWindow&);
+typedef std::pair<Button, pRunFonction> menuButton;
+
 class Menu
 {
     public:
         Menu();
         virtual ~Menu();
 
-        bool run(sf::RenderWindow &App, std::string &string);
+        virtual void initialize() { };
+        bool run(sf::RenderWindow &App);
 
     protected:
-        std::vector<Button> buttons;
+        std::vector<menuButton> buttons;
+};
+
+struct MainMenu : public Menu
+{
+    MainMenu();
+
+    void initialize();
 };
 
 #endif /* MENU_HPP */

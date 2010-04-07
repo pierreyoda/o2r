@@ -12,13 +12,15 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-pg" />
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
+					<Add option="-pg -lgmon" />
 					<Add option="-lsfml-graphics-s-d" />
 					<Add option="-lsfml-window-s-d" />
 					<Add option="-lsfml-system-s-d" />
-					<Add option="-ltinyxmld" />
+					<Add option="-ltinyxml" />
 					<Add option="-lboost_filesystem-mgw44-mt-d" />
 					<Add option="-lboost_system-mgw44-mt-d" />
 				</Linker>
@@ -61,12 +63,12 @@
 				</Compiler>
 				<Linker>
 					<Add option="-pg -lgmon" />
-					<Add option="-lsfml-graphics-s" />
-					<Add option="-lsfml-window-s" />
-					<Add option="-lsfml-system-s" />
+					<Add option="-lsfml-graphics-s-d" />
+					<Add option="-lsfml-window-s-d" />
+					<Add option="-lsfml-system-s-d" />
 					<Add option="-ltinyxml" />
-					<Add option="-lboost_filesystem-mgw44-mt" />
-					<Add option="-lboost_system-mgw44-mt" />
+					<Add option="-lboost_filesystem-mgw44-mt-d" />
+					<Add option="-lboost_system-mgw44-mt-d" />
 				</Linker>
 			</Target>
 		</Build>
@@ -114,6 +116,8 @@
 		<Unit filename="src\gui\ErrorScreens.hpp" />
 		<Unit filename="src\gui\HudManager.cpp" />
 		<Unit filename="src\gui\HudManager.hpp" />
+		<Unit filename="src\gui\Menu.cpp" />
+		<Unit filename="src\gui\Menu.hpp" />
 		<Unit filename="src\gui\TextBox.cpp" />
 		<Unit filename="src\gui\TextBox.hpp" />
 		<Unit filename="src\main.cpp" />

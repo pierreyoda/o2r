@@ -13,7 +13,7 @@ using namespace sf;
 // TODO (Pierre-Yves#4#): [GENERAL]Ajouter zoom automatique pour niveaux de tailles non standards...
 Engine::Engine(sf::RenderWindow &window, const bool &vsync,
     const unsigned int &fpslimit) : App(window), game(), cats(game.getCatsList()),
-    mouse(game.getMouse()), gameView(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H-HUD_HEIGHT)),
+    mouse(game.getMouse()), gameView(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H)),
      gameViewZoomFactor(10)
 {
     //gameView.Rotate(180);
@@ -137,7 +137,7 @@ void Engine::runGame()
     if (!loadLevel(game.getCurrentLevelName()))
         loadLevel("data/1.txt");
     initializeGame();
-    //App.SetView(gameView);
+    App.SetView(gameView);
     while (App.IsOpened())
     {
         Event Event;
@@ -151,7 +151,7 @@ void Engine::runGame()
                 {
                     if (menuGame())
                         return;
-                    //App.SetView(gameView);
+                    App.SetView(gameView);
                 }
                 if (Event.Key.Code == Key::F12)
                     gv.debugMode = !gv.debugMode;
@@ -185,7 +185,6 @@ void Engine::runGame()
         for (unsigned int i = 0; i < cats.size(); i++)
             App.Draw(cats[i].sprite());
         App.Draw(mouse.sprite());
-        //App.SetView(App.GetDefaultView());
         App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), true));
             drawFps();
         //App.SetView(gameView);
@@ -297,7 +296,7 @@ void Engine::runEditor()
     hud.newGameStarted();
     mouse.setPosition(game.getLevel().getMouseStartPos());
     CASETYPE casetype = BLOCK;
-    //App.SetView(gameView);
+    App.SetView(gameView);
     const Input &Input = App.GetInput();
     while (App.IsOpened())
     {
@@ -315,7 +314,7 @@ void Engine::runEditor()
                 {
                     if (menuEditor())
                         return;
-                    //App.SetView(gameView);
+                    App.SetView(gameView);
                 }
                 if (Event.Key.Code == Key::F12)
                     gv.debugMode = !gv.debugMode;
