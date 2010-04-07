@@ -10,7 +10,7 @@ typedef std::pair<std::string, levelPtr> Floor;
 struct StairsDescriptionElement
 {
     std::string fromStairsName, toStairsName;
-    char fromStairsChar, toStairsChar;
+    sf::Vector2i fromStairsPos, toStairsPos;
 };
 
 typedef std::list<StairsDescriptionElement> l_stairsDescription;
@@ -27,6 +27,8 @@ class Tower
         void addLesElement(const LesElement &nLesElement);
         void setCurrentFloor(const unsigned int &currentFloor) {
             m_currentFloor = currentFloor; }
+        void setStairsDescriptionFlag(const char &flag) {
+            m_stairsDescriptionFlag = flag; }
         void loadFloors();
 
         Level *getCurrentFloor() { return m_floors[m_currentFloor].second.get(); }

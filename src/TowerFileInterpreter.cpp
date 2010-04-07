@@ -72,8 +72,16 @@ bool TowerFileInterpreter::readStairs(TiXmlElement *elem)
         if (attribName == "ref")
             return readStairs(attribValueStr);
         else if (attribName == "basedir");
+        else if (attribName == "persoflag");
         attrib = attrib->Next();
     }
+
+    elem = elem->FirstChildElement("staircase");
+    while (elem)
+    {
+        elem = elem->NextSiblingElement("staircase");
+    }
+
     return true;
 }
 

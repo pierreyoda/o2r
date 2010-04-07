@@ -14,7 +14,7 @@ class Game
         Game();
         ~Game();
 
-        void renderTower(sf::RenderTarget &target) { tower->render(target); }
+        void renderTower(sf::RenderTarget &target);
         void update();
         bool loadTower(const std::string &filename);
         bool loadLevel(const std::string &filename);

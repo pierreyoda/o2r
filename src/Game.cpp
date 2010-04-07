@@ -9,15 +9,24 @@ using namespace sf;
 Game::Game() : currentLevel(new Level()), tower(new Tower()), cats(), mouse(currentLevel, cats),
     inTower(false)
 {
-    //loadLevel("data/1.txt");
-    //loadTower("data/towertest/testtower.xml");
-    //tower->setCurrentFloor(1);
+    /*loadTower("data/towertest/testtower.xml");
+    tower->setCurrentFloor(1);*/
 }
 
 Game::~Game()
 {
     cats.clear();
-    //delete tower; Crash!
+    delete tower; //Crash (when loading tower)!
+}
+
+void Game::renderTower(RenderTarget &target)
+{
+    if (currentLevel.get() == NULL)
+        return;
+    if (inTower)
+        tower->render(target);
+    else
+        target.Draw(currentLevel->getRenderResult());
 }
 
 bool Game::loadTower(const std::string &filename)

@@ -1,7 +1,7 @@
 ﻿<!-- Example tower provided with O2R 0.6 -->
 <?xml version="1.0" encoding="UTF-8"?>
 <Tower basedir="data/towertest">
-	<floor ref="testtower1.txt"/> <!-- 'name="..." can be used to redefine a personal name 
+	<floor ref="testtower1.txt"/> <!-- 'name="..."' can be used to redefine a personal name 
 		(warning : this name will be used for stairs) -->
 	<floor ref="testtower2.txt"/>
 	<floor ref="testtower3.txt"/>
