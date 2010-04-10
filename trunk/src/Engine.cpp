@@ -14,17 +14,30 @@ using namespace sf;
 Engine::Engine(sf::RenderWindow &window, const bool &vsync,
     const unsigned int &fpslimit) : App(window), game(), cats(game.getCatsList()),
     mouse(game.getMouse()), gameView(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H)),
-     gameViewZoomFactor(10)
+     running(true)
 {
     //gameView.Rotate(180);
     App.UseVerticalSync(vsync);
     App.SetFramerateLimit(fpslimit);
     App.SetIcon(16, 16, gImageManager.getResource("icon.png")->GetPixelsPtr());
+    createMenus();
 }
 
 Engine::~Engine()
 {
 
+}
+
+void Engine::createMenus()
+{
+    const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
+    const float refX = middleX-125;
+    mainMenu.addButton(Button("Play Game!", Vector2f(refX, middleY-160)));
+    mainMenu.addButton(Button("Create Level", Vector2f(refX, middleY-40)));
+    mainMenu.addButton(Button("Quit", Vector2f(refX, middleY+80)));
+    mainMenu.connectButton(0, boost::bind(&Engine::runGame, this));
+    mainMenu.connectButton(1, boost::bind(&Engine::runEditor, this));
+    mainMenu.connectButton(2, boost::bind(&Engine::exit, this));
 }
 
 bool Engine::loadLevel(const std::string &filename)
@@ -72,70 +85,9 @@ void Engine::drawFps()
 
 void Engine::run()
 {
-    /*const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
-    std::vector<Button> buttons;
-    const float refX = middleX-125;
-    buttons.push_back(Button("Play Game!", Vector2f(refX, middleY-160)));
-    buttons.push_back(Button("Create Level", Vector2f(refX, middleY-40)));
-    buttons.push_back(Button("Quit", Vector2f(refX, middleY+80)));
-
-    static const Input &Input = App.GetInput();
-    while (App.IsOpened())
-    {
-        Vector2f mousePos(Input.GetMouseX(), Input.GetMouseY());
-        Event Event;
-        while (App.GetEvent(Event))
-        {
-            if (Event.Type == Event::Closed)
-                App.Close();
-            if (Event.Type == Event::KeyPressed)
-            {
-                if (Event.Key.Code == Key::Escape)
-                    App.Close();
-                if (Event.Key.Code == Key::F12)
-                    gv.debugMode = !gv.debugMode;
-            }
-            if (Event.Type == Event::MouseMoved)
-            {
-                for (unsigned int i = 0; i < buttons.size(); i++)
-                {
-                    if (buttons[i].isMouseOver(mousePos))
-                        buttons[i].setBorderWidth(12);
-                    else
-                        buttons[i].setBorderWidth(8);
-                }
-            }
-            if (Event.Type == Event::MouseButtonReleased)
-            {
-                if (buttons[0].isMouseOver(mousePos))
-                    runGame();
-                else if (buttons[1].isMouseOver(mousePos))
-                    runEditor();
-                else if (buttons[2].isMouseOver(mousePos))
-                    App.Close();
-                App.SetView(App.GetDefaultView());
-            }
-        }
-
-        App.Clear(Color(0, 128, 0));
-
-        for (unsigned int i = 0; i < buttons.size(); i++)
-        {
-            App.Draw(buttons[i].getBorder());
-            App.Draw(buttons[i].getText());
-        }
-        drawFps();
-
-        App.Display();
-    }*/
-    const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
-    const float refX = middleX-125;
-    Menu menu;
-    menu.addButton(Button("Play Game!", Vector2f(refX, middleY-160)));
-    menu.addButton(Button("Create Level", Vector2f(refX, middleY-40)));
-    menu.addButton(Button("Quit", Vector2f(refX, middleY+80)));
-    //menu.connectButton(0, &runGame);
-    menu.run(App, hud);
+    if (!running)
+        return;
+    mainMenu.run(App, hud);
 }
 
 void Engine::runGame()
@@ -146,7 +98,7 @@ void Engine::runGame()
         loadLevel("data/1.txt");
     initializeGame();
     App.SetView(gameView);
-    while (App.IsOpened())
+    while (App.IsOpened() && running)
     {
         Event Event;
         while (App.GetEvent(Event))
@@ -306,7 +258,7 @@ void Engine::runEditor()
     CASETYPE casetype = BLOCK;
     App.SetView(gameView);
     const Input &Input = App.GetInput();
-    while (App.IsOpened())
+    while (App.IsOpened() && running)
     {
         Vector2f mousepos = App.ConvertCoords(App.GetInput().GetMouseX(),
                                               App.GetInput().GetMouseY());
@@ -401,7 +353,6 @@ bool Engine::menuEditor()
                     else
                     {
                         loadLevel(filename);
-                        mouse.setPosition(game.getLevel().getMouseStartPos());
                         writing = false;
                         return false;
                     }

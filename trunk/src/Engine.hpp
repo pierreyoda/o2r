@@ -15,6 +15,7 @@ class Engine
         void run();
 
     private:
+        void createMenus();
         inline bool loadLevel(const std::string &filename);
         inline bool loadTower(const std::string &filename);
         void runGame();
@@ -24,14 +25,17 @@ class Engine
         void runEditor();
             bool menuEditor();
         inline void drawFps();
+        inline void exit() { running = false; }
 
         sf::RenderWindow &App;
         Game game;
         l_cats &cats;
         Mouse &mouse;
         HudManager hud;
+        Menu mainMenu, gameMenu, editorMenu;
         sf::View gameView;
         int gameViewZoomFactor;
+        bool running;
 };
 
 #endif /* ENGINE_HPP */

@@ -17,11 +17,11 @@ void Menu::addButton(const Button &button)
     m_buttons.push_back(menuButton(button, NULL));
 }
 
-void Menu::connectButton(const unsigned int &id, pRunFonction function)
+void Menu::connectButton(const unsigned int &id, bRunFonction function)
 {
     if (id < 0 || id >= m_buttons.size())
         return;
-    m_buttons[id].second = &function;
+    m_buttons[id].second = function;
 }
 
 bool Menu::run(RenderWindow &App, HudManager &hud)
@@ -59,7 +59,10 @@ bool Menu::run(RenderWindow &App, HudManager &hud)
                 {
                     if (m_buttons[i].first.isMouseOver(mousePos) &&
                         m_buttons[i].second != NULL)
-                        return *m_buttons[i].second;
+                    {
+                        m_buttons[i].second();
+                        return false;
+                    }
                 }
             }
         }
