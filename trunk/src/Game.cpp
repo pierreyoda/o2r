@@ -9,6 +9,7 @@ using namespace sf;
 Game::Game() : currentLevel(new Level()), tower(new Tower()), cats(), mouse(currentLevel, cats),
     inTower(false)
 {
+    //loadLevel("data/logobig.txt");
     /*loadTower("data/towertest/testtower.xml");
     tower->setCurrentFloor(1);*/
 }

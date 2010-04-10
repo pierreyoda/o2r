@@ -22,7 +22,7 @@ void TextBox::onTextEntered(const unsigned short &unicode)
 
 void TextBox::center(const sf::Vector2f &screen)
 {
-    box.SetX(screen.x/2 - box.GetRect().GetSize().x/2);
+    box.SetX(screen.x/2 - box.GetRect().Width/2);
 }
 
 void TextBox::clearText()

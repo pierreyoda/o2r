@@ -11,9 +11,9 @@ void ErrorScreens::missingResources(sf::RenderWindow &App)
                + baseModule + "' is present.");
         error.SetCharacterSize(20);
         error.SetColor(Color::Red);
-        error.SetPosition(refPos.x-error.GetRect().GetSize().x/2, refPos.y);
+        error.SetPosition(refPos.x-error.GetRect().Width/2, refPos.y);
     Text presskey("Press a key to exit.");
-        presskey.SetPosition(refPos.x-presskey.GetRect().GetSize().x/2,
+        presskey.SetPosition(refPos.x-presskey.GetRect().Width/2,
                              refPos.y+gv.SCREEN_W/2);
 
     while (App.IsOpened())
