@@ -20,8 +20,8 @@ HudManager::HudManager() : m_gamestart(true)
 void HudManager::createHud()
 {
     Vector2f refPos(0, gv.SCREEN_H-HUD_HEIGHT);
-    hudBackground = Shape::Rectangle(refPos, Vector2f(gv.SCREEN_W, gv.SCREEN_H),
-                                        HUD_BACKGROUND_COLOR);
+    sf::FloatRect rect(refPos, Vector2f(gv.SCREEN_W, gv.SCREEN_H));
+    hudBackground = Shape::Rectangle(rect, HUD_BACKGROUND_COLOR);
 
     score.SetPosition(refPos);
         score.SetString("Score: " + gv.nbToText(gv.score));
@@ -168,7 +168,7 @@ void HudManager::drawFps(RenderTarget &target, const float &fpsCount)
         text.SetString(gv.nbToText(static_cast<int>(fps)));
         if (resetpos)
         {
-            Vector2f size(text.GetRect().GetSize());
+            Vector2f size(text.GetRect().Width, text.GetRect().Height);
             text.SetPosition(gv.SCREEN_W-size.x, gv.SCREEN_H-size.y);
             resetpos = false;
         }

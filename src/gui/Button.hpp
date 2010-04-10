@@ -2,11 +2,16 @@
 #define BUTTON_HPP
 
 #include <SFML/Graphics.hpp>
+#include "../GlobalVariables.hpp"
+
+const sf::Vector2f BUTTON_DEFAULT_SIZE(250, 100);
 
 class Button
 {
     public:
-        Button(const std::string &text, const sf::Vector2f &pos1, const sf::Vector2f &pos2);
+        Button(const std::string &name, const sf::Vector2f &pos,
+                const sf::Vector2f &size = BUTTON_DEFAULT_SIZE,
+                const float &border = BUTTON_DEFAULT_BORDER);
 
         bool isMouseOver(const sf::Vector2f &mousePos);
 

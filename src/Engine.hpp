@@ -2,7 +2,7 @@
 #define ENGINE_HPP
 
 #include <SFML/Graphics.hpp>
-#include "gui/HudManager.hpp"
+#include "gui/Menu.hpp"
 #include "Game.hpp"
 
 class Engine
@@ -20,7 +20,7 @@ class Engine
         void runGame();
             inline void initializeGame(const bool &newlvl = true);
             bool menuGame();
-            void resizeGameView();
+            void resizeGameView(const sf::Vector2i &prevSize);
         void runEditor();
             bool menuEditor();
         inline void drawFps();

@@ -4,9 +4,10 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "Button.hpp"
+#include "HudManager.hpp"
 
-typedef bool (*pRunFonction)(sf::RenderWindow&);
-typedef std::pair<Button, pRunFonction> menuButton;
+typedef bool (*pRunFonction)();
+typedef std::pair<Button, pRunFonction*> menuButton;
 
 class Menu
 {
@@ -14,18 +15,12 @@ class Menu
         Menu();
         virtual ~Menu();
 
-        virtual void initialize() { };
-        bool run(sf::RenderWindow &App);
+        void addButton(const Button &button);
+        void connectButton(const unsigned int &id, pRunFonction function);
+        bool run(sf::RenderWindow &App, HudManager &hud);
 
-    protected:
-        std::vector<menuButton> buttons;
-};
-
-struct MainMenu : public Menu
-{
-    MainMenu();
-
-    void initialize();
+    private:
+        std::vector<menuButton> m_buttons;
 };
 
 #endif /* MENU_HPP */

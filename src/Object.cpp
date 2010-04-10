@@ -11,7 +11,7 @@ void Object::setImage(sf::Image &img)
 {
     m_sprite.SetImage(img);
     if (ORIGIN_AT_CENTER)
-        m_sprite.SetOrigin(img.GetWidth()/2.f, m_sprite.GetSubRect().GetSize().y/2.f);
+        m_sprite.SetOrigin(img.GetWidth()/2.f, m_sprite.GetSize().y/2.f);
 }
 
 void Object::setPosition(const sf::Vector2i &npos)

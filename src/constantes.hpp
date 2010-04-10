@@ -22,6 +22,7 @@ const unsigned int DEFAULT_NB_OF_LIFES = 3;
 const float CAT_SPEED = 0.75f;
 const bool ORIGIN_AT_CENTER = false;
 const bool USE_WINDOWGUI = USE_GUIFRAMEWORK;
+const float BUTTON_DEFAULT_BORDER = 8.f;
 const char stairsDescriptionDefaultFlag = ':';
 const std::string baseModule = "data/base/";
 const std::string gameVersion = "0.6-BETA";

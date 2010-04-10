@@ -29,11 +29,12 @@ Engine::~Engine()
 
 bool Engine::loadLevel(const std::string &filename)
 {
+    Vector2i oldSize(gv.SCREEN_W, gv.SCREEN_H-HUD_HEIGHT);
     bool ok = game.loadLevel(filename);
     if (ok && gv.sizeChanged)
     {
-        hud.createHud();
-        resizeGameView();
+        //hud.createHud();
+        resizeGameView(oldSize);
         gv.sizeChanged = false;
     }
     return ok;
@@ -45,15 +46,16 @@ bool Engine::loadTower(const std::string &filename)
     /*if (ok && gv.sizeChanged)
     {
         hud.createHud();
-        resizeGameView();
+        resizeGameView(oldSize);
         gv.sizeChanged = false;
     }*/
     return ok;
 }
 
-void Engine::resizeGameView()
+void Engine::resizeGameView(const Vector2i &prevSize)
 {
-
+    sf::Vector2i factor(prevSize.x / gv.SCREEN_W, prevSize.y / gv.SCREEN_H);
+    //gameView.
 }
 
 void Engine::initializeGame(const bool &newlvl)
@@ -70,14 +72,12 @@ void Engine::drawFps()
 
 void Engine::run()
 {
-    const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
+    /*const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
     std::vector<Button> buttons;
-    buttons.push_back(Button("Play Game!", Vector2f(middleX-125, middleY-150),
-                      Vector2f(middleX+125, middleY-50)));
-    buttons.push_back(Button("Create Level", Vector2f(middleX-125, middleY-25),
-                        Vector2f(middleX+125, middleY+80)));
-    buttons.push_back(Button("Quit", Vector2f(middleX-125, middleY+90),
-                        Vector2f(middleX+125, middleY*2-5)));
+    const float refX = middleX-125;
+    buttons.push_back(Button("Play Game!", Vector2f(refX, middleY-160)));
+    buttons.push_back(Button("Create Level", Vector2f(refX, middleY-40)));
+    buttons.push_back(Button("Quit", Vector2f(refX, middleY+80)));
 
     static const Input &Input = App.GetInput();
     while (App.IsOpened())
@@ -127,7 +127,15 @@ void Engine::run()
         drawFps();
 
         App.Display();
-    }
+    }*/
+    const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
+    const float refX = middleX-125;
+    Menu menu;
+    menu.addButton(Button("Play Game!", Vector2f(refX, middleY-160)));
+    menu.addButton(Button("Create Level", Vector2f(refX, middleY-40)));
+    menu.addButton(Button("Quit", Vector2f(refX, middleY+80)));
+    //menu.connectButton(0, &runGame);
+    menu.run(App, hud);
 }
 
 void Engine::runGame()
@@ -200,13 +208,13 @@ bool Engine::menuGame()
     TextBox textBox(0, game.getCurrentLevelName());
     std::vector<Button> buttons;
     buttons.push_back(Button("Resume", Vector2f(middleX-175, middleY-150),
-                             Vector2f(middleX-10, middleY-50)));
+                             Vector2f(185, 150)));
     buttons.push_back(Button("Exit", Vector2f(middleX+10, middleY-150),
-                             Vector2f(middleX+175, middleY-50)));
+                             Vector2f(185, middleY-150)));
     buttons.push_back(Button("Open Level", Vector2f(middleX-175, middleY+75),
-                             Vector2f(middleX+175, middleY+175)));
+                             Vector2f(300, 100)));
     buttons.push_back(Button("Open Tower", Vector2f(middleX-175, middleY-25),
-                            Vector2f(middleX+175, middleY+75)));
+                            Vector2f(300, 100)));
 
     App.SetView(App.GetDefaultView());
     static const Input &Input = App.GetInput();
