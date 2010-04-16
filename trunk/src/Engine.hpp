@@ -25,6 +25,7 @@ class Engine
         void runEditor();
             bool menuEditor();
         inline void drawFps();
+        inline void closeMenu() { resume = true; }
         inline void exit() { running = false; }
 
         sf::RenderWindow &App;
@@ -35,7 +36,7 @@ class Engine
         Menu mainMenu, gameMenu, editorMenu;
         sf::View gameView;
         int gameViewZoomFactor;
-        bool running;
+        bool running, resume, toMainMenu;
 };
 
 #endif /* ENGINE_HPP */

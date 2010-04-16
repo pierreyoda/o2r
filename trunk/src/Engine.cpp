@@ -14,7 +14,7 @@ using namespace sf;
 Engine::Engine(sf::RenderWindow &window, const bool &vsync,
     const unsigned int &fpslimit) : App(window), game(), cats(game.getCatsList()),
     mouse(game.getMouse()), gameView(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H)),
-     running(true)
+    running(true), resume(false)
 {
     //gameView.Rotate(180);
     App.UseVerticalSync(vsync);
@@ -32,12 +32,23 @@ void Engine::createMenus()
 {
     const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
     const float refX = middleX-125;
-    mainMenu.addButton(Button("Play Game!", Vector2f(refX, middleY-160)));
-    mainMenu.addButton(Button("Create Level", Vector2f(refX, middleY-40)));
-    mainMenu.addButton(Button("Quit", Vector2f(refX, middleY+80)));
-    mainMenu.connectButton(0, boost::bind(&Engine::runGame, this));
-    mainMenu.connectButton(1, boost::bind(&Engine::runEditor, this));
-    mainMenu.connectButton(2, boost::bind(&Engine::exit, this));
+    mainMenu.addButton(Button("Play Game!", Vector2f(refX, middleY-160)),
+                              boost::bind(&Engine::runGame, this));
+    mainMenu.addButton(Button("Create Level", Vector2f(refX, middleY-40)),
+                              boost::bind(&Engine::runEditor, this));
+    mainMenu.addButton(Button("Quit", Vector2f(refX, middleY+80)),
+                              boost::bind(&Engine::exit, this));
+
+    editorMenu.addButton(Button("Resume", Vector2f(middleX-175, middleY-150),
+                            Vector2f(middleX-10, middleY-50)),
+                            boost::bind(&Engine::resume, this));
+    editorMenu.addButton(Button("Exit", Vector2f(middleX+10, middleY-150),
+                            Vector2f(middleX+175, middleY-50)),
+                            boost::bind(&Engine::exit, this));
+    editorMenu.addButton(Button("Save Level", middleY-5)
+                                );
+    editorMenu.addButton(Button("Open Level", middleY+75)
+                                );
 }
 
 bool Engine::loadLevel(const std::string &filename)
@@ -87,7 +98,7 @@ void Engine::run()
 {
     if (!running)
         return;
-    mainMenu.run(App, hud);
+    mainMenu.run(App, hud, resume);
 }
 
 void Engine::runGame()
@@ -308,7 +319,10 @@ void Engine::runEditor()
 
 bool Engine::menuEditor()
 {
-    bool writing = false, save = false;
+    if (!running)
+        return true;
+    editorMenu.run(App, hud, resume);
+    /*bool writing = false, save = false;
     TextBox textBox(0, game.getCurrentLevelName());
     std::vector<Button> buttons;
         const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
@@ -395,6 +409,6 @@ bool Engine::menuEditor()
                 App.Draw(textBox.getText());
             drawFps();
         App.Display();
-    }
-    return true;
+    }*/
+    return false;
 }

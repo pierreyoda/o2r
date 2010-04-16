@@ -19,6 +19,8 @@ class TextBox
         const sf::Text &getText() const { return box; }
 
     private:
+        inline void updateText();
+
         std::string text;
         sf::Text box;
         unsigned int caractersLimit;

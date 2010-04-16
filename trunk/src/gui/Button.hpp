@@ -12,6 +12,9 @@ class Button
         Button(const std::string &name, const sf::Vector2f &pos,
                 const sf::Vector2f &size = BUTTON_DEFAULT_SIZE,
                 const float &border = BUTTON_DEFAULT_BORDER);
+        Button(const std::string &name, const float &y,
+                const sf::Vector2f &size = BUTTON_DEFAULT_SIZE,
+                const float &border = BUTTON_DEFAULT_BORDER);
 
         bool isMouseOver(const sf::Vector2f &mousePos);
 
@@ -20,7 +23,7 @@ class Button
         const sf::Drawable &getText() const { return m_text; }
         const sf::Drawable &getBorder() const { return m_rand; }
 
-    protected:
+    private:
         sf::Shape m_rand;
         sf::Text m_text;
 };

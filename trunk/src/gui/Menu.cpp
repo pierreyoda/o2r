@@ -12,9 +12,11 @@ Menu::~Menu()
 
 }
 
-void Menu::addButton(const Button &button)
+void Menu::addButton(const Button &button, bRunFonction fonction,
+                     const bool &write)
 {
-    m_buttons.push_back(menuButton(button, NULL));
+    m_buttons.push_back(menuButton(button, fonction));
+    m_writeButtons.push_back(write);
 }
 
 void Menu::connectButton(const unsigned int &id, bRunFonction function)
@@ -24,11 +26,11 @@ void Menu::connectButton(const unsigned int &id, bRunFonction function)
     m_buttons[id].second = function;
 }
 
-bool Menu::run(RenderWindow &App, HudManager &hud)
+bool Menu::run(RenderWindow &App, HudManager &hud, bool &resume)
 {
-    bool run = true;
+    bool writting = false;
     static const Input &Input = App.GetInput();
-    while (App.IsOpened() && run)
+    while (App.IsOpened())
     {
         Vector2f mousePos(Input.GetMouseX(), Input.GetMouseY());
         Event Event;
@@ -57,14 +59,20 @@ bool Menu::run(RenderWindow &App, HudManager &hud)
             {
                 for (unsigned int i = 0; i < m_buttons.size(); i++)
                 {
-                    if (m_buttons[i].first.isMouseOver(mousePos) &&
-                        m_buttons[i].second != NULL)
+                    if (m_buttons[i].first.isMouseOver(mousePos))
                     {
-                        m_buttons[i].second();
-                        return false;
+                        if (m_writeButtons[i])
+                            writting = true;
+                        if (m_buttons[i].second != NULL)
+                        {
+                            m_buttons[i].second();
+                            return false;
+                        }
                     }
                 }
             }
+            if (writting && Event.Type == Event::TextEntered)
+                text.onTextEntered(Event.Text.Unicode);
         }
 
         App.Clear(Color(0, 128, 0));
