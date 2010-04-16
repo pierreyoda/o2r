@@ -17,7 +17,7 @@ void TextBox::onTextEntered(const unsigned short &unicode)
         if (caractersLimit == 0 || text.size()+1 <= caractersLimit)
             text += (char)unicode; // Letter
     }
-    box.SetString(text);
+    updateText();
 }
 
 void TextBox::center(const sf::Vector2f &screen)
@@ -25,8 +25,13 @@ void TextBox::center(const sf::Vector2f &screen)
     box.SetX(screen.x/2 - box.GetRect().Width/2);
 }
 
+void TextBox::updateText()
+{
+    box.SetString(text);
+}
+
 void TextBox::clearText()
 {
     text.clear();
-    box.SetString("");
+    updateText();
 }
