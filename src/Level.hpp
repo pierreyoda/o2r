@@ -21,7 +21,6 @@ struct LevelCase
 };
 
 // TODO (Pierre-Yves#1#): [OPTIMISATION] Ajouter gestion 'streaming' (possibilité niveau vide à la construction pour libérer mémoire)
-// TODO (Pierre-Yves#1#): [DECENTRALISATION] Réorganiser classe pour (--> préparation Tower)
 class Level
 {
     public:

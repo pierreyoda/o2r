@@ -13,7 +13,7 @@ Menu::~Menu()
 }
 
 void Menu::addButton(const Button &button, bRunFonction fonction,
-                     const bool &write)
+                    const bool &write)
 {
     m_buttons.push_back(menuButton(button, fonction));
     m_writeButtons.push_back(write);
@@ -26,12 +26,18 @@ void Menu::connectButton(const unsigned int &id, bRunFonction function)
     m_buttons[id].second = function;
 }
 
-bool Menu::run(RenderWindow &App, HudManager &hud, bool &resume)
+bool Menu::run(RenderWindow &App, HudManager &hud, bool &resume,
+                    const std::string &defaultTextForTextfield)
 {
+    text.setString(defaultTextForTextfield);
+    resume = false;
     bool writting = false;
+    unsigned int clickedButton = 0;
     static const Input &Input = App.GetInput();
     while (App.IsOpened())
     {
+        if (resume)
+            return false;
         Vector2f mousePos(Input.GetMouseX(), Input.GetMouseY());
         Event Event;
         while (App.GetEvent(Event))
@@ -40,8 +46,15 @@ bool Menu::run(RenderWindow &App, HudManager &hud, bool &resume)
                 App.Close();
             if (Event.Type == Event::KeyPressed)
             {
+                if (writting && Event.Key.Code == Key::Return)
+                {
+                    if (m_buttons[clickedButton].second != NULL)
+                        m_buttons[clickedButton].second();
+                }
                 if (Event.Key.Code == Key::Escape)
                     return false;
+                if (Event.Key.Code == Key::Delete)
+                    text.clearString();
                 if (Event.Key.Code == Key::F12)
                     gv.debugMode = !gv.debugMode;
             }
@@ -61,13 +74,17 @@ bool Menu::run(RenderWindow &App, HudManager &hud, bool &resume)
                 {
                     if (m_buttons[i].first.isMouseOver(mousePos))
                     {
-                        if (m_writeButtons[i])
+                        if (!writting && m_writeButtons[i])
+                        {
                             writting = true;
-                        if (m_buttons[i].second != NULL)
+                            clickedButton = i;
+                        }
+                        else if (!m_writeButtons[i] && m_buttons[i].second != NULL)
                         {
                             m_buttons[i].second();
                             return false;
                         }
+                        break;
                     }
                 }
             }
@@ -84,8 +101,10 @@ bool Menu::run(RenderWindow &App, HudManager &hud, bool &resume)
         }
         if (gv.debugMode)
             hud.drawFps(App, App.GetFrameTime());
+        if (writting)
+            App.Draw(text.getText());
 
         App.Display();
     }
-    return false;
+    return true;
 }

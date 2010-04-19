@@ -14,7 +14,7 @@ using namespace sf;
 Engine::Engine(sf::RenderWindow &window, const bool &vsync,
     const unsigned int &fpslimit) : App(window), game(), cats(game.getCatsList()),
     mouse(game.getMouse()), gameView(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H)),
-    running(true), resume(false)
+    running(true), resume(false), quitToMainMenu(false)
 {
     //gameView.Rotate(180);
     App.UseVerticalSync(vsync);
@@ -44,11 +44,11 @@ void Engine::createMenus()
                             boost::bind(&Engine::resume, this));
     editorMenu.addButton(Button("Exit", Vector2f(middleX+10, middleY-150),
                             Vector2f(middleX+175, middleY-50)),
-                            boost::bind(&Engine::exit, this));
-    editorMenu.addButton(Button("Save Level", middleY-5)
-                                );
-    editorMenu.addButton(Button("Open Level", middleY+75)
-                                );
+                            boost::bind(&Engine::toMainMenu, this));
+    editorMenu.addButton(Button("Save Level", middleY-5),
+                            boost::bind(&Engine::buttonSave, this), true);
+    editorMenu.addButton(Button("Open Level", middleY+75),
+                            boost::bind(&Engine::buttonLoad, this), true);
 }
 
 bool Engine::loadLevel(const std::string &filename)
@@ -197,7 +197,7 @@ bool Engine::menuGame()
                 if (Event.Key.Code == Key::Escape)
                     return false;
                 if (Event.Key.Code == Key::Delete)
-                    textBox.clearText();
+                    textBox.clearString();
                 if (writing && Event.Key.Code == Key::Return)
                 {
                     const std::string filename(textBox.getString());
@@ -283,8 +283,11 @@ void Engine::runEditor()
             {
                 if (!USE_WINDOWGUI && Event.Key.Code == Key::Escape)
                 {
-                    if (menuEditor())
-                        return;
+                    if (menuEditor() || quitToMainMenu)
+                    {
+                        quitToMainMenu = false;
+                        run();
+                    }
                     App.SetView(gameView);
                 }
                 if (Event.Key.Code == Key::F12)
@@ -321,94 +324,23 @@ bool Engine::menuEditor()
 {
     if (!running)
         return true;
-    editorMenu.run(App, hud, resume);
-    /*bool writing = false, save = false;
-    TextBox textBox(0, game.getCurrentLevelName());
-    std::vector<Button> buttons;
-        const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
-    buttons.push_back(Button("Resume", Vector2f(middleX-175, middleY-150),
-                             Vector2f(middleX-10, middleY-50)));
-    buttons.push_back(Button("Exit", Vector2f(middleX+10, middleY-150),
-                             Vector2f(middleX+175, middleY-50)));
-    buttons.push_back(Button("Save Level", Vector2f(middleX-175, middleY-25),
-                             Vector2f(middleX+175, middleY+65)));
-    buttons.push_back(Button("Open Level", Vector2f(middleX-175, middleY+75),
-                             Vector2f(middleX+175, middleY+175)));
+    return editorMenu.run(App, hud, resume, game.getCurrentLevelName());
+}
 
-    App.SetView(App.GetDefaultView());
-    static const Input &Input = App.GetInput();
-    while (App.IsOpened())
-    {
-        Vector2f mousePos(Input.GetMouseX(), Input.GetMouseY());
-        Event Event;
-        while (App.GetEvent(Event))
-        {
-            if (Event.Type == Event::Closed)
-            {
-                App.Close();
-                return true;
-            }
-            if (Event.Type == Event::KeyPressed)
-            {
-                if (Event.Key.Code == Key::Escape)
-                    return false;
-                if (Event.Key.Code == Key::Delete)
-                    textBox.clearText();
-                if (writing && Event.Key.Code == Key::Return)
-                {
-                    const std::string filename = textBox.getString();
-                    if (save && LevelFileInterpreter::writeLevel(game.getLevel(),
-                            filename))
-                    {
-                        game.setCurrentLevelName(filename);
-                        writing = save = false;
-                        return false;
-                    }
-                    else
-                    {
-                        loadLevel(filename);
-                        writing = false;
-                        return false;
-                    }
-                }
-            }
-            else if (writing && Event.Type == Event::TextEntered)
-            {
-                textBox.onTextEntered(Event.Text.Unicode);
-            }
-            if (Event.Type == Event::MouseMoved)
-            {
-                for (unsigned int i = 0; i < buttons.size(); i++)
-                {
-                    if (buttons[i].isMouseOver(mousePos))
-                        buttons[i].setBorderWidth(12);
-                    else
-                        buttons[i].setBorderWidth(8);
-                }
-            }
-            if (Event.Type == Event::MouseButtonReleased)
-            {
-                if (buttons[0].isMouseOver(mousePos))
-                    return false;
-                else if (buttons[1].isMouseOver(mousePos))
-                    return true;
-                else if (buttons[2].isMouseOver(mousePos))
-                    writing = save = true;
-                else if (buttons[3].isMouseOver(mousePos))
-                    writing = true;
-            }
-        }
+void Engine::buttonSave()
+{
+    const std::string file = editorMenu.currentString();
+    if (file.empty())
+        return;
+    if (LevelFileInterpreter::writeLevel(game.getLevel(), file))
+        closeMenu();
+}
 
-        App.Clear(Color(0, 128, 0));
-            for (unsigned int i = 0; i < buttons.size(); i++)
-            {
-                App.Draw(buttons[i].getBorder());
-                App.Draw(buttons[i].getText());
-            }
-            if (writing)
-                App.Draw(textBox.getText());
-            drawFps();
-        App.Display();
-    }*/
-    return false;
+void Engine::buttonLoad()
+{
+    const std::string file = editorMenu.currentString();
+    if (file.empty())
+        return;
+    if (LevelFileInterpreter::readLevel(game.getLevel(), file))
+        closeMenu();
 }

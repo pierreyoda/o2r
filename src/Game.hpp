@@ -23,7 +23,10 @@ class Game
         void clearCase(const sf::Vector2f &mousepos);
         void placeCaseType(const sf::Vector2f &mousepos, const CASETYPE &type);
         void placeMouse(const sf::Vector2f &mousepos);
-        void setCurrentLevelName(const std::string &newlevel) { currentLevel->setFilename(newlevel); }
+        void setCurrentLevelName(const std::string &newlevel)
+        {
+            currentLevel->setFilename(newlevel);
+        }
 
         Level &getLevel() { return *currentLevel.get(); }
         l_cats &getCatsList() { return cats; }

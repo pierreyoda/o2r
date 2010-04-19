@@ -30,8 +30,17 @@ void TextBox::updateText()
     box.SetString(text);
 }
 
-void TextBox::clearText()
+void TextBox::clearString()
 {
     text.clear();
+    updateText();
+}
+
+void TextBox::setString(const std::string &nstring)
+{
+    if (caractersLimit > 0)
+        text = nstring.substr(0, caractersLimit);
+    else
+        text = nstring;
     updateText();
 }

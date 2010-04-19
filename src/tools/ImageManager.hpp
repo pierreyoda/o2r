@@ -2,7 +2,6 @@
 #define IMAGEMANAGER_H_INCLUDED
 
 #include <SFML/Graphics.hpp>
-
 #include "ResourceManager.hpp"
 
 class ImageManager : public ResourceManager< sf::Image >

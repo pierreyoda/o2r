@@ -9,7 +9,6 @@ const string levelSizeX = "X=";
 const string levelSizeY = "Y=";
 const string nbOfRandomWalls = "RandomWalls=";
 const string nbOfCats = "NbOfCats=";
-const string newVersion = "# Open Rodent's Revenge";
 
 bool LevelFileInterpreter::writeLevel(Level &level, const string &filename,
                                       const bool &oldmethod)
@@ -19,8 +18,6 @@ bool LevelFileInterpreter::writeLevel(Level &level, const string &filename,
     if (!file)
         return false;
 
-    /*if (!oldmethod)
-        file << newVersion << "\n";*/
     file << levelSizeX << gv.nbToText(gv.LVL_X) << "\n"
            << levelSizeY << gv.nbToText(gv.LVL_Y) << "\n";
     for (unsigned int i = 0; i < level.content().size(); i++)
@@ -34,6 +31,8 @@ bool LevelFileInterpreter::writeLevel(Level &level, const string &filename,
         }
         file << "\n";
     }
+    file << nbOfRandomWalls << level.getNbOfRandomWalls() << "\n"
+            << nbOfCats << level.getCatsNb();
 
     return true;
 }
@@ -42,7 +41,6 @@ bool LevelFileInterpreter::readLevel(Level &level, const string &filename)
 {
     cout << "Reading level '" << filename << "'.\n";
     string line;
-    bool oldVersion = true;
     ifstream file(filename.c_str(), ios::in);
     if (!file)
         return false;
@@ -51,11 +49,6 @@ bool LevelFileInterpreter::readLevel(Level &level, const string &filename)
     for (unsigned int i = 0; getline(file, line); i++)
     {
         bool ok = true;
-        if (i == 0 && line == newVersion)
-        {
-            oldVersion = false;
-            continue;
-        }
         ok = analyseLine(level, line, i, false);
         if (!ok)
             return true;
