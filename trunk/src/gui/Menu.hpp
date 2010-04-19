@@ -9,7 +9,6 @@
 #include "TextBox.hpp"
 #include "HudManager.hpp"
 
-//typedef void (*pRunFonction)();
 typedef boost::function<void()> bRunFonction;
 typedef std::pair<Button, bRunFonction> menuButton;
 
@@ -20,9 +19,10 @@ class Menu
         virtual ~Menu();
 
         void addButton(const Button &button, bRunFonction fonction = NULL,
-                       const bool &write = false);
+            const bool &write = false);
         void connectButton(const unsigned int &id, bRunFonction function);
-        bool run(sf::RenderWindow &App, HudManager &hud, bool &resume);
+        bool run(sf::RenderWindow &App, HudManager &hud, bool &resume,
+            const std::string &defaultTextForTextfield = "");
 
         std::string currentString() const { return text.getString(); }
 

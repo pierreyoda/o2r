@@ -24,8 +24,11 @@ class Engine
             void resizeGameView(const sf::Vector2i &prevSize);
         void runEditor();
             bool menuEditor();
+                void buttonSave();
+                void buttonLoad();
         inline void drawFps();
         inline void closeMenu() { resume = true; }
+        inline void toMainMenu() { quitToMainMenu = true; }
         inline void exit() { running = false; }
 
         sf::RenderWindow &App;
@@ -36,7 +39,7 @@ class Engine
         Menu mainMenu, gameMenu, editorMenu;
         sf::View gameView;
         int gameViewZoomFactor;
-        bool running, resume, toMainMenu;
+        bool running, resume, quitToMainMenu;
 };
 
 #endif /* ENGINE_HPP */

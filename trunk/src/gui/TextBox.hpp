@@ -10,7 +10,8 @@ class TextBox
         TextBox(const unsigned int &limit = 0, const std::string &ctext = "");
 
         void center(const sf::Vector2f &screen);
-        void clearText();
+        void clearString();
+        void setString(const std::string &nstring);
         void setPosition(const sf::Vector2f &pos) { box.SetPosition(pos); }
         void setPosition(const float &x, const float &y) { box.SetPosition(x, y); }
         void onTextEntered(const unsigned short &unicode);

@@ -7,7 +7,7 @@ using namespace sf;
 void ErrorScreens::missingResources(sf::RenderWindow &App)
 {
     Vector2f refPos(gv.SCREEN_W/2, gv.SCREEN_H/3);
-    Text error("Error : \nOne or more resources are missing.\nCheck if folder : '"
+    Text error("Fatal Error : \nOne or more resources are missing.\nCheck if folder : '"
                + baseModule + "' is present.");
         error.SetCharacterSize(20);
         error.SetColor(Color::Red);

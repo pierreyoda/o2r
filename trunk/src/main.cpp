@@ -99,12 +99,18 @@ void interpretArguments(const unsigned int &argc, char *argv[], bool &vsync,
     }
 }
 
-void printRunningTime(const sf::Clock &clock)
+void printRunningTime(const float &runningTime)
 {
-    unsigned int runningTime = static_cast<unsigned int>(clock.GetElapsedTime());
-    unsigned int minutes = runningTime / 60;
-    unsigned int  seconds = runningTime % 60;
+    unsigned int time = static_cast<unsigned int>(runningTime),
+    minutes = time / 60, seconds = time % 60;
     cout << minutes << " minute(s), " << seconds << " second(s)";
+}
+
+void printEndProgram(const float &runningTime)
+{
+    cout << "\n--- End of the program [";
+    printRunningTime(runningTime);
+    cout << "] ---";
 }
 
 int main(int argc, char *argv[])
@@ -126,7 +132,6 @@ int main(int argc, char *argv[])
         modules.push_back(baseModule);
     cout << "\nInterpreting arguments...\n";
     interpretArguments(argc, argv, vsync, limitfps, modules);
-    //gv.options.loadOptions(argc, argv, vsync, limitfps, modules);
     cout << "\n";
 
     sf::RenderWindow window(sf::VideoMode(gv.SCREEN_W, gv.SCREEN_H, 32),
@@ -136,6 +141,7 @@ int main(int argc, char *argv[])
     {
         ErrorScreens::missingResources(window);
         cout << "Game will now exit.\n";
+        printEndProgram(clock.GetElapsedTime());
         cout.rdbuf(oldBuf);
         cerr.rdbuf(oldBuf2);
         return EXIT_FAILURE;
@@ -146,9 +152,7 @@ int main(int argc, char *argv[])
     cout << "Launching game engine.\n";
     engine.run();
 
-    cout << "\n--- End of the program [";
-    printRunningTime(clock);
-    cout << "] ---";
+    printEndProgram(clock.GetElapsedTime());
 
     // End of redirecting
     cout.rdbuf(oldBuf);

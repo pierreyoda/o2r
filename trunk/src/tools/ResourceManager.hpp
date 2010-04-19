@@ -54,7 +54,7 @@ class ResourceManager
         }
 
     protected:
-        virtual T* load( const std::string& strId) = 0;
+        virtual T* load( const std::string& strId ) = 0;
 
     public:
         ResourceManager() { }
