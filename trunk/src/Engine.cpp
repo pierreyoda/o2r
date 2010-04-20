@@ -31,24 +31,29 @@ Engine::~Engine()
 void Engine::createMenus()
 {
     const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
-    const float refX = middleX-125;
-    mainMenu.addButton(Button("Play Game!", Vector2f(refX, middleY-160)),
-                              boost::bind(&Engine::runGame, this));
-    mainMenu.addButton(Button("Create Level", Vector2f(refX, middleY-40)),
-                              boost::bind(&Engine::runEditor, this));
-    mainMenu.addButton(Button("Quit", Vector2f(refX, middleY+80)),
-                              boost::bind(&Engine::exit, this));
+    mainMenu.addButton(Button("Play Game!", middleY-160),
+                          boost::bind(&Engine::runGame, this));
+    mainMenu.addButton(Button("Create Level", middleY-40),
+                          boost::bind(&Engine::runEditor, this));
+    mainMenu.addButton(Button("Quit", middleY+80),
+                          boost::bind(&Engine::exit, this));
 
-    editorMenu.addButton(Button("Resume", Vector2f(middleX-175, middleY-150),
-                            Vector2f(middleX-10, middleY-50)),
-                            boost::bind(&Engine::resume, this));
-    editorMenu.addButton(Button("Exit", Vector2f(middleX+10, middleY-150),
-                            Vector2f(middleX+175, middleY-50)),
-                            boost::bind(&Engine::toMainMenu, this));
-    editorMenu.addButton(Button("Save Level", middleY-5),
-                            boost::bind(&Engine::buttonSave, this), true);
-    editorMenu.addButton(Button("Open Level", middleY+75),
-                            boost::bind(&Engine::buttonLoad, this), true);
+    Button resume("Resume", Vector2f(middleX-150, middleY-150), BUTTON_HALF_SIZE);
+    Button exit("Exit", Vector2f(middleX+10, middleY-150), BUTTON_HALF_SIZE);
+
+    gameMenu.addButton(resume, boost::bind(&Engine::resume, this));
+    gameMenu.addButton(exit, boost::bind(&Engine::toMainMenu, this));
+    gameMenu.addButton(Button("Open Tower", middleY-25, BUTTON_WIDE_SIZE),
+                        boost::bind(&Engine::buttonLoadTower, this), true);
+    gameMenu.addButton(Button("Open Level", middleY+90, BUTTON_WIDE_SIZE),
+                        boost::bind(&Engine::buttonLoadLevel, this), true);
+
+    editorMenu.addButton(resume, boost::bind(&Engine::resume, this));
+    editorMenu.addButton(exit, boost::bind(&Engine::toMainMenu, this));
+    editorMenu.addButton(Button("Save Level", middleY-25, BUTTON_WIDE_SIZE),
+                        boost::bind(&Engine::buttonSave, this), true);
+    editorMenu.addButton(Button("Open Level", middleY+90, BUTTON_WIDE_SIZE),
+                        boost::bind(&Engine::buttonLoad, this), true);
 }
 
 bool Engine::loadLevel(const std::string &filename)
@@ -120,8 +125,11 @@ void Engine::runGame()
             {
                 if (!USE_WINDOWGUI && Event.Key.Code == Key::Escape)
                 {
-                    if (menuGame())
-                        return;
+                    if (menuGame() || quitToMainMenu)
+                    {
+                        quitToMainMenu = false;
+                        run();
+                    }
                     App.SetView(gameView);
                 }
                 if (Event.Key.Code == Key::F12)
@@ -166,97 +174,27 @@ void Engine::runGame()
 
 bool Engine::menuGame()
 {
-    const float middleX = App.GetWidth()/2.f, middleY = App.GetHeight()/2.f;
-    bool writing = false, level = true;
-    TextBox textBox(0, game.getCurrentLevelName());
-    std::vector<Button> buttons;
-    buttons.push_back(Button("Resume", Vector2f(middleX-175, middleY-150),
-                             Vector2f(185, 150)));
-    buttons.push_back(Button("Exit", Vector2f(middleX+10, middleY-150),
-                             Vector2f(185, middleY-150)));
-    buttons.push_back(Button("Open Level", Vector2f(middleX-175, middleY+75),
-                             Vector2f(300, 100)));
-    buttons.push_back(Button("Open Tower", Vector2f(middleX-175, middleY-25),
-                            Vector2f(300, 100)));
+    if (!running)
+        return true;
+    return gameMenu.run(App, hud, resume, game.getCurrentLevelName());
+}
 
-    App.SetView(App.GetDefaultView());
-    static const Input &Input = App.GetInput();
-    while (App.IsOpened())
-    {
-        Vector2f mousePos(Input.GetMouseX(), Input.GetMouseY());
-        Event Event;
-        while (App.GetEvent(Event))
-        {
-            if (Event.Type == Event::Closed)
-            {
-                App.Close();
-                return true;
-            }
-            if (Event.Type == Event::KeyPressed)
-            {
-                if (Event.Key.Code == Key::Escape)
-                    return false;
-                if (Event.Key.Code == Key::Delete)
-                    textBox.clearString();
-                if (writing && Event.Key.Code == Key::Return)
-                {
-                    const std::string filename(textBox.getString());
-                    if (FilesLoader::fileExists(filename));
-                    else if (level && loadLevel(filename))
-                    {
-                        writing = false;
-                        initializeGame(true);
-                        return false;
-                    }
-                    else if (loadTower(filename))
-                    {
-                        writing = false;
-                        initializeGame(true);
-                        return false;
-                    }
-                }
-            }
-            if (writing && Event.Type == Event::TextEntered)
-                textBox.onTextEntered(Event.Text.Unicode);
-            if (Event.Type == Event::MouseMoved)
-            {
-                for (unsigned int i = 0; i < buttons.size(); i++)
-                {
-                    if (buttons[i].isMouseOver(mousePos))
-                        buttons[i].setBorderWidth(12);
-                    else
-                        buttons[i].setBorderWidth(8);
-                }
-            }
-            if (Event.Type == Event::MouseButtonReleased)
-            {
-                if (buttons[0].isMouseOver(mousePos))
-                    return false;
-                else if (buttons[1].isMouseOver(mousePos))
-                    return true;
-                else if (buttons[2].isMouseOver(mousePos))
-                    writing = level = true;
-                else if (buttons[3].isMouseOver(mousePos))
-                {
-                    writing = true;
-                    level = false;
-                }
-            }
-        }
+void Engine::buttonLoadLevel()
+{
+    const std::string file = gameMenu.currentString();
+    if (file.empty())
+        return;
+    if (loadLevel(file))
+        closeMenu();
+}
 
-        App.Clear(Color(0, 128, 0));
-            for (unsigned int i = 0; i < buttons.size(); i++)
-            {
-                App.Draw(buttons[i].getBorder());
-                App.Draw(buttons[i].getText());
-            }
-            if (writing)
-                App.Draw(textBox.getText());
-            drawFps();
-
-        App.Display();
-    }
-    return true;
+void Engine::buttonLoadTower()
+{
+    const std::string file = gameMenu.currentString();
+    if (file.empty())
+        return;
+    if (loadTower(file))
+        closeMenu();
 }
 
 void Engine::runEditor()
