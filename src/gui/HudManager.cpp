@@ -56,7 +56,6 @@ void HudManager::newGameStarted()
     m_gamestart = true;
 }
 
-
 const Sprite &HudManager::drawHud(const unsigned int &catsNb,
     const unsigned int &remainingLifesNb, const bool &inGame)
 {

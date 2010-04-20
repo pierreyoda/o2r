@@ -5,6 +5,8 @@
 #include "../GlobalVariables.hpp"
 
 const sf::Vector2f BUTTON_DEFAULT_SIZE(250, 100);
+const sf::Vector2f BUTTON_WIDE_SIZE(300, 100);
+const sf::Vector2f BUTTON_HALF_SIZE(145, 100);
 
 class Button
 {
@@ -24,6 +26,8 @@ class Button
         const sf::Drawable &getBorder() const { return m_rand; }
 
     private:
+        void adjustText(const float &posx, const float &sizex);
+
         sf::Shape m_rand;
         sf::Text m_text;
 };

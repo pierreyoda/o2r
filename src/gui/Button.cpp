@@ -8,8 +8,14 @@ Button::Button(const std::string &name, const sf::Vector2f &pos,
 	m_rand = sf::Shape::Rectangle(pos.x + border, pos.y + border, size.x-border,
         size.y - border, sf::Color(0,0,0,0), border, BUTTON_DEFAULT_COLOR);
     m_text.SetCharacterSize(35);
-	m_text.SetPosition((pos.x+border+size.x) / 2 - m_text.GetRect().Width / 3.f,
-        (pos.y+border) + m_text.GetRect().Height/2);
+    float posX = (pos.x+border+size.x) / 2.f;
+    if (name.size() > 5)
+        posX -= m_text.GetRect().Width / 3.f;
+    else if (size.x <= BUTTON_HALF_SIZE.x)
+        posX += m_text.GetRect().Width;
+	m_text.SetPosition(posX, (pos.y+border) + m_text.GetRect().Height/2);
+
+    adjustText(pos.x, size.x);
 }
 
 Button::Button(const std::string &name, const float &y, const sf::Vector2f &size,
@@ -21,6 +27,20 @@ Button::Button(const std::string &name, const float &y, const sf::Vector2f &size
     m_text.SetCharacterSize(35);
     m_text.SetPosition((x+border+size.x) / 2 - m_text.GetRect().Width / 3.f,
         (y+border) + m_text.GetRect().Height/2);
+
+    adjustText(x, size.x);
+}
+
+void Button::adjustText(const float &posx, const float &sizex)
+{
+    unsigned int security = 0;
+    while (security < 100 &&
+        m_text.GetPosition().x + m_text.GetRect().Width >= posx + sizex)
+    {
+        m_text.Move(-1.f, 0.f);
+        ++security;
+    }
+    m_text.Move(-5.f, 0.f);
 }
 
 bool Button::isMouseOver(const sf::Vector2f &mousePos)

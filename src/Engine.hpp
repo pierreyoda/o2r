@@ -21,6 +21,8 @@ class Engine
         void runGame();
             inline void initializeGame(const bool &newlvl = true);
             bool menuGame();
+                void buttonLoadLevel();
+                void buttonLoadTower();
             void resizeGameView(const sf::Vector2i &prevSize);
         void runEditor();
             bool menuEditor();
