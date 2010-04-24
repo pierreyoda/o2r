@@ -14,6 +14,8 @@ class Game
         Game();
         ~Game();
 
+        void testTower();
+
         void renderTower(sf::RenderTarget &target);
         void update();
         bool loadTower(const std::string &filename);
@@ -34,6 +36,7 @@ class Game
         std::string getCurrentLevelName() const { return currentLevel->getFilename(); }
 
     private:
+        void updateLevelPointersFromTower();
         void initializeLevel();
         inline sf::Vector2i pixelToCase(const sf::Vector2f &pos) const;
         inline void resetLevel();

@@ -29,12 +29,13 @@ void LevelCase::updateImage()
         drawable.setImage(*img);
 }
 
-Level::Level(const bool &empty) : cases(), mouseStartPos(0, 0), randomWallsNb(0),
-    catsNb(DEFAULTNB_OF_CAT), levelChanged(true)
+Level::Level(const bool &empty) : cases(), mouseStartPos(0, 0),
+    size(DLVL_X, DLVL_Y), randomWallsNb(0), catsNb(DEFAULTNB_OF_CAT),
+    levelChanged(true)
 {
     if (!empty)
         resetLevel();
-    renderTarget.Create(gv.SCREEN_W, gv.SCREEN_H);
+    renderTarget.Create(size.x * CASE_SIZE, size.y * CASE_SIZE);
     renderResult.SetImage(renderTarget.GetImage());
 }
 
@@ -53,10 +54,10 @@ void Level::clearLevel()
 void Level::resetLevel()
 {
     clearLevel();
-    for (unsigned int i = 0; i < gv.LVL_Y; i++)
+    for (unsigned int i = 0; i < (unsigned int)size.y; i++)
     {
         cases.push_back(vector<LevelCase>());
-        for (unsigned int j = 0; j < gv.LVL_X; j++)
+        for (unsigned int j = 0; j < (unsigned int)size.x; j++)
             cases[i].push_back(LevelCase(sf::Vector2i(j, i), NOTHING));
     }
     levelChanged = true;
@@ -65,7 +66,7 @@ void Level::resetLevel()
 void Level::resizeLevel()
 {
     resetLevel();
-    renderTarget.Create(gv.SCREEN_W, gv.SCREEN_H);
+    renderTarget.Create(size.x * CASE_SIZE, size.x * CASE_SIZE);
 }
 
 void Level::randomWalls()
@@ -73,9 +74,8 @@ void Level::randomWalls()
     static unsigned int limit = nbOfCasetype(NOTHING) + nbOfCasetype(BLOCK);
     for (unsigned int i = 0; i < randomWallsNb; i++)
     {
-        sf::Vector2i pos;
-        pos.x = sf::Randomizer::Random(0, gv.LVL_X),
-        pos.y = sf::Randomizer::Random(0, gv.LVL_Y);
+        sf::Vector2i pos(sf::Randomizer::Random(0, size.x),
+                         sf::Randomizer::Random(0, size.y));
         if (getCaseType(pos) == WALL || pos == mouseStartPos)
         {
             if (i >= limit)

@@ -20,7 +20,8 @@ struct LevelCase
     Object drawable;
 };
 
-// TODO (Pierre-Yves#1#): [OPTIMISATION] Ajouter gestion 'streaming' (possibilité niveau vide à la construction pour libérer mémoire)
+// TODO (Pierre-Yves#3#): [OPTIMISATION] Ajouter gestion 'streaming' (possibilité niveau vide à la construction pour libérer mémoire)
+// TODO (Pierre-Yves#1#): [DECENTRALISATION] Gérer taille niveau dans 'Level'
 class Level
 {
     public:
@@ -34,15 +35,21 @@ class Level
         void resizeLevel();
         void randomWalls();
         void updateCasesImages();
+        void mustRedraw() { levelChanged = true; }
 
         void setMouseStartPos(const sf::Vector2i &pos)
         {
-            if (!Object::outOfScreen(pos))
+            if (!Object::outOfScreen(pos, size))
                 mouseStartPos = pos;
+        }
+        void setSize(const sf::Vector2i &nsize)
+        {
+            if (nsize.x > 0 && nsize.y > 0)
+                size = nsize;
         }
         void setNbOfRandomWalls(const unsigned int &wallnb)
         {
-            if (wallnb >= 0 && wallnb < gv.LVL_X*gv.LVL_Y)
+            if (wallnb >= 0 && wallnb < (unsigned int)size.x*size.y)
                 randomWallsNb = wallnb;
         }
         void setNbOfCats(const unsigned &nb)
@@ -57,6 +64,8 @@ class Level
 
         bool hasChanged() const { return levelChanged; }
         sf::Vector2i getMouseStartPos() const { return mouseStartPos; }
+        sf::Vector2i getSize() const { return size; }
+        sf::Vector2i &getSizeRef() { return size; }
         unsigned int getNbOfRandomWalls() { return randomWallsNb; }
         unsigned int getCatsNb() { return catsNb; }
         void setCaseType(const sf::Vector2i &pos, const CASETYPE &type);
@@ -81,7 +90,7 @@ class Level
         sf::RenderImage renderTarget;
         sf::Sprite renderResult;
         std::vector< std::vector<LevelCase> > cases;
-        sf::Vector2i mouseStartPos;
+        sf::Vector2i mouseStartPos, size;
         std::string filename;
         unsigned int randomWallsNb, catsNb;
         bool levelChanged;

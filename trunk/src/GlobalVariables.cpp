@@ -7,7 +7,7 @@ GlobalVariables::GlobalVariables() : debugMode(false), sizeChanged(false),
     score(0), catsCannotMoveNbBeforeDead(NBOF_CATS_CANNOT_MOVE_BEFORE_DEAD),
     windowTitle("Open Rodent's Revenge v." + gameVersion)
 {
-    LVL_X = DLVL_X, LVL_Y = DLVL_Y, SCREEN_W = DSCREEN_W, SCREEN_H = DSCREEN_H;
+    SCREEN_W = DSCREEN_W, SCREEN_H = DSCREEN_H;
     baseLesElements.push_back(LesElement(CHAR_NOTHING, NOTHING, "void.png"));
     baseLesElements.push_back(LesElement(CHAR_BLOCK, BLOCK, "block.png"));
     baseLesElements.push_back(LesElement(CHAR_WALL, WALL, "wall.png"));
@@ -22,7 +22,6 @@ GlobalVariables::~GlobalVariables()
 void GlobalVariables::resizeGame()
 {
     sizeChanged = true;
-    SCREEN_W = LVL_X * CASE_SIZE, SCREEN_H = LVL_Y * CASE_SIZE + HUD_HEIGHT;
 }
 
 std::string GlobalVariables::nbToText(const int &nb)

@@ -6,25 +6,6 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="OpenRodentsRevenge_d" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj\Debug\" />
-				<Option type="0" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-pg" />
-					<Add option="-g" />
-				</Compiler>
-				<Linker>
-					<Add option="-pg -lgmon" />
-					<Add option="-lsfml-graphics-s-d" />
-					<Add option="-lsfml-window-s-d" />
-					<Add option="-lsfml-system-s-d" />
-					<Add option="-ltinyxml" />
-					<Add option="-lboost_filesystem-mgw44-mt-d" />
-					<Add option="-lboost_system-mgw44-mt-d" />
-				</Linker>
-			</Target>
 			<Target title="Release">
 				<Option output="OpenRodentsRevenge" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Release\" />

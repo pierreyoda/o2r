@@ -2,7 +2,7 @@
 #include "LevelFileInterpreter.hpp"
 #include "tools/ShaderManager.hpp"
 
-// TODO (Pierre-Yves#1#): [EFFET VISUEL] Ajouter flou progressif (effet profondeur verticale
+// TODO (Pierre-Yves#4#): [EFFET VISUEL] Ajouter flou progressif (effet profondeur verticale
 Tower::Tower() : m_lowerFloorsShader(*gShaderManager.getResource("blur.sfx")),
     m_lowerFloorsShader2(*gShaderManager.getResource("colorize.sfx")),
     m_currentFloor(0), m_stairsDescriptionFlag(stairsDescriptionDefaultFlag),
@@ -10,6 +10,8 @@ Tower::Tower() : m_lowerFloorsShader(*gShaderManager.getResource("blur.sfx")),
 {
     temp.Create(gv.SCREEN_W, gv.SCREEN_H);
     temp2.Create(gv.SCREEN_W, gv.SCREEN_H);
+    previousFloorsRender.Create(gv.SCREEN_W, gv.SCREEN_H);
+    previousFloorsRenderResult.SetImage(previousFloorsRender.GetImage());
 }
 
 Tower::~Tower()
@@ -19,7 +21,7 @@ Tower::~Tower()
 
 void Tower::render(sf::RenderTarget &target)
 {
-    for (unsigned int i = 0; i < m_floors.size(); i++)
+    /*for (unsigned int i = 0; i < m_floors.size(); i++)
     {
         bool transparent = true;
         if (m_floors[i].second == NULL)
@@ -42,7 +44,30 @@ void Tower::render(sf::RenderTarget &target)
         else
             target.Draw(m_floors[i].second->getRenderResult(transparent));
     }
-    m_LesChanged = false;
+    m_LesChanged = false;*/
+    target.Draw(getPrevFloorsRenderResult(), m_lowerFloorsShader2);
+    if (m_LesChanged)
+    {
+        m_floors[m_currentFloor].second->updateCasesImages();
+        m_LesChanged = false;
+    }
+    bool transparent = (m_currentFloor != 0);
+    target.Draw(m_floors[m_currentFloor].second->getRenderResult(transparent));
+}
+
+const sf::Sprite &Tower::getPrevFloorsRenderResult()
+{
+    static unsigned int prevCurrentFloor = 0;
+    if (m_currentFloor != prevCurrentFloor)
+    {
+        previousFloorsRender.Clear();
+        prevCurrentFloor = m_currentFloor;
+        for (unsigned int i = 0; i < m_currentFloor; i++)
+            previousFloorsRender.Draw(m_floors[i].second->getRenderResult(),
+                                      m_lowerFloorsShader);
+        previousFloorsRender.Display();
+    }
+    return previousFloorsRenderResult;
 }
 
 void Tower::addFloor(Level &floor)

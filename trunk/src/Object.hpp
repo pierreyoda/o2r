@@ -17,8 +17,10 @@ class Object
         sf::Sprite &refSprite() { return m_sprite; }
         sf::Vector2i pos() const { return m_pos; }
         const sf::Sprite &sprite() const { return m_sprite; }
-        static bool outOfScreen(const sf::Vector2i &pos);
-        static bool outOfScreen(const unsigned int &x, const unsigned int &y);
+        static bool outOfScreen(const sf::Vector2i &pos,
+                                const sf::Vector2i &screenSize);
+        static bool outOfScreen(const unsigned int &x, const unsigned int &y,
+                                const sf::Vector2i &screenSize);
 
     protected:
         sf::Vector2i m_pos;

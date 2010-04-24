@@ -70,7 +70,8 @@ bool Cat::moveCat(Level &lvl, const sf::Vector2i &mousePos,
             offset.x = sf::Randomizer::Random(-1, 1),
             offset.y = sf::Randomizer::Random(-1, 1);
             temp = m_pos + offset;
-            if (!Cat::outOfScreen(temp) && (lvl.getCaseType(temp) == NOTHING
+            if (!Cat::outOfScreen(temp, lvl.getSize())
+                    && (lvl.getCaseType(temp) == NOTHING
                     && !catOnTheWay(temp, cats)))
                 ok = true;
         }
@@ -94,8 +95,8 @@ void Cat::placeCat(Level &lvl, const std::vector<Cat> &cats)
     const unsigned int nbOfFreeCases = lvl.nbOfCasetype(NOTHING);
     for (unsigned int i = 0; i < nbOfFreeCases && !done; i++)
     {
-        pos.x = sf::Randomizer::Random(0, gv.LVL_X-1),
-        pos.y = sf::Randomizer::Random(0, gv.LVL_Y-1);
+        pos.x = sf::Randomizer::Random(0, lvl.getSize().x-1),
+        pos.y = sf::Randomizer::Random(0, lvl.getSize().y-1);
         bool ok = !catOnTheWay(pos, cats);
         if (ok && lvl.getCaseType(pos) == NOTHING && lvl.getMouseStartPos() != pos)
             done = true;
