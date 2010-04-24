@@ -9,15 +9,26 @@ using namespace sf;
 Game::Game() : currentLevel(new Level()), tower(new Tower()), cats(), mouse(currentLevel, cats),
     inTower(false)
 {
-    //loadLevel("data/logobig.txt");
-    /*loadTower("data/towertest/testtower.xml");
-    tower->setCurrentFloor(1);*/
+    //loadLevel("data/2.txt");
 }
 
 Game::~Game()
 {
     cats.clear();
-    delete tower; //Crash (when loading tower)!
+    //delete tower; //Crash (when loading tower)!
+}
+
+void Game::testTower()
+{
+    /*loadTower("data/towertest/testtower.xml");
+    tower->setCurrentFloor(1);
+    updateLevelPointersFromTower();*/
+}
+
+void Game::updateLevelPointersFromTower()
+{
+    currentLevel.reset(tower->getCurrentFloor());
+    mouse.updateLevelPtr(currentLevel);
 }
 
 void Game::renderTower(RenderTarget &target)
@@ -34,6 +45,7 @@ bool Game::loadTower(const std::string &filename)
 {
     if (filename == "")
         return false;
+    gv.lesElements.clear();
     if (!TowerFileInterpreter::readTower(*tower, filename))
     {
         resetLevel();
@@ -58,6 +70,7 @@ bool Game::loadLevel(const std::string &filename)
     currentLevel->setFilename(filename);
     mouse.updateLevelPtr(currentLevel);
     inTower = false;
+    initializeLevel();
     return true;
 }
 

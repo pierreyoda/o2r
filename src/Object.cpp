@@ -27,12 +27,14 @@ void Object::updatePosition()
         m_sprite.Move(CASE_SIZE/2, CASE_SIZE/2);
 }
 
-bool Object::outOfScreen(const sf::Vector2i &pos)
+bool Object::outOfScreen(const sf::Vector2i &pos, const sf::Vector2i &screenSize)
 {
-    return outOfScreen(pos.x, pos.y);
+    return outOfScreen(pos.x, pos.y, screenSize);
 }
 
-bool Object::outOfScreen(const unsigned int &x, const unsigned int &y)
+bool Object::outOfScreen(const unsigned int &x, const unsigned int &y,
+                         const sf::Vector2i &screenSize)
 {
-    return (x < 0 || x > gv.LVL_X-1 || y < 0 || y > gv.LVL_Y-1);
+    return (x < 0 || x >= (unsigned int)screenSize.x
+            || y < 0 || y >= (unsigned int)screenSize.y);
 }

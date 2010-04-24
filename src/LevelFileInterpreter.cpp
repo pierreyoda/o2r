@@ -18,8 +18,8 @@ bool LevelFileInterpreter::writeLevel(Level &level, const string &filename,
     if (!file)
         return false;
 
-    file << levelSizeX << gv.nbToText(gv.LVL_X) << "\n"
-           << levelSizeY << gv.nbToText(gv.LVL_Y) << "\n";
+    file << levelSizeX << gv.nbToText(level.getSize().x) << "\n"
+           << levelSizeY << gv.nbToText(level.getSize().y) << "\n";
     for (unsigned int i = 0; i < level.content().size(); i++)
     {
         for (unsigned int j = 0; j < level.content()[i].size(); j++)
@@ -85,7 +85,7 @@ bool LevelFileInterpreter::analyseLine(Level &level,  const string &line,
             level.setMouseStartPos(pos);
         level.setCaseType(pos, line[i]);
     }
-    if (linenb == gv.LVL_Y+gap-1)
+    if (linenb == level.getSize().y+gap-1)
         gap = 0;
     return true;
 }
@@ -97,13 +97,13 @@ bool LevelFileInterpreter::setSize(Level &level, const string &line)
     {
         size = gv.textToNb(line.substr(levelSizeX.size(), line.size()));
         if (size > 0)
-            gv.LVL_X = size;
+            level.getSizeRef().x = size;
     }
     else if (line.substr(0, levelSizeY.size()) == levelSizeY)
     {
         size = gv.textToNb(line.substr(levelSizeY.size(), line.size()));
         if (size > 0)
-            gv.LVL_Y = size;
+            level.getSizeRef().y = size;
     }
     if (size > 0)
     {
@@ -130,7 +130,7 @@ void LevelFileInterpreter::changeNbOfRandomWalls(Level &level, const string &nb)
     unsigned int number = 0;
     istringstream oss(nb);
     oss >> number;
-    if (number < 0 || number > gv.LVL_X*gv.LVL_Y)
+    if (number < 0 || number > (unsigned int)level.getSize().x*level.getSize().y)
         return;
     level.setNbOfRandomWalls(number);
     cout << "Number of random walls set to " << number << " for this level.\n";

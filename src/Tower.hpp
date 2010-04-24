@@ -35,8 +35,10 @@ class Tower
 
     private:
         std::string getNextFloorDefaultName();
+        const sf::Sprite &getPrevFloorsRenderResult();
 
-        sf::RenderImage temp, temp2;
+        sf::RenderImage temp, temp2, previousFloorsRender;
+        sf::Sprite previousFloorsRenderResult;
         std::vector<Floor>  m_floors;
         l_stairsDescription m_stairs;
         sf::Shader &m_lowerFloorsShader, &m_lowerFloorsShader2;

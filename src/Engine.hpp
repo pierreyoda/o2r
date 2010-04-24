@@ -23,7 +23,6 @@ class Engine
             bool menuGame();
                 void buttonLoadLevel();
                 void buttonLoadTower();
-            void resizeGameView(const sf::Vector2i &prevSize);
         void runEditor();
             bool menuEditor();
                 void buttonSave();

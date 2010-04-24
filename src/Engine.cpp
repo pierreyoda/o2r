@@ -9,8 +9,8 @@
 
 using namespace sf;
 
-// TODO (Pierre-Yves#2#): Créer campagne
-// TODO (Pierre-Yves#4#): [GENERAL]Ajouter zoom automatique pour niveaux de tailles non standards...
+// TODO (Pierre-Yves#6#): Créer campagne
+// TODO (Pierre-Yves#2#): [GENERAL]Ajouter zoom automatique pour niveaux de tailles non standards...
 Engine::Engine(sf::RenderWindow &window, const bool &vsync,
     const unsigned int &fpslimit) : App(window), game(), cats(game.getCatsList()),
     mouse(game.getMouse()), gameView(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H)),
@@ -60,12 +60,12 @@ bool Engine::loadLevel(const std::string &filename)
 {
     Vector2i oldSize(gv.SCREEN_W, gv.SCREEN_H-HUD_HEIGHT);
     bool ok = game.loadLevel(filename);
-    if (ok && gv.sizeChanged)
+    /*if (ok && gv.sizeChanged)
     {
         //hud.createHud();
         resizeGameView(oldSize);
         gv.sizeChanged = false;
-    }
+    }*/
     return ok;
 }
 
@@ -79,12 +79,6 @@ bool Engine::loadTower(const std::string &filename)
         gv.sizeChanged = false;
     }*/
     return ok;
-}
-
-void Engine::resizeGameView(const Vector2i &prevSize)
-{
-    sf::Vector2i factor(prevSize.x / gv.SCREEN_W, prevSize.y / gv.SCREEN_H);
-    //gameView.
 }
 
 void Engine::initializeGame(const bool &newlvl)
@@ -103,6 +97,7 @@ void Engine::run()
 {
     if (!running)
         return;
+    App.SetView(App.GetDefaultView());
     mainMenu.run(App, hud, resume);
 }
 
@@ -112,10 +107,20 @@ void Engine::runGame()
     std::cout << "Launching game...\n";
     if (!loadLevel(game.getCurrentLevelName()))
         loadLevel("data/1.txt");
+    game.testTower();
     initializeGame();
     App.SetView(gameView);
+    const Input &Input = App.GetInput();
     while (App.IsOpened() && running)
     {
+        const float dt = App.GetFrameTime();
+        if (Input.IsKeyDown(Key::Add))
+            gameView.Zoom(1.f - dt);
+        else if (Input.IsKeyDown(Key::Subtract))
+            gameView.Zoom(1.f + dt);
+        else if (Input.IsKeyDown(Key::A))
+            gameView.Reset(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H));
+
         Event Event;
         while (App.GetEvent(Event))
         {
@@ -166,7 +171,7 @@ void Engine::runGame()
         App.Draw(mouse.sprite());
         App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), true));
             drawFps();
-        //App.SetView(gameView);
+        App.SetView(gameView);
 
         App.Display();
     }
@@ -176,6 +181,7 @@ bool Engine::menuGame()
 {
     if (!running)
         return true;
+    App.SetView(App.GetDefaultView());
     return gameMenu.run(App, hud, resume, game.getCurrentLevelName());
 }
 
@@ -211,6 +217,12 @@ void Engine::runEditor()
     {
         Vector2f mousepos = App.ConvertCoords(App.GetInput().GetMouseX(),
                                               App.GetInput().GetMouseY());
+
+        const float dt = App.GetFrameTime();
+        if (Input.IsKeyDown(Key::Add))
+            gameView.Zoom(1.f - dt);
+        else if (Input.IsKeyDown(Key::Subtract))
+            gameView.Zoom(1.f + dt);
 
         Event Event;
         while (App.GetEvent(Event))
@@ -262,6 +274,7 @@ bool Engine::menuEditor()
 {
     if (!running)
         return true;
+    App.SetView(App.GetDefaultView());
     return editorMenu.run(App, hud, resume, game.getCurrentLevelName());
 }
 
