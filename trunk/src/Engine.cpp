@@ -170,6 +170,7 @@ void Engine::runGame()
             App.Draw(cats[i].sprite());
         App.Draw(mouse.sprite());
         App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), true));
+        App.SetView(App.GetDefaultView());
             drawFps();
         App.SetView(gameView);
 
@@ -264,7 +265,9 @@ void Engine::runEditor()
         App.Draw(game.getLevel().getRenderResult());
         App.Draw(mouse.sprite());
         App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), false));
+        App.SetView(App.GetDefaultView());
             drawFps();
+        App.SetView(gameView);
 
         App.Display();
     }
