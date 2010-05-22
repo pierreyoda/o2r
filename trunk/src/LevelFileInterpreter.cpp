@@ -97,13 +97,21 @@ bool LevelFileInterpreter::setSize(Level &level, const string &line)
     {
         size = gv.textToNb(line.substr(levelSizeX.size(), line.size()));
         if (size > 0)
+        {
             level.getSizeRef().x = size;
+            if (size != DLVL_X)
+                cout << "X size set to " << size << ".\n";
+        }
     }
     else if (line.substr(0, levelSizeY.size()) == levelSizeY)
     {
         size = gv.textToNb(line.substr(levelSizeY.size(), line.size()));
         if (size > 0)
+        {
             level.getSizeRef().y = size;
+            if (size != DLVL_Y)
+                cout << "Y size set to " << size << ".\n";
+        }
     }
     if (size > 0)
     {

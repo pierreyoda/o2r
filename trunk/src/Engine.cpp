@@ -118,8 +118,6 @@ void Engine::runGame()
             gameView.Zoom(1.f - dt);
         else if (Input.IsKeyDown(Key::Subtract))
             gameView.Zoom(1.f + dt);
-        else if (Input.IsKeyDown(Key::A))
-            gameView.Reset(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H));
 
         Event Event;
         while (App.GetEvent(Event))
@@ -147,6 +145,14 @@ void Engine::runGame()
                     cats.begin()->die();
                 if (cats.size() >= 1 && cats.begin()->isAlive() && Event.Key.Code == Key::K)
                     Cat::killCat(cats.begin()->pos(), cats);
+                if (Event.Key.Code == Key::Z)
+                    gameView.Reset(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H));
+                else if (Event.Key.Code == Key::E)
+                {
+                    gameView.Reset(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H));
+                    gameView.SetCenter(mouse.pos().x * CASE_SIZE, mouse.pos().y * CASE_SIZE);
+                }
+
                 if (Event.Key.Code == Key::Up)
                     mouse.move(UP);
                 else if (Event.Key.Code == Key::Down)
@@ -165,7 +171,7 @@ void Engine::runGame()
         App.Clear();
 
         game.renderTower(App);
-        //App.Draw(game.getLevel().getRenderResult());
+       // App.Draw(game.getLevel().getRenderResult());
         for (unsigned int i = 0; i < cats.size(); i++)
             App.Draw(cats[i].sprite());
         App.Draw(mouse.sprite());
