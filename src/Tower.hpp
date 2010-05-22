@@ -4,8 +4,17 @@
 #include <string>
 #include <vector>
 #include "Level.hpp"
+#include "tools/FilesLoader.hpp"
 
-typedef std::pair<std::string, levelPtr> Floor;
+//typedef std::pair<std::string, levelPtr> Floor;
+struct Floor
+{
+    Floor(const std::string &path, const std::string &alias) : alias(alias)/*,
+        data(true)
+    { data.setFilename(path); }*/{}
+    std::string filename, alias;
+    //Level data;
+};
 
 struct StairsDescriptionElement
 {
@@ -23,7 +32,7 @@ class Tower
 
         void render(sf::RenderTarget &target);
         void addFloor(Level &floor);
-        void addFloor(const std::string &level);
+        void addFloor(const std::string &name, const std::string &alias = "");
         void addLesElement(const LesElement &nLesElement);
         void setCurrentFloor(const unsigned int &currentFloor) {
             m_currentFloor = currentFloor; }
@@ -31,7 +40,7 @@ class Tower
             m_stairsDescriptionFlag = flag; }
         void loadFloors();
 
-        Level *getCurrentFloor() { return m_floors[m_currentFloor].second.get(); }
+        Level *getCurrentFloor() { /*return m_floors[m_currentFloor].second.get(); */ return NULL; }
 
     private:
         std::string getNextFloorDefaultName();

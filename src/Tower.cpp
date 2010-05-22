@@ -45,19 +45,19 @@ void Tower::render(sf::RenderTarget &target)
             target.Draw(m_floors[i].second->getRenderResult(transparent));
     }
     m_LesChanged = false;*/
-    target.Draw(getPrevFloorsRenderResult(), m_lowerFloorsShader2);
+    //target.Draw(getPrevFloorsRenderResult(), m_lowerFloorsShader2);
     if (m_LesChanged)
     {
-        m_floors[m_currentFloor].second->updateCasesImages();
+        //m_floors[m_currentFloor].second->updateCasesImages();
         m_LesChanged = false;
     }
-    bool transparent = (m_currentFloor != 0);
-    target.Draw(m_floors[m_currentFloor].second->getRenderResult(transparent));
+    bool transparent = (m_currentFloor == 0);
+    //target.Draw(m_floors[m_currentFloor].second->getRenderResult(transparent));
 }
 
 const sf::Sprite &Tower::getPrevFloorsRenderResult()
 {
-    static unsigned int prevCurrentFloor = 0;
+    /*static unsigned int prevCurrentFloor = 0;
     if (m_currentFloor != prevCurrentFloor)
     {
         previousFloorsRender.Clear();
@@ -67,19 +67,24 @@ const sf::Sprite &Tower::getPrevFloorsRenderResult()
                                       m_lowerFloorsShader);
         previousFloorsRender.Display();
     }
-    return previousFloorsRenderResult;
+    return previousFloorsRenderResult;*/
 }
 
 void Tower::addFloor(Level &floor)
 {
-    m_floors.push_back(Floor(getNextFloorDefaultName(), levelPtr(&floor)));
+    //m_floors.push_back(Floor(getNextFloorDefaultName(), levelPtr(&floor)));
 }
 
-void Tower::addFloor(const std::string &floorpath)
+void Tower::addFloor(const std::string &name, const std::string &alias)
 {
-    Level *floor = new Level(true);
-    if (LevelFileInterpreter::readLevel(*floor, floorpath))
-        m_floors.push_back(Floor(getNextFloorDefaultName(), levelPtr(floor)));
+    /*Level *floor = new Level(true);
+    if (LevelFileInterpreter::readLevel(*floor, name))
+        m_floors.push_back(Floor(getNextFloorDefaultName(), levelPtr(floor)));*/
+    std::string levelAlias = alias;
+    if (alias.empty())
+        levelAlias = getNextFloorDefaultName();
+    if (FilesLoader::fileExists(name))
+        m_floors.push_back(Floor(name, levelAlias));
 }
 
 std::string Tower::getNextFloorDefaultName()
