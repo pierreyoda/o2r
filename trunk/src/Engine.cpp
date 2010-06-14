@@ -10,6 +10,7 @@
 using namespace sf;
 
 // TODO (Pierre-Yves#6#): Créer campagne
+// TODO (Pierre-Yves#1#): [URGENT] Corriger mauvais affichage des niveaux de tailles non standarts (position des cases non MAJ?)
 // TODO (Pierre-Yves#2#): [GENERAL]Ajouter zoom automatique pour niveaux de tailles non standards...
 Engine::Engine(sf::RenderWindow &window, const bool &vsync,
     const unsigned int &fpslimit) : App(window), game(), cats(game.getCatsList()),

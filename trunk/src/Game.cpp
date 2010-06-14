@@ -23,7 +23,7 @@ void Game::testTower()
     /*loadTower("data/towertest/testtower.xml");
     //tower->setCurrentFloor(1);
     updateLevelPointersFromTower();*/
-    //loadLevel("data/logobig.txt");
+    loadLevel("data/logobig.txt");
 }
 
 void Game::updateLevelPointersFromTower()
@@ -87,6 +87,8 @@ void Game::initializeGame(const bool &newlvl)
     if (!newlvl && loadLevel("data/1.txt"))
         return;
     initializeLevel();
+    std::vector< std::vector<LevelCase> >  a = currentLevel->content();
+    std::cout << a.size() << "\n";
 }
 
 void Game::initializeLevel()
