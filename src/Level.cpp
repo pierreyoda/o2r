@@ -67,6 +67,7 @@ void Level::resizeLevel()
 {
     resetLevel();
     renderTarget.Create(size.x * CASE_SIZE, size.x * CASE_SIZE);
+    renderResult.SetPosition(0, (size.y - DLVL_Y) * CASE_SIZE);
 }
 
 void Level::randomWalls()
@@ -117,7 +118,7 @@ void Level::render(const bool &transparent)
         {
             if (transparent && cases[i][j].type == NOTHING);
             else
-                renderDrawable(renderTarget, sf::Vector2i(j, i), cases[i][j].type);
+                ;//renderDrawable(renderTarget, sf::Vector2i(j, i), cases[i][j].type);
         }
     }
 
