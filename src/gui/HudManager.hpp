@@ -8,7 +8,7 @@ class HudManager
     public:
         HudManager();
 
-        void createHud();
+        void createHud(const sf::Vector2i &levelSize);
         void newGameStarted();
 
         const sf::Sprite &drawHud(const unsigned int &catsNb,
@@ -24,7 +24,6 @@ class HudManager
         sf::Sprite renderResult, remainingLifes;
         sf::Text score, nbOfCats, editorBlock, editorWall, editorMouse;
         sf::Sprite sEditorBlock, sEditorWall, sEditorMouse;
-        sf::Shape hudBackground;
         bool m_gamestart;
 };
 

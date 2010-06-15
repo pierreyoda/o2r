@@ -1,11 +1,10 @@
 #include <iostream>
 #include "TowerFileInterpreter.hpp"
-#include "LevelFileInterpreter.hpp"
 #include "tools/FilesLoader.hpp"
 
 using namespace std;
 
-bool TowerFileInterpreter::readTower(Tower &tower, const string &filename)
+/*bool TowerFileInterpreter::readTower(Tower &tower, const string &filename)
 {
     cout << "Reading tower '" << filename << "'.\n";
     TiXmlDocument file(filename.c_str());
@@ -161,4 +160,4 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
 bool TowerFileInterpreter::readLes(const string &filename, l_LesElement &lesElements)
 {
     return true;
-}
+}*/

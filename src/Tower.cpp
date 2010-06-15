@@ -1,8 +1,8 @@
 #include "Tower.hpp"
-#include "LevelFileInterpreter.hpp"
 #include "tools/ShaderManager.hpp"
 
-// TODO (Pierre-Yves#4#): [EFFET VISUEL] Ajouter flou progressif (effet profondeur verticale
+// TODO (Pierre-Yves#4#): [EFFET VISUEL] Ajouter flou progressif + changement de teinte (effet profondeur verticale < ==shaders)
+// TODO (Pierre-Yves#5#): [EFFET VISUEL] Ajouter une option pour désactiver les shaders
 Tower::Tower() : m_lowerFloorsShader(*gShaderManager.getResource("blur.sfx")),
     m_lowerFloorsShader2(*gShaderManager.getResource("colorize.sfx")),
     m_currentFloor(0), m_stairsDescriptionFlag(stairsDescriptionDefaultFlag),

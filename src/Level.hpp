@@ -11,7 +11,7 @@
 
 struct LevelCase
 {
-    LevelCase(const sf::Vector2i &cpos, const CASETYPE &ctype);
+    LevelCase(const sf::Vector2i &cpos, const char &character);
 
     void updateImage();
 
@@ -20,61 +20,51 @@ struct LevelCase
     Object drawable;
 };
 
-// TODO (Pierre-Yves#3#): [OPTIMISATION] Ajouter gestion 'streaming' (possibilité niveau vide à la construction pour libérer mémoire)
-// TODO (Pierre-Yves#1#): [DECENTRALISATION] Gérer taille niveau dans 'Level'
+struct LevelInformations
+{
+    sf::Vector2i size, mouseStartPos;
+    std::string filename, name;
+    unsigned int iCatsNb, catsNb, randomWallsNb;
+    bool hasChanged;
+};
+
 class Level
 {
     public:
-        Level(const bool &empty = false);
+        Level(const std::string &file = emptyLevelName, const std::string &name = "");
         ~Level();
 
         const sf::Sprite &getRenderResult(const bool &transparent = false);
 
-        void clearLevel();
-        void resetLevel();
-        void resizeLevel();
+        bool writeLevel(const std::string &filename);
         void randomWalls();
         void updateCasesImages();
-        void mustRedraw() { levelChanged = true; }
+        void mustRedraw() { infos.hasChanged = true; }
 
         void setMouseStartPos(const sf::Vector2i &pos)
         {
-            if (!Object::outOfScreen(pos, size))
-                mouseStartPos = pos;
-        }
-        void setSize(const sf::Vector2i &nsize)
-        {
-            if (nsize.x > 0 && nsize.y > 0)
-                size = nsize;
+            if (!Object::outOfScreen(pos, infos.size))
+                infos.mouseStartPos = pos;
         }
         void setNbOfRandomWalls(const unsigned int &wallnb)
         {
-            if (wallnb >= 0 && wallnb < (unsigned int)size.x*size.y)
-                randomWallsNb = wallnb;
+            if (wallnb >= 0 && wallnb < (unsigned int)infos.size.x*infos.size.y)
+                infos.randomWallsNb = wallnb;
         }
         void setNbOfCats(const unsigned &nb)
         {
             if (nb >= 0)
-                catsNb = nb;
-        }
-        void setFilename(const std::string &nfilename)
-        {
-            filename = nfilename;
+                infos.iCatsNb= nb;
         }
 
-        bool hasChanged() const { return levelChanged; }
-        sf::Vector2i getMouseStartPos() const { return mouseStartPos; }
-        sf::Vector2i getSize() const { return size; }
-        sf::Vector2i &getSizeRef() { return size; }
-        unsigned int getNbOfRandomWalls() { return randomWallsNb; }
-        unsigned int getCatsNb() { return catsNb; }
+        LevelInformations &getInfosRef() { return infos; }
+        const LevelInformations &getInfos() const { return infos; }
         void setCaseType(const sf::Vector2i &pos, const CASETYPE &type);
         void setCaseType(const sf::Vector2i &pos, const char &character);
         CASETYPE getCaseType(const sf::Vector2i &pos) const;
         CASETYPE getCaseType(const unsigned int &x, const unsigned int &y) const;
         unsigned int nbOfCasetype(const CASETYPE &casetype) const;
         std::vector< std::vector<LevelCase> > &content() { return cases; }
-        std::string getFilename() const { return filename; }
 
         static char casetypeToChar(const CASETYPE &type);
         static CASETYPE charToCasetype(const char &caracter);
@@ -82,18 +72,23 @@ class Level
         static sf::Image *charToImage(const char &character);
 
     private:
+        void fillWithNothingType();
+        bool readLevelFile();
+            bool analyseLevelFileLine(const std::string &line,
+                        const unsigned int &linenb, const sf::Vector2i &oldSize,
+                        unsigned int &gap);
+            bool setSizeFromLine(const std::string &line, const sf::Vector2i &oldSize);
+            void setiNbOfCatsFromText(const std::string &text);
+            void setNbOfRandomWallsFromText(const std::string &text);
         void render(const bool &transparent);
         void renderDrawable(sf::RenderTarget &target, const sf::Vector2i &pos,
-                            const CASETYPE &type);
+                        const CASETYPE &type);
         bool noCaseThere(const sf::Vector2i &pos);
 
         sf::RenderImage renderTarget;
         sf::Sprite renderResult;
         std::vector< std::vector<LevelCase> > cases;
-        sf::Vector2i mouseStartPos, size;
-        std::string filename;
-        unsigned int randomWallsNb, catsNb;
-        bool levelChanged;
+        LevelInformations infos;
 };
 
 typedef boost::shared_ptr<Level> levelPtr;

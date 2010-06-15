@@ -28,6 +28,7 @@ bool Cat::moveCat(Level &lvl, const sf::Vector2i &mousePos,
                   const std::vector<Cat> &cats, const bool &astar)
 {
     bool makeRandomMove = false;
+    const LevelInformations &infos = lvl.getInfos();
     static sf::Vector2i prevMousepos = mousePos;
 
     if (!m_alive || m_moveClock.GetElapsedTime() < CAT_SPEED)
@@ -36,7 +37,7 @@ bool Cat::moveCat(Level &lvl, const sf::Vector2i &mousePos,
 
     if (astar)
     {
-        if (!m_astarAlreadyMoved || (mousePos != prevMousepos || lvl.hasChanged()))
+        if (!m_astarAlreadyMoved || (mousePos != prevMousepos || infos.hasChanged))
         {
             path = *AStarAlgorithm::pathfinding(m_pos, mousePos, lvl);
             prevMousepos = mousePos;
@@ -70,7 +71,7 @@ bool Cat::moveCat(Level &lvl, const sf::Vector2i &mousePos,
             offset.x = sf::Randomizer::Random(-1, 1),
             offset.y = sf::Randomizer::Random(-1, 1);
             temp = m_pos + offset;
-            if (!Cat::outOfScreen(temp, lvl.getSize())
+            if (!Cat::outOfScreen(temp, infos.size)
                     && (lvl.getCaseType(temp) == NOTHING
                     && !catOnTheWay(temp, cats)))
                 ok = true;
@@ -92,13 +93,14 @@ void Cat::placeCat(Level &lvl, const std::vector<Cat> &cats)
 {
     bool done = false;
     sf::Vector2i pos;
+    const LevelInformations &infos = lvl.getInfos();
     const unsigned int nbOfFreeCases = lvl.nbOfCasetype(NOTHING);
     for (unsigned int i = 0; i < nbOfFreeCases && !done; i++)
     {
-        pos.x = sf::Randomizer::Random(0, lvl.getSize().x-1),
-        pos.y = sf::Randomizer::Random(0, lvl.getSize().y-1);
+        pos.x = sf::Randomizer::Random(0, infos.size.x-1),
+        pos.y = sf::Randomizer::Random(0, infos.size.y-1);
         bool ok = !catOnTheWay(pos, cats);
-        if (ok && lvl.getCaseType(pos) == NOTHING && lvl.getMouseStartPos() != pos)
+        if (ok && lvl.getCaseType(pos) == NOTHING && infos.mouseStartPos != pos)
             done = true;
     }
     setPosition(pos);

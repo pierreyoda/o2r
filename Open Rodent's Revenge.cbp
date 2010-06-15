@@ -78,8 +78,6 @@
 		<Unit filename="src\GlobalVariables.hpp" />
 		<Unit filename="src\Level.cpp" />
 		<Unit filename="src\Level.hpp" />
-		<Unit filename="src\LevelFileInterpreter.cpp" />
-		<Unit filename="src\LevelFileInterpreter.hpp" />
 		<Unit filename="src\Mouse.cpp" />
 		<Unit filename="src\Mouse.hpp" />
 		<Unit filename="src\Object.cpp" />

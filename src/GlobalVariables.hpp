@@ -3,6 +3,7 @@
 
 #include <list>
 #include <string>
+#include <sstream>
 #include <SFML/Graphics.hpp>
 #include "constantes.hpp"
 
@@ -34,8 +35,20 @@ struct GlobalVariables
 
     void resizeGame();
     static void drawFps(sf::RenderWindow &App);
-    static int textToNb(const std::string &text);
-    static std::string nbToText(const int &nb);
+
+    int textToNb(const std::string &text)
+    {
+        std::istringstream iss(text);
+        int nb;
+        iss >> nb;
+        return nb;
+    }
+    template <typename T> std::string nbToText(const T &nb)
+    {
+        std::ostringstream oss;
+        oss << nb;
+        return oss.str();
+    }
 };
 
  extern GlobalVariables gv;
