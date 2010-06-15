@@ -1,7 +1,16 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
 #include "Level.hpp"
 #include "tools/ImageManager.hpp"
 
 using namespace std;
+
+const string levelSizeX = "X=";
+const string levelSizeY = "Y=";
+const string nbOfRandomWalls = "RandomWalls=";
+const string nbOfCats = "NbOfCats=";
+const sf::Color BACKGROUND_COLOR(128, 128, 0);
 
 struct upper
 {
@@ -16,8 +25,8 @@ inline void upperworld(string &s)
     transform(s.begin(), s.end(), s.begin(), upper());
 }
 
-LevelCase::LevelCase(const sf::Vector2i &cpos, const CASETYPE &ctype) :
-    character(Level::charToCasetype(ctype)), type(ctype), drawable(cpos)
+LevelCase::LevelCase(const sf::Vector2i &cpos, const char &character) :
+    character(character), type(Level::charToCasetype(character)), drawable(cpos)
 {
     updateImage();
 }
@@ -29,55 +38,185 @@ void LevelCase::updateImage()
         drawable.setImage(*img);
 }
 
-Level::Level(const bool &empty) : cases(), mouseStartPos(0, 0),
-    size(DLVL_X, DLVL_Y), randomWallsNb(0), catsNb(DEFAULTNB_OF_CAT),
-    levelChanged(true)
+Level::Level(const std::string &file, const std::string &name) : cases()
 {
-    if (!empty)
-        resetLevel();
-    renderTarget.Create(size.x * CASE_SIZE, size.y * CASE_SIZE);
+    if (name.empty())
+        infos.name = file;
+    else
+        infos.name = name;
+    infos.filename = file, infos.randomWallsNb = 0, infos.hasChanged = true;
+    infos.iCatsNb = infos.catsNb = DEFAULTNB_OF_CAT;
+    if (file == emptyLevelName || !readLevelFile())
+        fillWithNothingType();
+
+    renderTarget.Create(infos.size.x * CASE_SIZE, infos.size.y * CASE_SIZE);
     renderResult.SetImage(renderTarget.GetImage());
 }
 
 Level::~Level()
 {
-    clearLevel();
+
 }
 
-void Level::clearLevel()
+bool Level::writeLevel(const string &filename)
+{
+    if (filename.empty())
+        return false;
+    infos.filename = infos.name =  filename;
+
+    cout << "Writing current level to '" << filename << "'.\n";
+    ofstream file(filename.c_str(), ios::out | ios::trunc);
+    if (!file)
+        return false;
+
+    file << levelSizeX << infos.size.x << "\n" << levelSizeY << infos.size.y << "\n";
+    for (unsigned int i = 0; i < cases.size(); i++)
+    {
+        for (unsigned int j = 0; j < cases[i].size(); j++)
+        {
+            if (sf::Vector2i(j, i) == infos.mouseStartPos)
+                file << CHAR_MOUSE;
+            else
+                file << cases[i][j].character;
+        }
+        file << "\n";
+    }
+    file << nbOfRandomWalls << infos.randomWallsNb << "\n"
+        <<  nbOfCats << infos.iCatsNb;
+
+    return true;
+}
+
+bool Level::readLevelFile()
+{
+    cout << "Reading level '" << infos.filename << "'.\n";
+    string line;
+    ifstream file(infos.filename.c_str(), ios::in);
+    if (!file)
+        return false;
+    unsigned int gap = 0;
+    if (infos.size.x == 0 || infos.size.y == 0)
+        infos.size.x = DLVL_X, infos.size.y = DLVL_Y;
+    sf::Vector2i oldSize(infos.size);
+    for (unsigned int i = 0; getline(file, line); i++)
+    {
+        if (!analyseLevelFileLine(line, i, oldSize, gap))
+            return false;
+    }
+    return true;
+}
+
+bool Level::analyseLevelFileLine(const string &line, const unsigned int &linenb,
+                                 const sf::Vector2i &oldSize, unsigned int &gap)
+{
+    if (linenb < 2)
+    {
+        if (setSizeFromLine(line, oldSize))
+            ++gap;
+        return true;
+    }
+    if (linenb >= infos.size.y+gap)
+    {
+        if (line.substr(0, nbOfRandomWalls.size()) == nbOfRandomWalls)
+            setNbOfRandomWallsFromText(line.substr(nbOfRandomWalls.size(),
+                                                     line.size()));
+        else if (line.substr(0, nbOfCats.size()) == nbOfCats)
+            setiNbOfCatsFromText(line.substr(nbOfCats.size(), line.size()));
+        return true;
+    }
+    cases.push_back(vector<LevelCase>());
+    for (unsigned int i = 0; i < line.size(); i++)
+    {
+        sf::Vector2i pos(i, linenb-gap);
+        if (line[i] == CHAR_MOUSE)
+        {
+            infos.mouseStartPos = pos;
+            cases[linenb-gap].push_back(LevelCase(pos, CHAR_NOTHING));
+        }
+        else
+            cases[linenb-gap].push_back(LevelCase(pos, line[i]));
+    }
+
+    if (linenb == infos.size.y+gap-1)
+        gap = 0;
+    return true;
+}
+
+bool Level::setSizeFromLine(const string &line, const sf::Vector2i &oldSize)
+{
+    unsigned int size = 0;
+    if (line.substr(0, levelSizeX.size()) == levelSizeX)
+    {
+        size = gv.textToNb(line.substr(levelSizeX.size(), line.size()));
+        if (size > 0)
+        {
+            if (size != (unsigned int)oldSize.x)
+                cout << "X size set to " << size << ".\n";
+            infos.size.x = size;
+        }
+    }
+    else if (line.substr(0, levelSizeY.size()) == levelSizeY)
+    {
+        size = gv.textToNb(line.substr(levelSizeY.size(), line.size()));
+        if (size > 0)
+        {
+            if (size != (unsigned int)oldSize.y)
+                cout << "Y size set to " << size << ".\n";
+            infos.size.y = size;
+        }
+    }
+    if (size > 0)
+    {
+        gv.resizeGame();
+        return true;
+    }
+    return false;
+}
+
+void Level::setiNbOfCatsFromText(const std::string &text)
+{
+    unsigned int number = gv.textToNb(text);
+    if (number < 0 || number > nbOfCasetype(NOTHING))
+        return;
+    infos.iCatsNb = infos.catsNb = number;
+    cout << "Number of cats set to " << number << " for this level.\n";
+}
+
+void Level::setNbOfRandomWallsFromText(const std::string &text)
+{
+    unsigned int number = gv.textToNb(text);
+    if (number == 0)
+        return;
+    if (number < 0 || number > (unsigned int)infos.size.x*infos.size.y)
+        return;
+    infos.randomWallsNb = number;
+    cout << "Number of random walls set to " << number << " for this level.\n";
+}
+
+void Level::fillWithNothingType()
 {
     for (unsigned int i = 0; i < cases.size(); i++)
         cases[i].clear();
     cases.clear();
-}
 
-void Level::resetLevel()
-{
-    clearLevel();
-    for (unsigned int i = 0; i < (unsigned int)size.y; i++)
+    infos.size.x = DLVL_X, infos.size.y = DLVL_Y;
+    for (unsigned int i = 0; i < (unsigned int)infos.size.y; i++)
     {
         cases.push_back(vector<LevelCase>());
-        for (unsigned int j = 0; j < (unsigned int)size.x; j++)
+        for (unsigned int j = 0; j < (unsigned int)infos.size.x; j++)
             cases[i].push_back(LevelCase(sf::Vector2i(j, i), NOTHING));
     }
-    levelChanged = true;
-}
-
-void Level::resizeLevel()
-{
-    resetLevel();
-    renderTarget.Create(size.x * CASE_SIZE, size.x * CASE_SIZE);
-    renderResult.SetPosition(0, (size.y - DLVL_Y) * CASE_SIZE);
+    infos.hasChanged = true;
 }
 
 void Level::randomWalls()
 {
     static unsigned int limit = nbOfCasetype(NOTHING) + nbOfCasetype(BLOCK);
-    for (unsigned int i = 0; i < randomWallsNb; i++)
+    for (unsigned int i = 0; i < infos.randomWallsNb; i++)
     {
-        sf::Vector2i pos(sf::Randomizer::Random(0, size.x),
-                         sf::Randomizer::Random(0, size.y));
-        if (getCaseType(pos) == WALL || pos == mouseStartPos)
+        sf::Vector2i pos(sf::Randomizer::Random(0, infos.size.x),
+                         sf::Randomizer::Random(0, infos.size.y));
+        if (getCaseType(pos) == WALL || pos == infos.mouseStartPos)
         {
             if (i >= limit)
                 break;
@@ -97,10 +236,10 @@ void Level::updateCasesImages()
 
 const sf::Sprite &Level::getRenderResult(const bool &transparent)
 {
-    if (levelChanged)
+    if (infos.hasChanged)
     {
         render(transparent);
-        levelChanged = false;
+        infos.hasChanged= false;
     }
     return renderResult;
 }
@@ -110,7 +249,7 @@ void Level::render(const bool &transparent)
     if (transparent)
         renderTarget.Clear(sf::Color(0, 0, 0, 0));
     else
-        renderTarget.Clear();
+        renderTarget.Clear(BACKGROUND_COLOR);
 
     for (unsigned int i = 0; i < cases.size(); i++)
     {
@@ -118,7 +257,7 @@ void Level::render(const bool &transparent)
         {
             if (transparent && cases[i][j].type == NOTHING);
             else
-                ;//renderDrawable(renderTarget, sf::Vector2i(j, i), cases[i][j].type);
+                renderDrawable(renderTarget, sf::Vector2i(j, i), cases[i][j].type);
         }
     }
 
@@ -154,17 +293,12 @@ void Level::setCaseType(const sf::Vector2i &pos, const CASETYPE &type)
     cases[pos.y][pos.x].character = casetypeToChar(type);
     cases[pos.y][pos.x].type = type;
     cases[pos.y][pos.x].updateImage();
-    levelChanged = true;
+    infos.hasChanged= true;
 }
 
 void Level::setCaseType(const sf::Vector2i &pos, const char &character)
 {
-    if (noCaseThere(pos))
-        return;
-    cases[pos.y][pos.x].character = character;
-    cases[pos.y][pos.x].type = charToCasetype(character);
-    cases[pos.y][pos.x].updateImage();
-    levelChanged = true;
+    setCaseType(pos, charToCasetype(character));
 }
 
 bool Level::noCaseThere(const sf::Vector2i &pos)

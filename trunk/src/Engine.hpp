@@ -15,6 +15,7 @@ class Engine
         void run();
 
     private:
+        inline void resetView();
         void createMenus();
         inline bool loadLevel(const std::string &filename);
         inline bool loadTower(const std::string &filename);

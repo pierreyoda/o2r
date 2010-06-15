@@ -2,7 +2,6 @@
 #include <sstream>
 #include "Engine.hpp"
 #include "GlobalVariables.hpp"
-#include "LevelFileInterpreter.hpp"
 #include "gui/TextBox.hpp"
 #include "gui/Button.hpp"
 #include "tools/FilesLoader.hpp"
@@ -10,18 +9,16 @@
 using namespace sf;
 
 // TODO (Pierre-Yves#6#): Créer campagne
-// TODO (Pierre-Yves#1#): [URGENT] Corriger mauvais affichage des niveaux de tailles non standarts (position des cases non MAJ?)
-// TODO (Pierre-Yves#2#): [GENERAL]Ajouter zoom automatique pour niveaux de tailles non standards...
 Engine::Engine(sf::RenderWindow &window, const bool &vsync,
     const unsigned int &fpslimit) : App(window), game(), cats(game.getCatsList()),
     mouse(game.getMouse()), gameView(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H)),
     running(true), resume(false), quitToMainMenu(false)
 {
-    //gameView.Rotate(180);
     App.UseVerticalSync(vsync);
     App.SetFramerateLimit(fpslimit);
     App.SetIcon(16, 16, gImageManager.getResource("icon.png")->GetPixelsPtr());
     createMenus();
+    hud.createHud(game.getLevel().getInfos().size);
 }
 
 Engine::~Engine()
@@ -59,14 +56,13 @@ void Engine::createMenus()
 
 bool Engine::loadLevel(const std::string &filename)
 {
-    Vector2i oldSize(gv.SCREEN_W, gv.SCREEN_H-HUD_HEIGHT);
     bool ok = game.loadLevel(filename);
-    /*if (ok && gv.sizeChanged)
+    if (ok && gv.sizeChanged)
     {
-        //hud.createHud();
-        resizeGameView(oldSize);
+        resetView();
+        hud.createHud(game.getLevel().getInfos().size);
         gv.sizeChanged = false;
-    }*/
+    }
     return ok;
 }
 
@@ -92,6 +88,15 @@ void Engine::drawFps()
 {
     if (gv.debugMode)
         hud.drawFps(App, App.GetFrameTime());
+}
+
+void Engine::resetView()
+{
+    const LevelInformations &infos = game.getLevel().getInfos();
+    Vector2f screenRealSize(infos.size.x * CASE_SIZE,
+                            infos.size.y * CASE_SIZE + HUD_HEIGHT);
+    gameView.SetCenter(screenRealSize.x/2, screenRealSize.y/2);
+    gameView.SetSize(screenRealSize);
 }
 
 void Engine::run()
@@ -147,13 +152,12 @@ void Engine::runGame()
                 if (cats.size() >= 1 && cats.begin()->isAlive() && Event.Key.Code == Key::K)
                     Cat::killCat(cats.begin()->pos(), cats);
                 if (Event.Key.Code == Key::Z)
-                    gameView.Reset(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H));
+                    resetView();
                 else if (Event.Key.Code == Key::E)
                 {
                     gameView.Reset(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H));
                     gameView.SetCenter(mouse.pos().x * CASE_SIZE, mouse.pos().y * CASE_SIZE);
                 }
-
                 if (Event.Key.Code == Key::Up)
                     mouse.move(UP);
                 else if (Event.Key.Code == Key::Down)
@@ -217,7 +221,7 @@ void Engine::runEditor()
     if (!loadLevel(game.getCurrentLevelName()))
         loadLevel("data/1.txt");
     hud.newGameStarted();
-    mouse.setPosition(game.getLevel().getMouseStartPos());
+    mouse.setPosition(game.getLevel().getInfos().mouseStartPos);
     CASETYPE casetype = BLOCK;
     App.SetView(gameView);
     const Input &Input = App.GetInput();
@@ -252,6 +256,8 @@ void Engine::runEditor()
                     gv.debugMode = !gv.debugMode;
                 if (Event.Key.Code == Key::M)
                     game.placeMouse(mousepos);
+                if (Event.Key.Code == Key::Z)
+                    resetView();
                 if (Event.Key.Code == Key::Num1 || Event.Key.Code == Key::Numpad1)
                     casetype = BLOCK;
                 if (Event.Key.Code == Key::Num2 || Event.Key.Code == Key::Numpad2)
@@ -259,7 +265,7 @@ void Engine::runEditor()
             }
         }
 
-        if (mousepos.x < gv.SCREEN_W && mousepos.y < gv.SCREEN_H-HUD_HEIGHT)
+        if (mousepos.x > 0 && mousepos.y > 0)
         {
             if (Input.IsMouseButtonDown(sf::Mouse::Left))
                 game.placeCaseType(mousepos, casetype);
@@ -293,7 +299,7 @@ void Engine::buttonSave()
     const std::string file = editorMenu.currentString();
     if (file.empty())
         return;
-    if (LevelFileInterpreter::writeLevel(game.getLevel(), file))
+    if (game.saveLevel(file))
         closeMenu();
 }
 
@@ -302,6 +308,6 @@ void Engine::buttonLoad()
     const std::string file = editorMenu.currentString();
     if (file.empty())
         return;
-    if (LevelFileInterpreter::readLevel(game.getLevel(), file))
+    if (loadLevel(file))
         closeMenu();
 }

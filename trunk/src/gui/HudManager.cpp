@@ -8,20 +8,22 @@ const Color HUD_BACKGROUND_COLOR(0, 128, 128);
 
 HudManager::HudManager() : m_gamestart(true)
 {
-    renderTarget.Create(gv.SCREEN_W, gv.SCREEN_H);
+    renderTarget.Create(gv.SCREEN_W, HUD_HEIGHT);
         renderResult.SetImage(renderTarget.GetImage());
+        renderResult.SetPosition(0, gv.SCREEN_H-HUD_HEIGHT);
     remainingLifesTarget.Create(gv.SCREEN_W,
                 gImageManager.getResource("lifes.png")->GetHeight());
         remainingLifes.SetImage(remainingLifesTarget.GetImage());
-
-    createHud();
 }
 
-void HudManager::createHud()
+// TODO (Pierre-Yves#1#): [HUD] Corriger le bug d'affichage en taille X non standart
+void HudManager::createHud(const sf::Vector2i &levelSize)
 {
-    Vector2f refPos(0, gv.SCREEN_H-HUD_HEIGHT);
+    Vector2i screenRealSize(levelSize.x * CASE_SIZE, levelSize.y * CASE_SIZE);
+    renderTarget.Create(screenRealSize.x, HUD_HEIGHT);
+    renderResult.SetPosition(0, screenRealSize.y);
+    Vector2f refPos(0, 0);
     sf::FloatRect rect(refPos, Vector2f(gv.SCREEN_W, gv.SCREEN_H));
-    hudBackground = Shape::Rectangle(rect, HUD_BACKGROUND_COLOR);
 
     score.SetPosition(refPos);
         score.SetString("Score: " + gv.nbToText(gv.score));
@@ -49,6 +51,7 @@ void HudManager::createHud()
 
     remainingLifes.SetY(refPos.y + HUD_HEIGHT/3);
     updateNbOfRemainingLifes(DEFAULT_NB_OF_LIFES);
+
 }
 
 void HudManager::newGameStarted()
@@ -64,8 +67,7 @@ const Sprite &HudManager::drawHud(const unsigned int &catsNb,
         return renderResult;
     m_gamestart = false;
 
-    renderTarget.Clear(Color(0, 0, 0, 0));
-        renderTarget.Draw(hudBackground);
+    renderTarget.Clear(HUD_BACKGROUND_COLOR);
         if (inGame)
         {
             renderTarget.Draw(score);
@@ -110,6 +112,7 @@ bool HudManager::updateNbOfCats(const unsigned int &catsNb)
     return false;
 }
 
+// TODO (Pierre-Yves#2#): [HUD] Gérer l'affichage CORRECT d'un "grand" nombre de vie (~ > 4) === afficher l'icone de vie avec un texte à côté
 bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
 {
     static unsigned int prevRemainingLifes = 0;
@@ -133,7 +136,6 @@ bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
             remainingLifesTarget.Draw(temp);
         }
         remainingLifesTarget.Display();
-
         remainingLifes.SetX((gv.SCREEN_W/2 - remainingLifes.GetImage()->GetWidth()/2));
 
         return true;

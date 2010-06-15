@@ -33,13 +33,13 @@ bool Mouse::move(const sf::Vector2i &dir)
 {
     const sf::Vector2i pos = m_pos + dir;
     const CASETYPE casetype = lvl->getCaseType(pos);
-    if (outOfScreen(pos, lvl->getSize()) || Cat::catOnTheWay(pos, cats, true)
+    if (outOfScreen(pos, lvl->getInfos().size) || Cat::catOnTheWay(pos, cats, true)
             || casetype == WALL)
         return false;
     if (casetype == BLOCK)
     {
         sf::Vector2i endblocks = checkBlocks(dir);
-        if (outOfScreen(endblocks, lvl->getSize())
+        if (outOfScreen(endblocks, lvl->getInfos().size)
                 || lvl->getCaseType(endblocks) != NOTHING
                 || Cat::catOnTheWay(endblocks, cats, true))
             return false;
@@ -69,8 +69,8 @@ void Mouse::respawn(const unsigned int &securityLevel)
     std::vector<posSecurityValue> positions;
     for (unsigned int i = 0; i < securityLevel; i++)
     {
-        int x = sf::Randomizer::Random(0, lvl->getSize().x),
-            y = sf::Randomizer::Random(0, lvl->getSize().y);
+        int x = sf::Randomizer::Random(0, lvl->getInfos().size.x),
+            y = sf::Randomizer::Random(0, lvl->getInfos().size.y);
         sf::Vector2i pos(x, y);
         if (lvl->getCaseType(pos) == NOTHING && !Cat::catOnTheWay(pos, cats)
             && !trappedByWalls(pos))
@@ -84,7 +84,7 @@ sf::Vector2i Mouse::checkBlocks(const sf::Vector2i &dir) const
 {
     sf::Vector2i temp = m_pos + dir;
     bool xmove = (dir == LEFT || dir == RIGHT);
-    while (!outOfScreen(temp, lvl->getSize()) && lvl->getCaseType(temp) == BLOCK)
+    while (!outOfScreen(temp, lvl->getInfos().size) && lvl->getCaseType(temp) == BLOCK)
     {
         if (xmove)
         {
