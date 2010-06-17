@@ -31,7 +31,8 @@ class Cat : public Object
 
     private:
         bool trapped(Level &lvl, const l_cats &cats) const;
-
+        bool getRandomMove(sf::Vector2i &result, const Level &lvl,
+                           const l_cats &cats, const sf::Vector2i &mousePos);
         sf::Clock m_moveClock;
         unsigned int m_cannotMove;
         bool m_alive, m_astarAlreadyMoved;

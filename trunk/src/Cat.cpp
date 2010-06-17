@@ -1,6 +1,7 @@
 #include <list>
 #include <iostream>
 #include "Cat.hpp"
+#include "Mouse.hpp"
 #include "constantes.hpp"
 #include "tools/ImageManager.hpp"
 
@@ -63,26 +64,14 @@ bool Cat::moveCat(Level &lvl, const sf::Vector2i &mousePos,
     }
     if (!astar || makeRandomMove)
     {
-        static const unsigned int tries = 10;
-        sf::Vector2i offset(0, 0), temp(m_pos);
-        bool ok = false;
-        for (unsigned int i = 0; i < tries && !ok; i++)
-        {
-            offset.x = sf::Randomizer::Random(-1, 1),
-            offset.y = sf::Randomizer::Random(-1, 1);
-            temp = m_pos + offset;
-            if (!Cat::outOfScreen(temp, infos.size)
-                    && (lvl.getCaseType(temp) == NOTHING
-                    && !catOnTheWay(temp, cats)))
-                ok = true;
-        }
-        if (!ok)
+        sf::Vector2i npos;
+        if (!getRandomMove(npos, lvl, cats, mousePos))
         {
             ++m_cannotMove;
             return false;
         }
-        setPosition(temp);
-        if (temp == mousePos)
+        setPosition(npos);
+        if (npos == mousePos)
             return true;
         m_cannotMove = 0;
     }
@@ -147,4 +136,53 @@ bool Cat::trapped(Level &lvl, const l_cats &cats) const
         }
     }
     return (blockedCount == 8);
+}
+
+bool whatIsBetterCaseForCat(const posSecurityValue &a, const posSecurityValue &b)
+{
+    return (a.second < b.second);
+}
+
+bool Cat::getRandomMove(sf::Vector2i &result, const Level &lvl,
+                        const l_cats &cats, const sf::Vector2i &mousePos)
+{
+    /*static const unsigned int tries = 10;
+    sf::Vector2i offset(0, 0), temp;
+    for (unsigned int i = 0; i < tries; i++)
+    {
+        offset.x = sf::Randomizer::Random(-1, 1),
+        offset.y = sf::Randomizer::Random(-1, 1);
+        temp = m_pos + offset;
+        if (!outOfScreen(temp, lvl.getInfos().size)
+                && lvl.getCaseType(temp) == NOTHING
+                && !catOnTheWay(temp, cats))
+        {
+            result = temp;
+            return true;
+        }
+    }
+    return false;*/
+    std::list<posSecurityValue> l_pounds;
+    for (int i = -1; i <= 1; i++)
+    {
+        for (int j = -1; j <= 1; j++)
+        {
+            sf::Vector2i pos(m_pos.x+i, m_pos.y+j);
+            if (pos == m_pos || outOfScreen(pos, lvl.getInfos().size)
+                    || lvl.getCaseType(pos) != NOTHING
+                    || catOnTheWay(pos, cats))
+                continue;
+            l_pounds.push_back(posSecurityValue(pos,
+                                                AStarAlgorithm::pound(pos, mousePos)));
+        }
+    }
+    if (l_pounds.empty())
+        return false;
+    l_pounds.sort(whatIsBetterCaseForCat);
+    if (l_pounds.begin() != l_pounds.end())
+    {
+        result = l_pounds.begin()->first;
+        return true;
+    }
+    return false;
 }
