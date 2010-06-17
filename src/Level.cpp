@@ -16,7 +16,7 @@ struct upper
 {
     int operator()(int c)
     {
-        return std::toupper((unsigned char)c);
+        return toupper((unsigned char)c);
     }
 };
 
@@ -38,7 +38,7 @@ void LevelCase::updateImage()
         drawable.setImage(*img);
 }
 
-Level::Level(const std::string &file, const std::string &name) : cases()
+Level::Level(const string &file, const string &name) : cases()
 {
     if (name.empty())
         infos.name = file;
@@ -173,7 +173,7 @@ bool Level::setSizeFromLine(const string &line, const sf::Vector2i &oldSize)
     return false;
 }
 
-void Level::setiNbOfCatsFromText(const std::string &text)
+void Level::setiNbOfCatsFromText(const string &text)
 {
     unsigned int number = gv.textToNb(text);
     if (number < 0 || number > nbOfCasetype(NOTHING))
@@ -182,7 +182,7 @@ void Level::setiNbOfCatsFromText(const std::string &text)
     cout << "Number of cats set to " << number << " for this level.\n";
 }
 
-void Level::setNbOfRandomWallsFromText(const std::string &text)
+void Level::setNbOfRandomWallsFromText(const string &text)
 {
     unsigned int number = gv.textToNb(text);
     if (number == 0)
@@ -322,7 +322,7 @@ CASETYPE Level::getCaseType(const unsigned int &x, const unsigned int &y) const
 
 sf::Image *Level::charToImage(const char &character)
 {
-    std::string imgpath = "void.png";
+    string imgpath = "void.png";
     l_LesElement::iterator iter;
     for (iter = gv.baseLesElements.begin(); iter != gv.baseLesElements.end(); iter++)
         if (character == iter->character)
@@ -377,7 +377,7 @@ char Level::casetypeToChar(const CASETYPE &type)
     return character;
 }
 
- CASETYPE Level::stringToCasetype(const std::string &word)
+ CASETYPE Level::stringToCasetype(const string &word)
  {
     string temp = word;
     upperworld(temp);

@@ -8,10 +8,10 @@ Tower::Tower() : m_lowerFloorsShader(*gShaderManager.getResource("blur.sfx")),
     m_currentFloor(0), m_stairsDescriptionFlag(stairsDescriptionDefaultFlag),
     m_LesChanged(true)
 {
-    temp.Create(gv.SCREEN_W, gv.SCREEN_H);
-    temp2.Create(gv.SCREEN_W, gv.SCREEN_H);
+    /*temp.Create(SCREEN_W, SCREEN_H);
+    temp2.Create(SCREEN_W, SCREEN_H);
     previousFloorsRender.Create(gv.SCREEN_W, gv.SCREEN_H);
-    previousFloorsRenderResult.SetImage(previousFloorsRender.GetImage());
+    previousFloorsRenderResult.SetImage(previousFloorsRender.GetImage()); WRONG */
 }
 
 Tower::~Tower()
