@@ -16,7 +16,7 @@ HudManager::HudManager() : m_gamestart(true)
         remainingLifes.SetImage(remainingLifesTarget.GetImage());
 }
 
-void HudManager::createHud(const sf::Vector2i &levelSize)
+void HudManager::createHud(const Vector2i &levelSize)
 {
     Vector2i screenRealSize(levelSize.x * CASE_SIZE, levelSize.y * CASE_SIZE);
     renderTarget.Create(screenRealSize.x, HUD_HEIGHT);
@@ -124,7 +124,7 @@ bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
             remainingLifesTarget.Display();
             return true;
         }
-        sf::Sprite temp(*gImageManager.getResource("lifes.png"));
+        Sprite temp(*gImageManager.getResource("lifes.png"));
         const float space = temp.GetImage()->GetWidth() + HUD_SPACE_BETWEEN_LIFES;
         remainingLifesTarget.Create(int(space*remainingLifesNb), int(temp.GetImage()->GetHeight()));
         remainingLifesTarget.Clear(Color(0, 0, 0, 0));
