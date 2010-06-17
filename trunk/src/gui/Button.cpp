@@ -21,7 +21,7 @@ Button::Button(const std::string &name, const sf::Vector2f &pos,
 Button::Button(const std::string &name, const float &y, const sf::Vector2f &size,
                const float &border) : m_text(name)
 {
-    const float &x = gv.SCREEN_W / 2 - size.x / 2;
+    const float &x = SCREEN_W / 2 - size.x / 2;
     m_rand = sf::Shape::Rectangle(x + border, y + border, size.x-border,
         size.y - border, sf::Color(0,0,0,0), border, BUTTON_DEFAULT_COLOR);
     m_text.SetCharacterSize(35);

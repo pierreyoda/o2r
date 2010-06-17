@@ -3,7 +3,14 @@
 
 #include <vector>
 #include <string>
-//#include <boost/program_options.hpp>
+
+struct Argument
+{
+    Argument(const std::string &name, const std::string &value) : name(name),
+        value(value) { }
+
+    std::string name, value;
+};
 
 class ProgramOptions
 {
@@ -11,11 +18,20 @@ class ProgramOptions
         ProgramOptions();
         ~ProgramOptions();
 
-        bool loadOptions(const int &argc, char *argv[], bool &vsync,
-                            unsigned int &limitfps, std::vector<std::string> &modules);
+        int valueInt(const std::string &key, const int &defaultValue) const;
+        bool valueBool(const std::string &key, const bool &defaultValue) const;
+        std::string valueString(const std::string &key, const std::string &defaultValue) const;
+        void valueVector(std::vector<std::string> &vector, const std::string &key,
+                         const bool areDirs = false);
+
+        bool parseCommandLine(const unsigned int &argc, char *argv[]);
 
     private:
-        //boost::program_options::options_description desc;
+        bool stringToBool(const std::string &text) const;
+        unsigned int getArgIdFromName(const std::string &name) const;
+        Argument parseArgument(const std::string &argument) const;
+
+        std::vector<Argument> args;
 };
 
 #endif /* PROGRAMOPTIONS_HPP */

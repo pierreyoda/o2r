@@ -8,30 +8,28 @@ const Color HUD_BACKGROUND_COLOR(0, 128, 128);
 
 HudManager::HudManager() : m_gamestart(true)
 {
-    renderTarget.Create(gv.SCREEN_W, HUD_HEIGHT);
+    renderTarget.Create(SCREEN_W, HUD_HEIGHT);
         renderResult.SetImage(renderTarget.GetImage());
-        renderResult.SetPosition(0, gv.SCREEN_H-HUD_HEIGHT);
-    remainingLifesTarget.Create(gv.SCREEN_W,
+        renderResult.SetPosition(0, SCREEN_H-HUD_HEIGHT);
+    remainingLifesTarget.Create(SCREEN_W,
                 gImageManager.getResource("lifes.png")->GetHeight());
         remainingLifes.SetImage(remainingLifesTarget.GetImage());
 }
 
-// TODO (Pierre-Yves#1#): [HUD] Corriger le bug d'affichage en taille X non standart
 void HudManager::createHud(const sf::Vector2i &levelSize)
 {
     Vector2i screenRealSize(levelSize.x * CASE_SIZE, levelSize.y * CASE_SIZE);
     renderTarget.Create(screenRealSize.x, HUD_HEIGHT);
-    renderResult.SetPosition(0, screenRealSize.y);
+    renderResult = Sprite(renderTarget.GetImage(), Vector2f(0.f, screenRealSize.y));
     Vector2f refPos(0, 0);
-    sf::FloatRect rect(refPos, Vector2f(gv.SCREEN_W, gv.SCREEN_H));
 
     score.SetPosition(refPos);
         score.SetString("Score: " + gv.nbToText(gv.score));
-    nbOfCats.SetPosition(gv.SCREEN_W-130.f, refPos.y);
+    nbOfCats.SetPosition(SCREEN_W-130.f, refPos.y);
     // Editor
     Vector2f posBlock(refPos);
-    Vector2f posWall(gv.SCREEN_W/2-40.f, refPos.y);
-    Vector2f posMouse(gv.SCREEN_W-80.f, refPos.y);
+    Vector2f posWall(SCREEN_W/2-40.f, refPos.y);
+    Vector2f posMouse(SCREEN_W-80.f, refPos.y);
     editorBlock.SetPosition(posBlock);
         editorBlock.SetString("1 : ");
     editorWall.SetPosition(posWall);
@@ -136,7 +134,7 @@ bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
             remainingLifesTarget.Draw(temp);
         }
         remainingLifesTarget.Display();
-        remainingLifes.SetX((gv.SCREEN_W/2 - remainingLifes.GetImage()->GetWidth()/2));
+        remainingLifes.SetX((SCREEN_W/2 - remainingLifes.GetImage()->GetWidth()/2));
 
         return true;
     }
@@ -170,7 +168,7 @@ void HudManager::drawFps(RenderTarget &target, const float &fpsCount)
         if (resetpos)
         {
             Vector2f size(text.GetRect().Width, text.GetRect().Height);
-            text.SetPosition(gv.SCREEN_W-size.x, gv.SCREEN_H-size.y);
+            text.SetPosition(SCREEN_W-size.x, SCREEN_H-size.y);
             resetpos = false;
         }
         refreshClock.Reset();

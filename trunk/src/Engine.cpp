@@ -11,7 +11,7 @@ using namespace sf;
 // TODO (Pierre-Yves#6#): Créer campagne
 Engine::Engine(sf::RenderWindow &window, const bool &vsync,
     const unsigned int &fpslimit) : App(window), game(), cats(game.getCatsList()),
-    mouse(game.getMouse()), gameView(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H)),
+    mouse(game.getMouse()), gameView(FloatRect(0, 0, SCREEN_W, SCREEN_H)),
     running(true), resume(false), quitToMainMenu(false)
 {
     App.UseVerticalSync(vsync);
@@ -61,6 +61,7 @@ bool Engine::loadLevel(const std::string &filename)
     {
         resetView();
         hud.createHud(game.getLevel().getInfos().size);
+        hud.newGameStarted();
         gv.sizeChanged = false;
     }
     return ok;
@@ -155,7 +156,7 @@ void Engine::runGame()
                     resetView();
                 else if (Event.Key.Code == Key::E)
                 {
-                    gameView.Reset(FloatRect(0, 0, gv.SCREEN_W, gv.SCREEN_H));
+                    gameView.Reset(FloatRect(0, 0, SCREEN_W, SCREEN_H));
                     gameView.SetCenter(mouse.pos().x * CASE_SIZE, mouse.pos().y * CASE_SIZE);
                 }
                 if (Event.Key.Code == Key::Up)
@@ -176,7 +177,6 @@ void Engine::runGame()
         App.Clear();
 
         game.renderTower(App);
-       // App.Draw(game.getLevel().getRenderResult());
         for (unsigned int i = 0; i < cats.size(); i++)
             App.Draw(cats[i].sprite());
         App.Draw(mouse.sprite());

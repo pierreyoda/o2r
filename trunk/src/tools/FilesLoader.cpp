@@ -38,6 +38,7 @@ bool FilesLoader::loadModules(const vector<string> &modules,
     if (modules.size() <= 1)
     {
         cout << "No module(s) specified : skipping step.\n";
+        cout << "Preloading time : " << clock.GetElapsedTime() << "s\n";
         return true;
     }
     cout << "\n";

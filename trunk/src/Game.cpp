@@ -1,10 +1,11 @@
 #include <iostream>
 #include "Game.hpp"
 #include "TowerFileInterpreter.hpp"
+#include "tools/FilesLoader.hpp"
 
 using namespace sf;
 
-// TODO (Pierre-Yves#1#): [TOWER] Ajouter 'initializeFloor' (--> facile : initializeGame() avec nb chats perso et reset(floor) du pointeur) à Game avec nbChats/niveau au niveau de Tower
+// TODO (Pierre-Yves#1#): [TOWER] Ajouter 'initializeFloor' (--> facile : initializeGame() avec nb chats perso et reset(floor) du pointeur) à Game
 Game::Game() : currentLevel(new Level()), tower(new Tower()), cats(),
     mouse(currentLevel, cats), inTower(false)
 {
@@ -67,7 +68,7 @@ bool Game::saveLevel(const std::string &filename)
 
 bool Game::loadLevel(const std::string &filename)
 {
-    if (filename == "")
+    if (filename.empty() || !FilesLoader::fileExists(filename))
         return false;
     gv.lesElements.clear();
     currentLevel.reset(new Level(filename));
