@@ -146,22 +146,6 @@ bool whatIsBetterCaseForCat(const posSecurityValue &a, const posSecurityValue &b
 bool Cat::getRandomMove(sf::Vector2i &result, const Level &lvl,
                         const l_cats &cats, const sf::Vector2i &mousePos)
 {
-    /*static const unsigned int tries = 10;
-    sf::Vector2i offset(0, 0), temp;
-    for (unsigned int i = 0; i < tries; i++)
-    {
-        offset.x = sf::Randomizer::Random(-1, 1),
-        offset.y = sf::Randomizer::Random(-1, 1);
-        temp = m_pos + offset;
-        if (!outOfScreen(temp, lvl.getInfos().size)
-                && lvl.getCaseType(temp) == NOTHING
-                && !catOnTheWay(temp, cats))
-        {
-            result = temp;
-            return true;
-        }
-    }
-    return false;*/
     std::list<posSecurityValue> l_pounds;
     for (int i = -1; i <= 1; i++)
     {
