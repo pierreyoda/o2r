@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="icon">dataprivate/icon.png</file>
+        <file alias="translate_fr">dataprivate/o2r-gui_fr.qm</file>
+        <file alias="warning">dataprivate/warning.png</file>
+    </qresource>
+</RCC>
