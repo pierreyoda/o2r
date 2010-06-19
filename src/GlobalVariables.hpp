@@ -28,7 +28,7 @@ struct GlobalVariables
     ~GlobalVariables();
 
     bool debugMode, sizeChanged;
-    unsigned int score;
+    unsigned int score, mouseNbOfLives;
     const unsigned int catsCannotMoveNbBeforeDead;
     std::string windowTitle;
     l_LesElement baseLesElements, lesElements;

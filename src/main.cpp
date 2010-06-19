@@ -5,6 +5,7 @@ extern "C"
     #include <time.h> // Warning => C code
 }
 #include "Engine.hpp"
+#include "LauncherEditionEngine.hpp"
 #include "tools/FilesLoader.hpp"
 #include "tools/ProgramOptions.hpp"
 #include "gui/ErrorScreens.hpp"
@@ -46,18 +47,21 @@ int main(int argc, char *argv[])
     options.parseCommandLine(argc, argv);
     gv.debugMode = options.valueBool("d", false);
     if (gv.debugMode)
-        cout << "\t- Debug mode enabled.\n";
-    bool vsync = options.valueBool("vsync", true);
+        cout << "\tDebug mode enabled.\n";
+    const bool vsync = options.valueBool("vsync", true);
     if (!vsync)
-        cout << "\t- V. sync disabled.\n";
+        cout << "\tV. sync disabled.\n";
     int limitfps = options.valueInt("limitfps", 60);
     if (limitfps < 0)
         limitfps = 60;
     if (limitfps == 0)
-        cout << "\t- FPS limit disabled.\n";
+        cout << "\tFPS limit disabled.\n";
     else if (limitfps != 60)
-        cout << "\t- FPS limit set to " << limitfps << ".\n";
+        cout << "\tFPS limit set to " << limitfps << ".\n";
     options.valueVector(modules, "mods", true);
+    bool le = options.valueBool("LE", false);
+    if (le)
+        cout << "\tLauncher edition used.\n";
     cout << "\n";
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H, 32),
@@ -73,10 +77,40 @@ int main(int argc, char *argv[])
         return EXIT_FAILURE;
     }
 
-    cout << "\nInitializing game engine.\n";
-    Engine engine(window, vsync, limitfps);
-    cout << "Launching game engine.\n";
-    engine.run();
+    if (!le)
+    {
+        cout << "\nInitializing game engine.\n";
+        Engine engine(window, vsync, limitfps);
+        cout << "Launching game engine.\n";
+        engine.run();
+    }
+    else
+    {
+        const bool game = options.valueBool("game", true);
+        string level = options.valueString("level", "data/1.txt");
+        cout << "\nInitializing engine.\n";
+        LauncherEditionEngine engine(window, vsync, limitfps);
+        if (game)
+        {
+            const int nbOfCats = options.valueInt("nbOfCats", -1),
+                nbOfRW = options.valueInt("nbOfRW", -1),
+                nbOfLives = options.valueInt("nbOfLives", DEFAULT_NB_OF_LIVES);
+            if (nbOfLives >= 0)
+                gv.mouseNbOfLives = nbOfLives;
+            engine.runAsGame(level, nbOfCats, nbOfRW);
+        }
+        else
+        {
+            const sf::Vector2i size(options.valueInt("levelX", DLVL_X),
+                              options.valueInt("levelY", DLVL_Y));
+            if (options.valueBool("emptyLevel", false))
+                level = emptyLevelName;
+            const bool noWarningAtSave = options.valueBool("noWarningAtSave",
+                                                           false);
+            engine.runAsEditor(level, size, noWarningAtSave);
+        }
+    }
+
 
     printEndProgram(clock.GetElapsedTime());
 

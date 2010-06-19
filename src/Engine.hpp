@@ -40,7 +40,6 @@ class Engine
         HudManager hud;
         Menu mainMenu, gameMenu, editorMenu;
         sf::View gameView;
-        int gameViewZoomFactor;
         bool running, resume, quitToMainMenu;
 };
 

@@ -2,7 +2,7 @@
 #include "constantes.hpp"
 
 Mouse::Mouse(levelPtr &level, l_cats &lcats) : Object(), lvl(level), cats(lcats),
-    m_remainingLifes(DEFAULT_NB_OF_LIFES), m_dead(false)
+    m_remainingLifes(gv.mouseNbOfLives), m_dead(false)
 {
     setImage(*gImageManager.getResource("mouse.png"));
 }
@@ -25,7 +25,7 @@ void Mouse::die()
 
 void Mouse::revive()
 {
-    m_remainingLifes = DEFAULT_NB_OF_LIFES;
+    m_remainingLifes = gv.mouseNbOfLives;
     m_dead = false;
 }
 

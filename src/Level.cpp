@@ -38,7 +38,9 @@ void LevelCase::updateImage()
         drawable.setImage(*img);
 }
 
-Level::Level(const string &file, const string &name) : cases()
+Level::Level(const string &file, const string &name,
+    const sf::Vector2i &sizeIfEmpty, const int persoNbOfCats,
+    const int persoNbOfRW) : cases()
 {
     if (name.empty())
         infos.name = file;
@@ -47,8 +49,17 @@ Level::Level(const string &file, const string &name) : cases()
     infos.filename = file, infos.randomWallsNb = 0, infos.hasChanged = true;
     infos.iCatsNb = infos.catsNb = DEFAULTNB_OF_CAT;
     if (file == emptyLevelName || !readLevelFile())
+    {
+        if (infos.size.x >= 5 && infos.size.y >= 5)
+            infos.size = sizeIfEmpty;
+        else
+            infos.size.x = DLVL_X, infos.size.y = DLVL_Y;
         fillWithNothingType();
-
+    }
+    if (persoNbOfCats >= 0)
+        infos.iCatsNb = infos.catsNb = persoNbOfCats;
+    if (persoNbOfRW >= 0)
+        infos.randomWallsNb = persoNbOfRW;
     renderTarget.Create(infos.size.x * CASE_SIZE, infos.size.y * CASE_SIZE);
     renderResult.SetImage(renderTarget.GetImage());
 }
@@ -199,7 +210,6 @@ void Level::fillWithNothingType()
         cases[i].clear();
     cases.clear();
 
-    infos.size.x = DLVL_X, infos.size.y = DLVL_Y;
     for (unsigned int i = 0; i < (unsigned int)infos.size.y; i++)
     {
         cases.push_back(vector<LevelCase>());
@@ -288,7 +298,7 @@ unsigned int Level::nbOfCasetype(const CASETYPE &casetype) const
 
 void Level::setCaseType(const sf::Vector2i &pos, const CASETYPE &type)
 {
-    if (noCaseThere(pos))
+    if (noCaseThere(pos) || type == cases[pos.y][pos.x].type)
         return;
     cases[pos.y][pos.x].character = casetypeToChar(type);
     cases[pos.y][pos.x].type = type;

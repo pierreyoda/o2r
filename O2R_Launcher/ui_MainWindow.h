@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MainWindow.ui'
 **
-** Created: Fri 18. Jun 14:16:09 2010
+** Created: Sat 19. Jun 17:17:43 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -75,6 +75,7 @@ public:
     QLabel *label_4;
     QLabel *label_5;
     QCheckBox *noWarningAtSave;
+    QLabel *label_6;
     QGroupBox *groupBox_3;
     QLineEdit *browseLesEdit;
     QToolButton *browseLesButton;
@@ -86,6 +87,7 @@ public:
     QHBoxLayout *horizontalLayout_5;
     QCheckBox *defineFpsLimitBox;
     QSpinBox *fpsLimitSpinBox;
+    QPushButton *editModsButton;
     QMenuBar *menuBar;
     QMenu *menuFile;
     QMenu *menuLanguage;
@@ -244,30 +246,33 @@ public:
         groupBox_2->setObjectName(QString::fromUtf8("groupBox_2"));
         emptyLevelBox = new QCheckBox(groupBox_2);
         emptyLevelBox->setObjectName(QString::fromUtf8("emptyLevelBox"));
-        emptyLevelBox->setGeometry(QRect(10, 60, 111, 21));
+        emptyLevelBox->setGeometry(QRect(10, 50, 111, 21));
         levelXSpinBox = new QSpinBox(groupBox_2);
         levelXSpinBox->setObjectName(QString::fromUtf8("levelXSpinBox"));
-        levelXSpinBox->setGeometry(QRect(10, 100, 42, 22));
+        levelXSpinBox->setGeometry(QRect(10, 90, 42, 22));
         levelXSpinBox->setMinimum(5);
         levelXSpinBox->setMaximum(999);
         levelYSpinBox = new QSpinBox(groupBox_2);
         levelYSpinBox->setObjectName(QString::fromUtf8("levelYSpinBox"));
-        levelYSpinBox->setGeometry(QRect(60, 100, 42, 22));
+        levelYSpinBox->setGeometry(QRect(60, 90, 42, 22));
         levelYSpinBox->setMinimum(5);
         levelYSpinBox->setMaximum(999);
         label_4 = new QLabel(groupBox_2);
         label_4->setObjectName(QString::fromUtf8("label_4"));
-        label_4->setGeometry(QRect(10, 80, 46, 13));
+        label_4->setGeometry(QRect(10, 70, 46, 13));
         label_5 = new QLabel(groupBox_2);
         label_5->setObjectName(QString::fromUtf8("label_5"));
-        label_5->setGeometry(QRect(60, 80, 46, 13));
+        label_5->setGeometry(QRect(60, 70, 46, 13));
         noWarningAtSave = new QCheckBox(groupBox_2);
         noWarningAtSave->setObjectName(QString::fromUtf8("noWarningAtSave"));
-        noWarningAtSave->setGeometry(QRect(10, 10, 261, 51));
+        noWarningAtSave->setGeometry(QRect(10, 0, 261, 51));
         QIcon icon1;
         icon1.addFile(QString::fromUtf8(":/warning"), QSize(), QIcon::Normal, QIcon::Off);
         noWarningAtSave->setIcon(icon1);
         noWarningAtSave->setIconSize(QSize(16, 13));
+        label_6 = new QLabel(groupBox_2);
+        label_6->setObjectName(QString::fromUtf8("label_6"));
+        label_6->setGeometry(QRect(0, 110, 151, 31));
 
         gridLayout_2->addWidget(groupBox_2, 1, 2, 1, 1);
 
@@ -287,7 +292,7 @@ public:
         label->setGeometry(QRect(10, 20, 111, 16));
         layoutWidget2 = new QWidget(groupBox_3);
         layoutWidget2->setObjectName(QString::fromUtf8("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(10, 60, 151, 81));
+        layoutWidget2->setGeometry(QRect(10, 60, 152, 81));
         verticalLayout_2 = new QVBoxLayout(layoutWidget2);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -322,6 +327,9 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout_5);
 
+        editModsButton = new QPushButton(groupBox_3);
+        editModsButton->setObjectName(QString::fromUtf8("editModsButton"));
+        editModsButton->setGeometry(QRect(200, 90, 131, 31));
 
         mainLayout->addWidget(groupBox_3);
 
@@ -393,6 +401,7 @@ public:
         noWarningAtSave->setToolTip(QApplication::translate("MainWindow", "WARNING : can be dangerous, caution when it is enabled", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         noWarningAtSave->setText(QApplication::translate("MainWindow", "No warning at save", 0, QApplication::UnicodeUTF8));
+        label_6->setText(QApplication::translate("MainWindow", "+ See game settings", 0, QApplication::UnicodeUTF8));
         groupBox_3->setTitle(QApplication::translate("MainWindow", "Global Settings", 0, QApplication::UnicodeUTF8));
         browseLesButton->setText(QApplication::translate("MainWindow", "...", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "LES file (*.xml)", 0, QApplication::UnicodeUTF8));
@@ -407,8 +416,9 @@ public:
 #ifndef QT_NO_TOOLTIP
         defineFpsLimitBox->setToolTip(QApplication::translate("MainWindow", "This will limit the FPS (0 = no limit)", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
-        defineFpsLimitBox->setText(QApplication::translate("MainWindow", "FPS limit :", 0, QApplication::UnicodeUTF8));
+        defineFpsLimitBox->setText(QApplication::translate("MainWindow", "Set FPS  limit :", 0, QApplication::UnicodeUTF8));
         fpsLimitSpinBox->setPrefix(QString());
+        editModsButton->setText(QApplication::translate("MainWindow", "Edit mods to use", 0, QApplication::UnicodeUTF8));
         menuFile->setTitle(QApplication::translate("MainWindow", "Launcher", 0, QApplication::UnicodeUTF8));
         menuLanguage->setTitle(QApplication::translate("MainWindow", "Language", 0, QApplication::UnicodeUTF8));
         menuGame->setTitle(QApplication::translate("MainWindow", "Game", 0, QApplication::UnicodeUTF8));

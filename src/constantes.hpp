@@ -18,14 +18,14 @@ const unsigned int DEFAULTNB_OF_CAT = 3;
 const unsigned int NBOF_CATS_CANNOT_MOVE_BEFORE_DEAD = 3;
 const unsigned int DEFAULT_RESPAWN_SECURITYLVL = 30;
 const unsigned int HUD_SPACE_BETWEEN_LIFES = 5;
-const unsigned int DEFAULT_NB_OF_LIFES = 3;
+const unsigned int DEFAULT_NB_OF_LIVES = 3;
 const float CAT_SPEED = 0.75f;
 const bool ORIGIN_AT_CENTER = false;
 const bool USE_WINDOWGUI = USE_GUIFRAMEWORK;
 const float BUTTON_DEFAULT_BORDER = 8.f;
 const char stairsDescriptionDefaultFlag = ':';
 const std::string baseModule = "data/base/";
-const std::string gameVersion = "0.6";
+const std::string gameVersion = "0.7-BETA";
 const std::string emptyLevelName = "*empty*";
 
 enum CASETYPE
