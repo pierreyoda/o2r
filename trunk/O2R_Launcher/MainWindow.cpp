@@ -1,15 +1,19 @@
+#include <QProcess>
 #include <QFileDialog>
 #include <QLibraryInfo>
+#include <QMessageBox>
 #include "MainWindow.hpp"
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
-defaultLanguage("en"), settings("settings.ini", QSettings::IniFormat, this),
+    defaultLanguage("en"), settings("settings.ini", QSettings::IniFormat, this),
     language(defaultLanguage)
 {
     setupUi(this);
     mainWidget->setLayout(mainLayout);
     setFixedSize(480, 420);
     browseEdit->setText(tr("Choose a level file"));
+    editModsDialog = new EditModsDialog(gameMainFolder, this);
+    aboutDialog = new AboutDialog(this);
     loadSettings();
 
     connect(defineCatsNumberBox, SIGNAL(toggled(bool)), numberOfCatsSpinBox,
@@ -20,6 +24,52 @@ defaultLanguage("en"), settings("settings.ini", QSettings::IniFormat, this),
             SLOT(setEnabled(bool)));
     connect(defineFpsLimitBox, SIGNAL(toggled(bool)), fpsLimitSpinBox,
             SLOT(setEnabled(bool)));
+    connect(editModsDialog, SIGNAL(rejected()), editModsDialog,
+            SLOT(restoreListFromBackup()));
+}
+
+void MainWindow::launch_O2R(const bool &game)
+{
+    QProcess *process = new QProcess(this);
+    QString program = gameMainFolder + "/OpenRodentsRevenge.exe";
+    QStringList arguments;
+    arguments << "-LE" << "-vsync=" + QString::number(enableVSyncBox
+                                                      ->isChecked());
+    if (defineFpsLimitBox->isChecked())
+        arguments << "-limitfps=" + QString::number(fpsLimitSpinBox->value());
+    if (debugModeBox->isChecked())
+        arguments << "-d";
+    arguments << "-game=" + QString::number(game)
+            << "-level=" + browseEdit->text();
+    if (!editModsDialog->noMods())
+        arguments << "-mods=" + editModsDialog->mods().join(";");
+    if (game)
+    {
+        if (defineCatsNumberBox->isChecked())
+            arguments << "-nbOfCats=" + QString::number(numberOfCatsSpinBox
+                                                        ->value());
+        if (defineRWNumberBox->isChecked())
+            arguments << "-nbOfRW=" + QString::number(numberOfRWSpinBox
+                                                      ->value());
+        if (defineLivesNumberBox->isChecked())
+            arguments << "-nbOfLives=" + QString::number(numberOfLivesSpinBox
+                                                        ->value());
+    }
+    else
+    {
+        if (emptyLevelBox->isChecked())
+        {
+            arguments << "-emptyLevel" << "-levelX="
+                    + QString::number(levelXSpinBox->value())
+                << "-levelY=" + QString::number(levelYSpinBox->value());
+        }
+    }
+    if (!process->startDetached(program, arguments, gameMainFolder))
+    {
+        QMessageBox::critical(this, tr("Game launching error"),
+              tr("Failed to launch the game, please check the game location")
+              + "<br />" + tr("Cannot found : ") + program);
+    }
 }
 
 void MainWindow::loadSettings()
@@ -68,6 +118,9 @@ void MainWindow::loadSettings()
     // FPS limit
     loadOptionSet("defineFpsLimit", "fpsLimit", defineFpsLimitBox,
                   fpsLimitSpinBox);
+    // Mods list
+    QString mods = settings.value("mods", "").toString();
+    editModsDialog->setList(mods.split(";"));
 
     settings.endGroup();
 }
@@ -117,6 +170,7 @@ void MainWindow::saveSettings()
     settings.setValue("enableVSync", enableVSyncBox->isChecked());
     settings.setValue("defineFpsLimit", defineFpsLimitBox->isChecked());
     settings.setValue("fpsLimit", fpsLimitSpinBox->value());
+    settings.setValue("mods", editModsDialog->mods().join(";"));
     settings.endGroup();
 }
 
@@ -136,6 +190,11 @@ void MainWindow::setTranslation(const QString &newlanguage)
 
     QCoreApplication::installTranslator(&generalTranslator);
     QCoreApplication::installTranslator(&translator);
+}
+
+void MainWindow::on_editModsButton_clicked()
+{
+    editModsDialog->exec();
 }
 
 void MainWindow::on_actionLocation_triggered()

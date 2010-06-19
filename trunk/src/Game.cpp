@@ -66,12 +66,15 @@ bool Game::saveLevel(const std::string &filename)
     return currentLevel->writeLevel(filename);
 }
 
-bool Game::loadLevel(const std::string &filename)
+bool Game::loadLevel(const std::string &filename, const Vector2i &sizeIfEmpty,
+    const int persoNbOfCats, const int persoNbOfRW)
 {
-    if (filename.empty() || !FilesLoader::fileExists(filename))
+    if (filename.empty() || (filename != emptyLevelName &&
+                             !FilesLoader::fileExists(filename)))
         return false;
     gv.lesElements.clear();
-    currentLevel.reset(new Level(filename));
+    currentLevel.reset(new Level(filename, "", sizeIfEmpty, persoNbOfCats,
+                                 persoNbOfRW));
     mouse.updateLevelPtr(currentLevel);
     inTower = false;
     initializeGame(true);

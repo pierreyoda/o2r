@@ -4,6 +4,8 @@
 #include <QSettings>
 #include <QTranslator>
 #include "ui_MainWindow.h"
+#include "EditModsDialog.hpp"
+#include "AboutDialog.hpp"
 
 class MainWindow : public QMainWindow, private Ui::MainWindow {
     Q_OBJECT
@@ -15,10 +17,25 @@ protected:
     void closeEvent(QCloseEvent *e);
 
 private slots:
+    void on_actionAbout_triggered()
+    {
+        aboutDialog->show();
+    }
+
     void on_actionAboutQt_triggered()
     {
         qApp->aboutQt();
     }
+    void on_gameButton_clicked()
+    {
+        launch_O2R(true);
+    }
+    void on_editorButton_clicked()
+    {
+        launch_O2R(false);
+    }
+    void on_editModsButton_clicked();
+    void launch_O2R(const bool &game);
     void on_actionLocation_triggered();
     void on_actionEnglish_triggered(const bool &state);
     void on_actionFrench_triggered(const bool &state);
@@ -41,6 +58,8 @@ private:
     QTranslator translator;
     QSettings settings;
     QString language, currentBrowseFolder, gameMainFolder;
+    EditModsDialog *editModsDialog;
+    AboutDialog *aboutDialog;
 };
 
 #endif /* MAINWINDOW_HPP */

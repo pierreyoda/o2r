@@ -76,6 +76,8 @@
 		<Unit filename="src\Game.hpp" />
 		<Unit filename="src\GlobalVariables.cpp" />
 		<Unit filename="src\GlobalVariables.hpp" />
+		<Unit filename="src\LauncherEditionEngine.cpp" />
+		<Unit filename="src\LauncherEditionEngine.hpp" />
 		<Unit filename="src\Level.cpp" />
 		<Unit filename="src\Level.hpp" />
 		<Unit filename="src\Mouse.cpp" />

@@ -226,7 +226,7 @@
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>60</y>
+            <y>50</y>
             <width>111</width>
             <height>21</height>
            </rect>
@@ -239,7 +239,7 @@
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>100</y>
+            <y>90</y>
             <width>42</width>
             <height>22</height>
            </rect>
@@ -258,7 +258,7 @@
           <property name="geometry">
            <rect>
             <x>60</x>
-            <y>100</y>
+            <y>90</y>
             <width>42</width>
             <height>22</height>
            </rect>
@@ -277,7 +277,7 @@
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>80</y>
+            <y>70</y>
             <width>46</width>
             <height>13</height>
            </rect>
@@ -290,7 +290,7 @@
           <property name="geometry">
            <rect>
             <x>60</x>
-            <y>80</y>
+            <y>70</y>
             <width>46</width>
             <height>13</height>
            </rect>
@@ -303,7 +303,7 @@
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>10</y>
+            <y>0</y>
             <width>261</width>
             <height>51</height>
            </rect>
@@ -323,6 +323,19 @@
             <width>16</width>
             <height>13</height>
            </size>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_6">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>110</y>
+            <width>151</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>+ See game settings</string>
           </property>
          </widget>
         </widget>
@@ -375,7 +388,7 @@
          <rect>
           <x>10</x>
           <y>60</y>
-          <width>151</width>
+          <width>152</width>
           <height>81</height>
          </rect>
         </property>
@@ -408,7 +421,7 @@
               <string>This will limit the FPS (0 = no limit)</string>
              </property>
              <property name="text">
-              <string>FPS limit :</string>
+              <string>Set FPS  limit :</string>
              </property>
             </widget>
            </item>
@@ -431,6 +444,19 @@
           </layout>
          </item>
         </layout>
+       </widget>
+       <widget class="QPushButton" name="editModsButton">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>90</y>
+          <width>131</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Edit mods to use</string>
+        </property>
        </widget>
       </widget>
      </item>

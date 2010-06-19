@@ -20,7 +20,9 @@ class Game
         void update();
         bool loadTower(const std::string &filename);
         bool saveLevel(const std::string &filename);
-        bool loadLevel(const std::string &filename);
+        bool loadLevel(const std::string &filename,
+                const sf::Vector2i &sizeIfEmpty = sf::Vector2i(DLVL_X, DLVL_Y),
+                const int persoNbOfCats = -1, const int persoNbOfRW = -1);
             void initializeGame(const bool &newlvl = false);
         void updateCats(const bool &astar);
         void clearCase(const sf::Vector2f &mousepos);

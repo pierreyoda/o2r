@@ -48,7 +48,7 @@ void HudManager::createHud(const Vector2i &levelSize)
         img.CreateMaskFromColor(Color(128, 128, 0));
 
     remainingLifes.SetY(refPos.y + HUD_HEIGHT/3);
-    updateNbOfRemainingLifes(DEFAULT_NB_OF_LIFES);
+    updateNbOfRemainingLifes(DEFAULT_NB_OF_LIVES);
 
 }
 

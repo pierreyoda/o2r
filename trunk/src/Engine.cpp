@@ -1,5 +1,4 @@
 #include <iostream>
-#include <sstream>
 #include "Engine.hpp"
 #include "GlobalVariables.hpp"
 #include "gui/TextBox.hpp"
