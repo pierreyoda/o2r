@@ -2,6 +2,7 @@
 #define HUDMANAGER_HPP
 
 #include <SFML/Graphics.hpp>
+#include "../GlobalVariables.hpp"
 
 class HudManager
 {
@@ -13,7 +14,8 @@ class HudManager
 
         const sf::Sprite &drawHud(const unsigned int &catsNb,
             const unsigned int &remainingLifesNb, const bool &inGame = true);
-        static void drawFps(sf::RenderTarget &target, const float &fpsCount);
+        static void drawFps(sf::RenderTarget &target, const float &fpsCount,
+                const sf::Vector2i &screenSize = sf::Vector2i(SCREEN_W, SCREEN_H));
 
     private:
         bool updateScore();

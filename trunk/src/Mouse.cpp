@@ -4,7 +4,7 @@
 Mouse::Mouse(levelPtr &level, l_cats &lcats) : Object(), lvl(level), cats(lcats),
     m_remainingLifes(gv.mouseNbOfLives), m_dead(false)
 {
-    setImage(*gImageManager.getResource("mouse.png"));
+    setImage(gImageManager.getResource("mouse.png"));
 }
 
 Mouse::~Mouse()

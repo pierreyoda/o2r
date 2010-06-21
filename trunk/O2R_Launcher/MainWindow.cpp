@@ -34,13 +34,14 @@ void MainWindow::launch_O2R(const bool &game)
     QString program = gameMainFolder + "/OpenRodentsRevenge.exe";
     QStringList arguments;
     arguments << "-LE" << "-vsync=" + QString::number(enableVSyncBox
-                                                      ->isChecked());
+                                                      ->isChecked())
+            << "-adjustWindowSize=" + QString::number(adjustWindowSizeBox
+                                                      ->isChecked())
+            << "-d=" + QString::number(debugModeBox->isChecked());
     if (defineFpsLimitBox->isChecked())
         arguments << "-limitfps=" + QString::number(fpsLimitSpinBox->value());
-    if (debugModeBox->isChecked())
-        arguments << "-d";
     arguments << "-game=" + QString::number(game)
-            << "-level=" + browseEdit->text();
+            << "-level=" + browseEdit->text() << "-les=" + browseLesEdit->text();
     if (!editModsDialog->noMods())
         arguments << "-mods=" + editModsDialog->mods().join(";");
     if (game)
@@ -89,9 +90,8 @@ void MainWindow::loadSettings()
     setTranslation(lang);
 
     // Folders
-    currentBrowseFolder = settings.value("currentBrowseFolder", "").toString();
-    gameMainFolder = settings.value("gameMainFolder", currentBrowseFolder)
-                     .toString();
+    gameMainFolder = settings.value("gameMainFolder", "").toString();
+    currentBrowseFolder = gameMainFolder;
     // Browse level file text
     browseEdit->setText(settings.value("levelFile", tr("Choose a level file"))
                         .toString());
@@ -115,6 +115,8 @@ void MainWindow::loadSettings()
     loadSingleOption("debugMode", debugModeBox);
     // Vertical Synchronisation
     loadSingleOption("enableVSync", enableVSyncBox);
+    // Adjust window sier
+    loadSingleOption("adjustWindowSize", adjustWindowSizeBox);
     // FPS limit
     loadOptionSet("defineFpsLimit", "fpsLimit", defineFpsLimitBox,
                   fpsLimitSpinBox);
@@ -142,9 +144,11 @@ void MainWindow::loadOptionSet(const QString &boxName, const QString &spinBoxNam
     spinBox->setValue(settings.value(spinBoxName, minimum).toInt());
     spinBox->setEnabled(state);
     box->setChecked(state);
-    if (spinBoxName2.isEmpty() || spinBox == 0)
+    if (spinBoxName2.isEmpty() || spinBox2 == 0)
         return;
-    spinBox2->setValue(settings.value(spinBoxName, minimum).toInt());
+    if (min == -9999)
+        minimum = spinBox2->minimum();
+    spinBox2->setValue(settings.value(spinBoxName2, minimum).toInt());
     spinBox2->setEnabled(state);
 }
 
@@ -155,7 +159,6 @@ void MainWindow::saveSettings()
     settings.setValue("gameMainFolder", gameMainFolder);
     settings.setValue("levelFile", browseEdit->text());
     settings.setValue("lesFile", browseLesEdit->text());
-    settings.setValue("currentBrowseFolder", currentBrowseFolder);
     settings.setValue("manualNbOfCats", defineCatsNumberBox->isChecked());
     settings.setValue("nbOfCats", numberOfCatsSpinBox->value());
     settings.setValue("manualNbOfRandomWalls", defineRWNumberBox->isChecked());
@@ -168,6 +171,7 @@ void MainWindow::saveSettings()
     settings.setValue("levelY", levelYSpinBox->value());
     settings.setValue("debugMode", debugModeBox->isChecked());
     settings.setValue("enableVSync", enableVSyncBox->isChecked());
+    settings.setValue("adjustWindowSize", adjustWindowSizeBox->isChecked());
     settings.setValue("defineFpsLimit", defineFpsLimitBox->isChecked());
     settings.setValue("fpsLimit", fpsLimitSpinBox->value());
     settings.setValue("mods", editModsDialog->mods().join(";"));
@@ -232,6 +236,7 @@ void MainWindow::on_actionFrench_triggered(const bool &state)
 void MainWindow::on_emptyLevelBox_toggled(const bool &state)
 {
     levelXSpinBox->setEnabled(state), levelYSpinBox->setEnabled(state);
+    on_browseEdit_textChanged(browseEdit->text());
 }
 
 void MainWindow::on_browseButton_clicked()
@@ -242,14 +247,18 @@ void MainWindow::on_browseButton_clicked()
                              + " (*.*);;"));
     if (filename.isEmpty())
         return;
+    filename.remove(gameMainFolder + "/");
     browseEdit->setText(filename);
     currentBrowseFolder = QFileInfo(filename).absolutePath();
 }
 
 void MainWindow::on_browseEdit_textChanged(const QString &text)
 {
-    const bool ok = (!text.isEmpty() && QFile::exists(text));
+    bool ok = (!text.isEmpty() && QFile::exists(QDir(gameMainFolder)
+                                                      .absoluteFilePath(text)));
     gameButton->setEnabled(ok);
+    if (!ok)
+        ok = emptyLevelBox->isChecked();
     editorButton->setEnabled(ok);
 }
 
@@ -260,6 +269,7 @@ void MainWindow::on_browseLesButton_clicked()
                              + " (*.xml);;" + tr("All files") + " (*.*);;"));
     if (filename.isEmpty())
         return;
+    filename.remove(gameMainFolder + "/");
     browseLesEdit->setText(filename);
     currentBrowseFolder = QFileInfo(filename).absolutePath();
 }

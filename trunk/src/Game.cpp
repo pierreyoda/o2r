@@ -6,10 +6,11 @@
 using namespace sf;
 
 // TODO (Pierre-Yves#1#): [TOWER] Ajouter 'initializeFloor' (--> facile : initializeGame() avec nb chats perso et reset(floor) du pointeur) à Game
-Game::Game() : currentLevel(new Level()), tower(new Tower()), cats(),
+Game::Game(const bool &loadDefaultLevel) : tower(new Tower()), cats(),
     mouse(currentLevel, cats), inTower(false)
 {
-    loadLevel("data/1.txt");
+    if (loadDefaultLevel)
+        loadLevel("data/1.txt");
     //loadLevel("data/logobig.txt");
 }
 
@@ -120,9 +121,9 @@ void Game::updateCats(const bool &astar)
             if (cat.moveCat(*currentLevel.get(), mouse.pos(), cats, astar) && !mouse.dead())
                 mouse.die();
             if (cat.cannotMoveNb() > 0)
-                cat.setImage(*gImageManager.getResource("cat_awaiting.png"));
+                cat.setImage(gImageManager.getResource("cat_awaiting.png"));
             else
-                cat.setImage(*gImageManager.getResource("cat.png"));
+                cat.setImage(gImageManager.getResource("cat.png"));
             if (cat.cannotMoveNb() >= gv.catsCannotMoveNbBeforeDead)
             {
                 cat.die();

@@ -10,6 +10,12 @@
     <height>240</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>320</width>
+    <height>240</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>Edit mods</string>
   </property>
@@ -43,7 +49,7 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>10</y>
+     <y>110</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -66,7 +72,7 @@
    <property name="geometry">
     <rect>
      <x>270</x>
-     <y>50</y>
+     <y>150</y>
      <width>41</width>
      <height>31</height>
     </rect>
@@ -83,6 +89,65 @@
      <width>32</width>
      <height>32</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="upButton">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>10</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/up.png</normaloff>:/up.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QToolButton" name="downButton">
+   <property name="geometry">
+    <rect>
+     <x>270</x>
+     <y>40</y>
+     <width>21</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/down.png</normaloff>:/down.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>16</width>
+     <height>16</height>
+    </size>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>180</y>
+     <width>241</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Highest : lowest priority </string>
    </property>
   </widget>
  </widget>

@@ -12,7 +12,7 @@ public:
     void setList(const QStringList &nlist)
     {
         list = nlist;
-        listModel->setStringList(list);
+        updateView();
     }
 
     bool noMods() const { return list.isEmpty(); }
@@ -28,10 +28,14 @@ protected:
 private slots:
     void on_addButton_clicked();
     void on_deleteButton_clicked();
-
+    void on_upButton_clicked();
+    void on_downButton_clicked();
 
 private:
     bool isInList(const QString &string);
+    inline int getSelectedStringId();
+    void updateView();
+    void selectLine(const unsigned int &row);
 
     QStringList list, backup;
     QStringListModel *listModel;

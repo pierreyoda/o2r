@@ -5,6 +5,7 @@ EditModsDialog::EditModsDialog(const QString &gameMainFolder, QWidget *parent) :
     QDialog(parent), gameMainFolder(gameMainFolder)
 {
     setupUi(this);
+    setFixedSize(320, 240);
     listModel = new QStringListModel(list, this);
     listView->setModel(listModel);
 }
@@ -18,19 +19,14 @@ int EditModsDialog::exec()
 void EditModsDialog::restoreListFromBackup()
 {
     list = backup;
-    listModel->setStringList(list);
+    updateView();
 }
 
 void EditModsDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
+    if (e->type() == QEvent::LanguageChange)
         retranslateUi(this);
-        break;
-    default:
-        break;
-    }
 }
 
 bool EditModsDialog::isInList(const QString &string)
@@ -41,35 +37,70 @@ bool EditModsDialog::isInList(const QString &string)
     return false;
 }
 
+int EditModsDialog::getSelectedStringId()
+{
+    return listView->currentIndex().row();
+}
+
+void EditModsDialog::updateView()
+{
+    listModel->setStringList(list);
+}
+
+void EditModsDialog::selectLine(const unsigned int &row)
+{
+    /*listView->selectionModel()->select(QModelIndex((int)row, 0, 0, 0),
+                                       QItemSelectionModel::ClearAndSelect);*/
+}
+
 void EditModsDialog::on_addButton_clicked()
 {
     QString folder(QFileDialog::getExistingDirectory(this,
                         tr("Choose a folder mod"),
                         gameMainFolder));
-    if (folder.isEmpty())
+    if (folder.isEmpty() || folder == gameMainFolder)
         return;
-//    folder = QDir(folder).relativeFilePath(folder);
-//    folder = QDir(gameMainFolder).filePath(folder);
+    folder.remove(gameMainFolder + "/");
     if (isInList(folder))
         return;
     list << folder;
-    listModel->setStringList(list);
+    updateView();
 }
 
 void EditModsDialog::on_deleteButton_clicked()
 {
-    QModelIndex index = listView->currentIndex();
-    int pos = index.column();
+    int pos = getSelectedStringId();
     if (pos < 0 || pos >= list.size())
         return;
+    QString toDelete = list[pos];
     QStringList::iterator iter;
     for (iter = list.begin(); iter != list.end(); iter++)
     {
-        if (*iter == list[pos])
+        if (*iter == toDelete)
         {
             list.erase(iter);
             break;
         }
     }
-    listModel->setStringList(list);
+    updateView();
+}
+
+void EditModsDialog::on_upButton_clicked()
+{
+    int pos = getSelectedStringId();
+    if (pos <= 0 || pos >= list.size())
+        return;
+    list.swap(pos, pos-1);
+    selectLine(pos-1);
+    updateView();
+}
+
+void EditModsDialog::on_downButton_clicked()
+{
+    int pos = getSelectedStringId();
+    if (pos < 0 || pos+1 >= list.size())
+        return;
+    list.swap(pos, pos+1);
+    selectLine(pos+1);
+    updateView();
 }

@@ -10,17 +10,17 @@
         <translation>À propos</translation>
     </message>
     <message>
-        <location filename="../AboutDialog.cpp" line="8"/>
+        <location filename="../AboutDialog.cpp" line="12"/>
         <source>Open Rodent&apos;s Revenge - Official Launcher</source>
         <translation>Open Rodent&apos;s Revenge - Lanceur Officiel</translation>
     </message>
     <message>
-        <location filename="../AboutDialog.cpp" line="10"/>
+        <location filename="../AboutDialog.cpp" line="14"/>
         <source>Copyright &amp;copy; 2010 Pierre-Yves Diallo (Pierreyoda)</source>
         <translation>Copyright &amp;comy; Pierre-Yves Diallo (Pierreyoda)</translation>
     </message>
     <message>
-        <location filename="../AboutDialog.cpp" line="12"/>
+        <location filename="../AboutDialog.cpp" line="16"/>
         <source>License : GPL 3</source>
         <translation>Licence : GPL 3</translation>
     </message>
@@ -68,7 +68,7 @@
     </message>
     <message>
         <location filename="../MainWindow.ui" line="96"/>
-        <location filename="../MainWindow.ui" line="488"/>
+        <location filename="../MainWindow.ui" line="498"/>
         <source>Game</source>
         <translation>Jeu</translation>
     </message>
@@ -92,22 +92,22 @@
         <translation>Fichier LES (*.xml)</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="424"/>
+        <location filename="../MainWindow.ui" line="434"/>
         <source>Set FPS  limit :</source>
         <translation>Fixer les IPS :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="458"/>
+        <location filename="../MainWindow.ui" line="468"/>
         <source>Edit mods to use</source>
         <translation>Choisir les mods à utiliser</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="477"/>
+        <location filename="../MainWindow.ui" line="487"/>
         <source>Launcher</source>
         <translation>Lanceur</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="543"/>
+        <location filename="../MainWindow.ui" line="553"/>
         <source>Location</source>
         <translation>Emplacement</translation>
     </message>
@@ -208,7 +208,17 @@
         <translation>Activer la Sync.Verticale</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="421"/>
+        <location filename="../MainWindow.ui" line="419"/>
+        <source>The window will expand to adjust to the level size (limited by screen&apos;s resolution)</source>
+        <translation type="unfinished">La fenêtre va s&apos;étendre pour s&apos;adapter à la taille du niveau (limité par la résolution de l&apos;écran)</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="422"/>
+        <source>Adjust window size</source>
+        <translation>Ajuster la taille de la fenêtre</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="431"/>
         <source>This will limit the FPS (0 = no limit)</source>
         <translation>Cela limitera le nombre d&apos;IPS  (0 = pas de limite)</translation>
     </message>
@@ -217,90 +227,90 @@
         <translation type="obsolete">Limite d&apos;IPS :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="481"/>
+        <location filename="../MainWindow.ui" line="491"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="499"/>
+        <location filename="../MainWindow.ui" line="509"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="509"/>
+        <location filename="../MainWindow.ui" line="519"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="512"/>
+        <location filename="../MainWindow.ui" line="522"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="517"/>
+        <location filename="../MainWindow.ui" line="527"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="522"/>
+        <location filename="../MainWindow.ui" line="532"/>
         <source>About Qt</source>
         <translation>À propos de Qt</translation>
     </message>
     <message utf8="true">
-        <location filename="../MainWindow.ui" line="530"/>
+        <location filename="../MainWindow.ui" line="540"/>
         <source>Français</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="538"/>
+        <location filename="../MainWindow.ui" line="548"/>
         <source>English</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="14"/>
-        <location filename="../MainWindow.cpp" line="96"/>
-        <location filename="../MainWindow.cpp" line="239"/>
+        <location filename="../MainWindow.cpp" line="98"/>
+        <location filename="../MainWindow.cpp" line="244"/>
         <source>Choose a level file</source>
         <translation>Choisissez un fichier de niveau</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="69"/>
+        <location filename="../MainWindow.cpp" line="71"/>
         <source>Game launching error</source>
         <translation>Erreur de lancement du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="70"/>
+        <location filename="../MainWindow.cpp" line="72"/>
         <source>Failed to launch the game, please check the game location</source>
         <translation>Impossible de lancer le jeu, veuillez vérifier l&apos;emplacement du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="71"/>
+        <location filename="../MainWindow.cpp" line="73"/>
         <source>Cannot found : </source>
         <translation>Impossible de trouver :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="203"/>
+        <location filename="../MainWindow.cpp" line="208"/>
         <source>Choose the game main folder</source>
         <translation>Choisissez le dossier principal du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="240"/>
+        <location filename="../MainWindow.cpp" line="245"/>
         <source>Level file</source>
         <translation>Fichier de niveau</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="241"/>
-        <location filename="../MainWindow.cpp" line="260"/>
+        <location filename="../MainWindow.cpp" line="246"/>
+        <location filename="../MainWindow.cpp" line="267"/>
         <source>All files</source>
         <translation>Tous les fichiers</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="258"/>
+        <location filename="../MainWindow.cpp" line="265"/>
         <source>Choose a LES file</source>
         <translation>Choisissez un fichier &apos;LES&apos;</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="259"/>
+        <location filename="../MainWindow.cpp" line="266"/>
         <source>LES file</source>
         <translation>Fichier &apos;LES&apos;</translation>
     </message>

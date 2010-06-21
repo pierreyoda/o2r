@@ -5,5 +5,7 @@
         <file alias="warning">dataprivate/warning.png</file>
         <file alias="add.png">dataprivate/add.png</file>
         <file alias="delete.png">dataprivate/delete.png</file>
+        <file alias="down.png">dataprivate/down.png</file>
+        <file alias="up.png">dataprivate/up.png</file>
     </qresource>
 </RCC>

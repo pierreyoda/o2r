@@ -97,14 +97,13 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
         try
         {
             args.push_back(parseArgument(argv[i]));
-            cout << "\t- Argument " << i << " : " << argv[i] << "\n";
+            cout << "\t- Argument " << i << "  : " << argv[i] << "\n";
         }
         catch(const string &error)
         {
             cout << "\t" << error << "\n";
         }
     }
-
     return true;
 }
 

@@ -1,10 +1,10 @@
 #include "HudManager.hpp"
-#include "../GlobalVariables.hpp"
 #include "../tools/ImageManager.hpp"
 
 using namespace sf;
 
 const Color HUD_BACKGROUND_COLOR(0, 128, 128);
+const unsigned int NB_OF_LIVES_BAD_DISPLAY = 6;
 
 HudManager::HudManager() : m_gamestart(true)
 {
@@ -12,7 +12,7 @@ HudManager::HudManager() : m_gamestart(true)
         renderResult.SetImage(renderTarget.GetImage());
         renderResult.SetPosition(0, SCREEN_H-HUD_HEIGHT);
     remainingLifesTarget.Create(SCREEN_W,
-                gImageManager.getResource("lifes.png")->GetHeight());
+                gImageManager.getResource("lives.png")->GetHeight());
         remainingLifes.SetImage(remainingLifesTarget.GetImage());
 }
 
@@ -42,10 +42,10 @@ void HudManager::createHud(const Vector2i &levelSize)
         sEditorBlock.SetPosition(posBlock.x + gap, posBlock.y + gap/3);
     sEditorWall.SetImage(*gImageManager.getResource("wall.png"));
         sEditorWall.SetPosition(posWall.x + gap, posWall.y + gap/3);
-    Image &img = *gImageManager.getResource("mouse.png");
-    sEditorMouse.SetImage(img);
+    Image *img = gImageManager.getResource("mouse.png");
+    sEditorMouse.SetImage(*img);
         sEditorMouse.SetPosition(posMouse.x + gap + 10.f, posMouse.y + gap/3);
-        img.CreateMaskFromColor(Color(128, 128, 0));
+        img->CreateMaskFromColor(Color(128, 128, 0));
 
     remainingLifes.SetY(refPos.y + HUD_HEIGHT/3);
     updateNbOfRemainingLifes(DEFAULT_NB_OF_LIVES);
@@ -110,7 +110,6 @@ bool HudManager::updateNbOfCats(const unsigned int &catsNb)
     return false;
 }
 
-// TODO (Pierre-Yves#2#): [HUD] Gérer l'affichage CORRECT d'un "grand" nombre de vie (~ > 4) === afficher l'icone de vie avec un texte à côté
 bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
 {
     static unsigned int prevRemainingLifes = 0;
@@ -124,24 +123,48 @@ bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
             remainingLifesTarget.Display();
             return true;
         }
-        Sprite temp(*gImageManager.getResource("lifes.png"));
-        const float space = temp.GetImage()->GetWidth() + HUD_SPACE_BETWEEN_LIFES;
-        remainingLifesTarget.Create(int(space*remainingLifesNb), int(temp.GetImage()->GetHeight()));
-        remainingLifesTarget.Clear(Color(0, 0, 0, 0));
-        for (unsigned int i = 0; i <= remainingLifesNb; i++)
+        Sprite temp(*gImageManager.getResource("lives.png"));
+        static const float space = temp.GetImage()->GetWidth()
+            + HUD_SPACE_BETWEEN_LIFES;
+        if (remainingLifesNb < NB_OF_LIVES_BAD_DISPLAY)
         {
-            temp.SetX(space * i);
-            remainingLifesTarget.Draw(temp);
+            remainingLifesTarget.Create(int(space*remainingLifesNb),
+                                        int(temp.GetImage()->GetHeight()));
+            remainingLifesTarget.Clear(Color(0, 0, 0, 0));
+            for (unsigned int i = 0; i <= remainingLifesNb; i++)
+            {
+                temp.SetX(space * i);
+                remainingLifesTarget.Draw(temp);
+            }
+            remainingLifesTarget.Display();
+            remainingLifes = Sprite(remainingLifesTarget.GetImage());
+            remainingLifes.SetY(HUD_HEIGHT/3);
+            remainingLifes.SetX((SCREEN_W/2 -
+                                 remainingLifes.GetImage()->GetWidth()/2));
         }
-        remainingLifesTarget.Display();
-        remainingLifes.SetX((SCREEN_W/2 - remainingLifes.GetImage()->GetWidth()/2));
-
+        else
+        {
+            Text temp2(gv.nbToText(remainingLifesNb));
+                temp2.SetCharacterSize(20);
+                temp2.SetY(temp.GetImage()->GetHeight()/2 - temp2.GetRect().Height/2);
+            remainingLifesTarget.Create(temp2.GetRect().Width + space/4+
+                temp.GetImage()->GetWidth(), temp.GetImage()->GetHeight()+space);
+            remainingLifesTarget.Clear(Color(0, 0, 0, 0));
+            remainingLifesTarget.Draw(temp2);
+            temp.SetX(temp2.GetRect().Width + space/4);
+            remainingLifesTarget.Draw(temp);
+            remainingLifesTarget.Display();
+            remainingLifes = Sprite(remainingLifesTarget.GetImage());
+            remainingLifes.SetY(HUD_HEIGHT/3);
+            remainingLifes.SetX(SCREEN_W/2 - remainingLifesTarget.GetWidth()/2);
+        }
         return true;
     }
     return false;
 }
 
-void HudManager::drawFps(RenderTarget &target, const float &fpsCount)
+void HudManager::drawFps(RenderTarget &target, const float &fpsCount,
+                         const Vector2i &screenSize)
 {
     static bool init = false, resetpos = true;
     static Clock refreshClock;
@@ -168,7 +191,7 @@ void HudManager::drawFps(RenderTarget &target, const float &fpsCount)
         if (resetpos)
         {
             Vector2f size(text.GetRect().Width, text.GetRect().Height);
-            text.SetPosition(SCREEN_W-size.x, SCREEN_H-size.y);
+            text.SetPosition(screenSize.x-size.x, screenSize.y-size.y);
             resetpos = false;
         }
         refreshClock.Reset();

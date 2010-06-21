@@ -33,9 +33,7 @@ LevelCase::LevelCase(const sf::Vector2i &cpos, const char &character) :
 
 void LevelCase::updateImage()
 {
-    sf::Image *img = Level::charToImage(character);
-    if (img != NULL)
-        drawable.setImage(*img);
+    drawable.setImage(Level::charToImage(character));
 }
 
 Level::Level(const string &file, const string &name,
@@ -50,8 +48,11 @@ Level::Level(const string &file, const string &name,
     infos.iCatsNb = infos.catsNb = DEFAULTNB_OF_CAT;
     if (file == emptyLevelName || !readLevelFile())
     {
-        if (infos.size.x >= 5 && infos.size.y >= 5)
+        if (sizeIfEmpty.x >= 5 && sizeIfEmpty.y >= 5)
+        {
             infos.size = sizeIfEmpty;
+            gv.sizeChanged = true;
+        }
         else
             infos.size.x = DLVL_X, infos.size.y = DLVL_Y;
         fillWithNothingType();
@@ -206,15 +207,12 @@ void Level::setNbOfRandomWallsFromText(const string &text)
 
 void Level::fillWithNothingType()
 {
-    for (unsigned int i = 0; i < cases.size(); i++)
-        cases[i].clear();
     cases.clear();
-
     for (unsigned int i = 0; i < (unsigned int)infos.size.y; i++)
     {
         cases.push_back(vector<LevelCase>());
         for (unsigned int j = 0; j < (unsigned int)infos.size.x; j++)
-            cases[i].push_back(LevelCase(sf::Vector2i(j, i), NOTHING));
+            cases[i].push_back(LevelCase(sf::Vector2i(j, i), CHAR_NOTHING));
     }
     infos.hasChanged = true;
 }
@@ -267,15 +265,14 @@ void Level::render(const bool &transparent)
         {
             if (transparent && cases[i][j].type == NOTHING);
             else
-                renderDrawable(renderTarget, sf::Vector2i(j, i), cases[i][j].type);
+                renderDrawable(renderTarget, sf::Vector2i(j, i));
         }
     }
 
     renderTarget.Display();
 }
 
-void Level::renderDrawable(sf::RenderTarget &target, const sf::Vector2i &pos,
-                           const CASETYPE &type)
+void Level::renderDrawable(sf::RenderTarget &target, const sf::Vector2i &pos)
 {
     if (getCaseType(pos) == UNDEFINED)
         return;

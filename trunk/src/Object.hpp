@@ -11,7 +11,7 @@ class Object
         virtual ~Object() { }
 
         void setPosition(const sf::Vector2i &npos);
-        void setImage(sf::Image &img);
+        void setImage(sf::Image *img);
         void updatePosition();
 
         sf::Sprite &refSprite() { return m_sprite; }
