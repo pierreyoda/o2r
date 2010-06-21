@@ -388,8 +388,8 @@
          <rect>
           <x>10</x>
           <y>60</y>
-          <width>152</width>
-          <height>81</height>
+          <width>181</width>
+          <height>93</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -410,6 +410,16 @@
            </property>
            <property name="text">
             <string>Enable V.Sync.</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="adjustWindowSizeBox">
+           <property name="toolTip">
+            <string>The window will expand to adjust to the level size (limited by screen's resolution)</string>
+           </property>
+           <property name="text">
+            <string>Adjust window size</string>
            </property>
           </widget>
          </item>
@@ -449,7 +459,7 @@
         <property name="geometry">
          <rect>
           <x>200</x>
-          <y>90</y>
+          <y>70</y>
           <width>131</width>
           <height>31</height>
          </rect>

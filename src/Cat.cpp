@@ -8,7 +8,7 @@
 Cat::Cat() : Object(), m_moveClock(), m_cannotMove(0), m_alive(true),
     m_astarAlreadyMoved(false)
 {
-    setImage(*gImageManager.getResource("cat.png"));
+    setImage(gImageManager.getResource("cat.png"));
 }
 
 Cat::~Cat()
@@ -21,7 +21,7 @@ void Cat::die()
     if (!m_alive)
         return;
     m_alive = false;
-    setImage(*gImageManager.getResource("cheese.png"));
+    setImage(gImageManager.getResource("cheese.png"));
     gv.score += SCORE_BY_CAT/5;
 }
 

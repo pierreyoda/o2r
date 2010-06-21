@@ -4,9 +4,11 @@
 using namespace sf;
 
 LauncherEditionEngine::LauncherEditionEngine(RenderWindow &window,
-    const bool &vsync,  const unsigned int &fpslimit) : App(window),
-    gameView(FloatRect(0, 0, SCREEN_W, SCREEN_H)), game(),
-    cats(game.getCatsList()), mouse(game.getMouse())
+    const bool &vsync,  const unsigned int &fpslimit,
+    const bool &adjustWindowSize ) : App(window),
+    gameView(FloatRect(0, 0, SCREEN_W, SCREEN_H)), game(false),
+    cats(game.getCatsList()), mouse(game.getMouse()),
+    adjustWindowSize(adjustWindowSize)
 {
     App.UseVerticalSync(vsync);
     App.SetFramerateLimit(fpslimit);
@@ -27,6 +29,38 @@ void LauncherEditionEngine::resetView()
     gameView.SetSize(screenRealSize);
 }
 
+void LauncherEditionEngine::ajustWindowToLevelSize()
+{
+    if (!adjustWindowSize)
+        return;
+    const LevelInformations &infos = game.getLevel().getInfos();
+    Vector2f screenRealSize(infos.size.x * CASE_SIZE,
+                            infos.size.y * CASE_SIZE + HUD_HEIGHT);
+    if (screenRealSize.x == SCREEN_W && screenRealSize.y == SCREEN_H)
+        return;
+    static VideoMode vm = VideoMode::GetDesktopMode();
+    static Vector2f maxSize(vm.Width, vm.Height);
+    if (screenRealSize.x < maxSize.x && screenRealSize.y < maxSize.y)
+    {
+        App.Create(VideoMode(screenRealSize.x, screenRealSize.y, 32),
+                   gv.windowTitle, Style::Close);
+        App.SetIcon(16, 16, gImageManager.getResource("icon.png")->GetPixelsPtr());
+    }
+}
+
+void LauncherEditionEngine::drawFpsInDefaultView()
+{
+    static const LevelInformations &infos = game.getLevel().getInfos();
+    static Vector2i screenRealSize(infos.size.x * CASE_SIZE,
+                            infos.size.y * CASE_SIZE + HUD_HEIGHT);
+    if (gv.debugMode)
+    {
+        App.SetView(App.GetDefaultView());
+            hud.drawFps(App, App.GetFrameTime(), screenRealSize);
+        App.SetView(gameView);
+    }
+}
+
 void LauncherEditionEngine::runAsGame(const std::string &level,
             const int &nbOfCats, const int &nbOfRW)
 {
@@ -38,9 +72,11 @@ void LauncherEditionEngine::runAsGame(const std::string &level,
                         << "'. Game will now exit.\n";
         return;
     }
-    resetView();
     hud.createHud(game.getLevel().getInfos().size);
     hud.newGameStarted();
+    if (gv.sizeChanged)
+        ajustWindowToLevelSize();
+    resetView();
     gv.sizeChanged = false;
     App.SetView(gameView);
     bool astar = true;
@@ -94,36 +130,32 @@ void LauncherEditionEngine::runAsGame(const std::string &level,
             return;
 
         App.Clear();
-
         game.renderTower(App);
         for (unsigned int i = 0; i < cats.size(); i++)
             App.Draw(cats[i].sprite());
         App.Draw(mouse.sprite());
         App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), true));
-        if (gv.debugMode)
-        {
-            App.SetView(App.GetDefaultView());
-                hud.drawFps(App, App.GetFrameTime());
-            App.SetView(gameView);
-        }
+        drawFpsInDefaultView();
         App.Display();
     }
 }
 
 void LauncherEditionEngine::runAsEditor(const std::string &level,
-    const sf::Vector2i &sizeIfEmpty,
+    const sf::Vector2i &sizeIfEmpty, const int &nbOfCats, const int &nbOfRW,
     const bool &noWarningAtSave)
 {
     std::cout << "Launching level editor...\n";
-    if (!game.loadLevel(level, sizeIfEmpty))
+    if (!game.loadLevel(level, sizeIfEmpty, nbOfCats, nbOfRW))
     {
         std::cerr << "Error : cannot load level '" << level
                         << "'. Game will now exit.\n";
         return;
     }
-    resetView();
     hud.createHud(game.getLevel().getInfos().size);
     hud.newGameStarted();
+    if (gv.sizeChanged)
+        ajustWindowToLevelSize();
+    resetView();
     gv.sizeChanged = false;
     App.SetView(gameView);
     mouse.setPosition(game.getLevel().getInfos().mouseStartPos);
@@ -170,15 +202,10 @@ void LauncherEditionEngine::runAsEditor(const std::string &level,
         }
 
         App.Clear();
-        App.Draw(game.getLevel().getRenderResult());
+        game.renderTower(App);
         App.Draw(mouse.sprite());
         App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), false));
-        if (gv.debugMode)
-        {
-            App.SetView(App.GetDefaultView());
-                hud.drawFps(App, App.GetFrameTime());
-            App.SetView(gameView);
-        }
+        drawFpsInDefaultView();
         App.Display();
     }
 }

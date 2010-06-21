@@ -11,7 +11,7 @@
 class Game
 {
     public:
-        Game();
+        Game(const bool &loadDefaultLevel = true);
         ~Game();
 
         void testTower();

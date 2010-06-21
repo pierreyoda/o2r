@@ -54,6 +54,7 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wmain" />
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add directory="$(#tinyxml.include)" />

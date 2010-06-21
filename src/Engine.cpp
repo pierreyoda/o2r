@@ -171,7 +171,7 @@ void Engine::runGame()
 
         game.updateCats(astar);
         if (mouse.dead())
-            initializeGame();
+            run();
 
         App.Clear();
 

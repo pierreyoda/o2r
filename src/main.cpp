@@ -86,15 +86,18 @@ int main(int argc, char *argv[])
     }
     else
     {
-        const bool game = options.valueBool("game", true);
+        const bool game = options.valueBool("game", true),
+            adjustWindowSize = options.valueBool("adjustWindowSize", false);
+        if (adjustWindowSize)
+            cout << "The window will expand to adjust to the level size when it is possible.\n";
         string level = options.valueString("level", "data/1.txt");
         cout << "\nInitializing engine.\n";
-        LauncherEditionEngine engine(window, vsync, limitfps);
+        LauncherEditionEngine engine(window, vsync, limitfps, adjustWindowSize);
+        const int nbOfCats = options.valueInt("nbOfCats", -1),
+            nbOfRW = options.valueInt("nbOfRW", -1),
+            nbOfLives = options.valueInt("nbOfLives", DEFAULT_NB_OF_LIVES);
         if (game)
         {
-            const int nbOfCats = options.valueInt("nbOfCats", -1),
-                nbOfRW = options.valueInt("nbOfRW", -1),
-                nbOfLives = options.valueInt("nbOfLives", DEFAULT_NB_OF_LIVES);
             if (nbOfLives >= 0)
                 gv.mouseNbOfLives = nbOfLives;
             engine.runAsGame(level, nbOfCats, nbOfRW);
@@ -107,7 +110,7 @@ int main(int argc, char *argv[])
                 level = emptyLevelName;
             const bool noWarningAtSave = options.valueBool("noWarningAtSave",
                                                            false);
-            engine.runAsEditor(level, size, noWarningAtSave);
+            engine.runAsEditor(level, size, noWarningAtSave, nbOfCats, nbOfRW);
         }
     }
 

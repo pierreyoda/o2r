@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MainWindow.ui'
 **
-** Created: Sat 19. Jun 17:17:43 2010
+** Created: Sun 20. Jun 14:43:26 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -84,6 +84,7 @@ public:
     QVBoxLayout *verticalLayout_2;
     QCheckBox *debugModeBox;
     QCheckBox *enableVSyncBox;
+    QCheckBox *adjustWindowSizeBox;
     QHBoxLayout *horizontalLayout_5;
     QCheckBox *defineFpsLimitBox;
     QSpinBox *fpsLimitSpinBox;
@@ -292,7 +293,7 @@ public:
         label->setGeometry(QRect(10, 20, 111, 16));
         layoutWidget2 = new QWidget(groupBox_3);
         layoutWidget2->setObjectName(QString::fromUtf8("layoutWidget2"));
-        layoutWidget2->setGeometry(QRect(10, 60, 152, 81));
+        layoutWidget2->setGeometry(QRect(10, 60, 181, 93));
         verticalLayout_2 = new QVBoxLayout(layoutWidget2);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -307,6 +308,11 @@ public:
         enableVSyncBox->setObjectName(QString::fromUtf8("enableVSyncBox"));
 
         verticalLayout_2->addWidget(enableVSyncBox);
+
+        adjustWindowSizeBox = new QCheckBox(layoutWidget2);
+        adjustWindowSizeBox->setObjectName(QString::fromUtf8("adjustWindowSizeBox"));
+
+        verticalLayout_2->addWidget(adjustWindowSizeBox);
 
         horizontalLayout_5 = new QHBoxLayout();
         horizontalLayout_5->setSpacing(6);
@@ -329,7 +335,7 @@ public:
 
         editModsButton = new QPushButton(groupBox_3);
         editModsButton->setObjectName(QString::fromUtf8("editModsButton"));
-        editModsButton->setGeometry(QRect(200, 90, 131, 31));
+        editModsButton->setGeometry(QRect(200, 70, 131, 31));
 
         mainLayout->addWidget(groupBox_3);
 
@@ -413,6 +419,10 @@ public:
         enableVSyncBox->setToolTip(QApplication::translate("MainWindow", "Wait for vertical synchronisation", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
         enableVSyncBox->setText(QApplication::translate("MainWindow", "Enable V.Sync.", 0, QApplication::UnicodeUTF8));
+#ifndef QT_NO_TOOLTIP
+        adjustWindowSizeBox->setToolTip(QApplication::translate("MainWindow", "The window will expand to adjust to the level size (limited by screen's resolution)", 0, QApplication::UnicodeUTF8));
+#endif // QT_NO_TOOLTIP
+        adjustWindowSizeBox->setText(QApplication::translate("MainWindow", "Adjust window size", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
         defineFpsLimitBox->setToolTip(QApplication::translate("MainWindow", "This will limit the FPS (0 = no limit)", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP

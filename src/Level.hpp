@@ -54,11 +54,6 @@ class Level
             if (wallnb >= 0 && wallnb < (unsigned int)infos.size.x*infos.size.y)
                 infos.randomWallsNb = wallnb;
         }
-        void setNbOfCats(const unsigned &nb)
-        {
-            if (nb >= 0)
-                infos.iCatsNb= nb;
-        }
 
         LevelInformations &getInfosRef() { return infos; }
         const LevelInformations &getInfos() const { return infos; }
@@ -84,8 +79,7 @@ class Level
             void setiNbOfCatsFromText(const std::string &text);
             void setNbOfRandomWallsFromText(const std::string &text);
         void render(const bool &transparent);
-        void renderDrawable(sf::RenderTarget &target, const sf::Vector2i &pos,
-                        const CASETYPE &type);
+        void renderDrawable(sf::RenderTarget &target, const sf::Vector2i &pos);
         bool noCaseThere(const sf::Vector2i &pos);
 
         sf::RenderImage renderTarget;
