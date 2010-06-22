@@ -26,7 +26,7 @@ void Cat::die()
 }
 
 bool Cat::moveCat(Level &lvl, const sf::Vector2i &mousePos,
-                  const std::vector<Cat> &cats, const bool &astar)
+                  const l_cats &cats, const bool &astar)
 {
     bool makeRandomMove = false;
     const LevelInformations &infos = lvl.getInfos();
@@ -78,7 +78,7 @@ bool Cat::moveCat(Level &lvl, const sf::Vector2i &mousePos,
     return false;
 }
 
-void Cat::placeCat(Level &lvl, const std::vector<Cat> &cats)
+void Cat::placeCat(Level &lvl, const l_cats &cats)
 {
     bool done = false;
     sf::Vector2i pos;
@@ -95,9 +95,9 @@ void Cat::placeCat(Level &lvl, const std::vector<Cat> &cats)
     setPosition(pos);
 }
 
-void Cat::killCat(const sf::Vector2i &catpos, std::vector<Cat> &cats)
+void Cat::killCat(const sf::Vector2i &catpos, l_cats &cats)
 {
-    static std::vector<Cat>::iterator iter = cats.begin();
+    static l_cats::iterator iter = cats.begin();
     for (iter = cats.begin(); iter != cats.end(); iter++)
     {
         if (iter->pos() == catpos)
@@ -108,14 +108,15 @@ void Cat::killCat(const sf::Vector2i &catpos, std::vector<Cat> &cats)
     }
 }
 
-bool Cat::catOnTheWay(const sf::Vector2i &pos, const std::vector<Cat> &cats,
+bool Cat::catOnTheWay(const sf::Vector2i &pos, const l_cats &cats,
                       const bool &excludeDeadCats)
 {
-    for (unsigned int i = 0; i < cats.size(); i++)
+    l_cats::const_iterator iter;
+    for (iter= cats.begin(); iter != cats.end(); iter++)
     {
-        if (pos == cats[i].pos())
+        if (pos == iter->pos())
         {
-            if (excludeDeadCats && !cats[i].isAlive())
+            if (excludeDeadCats && !iter->isAlive())
                 return false;
             return true;
         }

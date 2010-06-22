@@ -113,9 +113,10 @@ void Game::mouseOnStairs()
 
 void Game::updateCats(const bool &astar)
 {
-    for (unsigned int i = 0; i < cats.size(); i++)
+    static l_cats::iterator iter;
+    for (iter = cats.begin(); iter != cats.end(); iter++)
     {
-        Cat &cat = cats[i];
+        Cat &cat = *iter;
         if (cat.isAlive())
         {
             if (cat.moveCat(*currentLevel.get(), mouse.pos(), cats, astar) && !mouse.dead())

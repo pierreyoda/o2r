@@ -131,8 +131,9 @@ void LauncherEditionEngine::runAsGame(const std::string &level,
 
         App.Clear();
         game.renderTower(App);
-        for (unsigned int i = 0; i < cats.size(); i++)
-            App.Draw(cats[i].sprite());
+        static l_cats::const_iterator iter;
+        for (iter = cats.begin(); iter != cats.end(); iter++)
+            App.Draw(iter->sprite());
         App.Draw(mouse.sprite());
         App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), true));
         drawFpsInDefaultView();

@@ -126,7 +126,8 @@ bool Mouse::trappedByWalls(const sf::Vector2i &pos) const
 unsigned int Mouse::estimatePosSecurity(const sf::Vector2i &pos) const
 {
     unsigned int totalPound = 0;
-    for (unsigned int i = 0; i < cats.size(); i++)
-        totalPound += AStarAlgorithm::pound(m_pos, cats[i].pos());
+    static l_cats::const_iterator iter;
+    for (iter = cats.begin(); iter != cats.end(); iter++)
+        totalPound += AStarAlgorithm::pound(m_pos, iter->pos());
     return totalPound;
 }

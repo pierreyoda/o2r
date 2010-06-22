@@ -2,14 +2,13 @@
 #define CAT_HPP
 
 #include <list>
-#include <vector>
 #include "Object.hpp"
 #include "Level.hpp"
 #include "algorithm/AStarAlgorithm.hpp"
 
 class Cat;
 
-typedef std::vector<Cat> l_cats;
+typedef std::list<Cat> l_cats;
 
 class Cat : public Object
 {
