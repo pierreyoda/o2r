@@ -15,7 +15,7 @@ typedef std::pair<sf::Vector2i, unsigned int> posSecurityValue;
 class Mouse : public Object
 {
     public:
-        Mouse(levelPtr &level, std::vector<Cat> &lcats);
+        Mouse(levelPtr &level, l_cats &lcats);
         ~Mouse();
 
         void die();
