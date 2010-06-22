@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'AboutDialog.ui'
 **
-** Created: Sat 19. Jun 16:10:05 2010
+** Created: Tue 22. Jun 16:56:49 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -40,6 +40,7 @@ public:
         verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
         label = new QLabel(AboutDialog);
         label->setObjectName(QString::fromUtf8("label"));
+        label->setOpenExternalLinks(true);
 
         verticalLayout->addWidget(label);
 
