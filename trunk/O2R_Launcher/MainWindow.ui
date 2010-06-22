@@ -338,6 +338,19 @@
            <string>+ See game settings</string>
           </property>
          </widget>
+         <widget class="QPushButton" name="resetButton">
+          <property name="geometry">
+           <rect>
+            <x>110</x>
+            <y>90</y>
+            <width>71</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Reset</string>
+          </property>
+         </widget>
         </widget>
        </item>
       </layout>

@@ -203,6 +203,11 @@ void MainWindow::on_editModsButton_clicked()
     editModsDialog->exec();
 }
 
+void MainWindow::on_resetButton_clicked()
+{
+    levelXSpinBox->setValue(23), levelYSpinBox->setValue(23);
+}
+
 void MainWindow::on_actionLocation_triggered()
 {
     QString folder(QFileDialog::getExistingDirectory(this,
@@ -238,6 +243,7 @@ void MainWindow::on_actionFrench_triggered(const bool &state)
 void MainWindow::on_emptyLevelBox_toggled(const bool &state)
 {
     levelXSpinBox->setEnabled(state), levelYSpinBox->setEnabled(state);
+    resetButton->setEnabled(state);
     on_browseEdit_textChanged(browseEdit->text());
 }
 

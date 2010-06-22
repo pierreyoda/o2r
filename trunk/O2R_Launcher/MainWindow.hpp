@@ -35,6 +35,7 @@ private slots:
         launch_O2R(false);
     }
     void on_editModsButton_clicked();
+    void on_resetButton_clicked();
     void launch_O2R(const bool &game);
     void on_actionLocation_triggered();
     void on_actionEnglish_triggered(const bool &state);

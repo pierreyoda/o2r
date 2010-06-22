@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MainWindow.ui'
 **
-** Created: Sun 20. Jun 14:43:26 2010
+** Created: Tue 22. Jun 16:51:21 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -76,6 +76,7 @@ public:
     QLabel *label_5;
     QCheckBox *noWarningAtSave;
     QLabel *label_6;
+    QPushButton *resetButton;
     QGroupBox *groupBox_3;
     QLineEdit *browseLesEdit;
     QToolButton *browseLesButton;
@@ -274,6 +275,9 @@ public:
         label_6 = new QLabel(groupBox_2);
         label_6->setObjectName(QString::fromUtf8("label_6"));
         label_6->setGeometry(QRect(0, 110, 151, 31));
+        resetButton = new QPushButton(groupBox_2);
+        resetButton->setObjectName(QString::fromUtf8("resetButton"));
+        resetButton->setGeometry(QRect(110, 90, 71, 23));
 
         gridLayout_2->addWidget(groupBox_2, 1, 2, 1, 1);
 
@@ -408,6 +412,7 @@ public:
 #endif // QT_NO_TOOLTIP
         noWarningAtSave->setText(QApplication::translate("MainWindow", "No warning at save", 0, QApplication::UnicodeUTF8));
         label_6->setText(QApplication::translate("MainWindow", "+ See game settings", 0, QApplication::UnicodeUTF8));
+        resetButton->setText(QApplication::translate("MainWindow", "Reset", 0, QApplication::UnicodeUTF8));
         groupBox_3->setTitle(QApplication::translate("MainWindow", "Global Settings", 0, QApplication::UnicodeUTF8));
         browseLesButton->setText(QApplication::translate("MainWindow", "...", 0, QApplication::UnicodeUTF8));
         label->setText(QApplication::translate("MainWindow", "LES file (*.xml)", 0, QApplication::UnicodeUTF8));
