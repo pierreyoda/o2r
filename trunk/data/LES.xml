@@ -1,0 +1,8 @@
+<!-- LES description file example provided with O2R 0.7
+	Try it with the launcher! -->
+<LES basedir="data/towertest">
+	<!-- LES blocks/walls images inversion
+	Adding fromBaseDir="1" in <element ... /> will make images loaded from data/base -->
+	<element char="1" img="wall.png" type="BLOCK"/>
+	<element char="2" img="block.png" type="WALL"/>
+</LES>

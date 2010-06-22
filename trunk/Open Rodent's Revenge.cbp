@@ -47,7 +47,7 @@
 					<Add option="-lsfml-graphics-s-d" />
 					<Add option="-lsfml-window-s-d" />
 					<Add option="-lsfml-system-s-d" />
-					<Add option="-ltinyxml" />
+					<Add option="-ltinyxmld" />
 					<Add option="-lboost_filesystem-mgw44-mt-d" />
 					<Add option="-lboost_system-mgw44-mt-d" />
 				</Linker>

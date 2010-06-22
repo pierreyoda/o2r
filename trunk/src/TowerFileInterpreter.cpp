@@ -107,7 +107,7 @@ bool TowerFileInterpreter::readStairs(const string &filename)
     }
     return readStairs(elem);
 }
-
+*/
 bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements)
 {
     string basedir = elem->Attribute("basedir");
@@ -146,10 +146,7 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
             ok = false;
         }
         else if (!FilesLoader::fileExists(imgpath))
-        {
-            cerr << "Error : image '" << imgpath << "'does not exist.\n";
-            ok = false;
-        }
+            cerr << "Warning : image '" << imgpath << "' not found.\n";
         if (ok)
             lesElements.push_back(LesElement(character, type, imgpath));
         elem = elem->NextSiblingElement("element");
@@ -157,7 +154,29 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
     return true;
 }
 
-bool TowerFileInterpreter::readLes(const string &filename, l_LesElement &lesElements)
+bool TowerFileInterpreter::readLes(const string &filename, l_LesElement &lesElements,
+                                   const bool &clearPreviousLes)
 {
-    return true;
-}*/
+    cout << "\tReading LES description file '" << filename << "'.\n";
+    if (clearPreviousLes)
+        lesElements.clear();
+    TiXmlDocument file(filename.c_str());
+    if (!file.LoadFile())
+    {
+        cerr << "Error while loading LES from '" << filename << "' (Error #"
+            << file.ErrorId() << " : " << file.ErrorDesc() << ")\n";
+        return false;
+    }
+
+    TiXmlHandle hdl(&file);
+    TiXmlElement *elem = hdl.FirstChildElement().Element();
+    if (!elem)
+        return false;
+    string nodeName = elem->Value();
+    if (nodeName != "LES")
+    {
+        cerr << "Error : main node is not 'LES'.\n";
+        return false;
+    }
+    return readLes(elem, lesElements);
+}

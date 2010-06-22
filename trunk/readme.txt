@@ -8,4 +8,5 @@ F12 : toggle debug mode
 A : toggle use of pathfinding for cats
 D : a cat becomes cheese
 K : kill a cat
+S : suicide mouse
 

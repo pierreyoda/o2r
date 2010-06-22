@@ -5,6 +5,7 @@
 
 using namespace sf;
 
+// TODO (Pierre-Yves#1#): [TOWER] 0.8 : Charger et afficher les Tower
 // TODO (Pierre-Yves#1#): [TOWER] Ajouter 'initializeFloor' (--> facile : initializeGame() avec nb chats perso et reset(floor) du pointeur) à Game
 Game::Game(const bool &loadDefaultLevel) : tower(new Tower()), cats(),
     mouse(currentLevel, cats), inTower(false)
@@ -73,7 +74,6 @@ bool Game::loadLevel(const std::string &filename, const Vector2i &sizeIfEmpty,
     if (filename.empty() || (filename != emptyLevelName &&
                              !FilesLoader::fileExists(filename)))
         return false;
-    gv.lesElements.clear();
     currentLevel.reset(new Level(filename, "", sizeIfEmpty, persoNbOfCats,
                                  persoNbOfRW));
     mouse.updateLevelPtr(currentLevel);

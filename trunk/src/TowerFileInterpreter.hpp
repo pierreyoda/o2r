@@ -10,11 +10,13 @@ class TowerFileInterpreter
     public:
         static bool readTower(Tower &tower, const std::string &filename);
 
+        static bool readLes(const std::string &filename, l_LesElement &lesElements,
+                            const bool &clearPreviousLes = true);
+
     private:
         static bool readStairs(TiXmlElement *elem);
             static bool readStairs(const std::string &filename);
         static bool readLes(TiXmlElement *elem, l_LesElement &lesElements);
-            static bool readLes(const std::string &filename, l_LesElement &lesElements);
 };
 
 #endif /* TOWERFILEINTERPRETER_HPP */
