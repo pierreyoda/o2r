@@ -6,6 +6,7 @@ extern "C"
 }
 #include "Engine.hpp"
 #include "LauncherEditionEngine.hpp"
+#include "TowerFileInterpreter.hpp"
 #include "tools/FilesLoader.hpp"
 #include "tools/ProgramOptions.hpp"
 #include "gui/ErrorScreens.hpp"
@@ -63,6 +64,9 @@ int main(int argc, char *argv[])
     if (le)
         cout << "\tLauncher edition used.\n";
     cout << "\n";
+    const string les = options.valueString("les", "");
+    if (!les.empty())
+        TowerFileInterpreter::readLes(les, gv.lesElements);
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H, 32),
                             gv.windowTitle, sf::Style::Close);

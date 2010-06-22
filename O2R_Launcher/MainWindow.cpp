@@ -42,8 +42,9 @@ void MainWindow::launch_O2R(const bool &game)
         arguments << "-limitfps=" + QString::number(fpsLimitSpinBox->value());
     arguments << "-game=" + QString::number(game)
             << "-level=" + browseEdit->text() << "-les=" + browseLesEdit->text();
-    if (!editModsDialog->noMods())
-        arguments << "-mods=" + editModsDialog->mods().join(";");
+    QString mods = editModsDialog->mods().join(";");
+    if (!mods.isEmpty())
+        arguments << "-mods=" + mods;
     if (game)
     {
         if (defineCatsNumberBox->isChecked())
@@ -122,7 +123,8 @@ void MainWindow::loadSettings()
                   fpsLimitSpinBox);
     // Mods list
     QString mods = settings.value("mods", "").toString();
-    editModsDialog->setList(mods.split(";"));
+    if (!mods.isEmpty())
+        editModsDialog->setList(mods.split(";"));
 
     settings.endGroup();
 }
