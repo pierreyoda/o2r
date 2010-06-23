@@ -62,6 +62,7 @@
 			<Add directory="$(#boost)" />
 		</Compiler>
 		<Linker>
+			<Add option="-static-libgcc" />
 			<Add directory="$(#sfml2.lib)" />
 			<Add directory="$(#boost.lib)" />
 			<Add directory="$(#tinyxml.lib)" />
