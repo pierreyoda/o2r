@@ -1,7 +1,6 @@
 #ifndef ERRORSCREENS_HPP
 #define ERRORSCREENS_HPP
 
-#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 
 class ErrorScreens

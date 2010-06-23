@@ -1,5 +1,7 @@
 #include <iostream>
 #include "LauncherEditionEngine.hpp"
+#include "gui/ConfirmationScreen.hpp"
+#include "tools/FilesLoader.hpp"
 
 using namespace sf;
 
@@ -178,7 +180,10 @@ void LauncherEditionEngine::runAsEditor(const std::string &level,
         while (App.GetEvent(Event))
         {
             if (Event.Type == Event::Closed)
+            {
+                editorSaveLevelBeforeExit(level, noWarningAtSave);
                 App.Close();
+            }
             if (Event.Type == Event::KeyPressed)
             {
                 if (Event.Key.Code == Key::F12)
@@ -209,4 +214,18 @@ void LauncherEditionEngine::runAsEditor(const std::string &level,
         drawFpsInDefaultView();
         App.Display();
     }
+}
+
+void LauncherEditionEngine::editorSaveLevelBeforeExit(const std::string &level,
+                                                      const bool &noWarningAtSave)
+{
+    if (!FilesLoader::fileExists(level))
+    {
+        game.getLevel().writeLevel(level);
+        return;
+    }
+    std::string message = "Warning : the file \n'" + level + "'\nalready exists."
+        + "\nAre you sure you to save the level over?";
+    if (ConfirmationScreen::askConfirmation(App, message))
+        game.getLevel().writeLevel(level);
 }
