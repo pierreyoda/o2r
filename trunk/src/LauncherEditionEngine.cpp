@@ -144,11 +144,14 @@ void LauncherEditionEngine::runAsGame(const std::string &level,
 }
 
 void LauncherEditionEngine::runAsEditor(const std::string &level,
-    const sf::Vector2i &sizeIfEmpty, const int &nbOfCats, const int &nbOfRW,
-    const bool &noWarningAtSave)
+    const bool &emptyLevel, const sf::Vector2i &sizeIfEmpty,
+    const int &nbOfCats, const int &nbOfRW, const bool &noWarningAtSave)
 {
     std::cout << "Launching level editor...\n";
-    if (!game.loadLevel(level, sizeIfEmpty, nbOfCats, nbOfRW))
+    std::string file = level;
+    if (emptyLevel)
+        file = emptyLevelName;
+    if (!game.loadLevel(file, sizeIfEmpty, nbOfCats, nbOfRW))
     {
         std::cerr << "Error : cannot load level '" << level
                         << "'. Game will now exit.\n";
@@ -219,7 +222,7 @@ void LauncherEditionEngine::runAsEditor(const std::string &level,
 void LauncherEditionEngine::editorSaveLevelBeforeExit(const std::string &level,
                                                       const bool &noWarningAtSave)
 {
-    if (!FilesLoader::fileExists(level))
+    if (noWarningAtSave || !FilesLoader::fileExists(level))
     {
         game.getLevel().writeLevel(level);
         return;

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MainWindow.ui'
 **
-** Created: Tue 22. Jun 16:51:21 2010
+** Created: Wed 23. Jun 15:40:24 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -212,7 +212,7 @@ public:
         numberOfRWSpinBox = new QSpinBox(layoutWidget1);
         numberOfRWSpinBox->setObjectName(QString::fromUtf8("numberOfRWSpinBox"));
         numberOfRWSpinBox->setSuffix(QString::fromUtf8(""));
-        numberOfRWSpinBox->setMaximum(15);
+        numberOfRWSpinBox->setMaximum(999);
 
         horizontalLayout_3->addWidget(numberOfRWSpinBox);
 
