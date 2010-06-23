@@ -104,7 +104,7 @@
     <message>
         <location filename="../MainWindow.ui" line="447"/>
         <source>Set FPS  limit :</source>
-        <translation>Fixer les IPS :</translation>
+        <translation>Limiter les IPS :</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="481"/>

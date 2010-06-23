@@ -110,11 +110,10 @@ int main(int argc, char *argv[])
         {
             const sf::Vector2i size(options.valueInt("levelX", DLVL_X),
                               options.valueInt("levelY", DLVL_Y));
-            if (options.valueBool("emptyLevel", false))
-                level = emptyLevelName;
             const bool noWarningAtSave = options.valueBool("noWarningAtSave",
-                                                           false);
-            engine.runAsEditor(level, size, noWarningAtSave, nbOfCats, nbOfRW);
+                false), emptyLevel = options.valueBool("emptyLevel", false);
+            engine.runAsEditor(level, emptyLevel, size, noWarningAtSave,
+                               nbOfCats, nbOfRW);
         }
     }
 

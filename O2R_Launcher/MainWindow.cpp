@@ -112,6 +112,7 @@ void MainWindow::loadSettings()
     // Level size
     loadOptionSet("emptyLevel", "levelX", emptyLevelBox, levelXSpinBox,
                   "levelY", levelYSpinBox, 23);
+    resetButton->setEnabled(emptyLevelBox->isChecked());
     // Debug mode
     loadSingleOption("debugMode", debugModeBox);
     // Vertical Synchronisation
