@@ -94,6 +94,8 @@
 		<Unit filename="src\constantes.hpp" />
 		<Unit filename="src\gui\Button.cpp" />
 		<Unit filename="src\gui\Button.hpp" />
+		<Unit filename="src\gui\ConfirmationScreen.cpp" />
+		<Unit filename="src\gui\ConfirmationScreen.hpp" />
 		<Unit filename="src\gui\ErrorScreens.cpp" />
 		<Unit filename="src\gui\ErrorScreens.hpp" />
 		<Unit filename="src\gui\HudManager.cpp" />

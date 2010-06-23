@@ -26,6 +26,8 @@ class LauncherEditionEngine
         void resetView();
         void ajustWindowToLevelSize();
         void drawFpsInDefaultView();
+        void editorSaveLevelBeforeExit(const std::string &level,
+                                       const bool &noWarningAtSave = true);
 
         sf::RenderWindow &App;
         sf::View gameView;
