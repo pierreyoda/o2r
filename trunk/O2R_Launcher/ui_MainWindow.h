@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MainWindow.ui'
 **
-** Created: Wed 23. Jun 15:40:24 2010
+** Created: Thu 24. Jun 12:33:28 2010
 **      by: Qt User Interface Compiler version 4.6.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -74,7 +74,7 @@ public:
     QSpinBox *levelYSpinBox;
     QLabel *label_4;
     QLabel *label_5;
-    QCheckBox *noWarningAtSave;
+    QCheckBox *noWarningAtSaveBox;
     QLabel *label_6;
     QPushButton *resetButton;
     QGroupBox *groupBox_3;
@@ -265,13 +265,13 @@ public:
         label_5 = new QLabel(groupBox_2);
         label_5->setObjectName(QString::fromUtf8("label_5"));
         label_5->setGeometry(QRect(60, 70, 46, 13));
-        noWarningAtSave = new QCheckBox(groupBox_2);
-        noWarningAtSave->setObjectName(QString::fromUtf8("noWarningAtSave"));
-        noWarningAtSave->setGeometry(QRect(10, 0, 261, 51));
+        noWarningAtSaveBox = new QCheckBox(groupBox_2);
+        noWarningAtSaveBox->setObjectName(QString::fromUtf8("noWarningAtSaveBox"));
+        noWarningAtSaveBox->setGeometry(QRect(10, 0, 261, 51));
         QIcon icon1;
         icon1.addFile(QString::fromUtf8(":/warning"), QSize(), QIcon::Normal, QIcon::Off);
-        noWarningAtSave->setIcon(icon1);
-        noWarningAtSave->setIconSize(QSize(16, 13));
+        noWarningAtSaveBox->setIcon(icon1);
+        noWarningAtSaveBox->setIconSize(QSize(16, 13));
         label_6 = new QLabel(groupBox_2);
         label_6->setObjectName(QString::fromUtf8("label_6"));
         label_6->setGeometry(QRect(0, 110, 151, 31));
@@ -408,9 +408,9 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "X size", 0, QApplication::UnicodeUTF8));
         label_5->setText(QApplication::translate("MainWindow", "Y size", 0, QApplication::UnicodeUTF8));
 #ifndef QT_NO_TOOLTIP
-        noWarningAtSave->setToolTip(QApplication::translate("MainWindow", "WARNING : can be dangerous, caution when it is enabled", 0, QApplication::UnicodeUTF8));
+        noWarningAtSaveBox->setToolTip(QApplication::translate("MainWindow", "WARNING : can be dangerous, caution when it is enabled", 0, QApplication::UnicodeUTF8));
 #endif // QT_NO_TOOLTIP
-        noWarningAtSave->setText(QApplication::translate("MainWindow", "No warning at save", 0, QApplication::UnicodeUTF8));
+        noWarningAtSaveBox->setText(QApplication::translate("MainWindow", "No warning at save", 0, QApplication::UnicodeUTF8));
         label_6->setText(QApplication::translate("MainWindow", "+ See game settings", 0, QApplication::UnicodeUTF8));
         resetButton->setText(QApplication::translate("MainWindow", "Reset", 0, QApplication::UnicodeUTF8));
         groupBox_3->setTitle(QApplication::translate("MainWindow", "Global Settings", 0, QApplication::UnicodeUTF8));

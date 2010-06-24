@@ -65,6 +65,8 @@ void MainWindow::launch_O2R(const bool &game)
                     + QString::number(levelXSpinBox->value())
                 << "-levelY=" + QString::number(levelYSpinBox->value());
         }
+        arguments << "-noWarningAtSave=" + QString::number(
+                noWarningAtSaveBox->isChecked());
     }
     if (!process->startDetached(program, arguments, gameMainFolder))
     {
@@ -108,7 +110,7 @@ void MainWindow::loadSettings()
     loadOptionSet("manualNbOfLives", "nbOfLives", defineLivesNumberBox,
                   numberOfLivesSpinBox);
     // Warning at save?
-    loadSingleOption("noWarningAtSave", noWarningAtSave);
+    loadSingleOption("noWarningAtSave", noWarningAtSaveBox);
     // Level size
     loadOptionSet("emptyLevel", "levelX", emptyLevelBox, levelXSpinBox,
                   "levelY", levelYSpinBox, 23);
@@ -168,7 +170,7 @@ void MainWindow::saveSettings()
     settings.setValue("nbOfRandomWalls", numberOfRWSpinBox->value());
     settings.setValue("manualNbOfLives", defineLivesNumberBox->isChecked());
     settings.setValue("nbOfLives", numberOfLivesSpinBox->value());
-    settings.setValue("noWarningAtSave", noWarningAtSave->isChecked());
+    settings.setValue("noWarningAtSave", noWarningAtSaveBox->isChecked());
     settings.setValue("emptyLevel", emptyLevelBox->isChecked());
     settings.setValue("levelX", levelXSpinBox->value());
     settings.setValue("levelY", levelYSpinBox->value());

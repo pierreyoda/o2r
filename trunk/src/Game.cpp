@@ -69,7 +69,7 @@ bool Game::saveLevel(const std::string &filename)
 }
 
 bool Game::loadLevel(const std::string &filename, const Vector2i &sizeIfEmpty,
-    const int persoNbOfCats, const int persoNbOfRW)
+    const int persoNbOfCats, const int persoNbOfRW, const bool &initGame)
 {
     if (filename.empty() || (filename != emptyLevelName &&
                              !FilesLoader::fileExists(filename)))
@@ -78,7 +78,8 @@ bool Game::loadLevel(const std::string &filename, const Vector2i &sizeIfEmpty,
                                  persoNbOfRW));
     mouse.updateLevelPtr(currentLevel);
     inTower = false;
-    initializeGame(true);
+    if (initGame)
+        initializeGame(true);
     return true;
 }
 

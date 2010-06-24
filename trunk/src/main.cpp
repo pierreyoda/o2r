@@ -112,8 +112,8 @@ int main(int argc, char *argv[])
                               options.valueInt("levelY", DLVL_Y));
             const bool noWarningAtSave = options.valueBool("noWarningAtSave",
                 false), emptyLevel = options.valueBool("emptyLevel", false);
-            engine.runAsEditor(level, emptyLevel, size, noWarningAtSave,
-                               nbOfCats, nbOfRW);
+            engine.runAsEditor(level, emptyLevel, size, nbOfCats, nbOfRW,
+                               noWarningAtSave);
         }
     }
 

@@ -299,7 +299,7 @@
            <string>Y size</string>
           </property>
          </widget>
-         <widget class="QCheckBox" name="noWarningAtSave">
+         <widget class="QCheckBox" name="noWarningAtSaveBox">
           <property name="geometry">
            <rect>
             <x>10</x>

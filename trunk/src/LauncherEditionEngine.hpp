@@ -21,14 +21,14 @@ class LauncherEditionEngine
                         const bool &emptyLevel,
                         const sf::Vector2i &sizeIfEmpty,
                         const int &nbOfCats, const int &nbOfRW,
-                        const bool &noWarningAtSave = true);
+                        const bool &noWarningAtSave);
 
     private:
         void resetView();
         void ajustWindowToLevelSize();
         void drawFpsInDefaultView();
         void editorSaveLevelBeforeExit(const std::string &level,
-                                       const bool &noWarningAtSave = true);
+                                       const bool &noWarningAtSave);
 
         sf::RenderWindow &App;
         sf::View gameView;

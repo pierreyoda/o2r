@@ -283,49 +283,49 @@
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="14"/>
-        <location filename="../MainWindow.cpp" line="97"/>
-        <location filename="../MainWindow.cpp" line="252"/>
+        <location filename="../MainWindow.cpp" line="99"/>
+        <location filename="../MainWindow.cpp" line="255"/>
         <source>Choose a level file</source>
         <translation>Choisissez un fichier de niveau</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="71"/>
+        <location filename="../MainWindow.cpp" line="73"/>
         <source>Game launching error</source>
         <translation>Erreur de lancement du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="72"/>
+        <location filename="../MainWindow.cpp" line="74"/>
         <source>Failed to launch the game, please check the game location</source>
         <translation>Impossible de lancer le jeu, veuillez vérifier l&apos;emplacement du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="73"/>
+        <location filename="../MainWindow.cpp" line="75"/>
         <source>Cannot found : </source>
         <translation>Impossible de trouver :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="214"/>
+        <location filename="../MainWindow.cpp" line="217"/>
         <source>Choose the game main folder</source>
         <translation>Choisissez le dossier principal du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="253"/>
+        <location filename="../MainWindow.cpp" line="256"/>
         <source>Level file</source>
         <translation>Fichier de niveau</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="254"/>
-        <location filename="../MainWindow.cpp" line="277"/>
+        <location filename="../MainWindow.cpp" line="257"/>
+        <location filename="../MainWindow.cpp" line="280"/>
         <source>All files</source>
         <translation>Tous les fichiers</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="275"/>
+        <location filename="../MainWindow.cpp" line="278"/>
         <source>Choose a LES file</source>
         <translation>Choisissez un fichier &apos;LES&apos;</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="276"/>
+        <location filename="../MainWindow.cpp" line="279"/>
         <source>LES file</source>
         <translation>Fichier &apos;LES&apos;</translation>
     </message>
