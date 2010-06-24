@@ -1,5 +1,6 @@
 #include "HudManager.hpp"
 #include "../tools/ImageManager.hpp"
+#include "../Level.hpp"
 
 using namespace sf;
 
@@ -38,9 +39,9 @@ void HudManager::createHud(const Vector2i &levelSize)
         editorMouse.SetString("M : ");
     // Editor - Images
     static const float gap = 40.f;
-    sEditorBlock.SetImage(*gImageManager.getResource("block.png"));
+    sEditorBlock.SetImage(*Level::charToImage(CHAR_BLOCK));
         sEditorBlock.SetPosition(posBlock.x + gap, posBlock.y + gap/3);
-    sEditorWall.SetImage(*gImageManager.getResource("wall.png"));
+    sEditorWall.SetImage(*Level::charToImage(CHAR_WALL));
         sEditorWall.SetPosition(posWall.x + gap, posWall.y + gap/3);
     Image *img = gImageManager.getResource("mouse.png");
     sEditorMouse.SetImage(*img);

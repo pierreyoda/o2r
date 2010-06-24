@@ -151,7 +151,7 @@ void LauncherEditionEngine::runAsEditor(const std::string &level,
     std::string file = level;
     if (emptyLevel)
         file = emptyLevelName;
-    if (!game.loadLevel(file, sizeIfEmpty, nbOfCats, nbOfRW))
+    if (!game.loadLevel(file, sizeIfEmpty, nbOfCats, nbOfRW, false))
     {
         std::cerr << "Error : cannot load level '" << level
                         << "'. Game will now exit.\n";
