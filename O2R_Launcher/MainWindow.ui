@@ -383,19 +383,6 @@
          <string>...</string>
         </property>
        </widget>
-       <widget class="QLabel" name="label">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>20</y>
-          <width>111</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>LES file (*.xml)</string>
-        </property>
-       </widget>
        <widget class="QWidget" name="layoutWidget">
         <property name="geometry">
          <rect>
@@ -479,6 +466,19 @@
         </property>
         <property name="text">
          <string>Edit mods to use</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="useLesBox">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>20</y>
+          <width>161</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Use LES file</string>
         </property>
        </widget>
       </widget>

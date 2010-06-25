@@ -17,7 +17,7 @@
     <message>
         <location filename="../AboutDialog.cpp" line="15"/>
         <source>Copyright &amp;copy; 2010 Pierre-Yves Diallo (Pierreyoda)</source>
-        <translation>Copyright &amp;comy; Pierre-Yves Diallo (Pierreyoda)</translation>
+        <translation>Copyright &amp;copy; Pierre-Yves Diallo (Pierreyoda)</translation>
     </message>
     <message>
         <location filename="../AboutDialog.cpp" line="17"/>
@@ -97,19 +97,23 @@
         <translation>Options globales</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="396"/>
         <source>LES file (*.xml)</source>
-        <translation>Fichier LES (*.xml)</translation>
+        <translation type="obsolete">Fichier LES (*.xml)</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="447"/>
+        <location filename="../MainWindow.ui" line="434"/>
         <source>Set FPS  limit :</source>
         <translation>Limiter les IPS :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="481"/>
+        <location filename="../MainWindow.ui" line="468"/>
         <source>Edit mods to use</source>
         <translation>Choisir les mods à utiliser</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="481"/>
+        <source>Use LES file</source>
+        <translation>Utiliser un fichier &apos;LES&apos;</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="500"/>
@@ -203,37 +207,37 @@
         <translation>Réinitialiser</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="412"/>
+        <location filename="../MainWindow.ui" line="399"/>
         <source>FPS number will be print (F12 to toggle in game)</source>
         <translation>Le nombre d&apos;IPS sera affiché (F12 pour changer en jeu)</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="415"/>
+        <location filename="../MainWindow.ui" line="402"/>
         <source>Debug mode</source>
         <translation>Mode &apos;debug&apos;</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="422"/>
+        <location filename="../MainWindow.ui" line="409"/>
         <source>Wait for vertical synchronisation</source>
         <translation>Attendre la synchronisation verticale</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="425"/>
+        <location filename="../MainWindow.ui" line="412"/>
         <source>Enable V.Sync.</source>
         <translation>Activer la Sync.Verticale</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="432"/>
+        <location filename="../MainWindow.ui" line="419"/>
         <source>The window will expand to adjust to the level size (limited by screen&apos;s resolution)</source>
         <translation>La fenêtre va s&apos;étendre pour s&apos;adapter à la taille du niveau (limité par la résolution de l&apos;écran)</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="435"/>
+        <location filename="../MainWindow.ui" line="422"/>
         <source>Adjust window size</source>
         <translation>Ajuster la taille de la fenêtre</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="444"/>
+        <location filename="../MainWindow.ui" line="431"/>
         <source>This will limit the FPS (0 = no limit)</source>
         <translation>Cela limitera le nombre d&apos;IPS  (0 = pas de limite)</translation>
     </message>
@@ -283,49 +287,48 @@
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="14"/>
-        <location filename="../MainWindow.cpp" line="99"/>
-        <location filename="../MainWindow.cpp" line="255"/>
+        <location filename="../MainWindow.cpp" line="268"/>
         <source>Choose a level file</source>
         <translation>Choisissez un fichier de niveau</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="73"/>
+        <location filename="../MainWindow.cpp" line="75"/>
         <source>Game launching error</source>
         <translation>Erreur de lancement du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="74"/>
+        <location filename="../MainWindow.cpp" line="76"/>
         <source>Failed to launch the game, please check the game location</source>
         <translation>Impossible de lancer le jeu, veuillez vérifier l&apos;emplacement du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="75"/>
+        <location filename="../MainWindow.cpp" line="77"/>
         <source>Cannot found : </source>
         <translation>Impossible de trouver :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="217"/>
+        <location filename="../MainWindow.cpp" line="224"/>
         <source>Choose the game main folder</source>
         <translation>Choisissez le dossier principal du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="256"/>
+        <location filename="../MainWindow.cpp" line="269"/>
         <source>Level file</source>
         <translation>Fichier de niveau</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="257"/>
-        <location filename="../MainWindow.cpp" line="280"/>
+        <location filename="../MainWindow.cpp" line="270"/>
+        <location filename="../MainWindow.cpp" line="293"/>
         <source>All files</source>
         <translation>Tous les fichiers</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="278"/>
+        <location filename="../MainWindow.cpp" line="291"/>
         <source>Choose a LES file</source>
         <translation>Choisissez un fichier &apos;LES&apos;</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="279"/>
+        <location filename="../MainWindow.cpp" line="292"/>
         <source>LES file</source>
         <translation>Fichier &apos;LES&apos;</translation>
     </message>
