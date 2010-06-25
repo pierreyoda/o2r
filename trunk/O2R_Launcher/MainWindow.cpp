@@ -222,7 +222,7 @@ void MainWindow::on_actionLocation_triggered()
 {
     QString folder(QFileDialog::getExistingDirectory(this,
                         tr("Choose the game main folder"),
-                        currentBrowseFolder));
+                        gameMainFolder));
     if (folder.isEmpty())
         return;
     currentBrowseFolder = gameMainFolder = folder;
