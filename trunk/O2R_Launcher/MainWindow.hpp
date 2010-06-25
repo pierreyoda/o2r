@@ -41,6 +41,7 @@ private slots:
     void on_actionEnglish_triggered(const bool &state);
     void on_actionFrench_triggered(const bool &state);
     void on_emptyLevelBox_toggled(const bool &state);
+    void on_useLesBox_toggled(const bool &state);
     void on_browseButton_clicked();
     void on_browseLesButton_clicked();
     void on_browseEdit_textChanged(const QString &text);

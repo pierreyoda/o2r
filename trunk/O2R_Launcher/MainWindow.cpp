@@ -41,11 +41,13 @@ void MainWindow::launch_O2R(const bool &game)
     if (defineFpsLimitBox->isChecked())
         arguments << "-limitfps=" + QString::number(fpsLimitSpinBox->value());
     arguments << "-game=" + QString::number(game)
-            << "-level=" + browseEdit->text() << "-les=" + browseLesEdit->text();
-    QString mods = editModsDialog->mods().join(";");
+            << "-level=" + browseEdit->text();
+    if (useLesBox->isChecked())
+        arguments << "-les=" + browseLesEdit->text();
+    const QString mods = editModsDialog->mods().join(";");
     if (!mods.isEmpty())
         arguments << "-mods=" + mods;
-    if (game)
+    if (game || emptyLevelBox->isChecked())
     {
         if (defineCatsNumberBox->isChecked())
             arguments << "-nbOfCats=" + QString::number(numberOfCatsSpinBox
@@ -57,7 +59,7 @@ void MainWindow::launch_O2R(const bool &game)
             arguments << "-nbOfLives=" + QString::number(numberOfLivesSpinBox
                                                         ->value());
     }
-    else
+    if (!game)
     {
         if (emptyLevelBox->isChecked())
         {
@@ -92,14 +94,18 @@ void MainWindow::loadSettings()
     }
     setTranslation(lang);
 
-    // Folders
+    // Game main folder
     gameMainFolder = settings.value("gameMainFolder", "").toString();
-    currentBrowseFolder = gameMainFolder;
-    // Browse level file text
-    browseEdit->setText(settings.value("levelFile", tr("Choose a level file"))
-                        .toString());
-    // Browse LES file
+    // Browse level file text + current browse folder
+    browseEdit->setText(settings.value("levelFile", "data/1.txt").toString());
+    currentBrowseFolder = QDir(gameMainFolder).absoluteFilePath(browseEdit
+                                                                ->text());
+    // LES set
+    loadSingleOption("useLes", useLesBox);
+    const bool useLes = useLesBox->isChecked();
     browseLesEdit->setText(settings.value("lesFile", "").toString());
+    browseLesEdit->setEnabled(useLes);
+    browseLesButton->setEnabled(useLes);
     // Nb of cats group
     loadOptionSet("manualNbOfCats", "nbOfCats", defineCatsNumberBox,
                   numberOfCatsSpinBox);
@@ -163,6 +169,7 @@ void MainWindow::saveSettings()
     settings.setValue("language", language);
     settings.setValue("gameMainFolder", gameMainFolder);
     settings.setValue("levelFile", browseEdit->text());
+    settings.setValue("useLes", useLesBox->isChecked());
     settings.setValue("lesFile", browseLesEdit->text());
     settings.setValue("manualNbOfCats", defineCatsNumberBox->isChecked());
     settings.setValue("nbOfCats", numberOfCatsSpinBox->value());
@@ -248,6 +255,12 @@ void MainWindow::on_emptyLevelBox_toggled(const bool &state)
     levelXSpinBox->setEnabled(state), levelYSpinBox->setEnabled(state);
     resetButton->setEnabled(state);
     on_browseEdit_textChanged(browseEdit->text());
+}
+
+void MainWindow::on_useLesBox_toggled(const bool &state)
+{
+    browseLesEdit->setEnabled(state);
+    browseLesButton->setEnabled(state);
 }
 
 void MainWindow::on_browseButton_clicked()
