@@ -47,18 +47,14 @@ void MainWindow::launch_O2R(const bool &game)
     const QString mods = editModsDialog->mods().join(";");
     if (!mods.isEmpty())
         arguments << "-mods=" + mods;
-    if (game || emptyLevelBox->isChecked())
-    {
-        if (defineCatsNumberBox->isChecked())
-            arguments << "-nbOfCats=" + QString::number(numberOfCatsSpinBox
-                                                        ->value());
-        if (defineRWNumberBox->isChecked())
-            arguments << "-nbOfRW=" + QString::number(numberOfRWSpinBox
-                                                      ->value());
-        if (defineLivesNumberBox->isChecked())
-            arguments << "-nbOfLives=" + QString::number(numberOfLivesSpinBox
-                                                        ->value());
-    }
+
+    if (defineCatsNumberBox->isChecked())
+        arguments << "-nbOfCats=" + QString::number(numberOfCatsSpinBox->value());
+    if (defineRWNumberBox->isChecked())
+        arguments << "-nbOfRW=" + QString::number(numberOfRWSpinBox->value());
+    if (defineLivesNumberBox->isChecked())
+        arguments << "-nbOfLives=" + QString::number(numberOfLivesSpinBox
+                                                     ->value());
     if (!game)
     {
         if (emptyLevelBox->isChecked())
