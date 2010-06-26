@@ -26,7 +26,7 @@ class LauncherEditionEngine
     private:
         void resetView();
         void ajustWindowToLevelSize();
-        void drawFpsInDefaultView();
+        void drawFps();
         void editorSaveLevelBeforeExit(const std::string &level,
                                        const bool &noWarningAtSave);
 

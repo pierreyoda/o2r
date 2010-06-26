@@ -13,7 +13,7 @@ class HudManager
         void newGameStarted();
 
         const sf::Sprite &drawHud(const unsigned int &catsNb,
-            const unsigned int &remainingLifesNb, const bool &inGame = true);
+            const unsigned int &remainingLifesNb, const bool &inGame);
         static void drawFps(sf::RenderTarget &target, const float &fpsCount,
                 const sf::Vector2i &screenSize = sf::Vector2i(SCREEN_W, SCREEN_H));
 

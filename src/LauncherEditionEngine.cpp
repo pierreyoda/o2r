@@ -50,16 +50,17 @@ void LauncherEditionEngine::ajustWindowToLevelSize()
     }
 }
 
-void LauncherEditionEngine::drawFpsInDefaultView()
+void LauncherEditionEngine::drawFps()
 {
     static const LevelInformations &infos = game.getLevel().getInfos();
     static Vector2i screenRealSize(infos.size.x * CASE_SIZE,
                             infos.size.y * CASE_SIZE + HUD_HEIGHT);
     if (gv.debugMode)
     {
-        App.SetView(App.GetDefaultView());
+        if (adjustWindowSize)
             hud.drawFps(App, App.GetFrameTime(), screenRealSize);
-        App.SetView(gameView);
+        else
+            hud.drawFps(App, App.GetFrameTime(), Vector2i(SCREEN_W, SCREEN_H));
     }
 }
 
@@ -137,8 +138,10 @@ void LauncherEditionEngine::runAsGame(const std::string &level,
         for (iter = cats.begin(); iter != cats.end(); iter++)
             App.Draw(iter->sprite());
         App.Draw(mouse.sprite());
-        App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), true));
-        drawFpsInDefaultView();
+        App.SetView(App.GetDefaultView());
+            App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), true));
+            drawFps();
+        App.SetView(gameView);
         App.Display();
     }
 }
@@ -213,8 +216,10 @@ void LauncherEditionEngine::runAsEditor(const std::string &level,
         App.Clear();
         game.renderTower(App);
         App.Draw(mouse.sprite());
-        App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), false));
-        drawFpsInDefaultView();
+        App.SetView(App.GetDefaultView());
+            App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), false));
+            drawFps();
+        App.SetView(gameView);
         App.Display();
     }
 }
