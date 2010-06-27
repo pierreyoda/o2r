@@ -25,7 +25,7 @@ const bool USE_WINDOWGUI = USE_GUIFRAMEWORK;
 const float BUTTON_DEFAULT_BORDER = 8.f;
 const char stairsDescriptionDefaultFlag = ':';
 const std::string baseModule = "data/base/";
-const std::string gameVersion = "0.7-BETA";
+const std::string gameVersion = "0.7";
 const std::string emptyLevelName = "*empty*";
 
 enum CASETYPE

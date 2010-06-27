@@ -2,6 +2,7 @@
 #include <sstream>
 #include "ProgramOptions.hpp"
 #include "../constantes.hpp"
+#include "Logger.hpp"
 
 using namespace std;
 
@@ -44,7 +45,7 @@ bool ProgramOptions::valueBool(const string &key, const bool &defaultValue) cons
         }
         catch (const string &error)
         {
-            cout << "\t" << error << "\n";
+            gLog << "\t" << error << "\n";
         }
     }
     return value;
@@ -97,14 +98,14 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
         try
         {
             args.push_back(parseArgument(argv[i]));
-            cout << "\t- Argument " << i;
+            gLog << logH << "- Argument " << i;
             if (i < 10)
-                cout << " ";
-            cout <<  " : " << argv[i] << "\n";
+                gLog << " ";
+            gLog <<  " : " << argv[i] << "\n";
         }
         catch (const string &error)
         {
-            cout << "\t" << error << "\n";
+            gLog << logH << error << "\n";
         }
     }
     return true;
@@ -125,7 +126,7 @@ Argument ProgramOptions::parseArgument(const string &argument) const
         if (STRICT_PARSING)
             throw "Error : " + message;
         else
-            cout << "\t" << "Warning : " << message << "\n";
+            gLog << "\t" << "Warning : " << message << "\n";
         a = false;
     }
     else

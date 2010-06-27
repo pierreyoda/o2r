@@ -3,6 +3,7 @@
 #include <sstream>
 #include "Level.hpp"
 #include "tools/ImageManager.hpp"
+#include "tools/Logger.hpp"
 
 using namespace std;
 
@@ -76,7 +77,7 @@ bool Level::writeLevel(const string &filename)
         return false;
     infos.filename = infos.name =  filename;
 
-    cout << "Writing current level to '" << filename << "'.\n";
+    gLog << "Writing current level to '" << filename << "'.\n";
     ofstream file(filename.c_str(), ios::out | ios::trunc);
     if (!file)
         return false;
@@ -101,7 +102,7 @@ bool Level::writeLevel(const string &filename)
 
 bool Level::readLevelFile()
 {
-    cout << "Reading level '" << infos.filename << "'.\n";
+    gLog << "Reading level '" << infos.filename << "'.\n";
     string line;
     ifstream file(infos.filename.c_str(), ios::in);
     if (!file)
@@ -163,7 +164,7 @@ bool Level::setSizeFromLine(const string &line, const sf::Vector2i &oldSize)
         if (size > 0)
         {
             if (size != (unsigned int)oldSize.x)
-                cout << "X size set to " << size << ".\n";
+                gLog << "X size set to " << size << ".\n";
             infos.size.x = size;
         }
     }
@@ -173,7 +174,7 @@ bool Level::setSizeFromLine(const string &line, const sf::Vector2i &oldSize)
         if (size > 0)
         {
             if (size != (unsigned int)oldSize.y)
-                cout << "Y size set to " << size << ".\n";
+                gLog << "Y size set to " << size << ".\n";
             infos.size.y = size;
         }
     }
@@ -191,7 +192,7 @@ void Level::setiNbOfCatsFromText(const string &text)
     if (number < 0 || number > nbOfCasetype(NOTHING))
         return;
     infos.iCatsNb = infos.catsNb = number;
-    cout << "Number of cats set to " << number << " for this level.\n";
+    gLog << "Number of cats set to " << number << " for this level.\n";
 }
 
 void Level::setNbOfRandomWallsFromText(const string &text)
@@ -202,7 +203,7 @@ void Level::setNbOfRandomWallsFromText(const string &text)
     if (number < 0 || number > (unsigned int)infos.size.x*infos.size.y)
         return;
     infos.randomWallsNb = number;
-    cout << "Number of random walls set to " << number << " for this level.\n";
+    gLog << "Number of random walls set to " << number << " for this level.\n";
 }
 
 void Level::fillWithNothingType()

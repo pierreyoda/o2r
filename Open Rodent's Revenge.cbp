@@ -31,8 +31,9 @@
 			<Target title="Profiled">
 				<Option output="OpenRodentsRevenge_p" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Profiled\" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-Os" />
 					<Add option="-O3" />
@@ -110,6 +111,8 @@
 		<Unit filename="src\tools\FilesLoader.hpp" />
 		<Unit filename="src\tools\ImageManager.cpp" />
 		<Unit filename="src\tools\ImageManager.hpp" />
+		<Unit filename="src\tools\Logger.cpp" />
+		<Unit filename="src\tools\Logger.hpp" />
 		<Unit filename="src\tools\ProgramOptions.cpp" />
 		<Unit filename="src\tools\ProgramOptions.hpp" />
 		<Unit filename="src\tools\ResourceManager.hpp" />

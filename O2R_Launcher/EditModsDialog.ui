@@ -54,6 +54,9 @@
      <height>31</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Add a mod</string>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -76,6 +79,9 @@
      <width>41</width>
      <height>31</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Remove this mod</string>
    </property>
    <property name="text">
     <string/>
@@ -100,6 +106,9 @@
      <height>21</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>Go up</string>
+   </property>
    <property name="text">
     <string/>
    </property>
@@ -122,6 +131,9 @@
      <width>21</width>
      <height>21</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>Go down</string>
    </property>
    <property name="text">
     <string/>
