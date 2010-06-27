@@ -1,16 +1,17 @@
 #include <iostream>
 #include "TowerFileInterpreter.hpp"
 #include "tools/FilesLoader.hpp"
+#include "tools/Logger.hpp"
 
 using namespace std;
 
 /*bool TowerFileInterpreter::readTower(Tower &tower, const string &filename)
 {
-    cout << "Reading tower '" << filename << "'.\n";
+    gLog << "Reading tower '" << filename << "'.\n";
     TiXmlDocument file(filename.c_str());
     if (!file.LoadFile())
     {
-        cerr << "Error while loading tower from '" << filename << "' (Error #"
+        gLog << "Error while loading tower from '" << filename << "' (Error #"
             << file.ErrorId() << " : " << file.ErrorDesc() << ")\n";
         return false;
     }
@@ -22,7 +23,7 @@ using namespace std;
     string nodeName = elem->Value();
     if (nodeName != "Tower")
     {
-        cerr << "Error : main node is not 'Tower'.\n";
+        gLog << "Error : main node is not 'Tower'.\n";
         return false;
     }
     string basedir = elem->Attribute("basedir");
@@ -40,9 +41,9 @@ using namespace std;
             Level *level = new Level(true);
             const string filename = basedir + elem->Attribute("ref");
             level->setFilename(filename);
-            cout << "\t";
+            gLog << "\t";
             if (!FilesLoader::fileExists(filename))
-                cerr << "Error : level file '" << filename << "' does not exist.\n";
+                gLog << "Error : level file '" << filename << "' does not exist.\n";
             else if (LevelFileInterpreter::readLevel(*level, filename))
             //else
                 tower.addFloor(*level);
@@ -54,7 +55,7 @@ using namespace std;
         else if (nodeName == "stairs")
             readStairs(elem);
         else
-            cout << "\tWarning : unrecognized node '" << nodeName << "'.\n";
+            gLog << "\tWarning : unrecognized node '" << nodeName << "'.\n";
         elem = elem->NextSiblingElement();
     }
 
@@ -86,11 +87,11 @@ bool TowerFileInterpreter::readStairs(TiXmlElement *elem)
 
 bool TowerFileInterpreter::readStairs(const string &filename)
 {
-    cout << "\tReading stairs '" << filename << "'.\n";
+    gLog << "\tReading stairs '" << filename << "'.\n";
     TiXmlDocument file(filename.c_str());
     if (!file.LoadFile())
     {
-        cerr << "Error while loading stairs from '" << filename << "' (Error #"
+        gLog << "Error while loading stairs from '" << filename << "' (Error #"
             << file.ErrorId() << " : " << file.ErrorDesc() << ")\n";
         return false;
     }
@@ -102,7 +103,7 @@ bool TowerFileInterpreter::readStairs(const string &filename)
     string nodeName = elem->Value();
     if (nodeName != "stairs")
     {
-        cerr << "Error : main node is not 'stairs'.\n";
+        gLog << "Error : main node is not 'stairs'.\n";
         return false;
     }
     return readStairs(elem);
@@ -142,11 +143,11 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
         bool ok = true;
         if (imgpath.empty() || imgpath == baseModule)
         {
-            cerr << "Error : no image specified.\n";
+            gLog << "Error : no image specified.\n";
             ok = false;
         }
         else if (!FilesLoader::fileExists(imgpath))
-            cerr << "Warning : image '" << imgpath << "' not found.\n";
+            gLog << "Warning : image '" << imgpath << "' not found.\n";
         if (ok)
             lesElements.push_back(LesElement(character, type, imgpath));
         elem = elem->NextSiblingElement("element");
@@ -157,13 +158,13 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
 bool TowerFileInterpreter::readLes(const string &filename, l_LesElement &lesElements,
                                    const bool &clearPreviousLes)
 {
-    cout << "\tReading LES description file '" << filename << "'.\n";
+    gLog << "\tReading LES description file '" << filename << "'.\n";
     if (clearPreviousLes)
         lesElements.clear();
     TiXmlDocument file(filename.c_str());
     if (!file.LoadFile())
     {
-        cerr << "Error while loading LES from '" << filename << "' (Error #"
+        gLog << "Error while loading LES from '" << filename << "' (Error #"
             << file.ErrorId() << " : " << file.ErrorDesc() << ")\n";
         return false;
     }
@@ -175,7 +176,7 @@ bool TowerFileInterpreter::readLes(const string &filename, l_LesElement &lesElem
     string nodeName = elem->Value();
     if (nodeName != "LES")
     {
-        cerr << "Error : main node is not 'LES'.\n";
+        gLog << "Error : main node is not 'LES'.\n";
         return false;
     }
     return readLes(elem, lesElements);

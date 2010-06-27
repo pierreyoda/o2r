@@ -85,6 +85,9 @@
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="2">
         <widget class="QPushButton" name="editorButton">
+         <property name="toolTip">
+          <string>Launch the level editor</string>
+         </property>
          <property name="text">
           <string>Editor</string>
          </property>
@@ -92,6 +95,9 @@
        </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="gameButton">
+         <property name="toolTip">
+          <string>Launch the game</string>
+         </property>
          <property name="text">
           <string>Game</string>
          </property>
@@ -231,6 +237,9 @@
             <height>21</height>
            </rect>
           </property>
+          <property name="toolTip">
+           <string>Start with an empty level</string>
+          </property>
           <property name="text">
            <string>Empty level</string>
           </property>
@@ -346,6 +355,9 @@
             <width>71</width>
             <height>23</height>
            </rect>
+          </property>
+          <property name="toolTip">
+           <string/>
           </property>
           <property name="text">
            <string>Reset</string>
@@ -464,6 +476,9 @@
           <height>31</height>
          </rect>
         </property>
+        <property name="toolTip">
+         <string/>
+        </property>
         <property name="text">
          <string>Edit mods to use</string>
         </property>
@@ -476,6 +491,9 @@
           <width>161</width>
           <height>16</height>
          </rect>
+        </property>
+        <property name="toolTip">
+         <string>Use this LES description file</string>
         </property>
         <property name="text">
          <string>Use LES file</string>

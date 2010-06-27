@@ -4,6 +4,7 @@
 #include "gui/TextBox.hpp"
 #include "gui/Button.hpp"
 #include "tools/FilesLoader.hpp"
+#include "tools/Logger.hpp"
 
 using namespace sf;
 
@@ -110,7 +111,7 @@ void Engine::run()
 void Engine::runGame()
 {
     bool astar = true;
-    std::cout << "Launching game...\n";
+    gLog << "Launching game...\n";
     if (!loadLevel(game.getCurrentLevelName()))
         loadLevel("data/1.txt");
     game.testTower();
@@ -217,7 +218,7 @@ void Engine::buttonLoadTower()
 
 void Engine::runEditor()
 {
-    std::cout << "Launching level editor...\n";
+    gLog << "Launching level editor...\n";
     if (!loadLevel(game.getCurrentLevelName()))
         loadLevel("data/1.txt");
     hud.newGameStarted();

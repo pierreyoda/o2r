@@ -2,6 +2,7 @@
 #include "LauncherEditionEngine.hpp"
 #include "gui/ConfirmationScreen.hpp"
 #include "tools/FilesLoader.hpp"
+#include "tools/Logger.hpp"
 
 using namespace sf;
 
@@ -67,11 +68,11 @@ void LauncherEditionEngine::drawFps()
 void LauncherEditionEngine::runAsGame(const std::string &level,
             const int &nbOfCats, const int &nbOfRW)
 {
-    std::cout << "Launching game...\n";
+    gLog << "Launching game...\n";
     if (!game.loadLevel(level, Vector2i(DLVL_X, DLVL_Y), nbOfCats,
                         nbOfRW))
     {
-        std::cerr << "Error : cannot load level '" << level
+        gLog << "Error : cannot load level '" << level
                         << "'. Game will now exit.\n";
         return;
     }
@@ -150,13 +151,13 @@ void LauncherEditionEngine::runAsEditor(const std::string &level,
     const bool &emptyLevel, const sf::Vector2i &sizeIfEmpty,
     const int &nbOfCats, const int &nbOfRW, const bool &noWarningAtSave)
 {
-    std::cout << "Launching level editor...\n";
+    gLog << "Launching level editor...\n";
     std::string file = level;
     if (emptyLevel)
         file = emptyLevelName;
     if (!game.loadLevel(file, sizeIfEmpty, nbOfCats, nbOfRW, false))
     {
-        std::cerr << "Error : cannot load level '" << level
+        gLog << "Error : cannot load level '" << level
                         << "'. Game will now exit.\n";
         return;
     }

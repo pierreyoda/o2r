@@ -2,6 +2,7 @@
 #include "Game.hpp"
 #include "TowerFileInterpreter.hpp"
 #include "tools/FilesLoader.hpp"
+#include "tools/Logger.hpp"
 
 using namespace sf;
 
@@ -85,7 +86,7 @@ bool Game::loadLevel(const std::string &filename, const Vector2i &sizeIfEmpty,
 
 void Game::initializeGame(const bool &newlvl)
 {
-    std::cout << "Initializing game.\n";
+    gLog << "Initializing game.\n";
     gv.score = 0;
     mouse.revive();
     cats.clear();
