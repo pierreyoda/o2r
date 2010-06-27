@@ -45,7 +45,7 @@ bool ProgramOptions::valueBool(const string &key, const bool &defaultValue) cons
         }
         catch (const string &error)
         {
-            gLog << "\t" << error << "\n";
+            gLog << logH << error << "\n";
         }
     }
     return value;
@@ -93,19 +93,21 @@ void ProgramOptions::valueVector(vector<string> &vector, const string &key,
 
 bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
 {
+    gLog.useHierarchy(false);
     for (unsigned int i = 1; i < argc; i++)
     {
+        gLog << logH << "- ";
         try
         {
             args.push_back(parseArgument(argv[i]));
-            gLog << logH << "- Argument " << i;
+            gLog << "Argument " << i;
             if (i < 10)
                 gLog << " ";
             gLog <<  " : " << argv[i] << "\n";
         }
         catch (const string &error)
         {
-            gLog << logH << error << "\n";
+            gLog << error << "\n";
         }
     }
     return true;
@@ -126,7 +128,7 @@ Argument ProgramOptions::parseArgument(const string &argument) const
         if (STRICT_PARSING)
             throw "Error : " + message;
         else
-            gLog << "\t" << "Warning : " << message << "\n";
+            gLog << "Warning : " << message << "\n" << logH << "->";
         a = false;
     }
     else
