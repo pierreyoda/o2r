@@ -121,7 +121,8 @@ void Game::updateCats(const bool &astar)
         Cat &cat = *iter;
         if (cat.isAlive())
         {
-            if (cat.moveCat(*currentLevel.get(), mouse.pos(), cats, astar) && !mouse.dead())
+            if (cat.moveCat(*currentLevel.get(), mouse.pos(), cats, astar) &&
+                    !mouse.dead())
                 mouse.die();
             if (cat.cannotMoveNb() > 0)
                 cat.setImage(gImageManager.getResource("cat_awaiting.png"));

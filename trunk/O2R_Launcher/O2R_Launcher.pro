@@ -15,3 +15,4 @@ FORMS += MainWindow.ui \
     AboutDialog.ui
 RESOURCES += resources.qrc
 TRANSLATIONS += dataprivate/o2r-gui_fr.ts
+RC_FILE = resources.rc

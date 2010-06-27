@@ -40,7 +40,7 @@ bool Cat::moveCat(Level &lvl, const sf::Vector2i &mousePos,
     {
         if (!m_astarAlreadyMoved || (mousePos != prevMousepos || infos.hasChanged))
         {
-            path = *AStarAlgorithm::pathfinding(m_pos, mousePos, lvl);
+            path l= *AStarAlgorithm::pathfinding(m_pos, mousePos, lvl);
             prevMousepos = mousePos;
             m_astarAlreadyMoved = true;
         }
