@@ -67,11 +67,12 @@ int main(int argc, char *argv[])
     bool le = options.valueBool("LE", false);
     if (le)
         gLog << "Launcher edition used.\n";
-    gLog << "\n";
     const string les = options.valueString("les", "");
+    gLog.useHierarchy(false);
     if (!les.empty())
         TowerFileInterpreter::readLes(les, gv.lesElements);
     gLog.changeHierarchy(0);
+    gLog << "\n";
 
     sf::RenderWindow window(sf::VideoMode(SCREEN_W, SCREEN_H, 32),
                             gv.windowTitle, sf::Style::Close);

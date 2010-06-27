@@ -103,7 +103,7 @@ bool TowerFileInterpreter::readStairs(const string &filename)
     string nodeName = elem->Value();
     if (nodeName != "stairs")
     {
-        gLog << "Error : main node is not 'stairs'.\n";
+        gLog << logH << "Error : main node is not 'stairs'.\n";
         return false;
     }
     return readStairs(elem);
@@ -143,11 +143,11 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
         bool ok = true;
         if (imgpath.empty() || imgpath == baseModule)
         {
-            gLog << "Error : no image specified.\n";
+            gLog << logH << "Error : no image specified.\n";
             ok = false;
         }
         else if (!FilesLoader::fileExists(imgpath))
-            gLog << "Warning : image '" << imgpath << "' not found.\n";
+            gLog << logH << "Warning : image '" << imgpath << "' not found.\n";
         if (ok)
             lesElements.push_back(LesElement(character, type, imgpath));
         elem = elem->NextSiblingElement("element");
@@ -158,13 +158,14 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
 bool TowerFileInterpreter::readLes(const string &filename, l_LesElement &lesElements,
                                    const bool &clearPreviousLes)
 {
-    gLog << "\tReading LES description file '" << filename << "'.\n";
+    gLog << logH << "Reading LES description file '" << filename << "'.\n";
+    gLog.changeHierarchy(1, true);
     if (clearPreviousLes)
         lesElements.clear();
     TiXmlDocument file(filename.c_str());
     if (!file.LoadFile())
     {
-        gLog << "Error while loading LES from '" << filename << "' (Error #"
+        gLog << logH << "Error while loading LES from '" << filename << "' (Error #"
             << file.ErrorId() << " : " << file.ErrorDesc() << ")\n";
         return false;
     }

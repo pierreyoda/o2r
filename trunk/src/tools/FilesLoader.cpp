@@ -35,7 +35,7 @@ bool FilesLoader::loadModules(const vector<string> &modules,
         return false;
     }
 
-    gLog << "\tFinding module(s) files... ";
+    gLog << "Finding module(s) files... ";
     if (modules.size() <= 1)
     {
         gLog << "No module(s) specified : skipping step.\n";
@@ -44,7 +44,7 @@ bool FilesLoader::loadModules(const vector<string> &modules,
     }
     gLog << "\n";
     fileList moduleFiles, alreadyLoaded;
-    gLog.changeHierarchy(0);
+    gLog.changeHierarchy(1);
     for (unsigned int i = 1; i < modules.size(); i++)
     {
         moduleFiles.clear();
@@ -52,13 +52,13 @@ bool FilesLoader::loadModules(const vector<string> &modules,
         if (moduledir != baseDir)
         {
             bool isAlreadyLoaded = false;
-            gLog << "\t- Module : " << moduledir << " -\n";
+            gLog << logH << "- Module : " << moduledir << " -\n";
             for (unsigned int i = 0; i < alreadyLoaded.size(); i++)
             {
                 if (moduledir == alreadyLoaded[i])
                 {
                     isAlreadyLoaded = true;
-                    gLog << "Warning : module already loaded : skipping step.\n";
+                    gLog << logH << "Warning : module already loaded : skipping step.\n";
                     break;
                 }
             }
@@ -67,7 +67,7 @@ bool FilesLoader::loadModules(const vector<string> &modules,
             else if (!findPresentFiles(moduleFiles, moduledir))
                 continue;
             else if (!loadFiles(moduleFiles, moduledir, baseFiles))
-                gLog << "\tError : failed to load module '" << moduledir << "'.\n";
+                gLog << logH << "Error : failed to load module '" << moduledir << "'.\n";
             else
                 alreadyLoaded.push_back(moduledir);
         }
@@ -85,9 +85,8 @@ bool FilesLoader::loadFiles(const fileList &files, const string &dir,
     fileList alreadyLoaded;
     for (unsigned int i = 0; i < files.size(); i++)
     {
-        gLog.useHierarchy(true);
         string file = dir + files[i];
-        gLog << file;
+        gLog << logH << file;
         if (checkIfAlreadyLoaded)
         {
             bool isAlreadyLoaded = false;
@@ -108,8 +107,6 @@ bool FilesLoader::loadFiles(const fileList &files, const string &dir,
             alreadyLoaded.push_back(file);
         gLog << "\n";
     }
-    gLog.changeHierarchy(1);
-    gLog.useHierarchy(false);
     return true;
 }
 
