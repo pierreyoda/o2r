@@ -38,8 +38,8 @@ void LevelCase::updateImage()
 }
 
 Level::Level(const string &file, const string &name,
-    const sf::Vector2i &sizeIfEmpty, const int persoNbOfCats,
-    const int persoNbOfRW) : cases()
+    const sf::Vector2i &sizeIfEmpty, const int &persoNbOfCats,
+    const int &persoNbOfRW)
 {
     if (name.empty())
         infos.name = file;

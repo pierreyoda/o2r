@@ -27,7 +27,7 @@ struct GlobalVariables
     GlobalVariables();
     ~GlobalVariables();
 
-    bool debugMode, sizeChanged;
+    bool debugMode, sizeChanged, useShaders;
     unsigned int score, mouseNbOfLives;
     const unsigned int catsCannotMoveNbBeforeDead;
     std::string windowTitle;

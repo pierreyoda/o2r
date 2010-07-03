@@ -8,7 +8,7 @@ using namespace sf;
 
 // TODO (Pierre-Yves#1#): [TOWER] 0.8 : Charger et afficher les Tower
 // TODO (Pierre-Yves#1#): [TOWER] Ajouter 'initializeFloor' (--> facile : initializeGame() avec nb chats perso et reset(floor) du pointeur) à Game
-Game::Game(const bool &loadDefaultLevel) : tower(new Tower()), cats(),
+Game::Game(const bool &loadDefaultLevel) : tower(NULL), cats(),
     mouse(currentLevel, cats), inTower(false)
 {
     if (loadDefaultLevel)
@@ -19,19 +19,21 @@ Game::Game(const bool &loadDefaultLevel) : tower(new Tower()), cats(),
 Game::~Game()
 {
     cats.clear();
-    delete tower; //Crash (when loading tower)!
+    delete tower;
+    currentLevel.reset(new Level(emptyLevelName, "", Vector2i(5, 5)));
+    mouse.updateLevelPtr(currentLevel);
 }
 
 void Game::testTower()
 {
-    /*loadTower("data/towertest/testtower.xml");
+    loadTower("data/towertest/testtower.xml");
     //tower->setCurrentFloor(1);
-    updateLevelPointersFromTower();*/
+    updateLevelPointersFromTower();
 }
 
 void Game::updateLevelPointersFromTower()
 {
-    if (tower->getCurrentFloor() == NULL)
+    if (tower == NULL || tower->getCurrentFloor() == NULL)
         return;
     currentLevel.reset(tower->getCurrentFloor());
     mouse.updateLevelPtr(currentLevel);
@@ -41,7 +43,7 @@ void Game::renderTower(RenderTarget &target)
 {
     if (currentLevel.get() == NULL)
         return;
-    if (inTower)
+    if (inTower && tower != NULL)
         tower->render(target);
     else
         target.Draw(currentLevel->getRenderResult());
@@ -49,19 +51,15 @@ void Game::renderTower(RenderTarget &target)
 
 bool Game::loadTower(const std::string &filename)
 {
-    /*if (filename == "")
+    if (filename.empty())
         return false;
-    gv.lesElements.clear();
-    if (!TowerFileInterpreter::readTower(*tower, filename))
-    {
-        resetLevel();
+    //gv.lesElements.clear();
+    tower = new Tower(filename);
+    if (tower == NULL || tower->getCurrentFloor() == NULL)
         return false;
-    }
     inTower = true;
-    currentLevel.reset(tower->getCurrentFloor());
-    mouse.updateLevelPtr(currentLevel);
-    return true;*/
-    return false;
+    updateLevelPointersFromTower();
+    return true;
 }
 
 bool Game::saveLevel(const std::string &filename)

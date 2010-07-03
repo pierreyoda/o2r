@@ -26,8 +26,9 @@ class ProgramOptions
 
         bool parseCommandLine(const unsigned int &argc, char *argv[]);
 
+        static bool stringToBool(const std::string &text);
+
     private:
-        bool stringToBool(const std::string &text) const;
         unsigned int getArgIdFromName(const std::string &name) const;
         Argument parseArgument(const std::string &argument) const;
 
