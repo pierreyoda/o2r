@@ -34,7 +34,7 @@ class Level
         Level(const std::string &file = emptyLevelName,
             const std::string &name = "", const sf::Vector2i &sizeIfEmpty
                 = sf::Vector2i(DLVL_X, DLVL_Y),
-            const int persoNbOfCats = -1, const int persoNbOfRW = -1);
+            const int &persoNbOfCats = -1, const int &persoNbOfRW = -1);
         ~Level();
 
         const sf::Sprite &getRenderResult(const bool &transparent = false);

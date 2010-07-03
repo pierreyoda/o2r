@@ -110,6 +110,10 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
             gLog << error << "\n";
         }
     }
+    args.push_back(Argument("LE", ""));
+    args.push_back(Argument("game", "1"));
+    args.push_back(Argument("towerMode", "1"));
+    args.push_back(Argument("level", "data/LesTestTower/LesTestTower.xml"));
     return true;
 }
 
@@ -146,7 +150,7 @@ Argument ProgramOptions::parseArgument(const string &argument) const
     return Argument(name, value);
 }
 
-bool ProgramOptions::stringToBool(const string &text) const
+bool ProgramOptions::stringToBool(const string &text)
 {
     if (text == "0" || text == "false")
         return false;

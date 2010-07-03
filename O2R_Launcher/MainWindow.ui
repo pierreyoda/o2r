@@ -112,7 +112,7 @@
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>20</y>
+            <y>40</y>
             <width>121</width>
             <height>16</height>
            </rect>
@@ -125,7 +125,7 @@
           <property name="geometry">
            <rect>
             <x>10</x>
-            <y>40</y>
+            <y>60</y>
             <width>171</width>
             <height>81</height>
            </rect>
@@ -205,23 +205,20 @@
            </item>
           </layout>
          </widget>
+         <widget class="QCheckBox" name="towerModeBox">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>171</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Launch in 'Tower' mode</string>
+          </property>
+         </widget>
         </widget>
-       </item>
-       <item row="1" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>130</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item row="1" column="2">
         <widget class="QGroupBox" name="groupBox_2">
@@ -338,7 +335,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>110</y>
+            <y>120</y>
             <width>151</width>
             <height>31</height>
            </rect>
@@ -363,7 +360,32 @@
            <string>Reset</string>
           </property>
          </widget>
+         <zorder>emptyLevelBox</zorder>
+         <zorder>levelXSpinBox</zorder>
+         <zorder>levelYSpinBox</zorder>
+         <zorder>label_4</zorder>
+         <zorder>label_5</zorder>
+         <zorder>noWarningAtSaveBox</zorder>
+         <zorder>label_6</zorder>
+         <zorder>resetButton</zorder>
+         <zorder></zorder>
         </widget>
+       </item>
+       <item row="1" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>150</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>

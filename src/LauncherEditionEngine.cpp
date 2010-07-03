@@ -66,10 +66,19 @@ void LauncherEditionEngine::drawFps()
 }
 
 void LauncherEditionEngine::runAsGame(const std::string &level,
-            const int &nbOfCats, const int &nbOfRW)
+            const int &nbOfCats, const int &nbOfRW, const bool &towerMode)
 {
     gLog << "Launching game...\n";
-    if (!game.loadLevel(level, Vector2i(DLVL_X, DLVL_Y), nbOfCats,
+    if (towerMode)
+    {
+        if (!game.loadTower(level))
+        {
+            gLog << "Error : cannot load tower '" << level <<
+                "'. Game will now exit.\n";
+            return;
+        }
+    }
+    else if (!game.loadLevel(level, Vector2i(DLVL_X, DLVL_Y), nbOfCats,
                         nbOfRW))
     {
         gLog << "Error : cannot load level '" << level

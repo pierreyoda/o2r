@@ -16,7 +16,8 @@ class LauncherEditionEngine
         ~LauncherEditionEngine();
 
         void runAsGame(const std::string &level,
-                        const int &nbOfCats, const int &nbOfRW);
+                        const int &nbOfCats, const int &nbOfRW,
+                        const bool &towerMode = false);
         void runAsEditor(const std::string &level,
                         const bool &emptyLevel,
                         const sf::Vector2i &sizeIfEmpty,

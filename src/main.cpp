@@ -95,7 +95,8 @@ int main(int argc, char *argv[])
     else
     {
         const bool game = options.valueBool("game", true),
-            adjustWindowSize = options.valueBool("adjustWindowSize", false);
+            adjustWindowSize = options.valueBool("adjustWindowSize", false),
+            towerMode = options.valueBool("towerMode", false);
         if (adjustWindowSize)
             gLog << "The window will expand to adjust to the level size when it is possible.\n";
         string level = options.valueString("level", "data/1.txt");
@@ -108,8 +109,10 @@ int main(int argc, char *argv[])
         {
             if (nbOfLives >= 0)
                 gv.mouseNbOfLives = nbOfLives;
-            engine.runAsGame(level, nbOfCats, nbOfRW);
+            engine.runAsGame(level, nbOfCats, nbOfRW, towerMode);
         }
+        else if (towerMode)
+            gLog << "Error : cannot edit directly a Tower. Game will now exit.\n";
         else
         {
             const sf::Vector2i size(options.valueInt("levelX", DLVL_X),

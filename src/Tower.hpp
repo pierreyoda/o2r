@@ -6,14 +6,19 @@
 #include "Level.hpp"
 #include "tools/FilesLoader.hpp"
 
-//typedef std::pair<std::string, levelPtr> Floor;
 struct Floor
 {
-    Floor(const std::string &path, const std::string &alias) : alias(alias)/*,
-        data(true)
-    { data.setFilename(path); }*/{}
+    Floor(const std::string &path, const std::string &alias) : alias(alias)
+    {
+        data = NULL;
+    }
+    ~Floor()
+    {
+        delete data;
+    }
+
     std::string filename, alias;
-    //Level data;
+    Level *data;
 };
 
 struct StairsDescriptionElement
@@ -27,20 +32,20 @@ typedef std::list<StairsDescriptionElement> l_stairsDescription;
 class Tower
 {
     public:
-        Tower();
+        Tower(const std::string &file);
         ~Tower();
 
         void render(sf::RenderTarget &target);
-        void addFloor(Level &floor);
         void addFloor(const std::string &name, const std::string &alias = "");
-        void addLesElement(const LesElement &nLesElement);
-        void setCurrentFloor(const unsigned int &currentFloor) {
-            m_currentFloor = currentFloor; }
         void setStairsDescriptionFlag(const char &flag) {
             m_stairsDescriptionFlag = flag; }
-        void loadFloors();
 
-        Level *getCurrentFloor() { /*return m_floors[m_currentFloor].second.get(); */ return NULL; }
+        Level *getCurrentFloor()
+        {
+            if (m_floors.empty() || m_currentFloor >= m_floors.size())
+                return NULL;
+            return m_floors[m_currentFloor].data;
+        }
 
     private:
         std::string getNextFloorDefaultName();
@@ -53,7 +58,6 @@ class Tower
         sf::Shader &m_lowerFloorsShader, &m_lowerFloorsShader2;
         unsigned int m_currentFloor;
         char m_stairsDescriptionFlag;
-        bool m_LesChanged;
 };
 
 #endif /* TOWER_HPP */

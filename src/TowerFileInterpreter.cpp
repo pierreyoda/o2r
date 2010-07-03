@@ -1,13 +1,15 @@
 #include <iostream>
 #include "TowerFileInterpreter.hpp"
+#include "tools/ProgramOptions.hpp"
 #include "tools/FilesLoader.hpp"
 #include "tools/Logger.hpp"
 
 using namespace std;
 
-/*bool TowerFileInterpreter::readTower(Tower &tower, const string &filename)
+bool TowerFileInterpreter::readTower(Tower &tower, const string &filename)
 {
     gLog << "Reading tower '" << filename << "'.\n";
+    gLog.changeHierarchy(1, true);
     TiXmlDocument file(filename.c_str());
     if (!file.LoadFile())
     {
@@ -38,26 +40,31 @@ using namespace std;
         nodeName = elem->Value();
         if (nodeName == "floor")
         {
-            Level *level = new Level(true);
-            const string filename = basedir + elem->Attribute("ref");
-            level->setFilename(filename);
-            gLog << "\t";
-            if (!FilesLoader::fileExists(filename))
-                gLog << "Error : level file '" << filename << "' does not exist.\n";
-            else if (LevelFileInterpreter::readLevel(*level, filename))
-            //else
-                tower.addFloor(*level);
+            bool ok = true;
+            string filename = "", alias = "";
+            if (elem->Attribute("ref") == NULL)
+            {
+                gLog << logH << "Error : missing attribute 'ref'.\n";
+                ok = false;
+            }
+            else
+                filename = basedir + elem->Attribute("ref");
+            if (elem->Attribute("name") != NULL)
+                alias = elem->Attribute("name");
+            if (ok && !FilesLoader::fileExists(filename))
+                gLog << logH << "Error : level file '" << filename << "' does not exist.\n";
+            else if (ok)
+                tower.addFloor(filename, alias);
         }
         else if (nodeName == "LES")
-        {
-            readLes(elem, gv.lesElements);
-        }
+            ;//readLes(elem, gv.lesElements);
         else if (nodeName == "stairs")
-            readStairs(elem);
+            ;//readStairs(elem);
         else
-            gLog << "\tWarning : unrecognized node '" << nodeName << "'.\n";
+            gLog << logH << "Warning : unrecognized node '" << nodeName << "'.\n";
         elem = elem->NextSiblingElement();
     }
+    gLog.changeHierarchy(-1, true);
 
     return true;
 }
@@ -108,13 +115,18 @@ bool TowerFileInterpreter::readStairs(const string &filename)
     }
     return readStairs(elem);
 }
-*/
+
 bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements)
 {
-    string basedir = elem->Attribute("basedir");
-    char lastLetter = basedir[basedir.size()-1];
-    if (lastLetter != '\\' && lastLetter != '/')
-        basedir += '/';
+    string basedir = "";
+    if (elem->Attribute("basedir") != NULL)
+        basedir = elem->Attribute("basedir");
+    if (!basedir.empty())
+    {
+        const char lastLetter = basedir[basedir.size()-1];
+        if (lastLetter != '\\' && lastLetter != '/')
+            basedir += '/';
+    }
 
     elem = elem->FirstChildElement("element");
     while (elem)
@@ -123,9 +135,14 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
         char character = '0';
         string imgpath = "nothing.png";
         TiXmlAttribute *attrib = elem->FirstAttribute();
+        bool fromBaseDir = false;
         while (attrib)
         {
+            if (attrib->Name() == NULL)
+                continue;
             const string attribName = attrib->Name();
+            if (attrib->Value() == NULL)
+                continue;
             const string attribValueStr = attrib->Value();
             if (attribName == "char" && attribValueStr.size() >= 1)
                 character = attribValueStr[0];
@@ -133,10 +150,16 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
                 imgpath = attribValueStr;
             else if (attribName == "type")
                 type = Level::stringToCasetype(attribValueStr);
-            else if (attribName == "fromBaseDir" && attribValueStr == "1")
+            else if (attribName == "fromBaseDir")
             {
-                string temp =  baseModule;
-                imgpath = temp + imgpath;
+                try
+                {
+                    fromBaseDir = ProgramOptions::stringToBool(attribValueStr);
+                }
+                catch (const string &error)
+                {
+                    gLog << logH << error << "\n";
+                }
             }
             attrib = attrib->Next();
         }

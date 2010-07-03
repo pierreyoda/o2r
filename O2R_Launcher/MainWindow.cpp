@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 {
     setupUi(this);
     mainWidget->setLayout(mainLayout);
-    setFixedSize(480, 420);
+    setFixedSize(480, 430);
     browseEdit->setText(tr("Choose a level file"));
     editModsDialog = new EditModsDialog(gameMainFolder, this);
     aboutDialog = new AboutDialog(this);
@@ -31,7 +31,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 void MainWindow::launch_O2R(const bool &game)
 {
     QProcess *process = new QProcess(this);
-    QString program = gameMainFolder + "/OpenRodentsRevenge.exe";
+    QString program = gameMainFolder + "/OpenRodentsRevenge";
+#ifdef Q_OS_WIN32
+    program += ".exe";
+#endif
     QStringList arguments;
     arguments << "-LE" << "-vsync=" + QString::number(enableVSyncBox
                                                       ->isChecked())
@@ -41,7 +44,8 @@ void MainWindow::launch_O2R(const bool &game)
     if (defineFpsLimitBox->isChecked())
         arguments << "-limitfps=" + QString::number(fpsLimitSpinBox->value());
     arguments << "-game=" + QString::number(game)
-            << "-level=" + browseEdit->text();
+            << "-level=" + browseEdit->text()
+            << "-towerMode=" + QString::number(towerModeBox->isChecked());
     if (useLesBox->isChecked())
         arguments << "-les=" + browseLesEdit->text();
     const QString mods = editModsDialog->mods().join(";");
@@ -96,6 +100,8 @@ void MainWindow::loadSettings()
     browseEdit->setText(settings.value("levelFile", "data/1.txt").toString());
     currentBrowseFolder = QDir(gameMainFolder).absoluteFilePath(browseEdit
                                                                 ->text());
+    // Tower mode
+    loadSingleOption("towerMode", towerModeBox);
     // LES set
     loadSingleOption("useLes", useLesBox);
     const bool useLes = useLesBox->isChecked();
@@ -165,6 +171,7 @@ void MainWindow::saveSettings()
     settings.setValue("language", language);
     settings.setValue("gameMainFolder", gameMainFolder);
     settings.setValue("levelFile", browseEdit->text());
+    settings.setValue("towerMode", towerModeBox->isChecked());
     settings.setValue("useLes", useLesBox->isChecked());
     settings.setValue("lesFile", browseLesEdit->text());
     settings.setValue("manualNbOfCats", defineCatsNumberBox->isChecked());
@@ -263,8 +270,9 @@ void MainWindow::on_browseButton_clicked()
 {
     QString filename(QFileDialog::getOpenFileName(this, tr("Choose a level file"),
                              currentBrowseFolder, tr("Level file")
-                             + " (*.txt *.lvl *.o2r);;" + tr("All files")
-                             + " (*.*);;"));
+                             + " (*.txt *.lvl *.o2r);;"
+                             + tr("'Tower' file") + "(*.xml);;"
+                             + tr("All files") + " (*.*);;"));
     if (filename.isEmpty())
         return;
     filename.remove(gameMainFolder + "/");
