@@ -1,14 +1,13 @@
 #include <iostream>
 #include <sstream>
 #include "ProgramOptions.hpp"
-#include "../constantes.hpp"
+#include "../GlobalVariables.hpp"
 #include "Logger.hpp"
 
 using namespace std;
 
 const string NEW_ARG_STRING = "-";
 const char EGUALS_SYMBOL = '=';
-const char SEPARATION_SYMBOL = ';';
 const bool STRICT_PARSING = false;
 
 ProgramOptions::ProgramOptions()
@@ -21,18 +20,43 @@ ProgramOptions::~ProgramOptions()
 
 }
 
-int ProgramOptions::valueInt(const string &key, const int &defaultValue) const
+int Value::toInt() const
 {
-    int value = defaultValue;
-    unsigned int argId = getArgIdFromName(key);
-    if (argId < args.size() && !args[argId].value.empty())
+    if (m_value.empty() && m_defaultValue.empty())
+        return 0;
+    int value;
+    if (m_value.empty())
+        value = gv.textToNb(m_defaultValue);
+    else
+        value = gv.textToNb(m_value);
+    return value;
+}
+
+bool stringToBoolShort(const string &text)
+{
+    bool value = false;
+    try
     {
-        istringstream iss(args[argId].value);
-        iss >> value;
+        value = ProgramOptions::stringToBool(text);
+    }
+    catch (const string &error)
+    {
+        gLog << logH << error << "\n";
     }
     return value;
 }
 
+bool Value::toBool() const
+{
+    bool value = false;
+    if (!m_keyExists)
+        value = stringToBoolShort(m_defaultValue);
+    else
+        value = stringToBoolShort(m_value);
+    return value;
+}
+
+/*
 bool ProgramOptions::valueBool(const string &key, const bool &defaultValue) const
 {
     bool value = defaultValue;
@@ -49,47 +73,7 @@ bool ProgramOptions::valueBool(const string &key, const bool &defaultValue) cons
         }
     }
     return value;
-}
-
-string ProgramOptions::valueString(const string &key, const string &defaultValue) const
-{
-    string value = defaultValue;
-    unsigned int argId = getArgIdFromName(key);
-    if (argId < args.size())
-        value = args[argId].value;
-    return value;
-}
-
-void ProgramOptions::valueVector(vector<string> &vector, const string &key,
-                                 const bool areDirs)
-{
-    unsigned int argId = getArgIdFromName(key);
-    if (argId >= args.size())
-        return;
-    string value = args[argId].value;
-    if (value.empty())
-        return;
-    if (value[value.size()-1] != ';')
-        value += ';';
-    string temp;
-    for (unsigned int i = 0; i < value.size(); i++)
-    {
-        char letter = value[i];
-        if (letter == ';' && !temp.empty())
-        {
-            if (areDirs)
-            {
-                char lastLetter = temp[temp.size()-1];
-                if (lastLetter != '\\' && lastLetter != '/')
-                    temp += '/';
-            }
-            vector.push_back(temp);
-            temp.clear();
-        }
-        else
-            temp += letter;
-    }
-}
+}*/
 
 bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
 {
@@ -110,10 +94,9 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
             gLog << error << "\n";
         }
     }
-    args.push_back(Argument("LE", ""));
-    args.push_back(Argument("game", "1"));
-    args.push_back(Argument("towerMode", "1"));
-    args.push_back(Argument("level", "data/LesTestTower/LesTestTower.xml"));
+    //args.push_back(Argument("neededForCorrectBooleanReturn", "bla"));
+    //args.push_back(Argument("-mods", "fdsdf;dgfsdgf"));
+    args.push_back(Argument("d", ""));
     return true;
 }
 
@@ -159,10 +142,7 @@ bool ProgramOptions::stringToBool(const string &text)
     throw "Error : '" + text + "' is not a boolean.";
 }
 
-unsigned int ProgramOptions::getArgIdFromName(const string &name) const
+const arg_cIter ProgramOptions::findArgFromName(const string &name) const
 {
-    for (unsigned int i = 0; i < args.size(); i++)
-        if (name == args[i].name)
-            return i;
-    return args.size();
+    return find(args.begin(), args.end(), name);
 }
