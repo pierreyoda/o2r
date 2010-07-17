@@ -18,17 +18,20 @@ Game::Game(const bool &loadDefaultLevel) : tower(NULL), cats(),
 
 Game::~Game()
 {
-    cats.clear();
-    delete tower;
-    currentLevel.reset(new Level(emptyLevelName, "", Vector2i(5, 5)));
-    mouse.updateLevelPtr(currentLevel);
+    /*if (inTower)
+    {
+        currentLevel.reset(new Level(emptyLevelName, "", Vector2i(5, 5)));
+        mouse.updateLevelPtr(currentLevel);
+        if (tower != 0)
+            delete tower;
+    }*/
 }
 
 void Game::testTower()
 {
-    loadTower("data/towertest/testtower.xml");
+    //loadTower("data/towertest/testtower.xml");
     //tower->setCurrentFloor(1);
-    updateLevelPointersFromTower();
+    //updateLevelPointersFromTower();
 }
 
 void Game::updateLevelPointersFromTower()

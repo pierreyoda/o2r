@@ -29,45 +29,76 @@ void printEndProgram(const float &runningTime)
     gLog << "] ---";
 }
 
+void loadGlobalOptions(const ProgramOptions &options)
+{
+    gv.debugMode = options.value("d", false).toBool();
+    if (gv.debugMode)
+        gLog << "Debug mode enabled.\n";
+}
+
+const vector<string> getModules(const std::string &value)
+{
+    vector<string> modules;
+    modules.push_back(baseModule);
+
+    string arg = value;
+    if (arg.empty())
+        return modules;
+    if (arg[arg.size()-1] != ';')
+        arg += ';';
+    string temp;
+    for (unsigned int i = 0; i < arg.size(); i++)
+    {
+        char letter = arg[i];
+        if (letter == ';' && !temp.empty())
+        {
+            char lastLetter = temp[temp.size()-1];
+            if (lastLetter != '\\' && lastLetter != '/')
+                temp += '/';
+            modules.push_back(temp);
+            temp.clear();
+        }
+        else
+            temp += letter;
+    }
+
+    return modules;
+}
+
 int main(int argc, char *argv[])
 {
     if (!gLog.goodInit())
         gLog << "Logging error : cannot open file \"log.txt\"\n";
-    // Redirecting to log
     sf::Clock clock;
-    //gLog << "--- Launch of the program ---\n";
     gLog << "--- Launch of the program ---\n";
     // Writing date
     time_t rawtime = time(NULL);
     gLog << "Launched on " << ctime(&rawtime);
     gLog << "Version : " << gameVersion << "\n"; //  Program version
 
-    vector<string> modules;
-        modules.push_back(baseModule);
     gLog.changeHierarchy(1);
     gLog << "\nInterpreting arguments...\n";
     ProgramOptions options;
         options.parseCommandLine(argc, argv);
 
     gLog.useHierarchy(true);
-    gv.debugMode = options.valueBool("d", false);
-    if (gv.debugMode)
-        gLog << "Debug mode enabled.\n";
-    const bool vsync = options.valueBool("vsync", true);
+    loadGlobalOptions(options);
+    const bool vsync = options.value("vsync", true).toBool();
     if (!vsync)
         gLog << "V. sync disabled.\n";
-    int limitfps = options.valueInt("limitfps", 60);
+    int limitfps = options.value("limitfps", 60).toInt();
     if (limitfps < 0)
         limitfps = 60;
     if (limitfps == 0)
         gLog << "FPS limit disabled.\n";
     else if (limitfps != 60)
         gLog << "FPS limit set to " << limitfps << ".\n";
-    options.valueVector(modules, "mods", true);
-    bool le = options.valueBool("LE", false);
+    const vector<string> modules = options.value("mods", "")
+        .toPersonalType(getModules);
+    const bool le = options.value("LE", false).toBool();
     if (le)
         gLog << "Launcher edition used.\n";
-    const string les = options.valueString("les", "");
+    const string les = options.value("les", "").toString();
     gLog.useHierarchy(false);
     if (!les.empty())
         TowerFileInterpreter::readLes(les, gv.lesElements);
@@ -94,17 +125,17 @@ int main(int argc, char *argv[])
     }
     else
     {
-        const bool game = options.valueBool("game", true),
-            adjustWindowSize = options.valueBool("adjustWindowSize", false),
-            towerMode = options.valueBool("towerMode", false);
+        const bool game = options.value("game", true).toBool(),
+            adjustWindowSize = options.value("adjustWindowSize", false).toBool(),
+            towerMode = options.value("towerMode", false).toBool();
         if (adjustWindowSize)
             gLog << "The window will expand to adjust to the level size when it is possible.\n";
-        string level = options.valueString("level", "data/1.txt");
+        string level = options.value("level", "data/1.txt").toString();
         gLog << "\nInitializing engine.\n";
         LauncherEditionEngine engine(window, vsync, limitfps, adjustWindowSize);
-        const int nbOfCats = options.valueInt("nbOfCats", -1),
-            nbOfRW = options.valueInt("nbOfRW", -1),
-            nbOfLives = options.valueInt("nbOfLives", DEFAULT_NB_OF_LIVES);
+        const int nbOfCats = options.value("nbOfCats", -1).toInt(),
+            nbOfRW = options.value("nbOfRW", -1).toInt(),
+            nbOfLives = options.value("nbOfLives", DEFAULT_NB_OF_LIVES).toInt();
         if (game)
         {
             if (nbOfLives >= 0)
@@ -115,15 +146,15 @@ int main(int argc, char *argv[])
             gLog << "Error : cannot edit directly a Tower. Game will now exit.\n";
         else
         {
-            const sf::Vector2i size(options.valueInt("levelX", DLVL_X),
-                              options.valueInt("levelY", DLVL_Y));
-            const bool noWarningAtSave = options.valueBool("noWarningAtSave",
-                false), emptyLevel = options.valueBool("emptyLevel", false);
+            const sf::Vector2i size(options.value("levelX", DLVL_X).toInt(),
+                              options.value("levelY", DLVL_Y).toInt());
+            const bool noWarningAtSave = options.value("noWarningAtSave", false)
+                .toBool(), emptyLevel = options.value("emptyLevel", false)
+                .toBool();
             engine.runAsEditor(level, emptyLevel, size, nbOfCats, nbOfRW,
                                noWarningAtSave);
         }
     }
-
 
     printEndProgram(clock.GetElapsedTime());
 

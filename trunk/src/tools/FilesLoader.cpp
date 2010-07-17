@@ -15,7 +15,7 @@ bool FilesLoader::loadModules(const vector<string> &modules,
 {
     sf::Clock clock;
 
-    if (modules.empty())
+    if (modules.empty() || modules.size() <= 0)
     {
         gLog << "Fatal error : no modules specified.\n";
         return false;
@@ -163,7 +163,7 @@ bool FilesLoader::findPresentFiles(fileList &files, const string &imgdir, const 
     const fs::path dir(imgdir);
     if (!fs::exists(dir))
     {
-        gLog << "Error : folder '" << imgdir << "' does not exist.\n";
+        gLog << logH << "Error : folder '" << imgdir << "' does not exist.\n";
         return false;
     }
 
