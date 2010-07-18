@@ -3,8 +3,25 @@
 
 #include <list>
 #include <string>
-#include <boost/function.hpp>
-#include <boost/bind.hpp>
+
+template <typename T, typename U>
+struct ValueConvertMemberFunction
+{
+    typedef T (U::*t_pointer)(const std::string&);
+
+    ValueConvertMemberFunction(const t_pointer &function, const U &instance)
+        : pointer(function), instance(instance)
+    { }
+
+    T operator()(const std::string &toConvert) const
+    {
+        return (instance.*pointer)(toConvert);
+    }
+
+    private:
+        const t_pointer &pointer;
+        const U &instance;
+};
 
 struct Value
 {
@@ -19,12 +36,14 @@ struct Value
     bool toBool() const;
     int toInt() const;
     std::string toString() const { return m_value; }
-    /*template <typename T> T toPersonalType(boost::
-                                   function<T (const std::string&)> converter)
+
+    template <typename T>
+    T toPersonalType(T (*converter)(const std::string&)) const
     {
         return converter(m_value);
-    }*/ // Seems that does not work
-    template <typename T> T toPersonalType(T (*converter)(const std::string&))
+    }
+    template <typename T, typename U>
+    T toPersonalType(const ValueConvertMemberFunction<T, U> &converter) const
     {
         return converter(m_value);
     }
