@@ -56,25 +56,6 @@ bool Value::toBool() const
     return value;
 }
 
-/*
-bool ProgramOptions::valueBool(const string &key, const bool &defaultValue) const
-{
-    bool value = defaultValue;
-    unsigned int argId = getArgIdFromName(key);
-    if (argId < args.size())
-    {
-        try
-        {
-            value = stringToBool(args[argId].value);
-        }
-        catch (const string &error)
-        {
-            gLog << logH << error << "\n";
-        }
-    }
-    return value;
-}*/
-
 bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
 {
     gLog.useHierarchy(false);
@@ -94,9 +75,7 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
             gLog << error << "\n";
         }
     }
-    //args.push_back(Argument("neededForCorrectBooleanReturn", "bla"));
-    //args.push_back(Argument("-mods", "fdsdf;dgfsdgf"));
-    args.push_back(Argument("d", ""));
+    args.push_back(Argument("test", "123"));
     return true;
 }
 

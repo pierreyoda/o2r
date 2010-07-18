@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     // Writing date
     time_t rawtime = time(NULL);
     gLog << "Launched on " << ctime(&rawtime);
-    gLog << "Version : " << gameVersion << "\n"; //  Program version
+    gLog << "Version : " << gameVersion << "\n";
 
     gLog.changeHierarchy(1);
     gLog << "\nInterpreting arguments...\n";
