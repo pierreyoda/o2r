@@ -3,7 +3,8 @@
 GlobalVariables gv;
 
 GlobalVariables::GlobalVariables() : debugMode(false), sizeChanged(false),
-    useShaders(true), score(0), mouseNbOfLives(DEFAULTNB_OF_CAT),
+    compatibilityMode(false), useShaders(true), score(0),
+    mouseNbOfLives(DEFAULTNB_OF_CAT),
     catsCannotMoveNbBeforeDead(NBOF_CATS_CANNOT_MOVE_BEFORE_DEAD),
     windowTitle("Open Rodent's Revenge v." + gameVersion)
 {

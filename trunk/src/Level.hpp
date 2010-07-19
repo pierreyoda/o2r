@@ -38,6 +38,8 @@ class Level
         ~Level();
 
         const sf::Sprite &getRenderResult(const bool &transparent = false);
+        void renderToOtherTarget(sf::RenderTarget &target,
+                                 const bool &transparent = false);
 
         bool writeLevel(const std::string &filename);
         void randomWalls();
@@ -62,7 +64,6 @@ class Level
         CASETYPE getCaseType(const sf::Vector2i &pos) const;
         CASETYPE getCaseType(const unsigned int &x, const unsigned int &y) const;
         unsigned int nbOfCasetype(const CASETYPE &casetype) const;
-        std::vector< std::vector<LevelCase> > &content() { return cases; }
 
         static char casetypeToChar(const CASETYPE &type);
         static CASETYPE charToCasetype(const char &caracter);
@@ -78,8 +79,8 @@ class Level
             bool setSizeFromLine(const std::string &line, const sf::Vector2i &oldSize);
             void setiNbOfCatsFromText(const std::string &text);
             void setNbOfRandomWallsFromText(const std::string &text);
-        void render(const bool &transparent);
-        void renderDrawable(sf::RenderTarget &target, const sf::Vector2i &pos);
+        void render(const bool &transparent, sf::RenderTarget *otherTarget = 0);
+        void renderDrawable(sf::RenderTarget *target, const sf::Vector2i &pos);
         bool noCaseThere(const sf::Vector2i &pos);
 
         sf::RenderImage renderTarget;

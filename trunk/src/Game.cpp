@@ -48,6 +48,8 @@ void Game::renderTower(RenderTarget &target)
         return;
     if (inTower && tower != NULL)
         tower->render(target);
+    else if (gv.compatibilityMode)
+        currentLevel->renderToOtherTarget(target);
     else
         target.Draw(currentLevel->getRenderResult());
 }

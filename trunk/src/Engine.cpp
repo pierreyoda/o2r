@@ -11,8 +11,9 @@ using namespace sf;
 // TODO (Pierre-Yves#6#): Créer campagne
 Engine::Engine(sf::RenderWindow &window, const bool &vsync,
     const unsigned int &fpslimit) : App(window), game(), cats(game.getCatsList()),
-    mouse(game.getMouse()), gameView(FloatRect(0, 0, SCREEN_W, SCREEN_H)),
-    running(true), resume(false), quitToMainMenu(false)
+    mouse(game.getMouse()), hud(&App),
+    gameView(FloatRect(0, 0, SCREEN_W, SCREEN_H)), running(true), resume(false),
+    quitToMainMenu(false)
 {
     App.UseVerticalSync(vsync);
     App.SetFramerateLimit(fpslimit);
@@ -83,6 +84,14 @@ void Engine::initializeGame(const bool &newlvl)
 {
     game.initializeGame(newlvl);
     hud.newGameStarted();
+}
+
+void Engine::drawHud(const bool &inGame)
+{
+    if (!gv.compatibilityMode)
+        App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), inGame));
+    else
+        hud.renderToOtherTarget(cats.size(), mouse.remainingLifes(), inGame);
 }
 
 void Engine::drawFps()
@@ -181,7 +190,7 @@ void Engine::runGame()
         for (iter = cats.begin(); iter != cats.end(); iter++)
             App.Draw(iter->sprite());
         App.Draw(mouse.sprite());
-        App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), true));
+        drawHud(true);
         App.SetView(App.GetDefaultView());
             drawFps();
         App.SetView(gameView);

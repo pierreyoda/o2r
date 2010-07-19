@@ -253,12 +253,20 @@ const sf::Sprite &Level::getRenderResult(const bool &transparent)
     return renderResult;
 }
 
-void Level::render(const bool &transparent)
+void Level::renderToOtherTarget(sf::RenderTarget &target, const bool &transparent)
 {
+    render(transparent, &target);
+}
+
+void Level::render(const bool &transparent, sf::RenderTarget *otherTarget)
+{
+    sf::RenderTarget *target = &renderTarget;
+    if (otherTarget != 0)
+        target = otherTarget;
     if (transparent)
-        renderTarget.Clear(sf::Color(0, 0, 0, 0));
+        target->Clear(sf::Color(0, 0, 0, 0));
     else
-        renderTarget.Clear(BACKGROUND_COLOR);
+        target->Clear(BACKGROUND_COLOR);
 
     for (unsigned int i = 0; i < cases.size(); i++)
     {
@@ -266,18 +274,18 @@ void Level::render(const bool &transparent)
         {
             if (transparent && cases[i][j].type == NOTHING);
             else
-                renderDrawable(renderTarget, sf::Vector2i(j, i));
+                renderDrawable(target, sf::Vector2i(j, i));
         }
     }
-
-    renderTarget.Display();
+    if (otherTarget == 0)
+        renderTarget.Display();
 }
 
-void Level::renderDrawable(sf::RenderTarget &target, const sf::Vector2i &pos)
+void Level::renderDrawable(sf::RenderTarget *target, const sf::Vector2i &pos)
 {
-    if (getCaseType(pos) == UNDEFINED)
+    if (getCaseType(pos) == UNDEFINED || target == 0)
         return;
-    target.Draw(cases[pos.y][pos.x].drawable.sprite());
+    target->Draw(cases[pos.y][pos.x].drawable.sprite());
 }
 
 unsigned int Level::nbOfCasetype(const CASETYPE &casetype) const

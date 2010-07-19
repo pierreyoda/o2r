@@ -10,7 +10,7 @@ LauncherEditionEngine::LauncherEditionEngine(RenderWindow &window,
     const bool &vsync,  const unsigned int &fpslimit,
     const bool &adjustWindowSize ) : App(window),
     gameView(FloatRect(0, 0, SCREEN_W, SCREEN_H)), game(false),
-    cats(game.getCatsList()), mouse(game.getMouse()),
+    cats(game.getCatsList()), mouse(game.getMouse()), hud(&App),
     adjustWindowSize(adjustWindowSize)
 {
     App.UseVerticalSync(vsync);
@@ -63,6 +63,14 @@ void LauncherEditionEngine::drawFps()
         else
             hud.drawFps(App, App.GetFrameTime(), Vector2i(SCREEN_W, SCREEN_H));
     }
+}
+
+void LauncherEditionEngine::drawHud(const bool &inGame)
+{
+    if (!gv.compatibilityMode)
+        App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), inGame));
+    else
+        hud.renderToOtherTarget(cats.size(), mouse.remainingLifes(), inGame);
 }
 
 void LauncherEditionEngine::runAsGame(const std::string &level,
@@ -149,7 +157,7 @@ void LauncherEditionEngine::runAsGame(const std::string &level,
             App.Draw(iter->sprite());
         App.Draw(mouse.sprite());
         App.SetView(App.GetDefaultView());
-            App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), true));
+            drawHud(true);
             drawFps();
         App.SetView(gameView);
         App.Display();
@@ -227,7 +235,7 @@ void LauncherEditionEngine::runAsEditor(const std::string &level,
         game.renderTower(App);
         App.Draw(mouse.sprite());
         App.SetView(App.GetDefaultView());
-            App.Draw(hud.drawHud(cats.size(), mouse.remainingLifes(), false));
+            drawHud(false);
             drawFps();
         App.SetView(gameView);
         App.Display();
