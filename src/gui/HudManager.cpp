@@ -7,7 +7,8 @@ using namespace sf;
 const Color HUD_BACKGROUND_COLOR(0, 128, 128);
 const unsigned int NB_OF_LIVES_BAD_DISPLAY = 6;
 
-HudManager::HudManager() : m_gamestart(true)
+HudManager::HudManager(RenderTarget *otherTarget) : otherTarget(otherTarget),
+    m_gamestart(true)
 {
     renderTarget.Create(SCREEN_W, HUD_HEIGHT);
         renderResult.SetImage(renderTarget.GetImage());
@@ -17,16 +18,21 @@ HudManager::HudManager() : m_gamestart(true)
         remainingLifes.SetImage(remainingLifesTarget.GetImage());
 }
 
-void HudManager::createHud(const Vector2i &levelSize)
+void HudManager::createHud(const Vector2i &levelSize, const bool &useOtherTarget)
 {
     Vector2i screenRealSize(levelSize.x * CASE_SIZE, levelSize.y * CASE_SIZE);
     renderTarget.Create(screenRealSize.x, HUD_HEIGHT);
     renderResult = Sprite(renderTarget.GetImage(), Vector2f(0.f, screenRealSize.y));
     Vector2f refPos(0, 0);
+    if (useOtherTarget && otherTarget != 0)
+        refPos.y = SCREEN_W;
 
     score.SetPosition(refPos);
         score.SetString("Score: " + gv.nbToText(gv.score));
     nbOfCats.SetPosition(SCREEN_W-130.f, refPos.y);
+    // Background (used in compatibility mode)
+    background = Shape::Rectangle(refPos.x, screenRealSize.y,
+        screenRealSize.x, HUD_HEIGHT, HUD_BACKGROUND_COLOR);
     // Editor
     Vector2f posBlock(refPos);
     Vector2f posWall(SCREEN_W/2-40.f, refPos.y);
@@ -50,7 +56,6 @@ void HudManager::createHud(const Vector2i &levelSize)
 
     remainingLifes.SetY(refPos.y + HUD_HEIGHT/3);
     updateNbOfRemainingLifes(DEFAULT_NB_OF_LIVES);
-
 }
 
 void HudManager::newGameStarted()
@@ -61,7 +66,8 @@ void HudManager::newGameStarted()
 const Sprite &HudManager::drawHud(const unsigned int &catsNb,
     const unsigned int &remainingLifesNb, const bool &inGame)
 {
-    if (!m_gamestart && (!updateScore() && !updateNbOfCats(catsNb) &&
+    if (!m_gamestart && (!updateScore() &&
+            !updateNbOfCats(catsNb) &&
             !updateNbOfRemainingLifes(remainingLifesNb)))
         return renderResult;
     m_gamestart = false;
@@ -83,8 +89,35 @@ const Sprite &HudManager::drawHud(const unsigned int &catsNb,
             renderTarget.Draw(sEditorMouse);
         }
     renderTarget.Display();
-
     return renderResult;
+}
+
+void HudManager::renderToOtherTarget(const unsigned int &catsNb,
+            const unsigned int &remainingLifesNb, const bool &inGame)
+{
+    if (otherTarget == 0)
+        return;
+
+    updateScore();
+    updateNbOfCats(catsNb);
+    updateNbOfRemainingLifes(remainingLifesNb);
+    m_gamestart = false;
+
+    otherTarget->Draw(background);
+    if (inGame)
+    {
+        otherTarget->Draw(score);
+        otherTarget->Draw(nbOfCats);
+    }
+    else
+    {
+        otherTarget->Draw(editorBlock);
+        otherTarget->Draw(editorWall);
+        otherTarget->Draw(editorMouse);
+        otherTarget->Draw(sEditorBlock);
+        otherTarget->Draw(sEditorWall);
+        otherTarget->Draw(sEditorMouse);
+    }
 }
 
 bool HudManager::updateScore()
@@ -113,15 +146,30 @@ bool HudManager::updateNbOfCats(const unsigned int &catsNb)
 
 bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
 {
+    RenderTarget *target = &remainingLifesTarget;
+    Vector2f refPoint(0.f, 0.f);
+    if (gv.compatibilityMode)
+    {
+        if (m_gamestart)
+            return true;
+        if (otherTarget != 0)
+        {
+            refPoint.y = SCREEN_H;
+            otherTarget = otherTarget;
+        }
+    }
     static unsigned int prevRemainingLifes = 0;
     if (prevRemainingLifes != remainingLifesNb)
     {
         prevRemainingLifes = remainingLifesNb;
         if (remainingLifesNb == 0)
         {
-            remainingLifesTarget.Create(1, 1);
-            remainingLifesTarget.Clear(Color(0, 0, 0, 0));
-            remainingLifesTarget.Display();
+            if (!gv.compatibilityMode)
+            {
+                remainingLifesTarget.Create(1, 1);
+                target->Clear(Color(0, 0, 0, 0));
+                remainingLifesTarget.Display();
+            }
             return true;
         }
         Sprite temp(*gImageManager.getResource("lives.png"));
@@ -129,28 +177,36 @@ bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
             + HUD_SPACE_BETWEEN_LIFES;
         if (remainingLifesNb < NB_OF_LIVES_BAD_DISPLAY)
         {
-            remainingLifesTarget.Create(int(space*remainingLifesNb),
-                                        int(temp.GetImage()->GetHeight()));
-            remainingLifesTarget.Clear(Color(0, 0, 0, 0));
+            if (!gv.compatibilityMode)
+            {
+                remainingLifesTarget.Create(int(space*remainingLifesNb),
+                                            int(temp.GetImage()->GetHeight()));
+                target->Clear(Color(0, 0, 0, 0));
+            }
             for (unsigned int i = 0; i <= remainingLifesNb; i++)
             {
-                temp.SetX(space * i);
-                remainingLifesTarget.Draw(temp);
+                temp.SetPosition(refPoint.x + space * i, refPoint.y);
+                target->Draw(temp);
             }
-            remainingLifesTarget.Display();
-            remainingLifes = Sprite(remainingLifesTarget.GetImage());
-            remainingLifes.SetY(HUD_HEIGHT/3);
-            remainingLifes.SetX((SCREEN_W/2 -
+            if (!gv.compatibilityMode)
+            {
+                remainingLifesTarget.Display();
+                remainingLifes = Sprite(remainingLifesTarget.GetImage());
+            }
+            remainingLifes.SetY(refPoint.y + HUD_HEIGHT/3);
+            remainingLifes.SetX(refPoint.x + (SCREEN_W/2 -
                                  remainingLifes.GetImage()->GetWidth()/2));
         }
         else
         {
             Text temp2(gv.nbToText(remainingLifesNb));
                 temp2.SetCharacterSize(20);
-                temp2.SetY(temp.GetImage()->GetHeight()/2 - temp2.GetRect().Height/2);
+                temp2.SetY(refPoint.y + temp.GetImage()->GetHeight()/2 -
+                    temp2.GetRect().Height/2);
             remainingLifesTarget.Create(temp2.GetRect().Width + space/4+
                 temp.GetImage()->GetWidth(), temp.GetImage()->GetHeight()+space);
-            remainingLifesTarget.Clear(Color(0, 0, 0, 0));
+            if (!gv.compatibilityMode)
+                remainingLifesTarget.Clear(Color(0, 0, 0, 0));
             remainingLifesTarget.Draw(temp2);
             temp.SetX(temp2.GetRect().Width + space/4);
             remainingLifesTarget.Draw(temp);

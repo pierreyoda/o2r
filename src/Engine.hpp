@@ -14,7 +14,9 @@ class Engine
 
         void run();
 
+
     private:
+        inline void drawHud(const bool &inGame);
         inline void resetView();
         void createMenus();
         inline bool loadLevel(const std::string &filename);

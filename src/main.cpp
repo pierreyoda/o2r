@@ -34,6 +34,9 @@ void loadGlobalOptions(const ProgramOptions &options)
     gv.debugMode = options.value("d", false).toBool();
     if (gv.debugMode)
         gLog << "Debug mode enabled.\n";
+    gv.compatibilityMode = options.value("oldPC", false).toBool();
+    if (gv.compatibilityMode)
+        gLog << "Compatibility mode enabled : performances may be reduced.\n";
 }
 
 const vector<string> getModules(const std::string &value)

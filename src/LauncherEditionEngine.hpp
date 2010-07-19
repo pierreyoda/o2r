@@ -28,6 +28,7 @@ class LauncherEditionEngine
         void resetView();
         void ajustWindowToLevelSize();
         void drawFps();
+        inline void drawHud(const bool &inGame);
         void editorSaveLevelBeforeExit(const std::string &level,
                                        const bool &noWarningAtSave);
 
