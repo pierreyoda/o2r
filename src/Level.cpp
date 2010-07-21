@@ -266,7 +266,7 @@ void Level::render(const bool &transparent, sf::RenderTarget *otherTarget)
     if (transparent)
         target->Clear(sf::Color(0, 0, 0, 0));
     else
-        target->Clear(BACKGROUND_COLOR);
+        target->Clear(sf::Color(0, 0, 0));
 
     for (unsigned int i = 0; i < cases.size(); i++)
     {

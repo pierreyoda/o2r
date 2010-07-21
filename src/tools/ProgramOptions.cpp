@@ -75,7 +75,6 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
             gLog << error << "\n";
         }
     }
-    args.push_back(Argument("oldPC","true"));
     return true;
 }
 

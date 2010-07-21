@@ -45,7 +45,8 @@ void MainWindow::launch_O2R(const bool &game)
         arguments << "-limitfps=" + QString::number(fpsLimitSpinBox->value());
     arguments << "-game=" + QString::number(game)
             << "-level=" + browseEdit->text()
-            << "-towerMode=" + QString::number(towerModeBox->isChecked());
+            << "-towerMode=" + QString::number(towerModeBox->isChecked())
+            << "-oldPC=" + QString::number(myPcSucksBox->isChecked());
     if (useLesBox->isChecked())
         arguments << "-les=" + browseLesEdit->text();
     const QString mods = editModsDialog->mods().join(";");
@@ -132,6 +133,8 @@ void MainWindow::loadSettings()
     // FPS limit
     loadOptionSet("defineFpsLimit", "fpsLimit", defineFpsLimitBox,
                   fpsLimitSpinBox);
+    // Does your PC suck?
+    loadSingleOption("myPcSucks", myPcSucksBox);
     // Mods list
     QString mods = settings.value("mods", "").toString();
     if (!mods.isEmpty())
@@ -189,6 +192,7 @@ void MainWindow::saveSettings()
     settings.setValue("adjustWindowSize", adjustWindowSizeBox->isChecked());
     settings.setValue("defineFpsLimit", defineFpsLimitBox->isChecked());
     settings.setValue("fpsLimit", fpsLimitSpinBox->value());
+    settings.setValue("myPcSucks", myPcSucksBox->isChecked());
     settings.setValue("mods", editModsDialog->mods().join(";"));
     settings.endGroup();
 }
