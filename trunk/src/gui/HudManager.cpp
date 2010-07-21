@@ -18,14 +18,21 @@ HudManager::HudManager(RenderTarget *otherTarget) : otherTarget(otherTarget),
         remainingLifes.SetImage(remainingLifesTarget.GetImage());
 }
 
+HudManager::~HudManager()
+{
+
+}
+
 void HudManager::createHud(const Vector2i &levelSize, const bool &useOtherTarget)
 {
-    Vector2i screenRealSize(levelSize.x * CASE_SIZE, levelSize.y * CASE_SIZE);
+    const Vector2i screenRealSize(levelSize.x * CASE_SIZE,
+        levelSize.y * CASE_SIZE);
     renderTarget.Create(screenRealSize.x, HUD_HEIGHT);
-    renderResult = Sprite(renderTarget.GetImage(), Vector2f(0.f, screenRealSize.y));
+    renderResult = Sprite(renderTarget.GetImage(),
+        Vector2f(0.f, screenRealSize.y));
     Vector2f refPos(0, 0);
     if (useOtherTarget && otherTarget != 0)
-        refPos.y = SCREEN_W;
+        refPos.y = screenRealSize.x;
 
     score.SetPosition(refPos);
         score.SetString("Score: " + gv.nbToText(gv.score));
@@ -34,9 +41,9 @@ void HudManager::createHud(const Vector2i &levelSize, const bool &useOtherTarget
     background = Shape::Rectangle(refPos.x, screenRealSize.y,
         screenRealSize.x, HUD_HEIGHT, HUD_BACKGROUND_COLOR);
     // Editor
-    Vector2f posBlock(refPos);
-    Vector2f posWall(SCREEN_W/2-40.f, refPos.y);
-    Vector2f posMouse(SCREEN_W-80.f, refPos.y);
+    const Vector2f posBlock(refPos);
+    const Vector2f posWall(SCREEN_W/2-40.f, refPos.y);
+    const Vector2f posMouse(SCREEN_W-80.f, refPos.y);
     editorBlock.SetPosition(posBlock);
         editorBlock.SetString("1 : ");
     editorWall.SetPosition(posWall);
@@ -159,9 +166,10 @@ bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
         }
     }
     static unsigned int prevRemainingLifes = 0;
-    if (prevRemainingLifes != remainingLifesNb)
+    if (gv.compatibilityMode || prevRemainingLifes != remainingLifesNb)
     {
-        prevRemainingLifes = remainingLifesNb;
+        if (!gv.compatibilityMode)
+            prevRemainingLifes = remainingLifesNb;
         if (remainingLifesNb == 0)
         {
             if (!gv.compatibilityMode)
@@ -203,17 +211,23 @@ bool HudManager::updateNbOfRemainingLifes(const unsigned int &remainingLifesNb)
                 temp2.SetCharacterSize(20);
                 temp2.SetY(refPoint.y + temp.GetImage()->GetHeight()/2 -
                     temp2.GetRect().Height/2);
-            remainingLifesTarget.Create(temp2.GetRect().Width + space/4+
-                temp.GetImage()->GetWidth(), temp.GetImage()->GetHeight()+space);
             if (!gv.compatibilityMode)
+            {
+                remainingLifesTarget.Create(temp2.GetRect().Width + space/4+
+                    temp.GetImage()->GetWidth(), temp.GetImage()->GetHeight()
+                    +space);
                 remainingLifesTarget.Clear(Color(0, 0, 0, 0));
+            }
             remainingLifesTarget.Draw(temp2);
-            temp.SetX(temp2.GetRect().Width + space/4);
-            remainingLifesTarget.Draw(temp);
-            remainingLifesTarget.Display();
-            remainingLifes = Sprite(remainingLifesTarget.GetImage());
-            remainingLifes.SetY(HUD_HEIGHT/3);
-            remainingLifes.SetX(SCREEN_W/2 - remainingLifesTarget.GetWidth()/2);
+            temp.SetX(refPoint.x + temp2.GetRect().Width + space/4);
+            target->Draw(temp);
+            if (!gv.compatibilityMode)
+            {
+                remainingLifesTarget.Display();
+                remainingLifes = Sprite(remainingLifesTarget.GetImage());
+                remainingLifes.SetY(HUD_HEIGHT/3);
+                remainingLifes.SetX(SCREEN_W/2 - remainingLifesTarget.GetWidth()/2);
+            }
         }
         return true;
     }

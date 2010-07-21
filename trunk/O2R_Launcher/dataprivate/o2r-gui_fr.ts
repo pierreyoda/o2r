@@ -17,7 +17,7 @@
     <message>
         <location filename="../AboutDialog.cpp" line="15"/>
         <source>Copyright &amp;copy; 2010 Pierre-Yves Diallo (Pierreyoda)</source>
-        <translation>Copyright &amp;copy; Pierre-Yves Diallo (Pierreyoda)</translation>
+        <translation>Copyright &amp;copy; 2010 Pierre-Yves Diallo (Pierreyoda)</translation>
     </message>
     <message>
         <location filename="../AboutDialog.cpp" line="17"/>
@@ -82,7 +82,7 @@
     </message>
     <message>
         <location filename="../MainWindow.ui" line="62"/>
-        <location filename="../MainWindow.ui" line="395"/>
+        <location filename="../MainWindow.ui" line="419"/>
         <source>...</source>
         <translation>...</translation>
     </message>
@@ -102,13 +102,18 @@
         <translation>Lancer le jeu</translation>
     </message>
     <message>
+        <location filename="../MainWindow.ui" line="221"/>
+        <source>Launch in &apos;Tower&apos; mode</source>
+        <translation>Lancer en mode &apos;Tower&apos;</translation>
+    </message>
+    <message>
         <location filename="../MainWindow.ui" line="229"/>
         <source>Editor Settings</source>
         <translation>Options de l&apos;éditeur</translation>
     </message>
     <message>
         <location filename="../MainWindow.ui" line="102"/>
-        <location filename="../MainWindow.ui" line="529"/>
+        <location filename="../MainWindow.ui" line="569"/>
         <source>Game</source>
         <translation>Jeu</translation>
     </message>
@@ -122,7 +127,7 @@
         <translation type="obsolete">Fixer le nombre de chats :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="373"/>
+        <location filename="../MainWindow.ui" line="397"/>
         <source>Global Settings</source>
         <translation>Options globales</translation>
     </message>
@@ -131,32 +136,42 @@
         <translation type="obsolete">Fichier LES (*.xml)</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="446"/>
+        <location filename="../MainWindow.ui" line="470"/>
         <source>Set FPS  limit :</source>
         <translation>Limiter les IPS :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="483"/>
+        <location filename="../MainWindow.ui" line="507"/>
         <source>Edit mods to use</source>
         <translation>Choisir les mods à utiliser</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="496"/>
+        <location filename="../MainWindow.ui" line="520"/>
         <source>Use this LES description file</source>
         <translation>Utiliser ce fichier de description de &apos;LES&apos;</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="499"/>
+        <location filename="../MainWindow.ui" line="523"/>
         <source>Use LES file</source>
         <translation>Utiliser un fichier &apos;LES&apos;</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="518"/>
+        <location filename="../MainWindow.ui" line="536"/>
+        <source>If the game seems to have a graphical problem, try to check this case (performances may be reduced)</source>
+        <translation>Si le jeu semble avoir un problème d&apos;affichage, essayez de cocher cette case (les performances peuvent en être réduites)</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="539"/>
+        <source>Enable compatibility mode</source>
+        <translation>Activer le mode de compatibilité</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.ui" line="558"/>
         <source>Launcher</source>
         <translation>Lanceur</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="584"/>
+        <location filename="../MainWindow.ui" line="624"/>
         <source>Location</source>
         <translation>Emplacement</translation>
     </message>
@@ -247,37 +262,37 @@
         <translation>Réinitialiser</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="411"/>
+        <location filename="../MainWindow.ui" line="435"/>
         <source>FPS number will be print (F12 to toggle in game)</source>
         <translation>Le nombre d&apos;IPS sera affiché (F12 pour changer en jeu)</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="414"/>
+        <location filename="../MainWindow.ui" line="438"/>
         <source>Debug mode</source>
         <translation>Mode &apos;debug&apos;</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="421"/>
+        <location filename="../MainWindow.ui" line="445"/>
         <source>Wait for vertical synchronisation</source>
         <translation>Attendre la synchronisation verticale</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="424"/>
+        <location filename="../MainWindow.ui" line="448"/>
         <source>Enable V.Sync.</source>
         <translation>Activer la Sync.Verticale</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="431"/>
+        <location filename="../MainWindow.ui" line="455"/>
         <source>The window will expand to adjust to the level size (limited by screen&apos;s resolution)</source>
         <translation>La fenêtre va s&apos;étendre pour s&apos;adapter à la taille du niveau (limité par la résolution de l&apos;écran)</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="434"/>
+        <location filename="../MainWindow.ui" line="458"/>
         <source>Adjust window size</source>
         <translation>Ajuster la taille de la fenêtre</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="443"/>
+        <location filename="../MainWindow.ui" line="467"/>
         <source>This will limit the FPS (0 = no limit)</source>
         <translation>Cela limitera le nombre d&apos;IPS  (0 = pas de limite)</translation>
     </message>
@@ -286,89 +301,94 @@
         <translation type="obsolete">Limite d&apos;IPS :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="522"/>
+        <location filename="../MainWindow.ui" line="562"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="540"/>
+        <location filename="../MainWindow.ui" line="580"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="550"/>
+        <location filename="../MainWindow.ui" line="590"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="553"/>
+        <location filename="../MainWindow.ui" line="593"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="558"/>
+        <location filename="../MainWindow.ui" line="598"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="563"/>
+        <location filename="../MainWindow.ui" line="603"/>
         <source>About Qt</source>
         <translation>À propos de Qt</translation>
     </message>
     <message utf8="true">
-        <location filename="../MainWindow.ui" line="571"/>
+        <location filename="../MainWindow.ui" line="611"/>
         <source>Français</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../MainWindow.ui" line="579"/>
+        <location filename="../MainWindow.ui" line="619"/>
         <source>English</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../MainWindow.cpp" line="14"/>
-        <location filename="../MainWindow.cpp" line="264"/>
+        <location filename="../MainWindow.cpp" line="275"/>
         <source>Choose a level file</source>
         <translation>Choisissez un fichier de niveau</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="71"/>
+        <location filename="../MainWindow.cpp" line="76"/>
         <source>Game launching error</source>
         <translation>Erreur de lancement du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="72"/>
+        <location filename="../MainWindow.cpp" line="77"/>
         <source>Failed to launch the game, please check the game location</source>
         <translation>Impossible de lancer le jeu, veuillez vérifier l&apos;emplacement du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="73"/>
+        <location filename="../MainWindow.cpp" line="78"/>
         <source>Cannot found : </source>
         <translation>Impossible de trouver :</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="220"/>
+        <location filename="../MainWindow.cpp" line="231"/>
         <source>Choose the game main folder</source>
         <translation>Choisissez le dossier principal du jeu</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="265"/>
+        <location filename="../MainWindow.cpp" line="276"/>
         <source>Level file</source>
         <translation>Fichier de niveau</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="266"/>
-        <location filename="../MainWindow.cpp" line="289"/>
+        <location filename="../MainWindow.cpp" line="278"/>
+        <source>&apos;Tower&apos; file</source>
+        <translation>Fichier de &apos;Tower&apos;</translation>
+    </message>
+    <message>
+        <location filename="../MainWindow.cpp" line="279"/>
+        <location filename="../MainWindow.cpp" line="301"/>
         <source>All files</source>
         <translation>Tous les fichiers</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="287"/>
+        <location filename="../MainWindow.cpp" line="299"/>
         <source>Choose a LES file</source>
         <translation>Choisissez un fichier &apos;LES&apos;</translation>
     </message>
     <message>
-        <location filename="../MainWindow.cpp" line="288"/>
+        <location filename="../MainWindow.cpp" line="300"/>
         <source>LES file</source>
         <translation>Fichier &apos;LES&apos;</translation>
     </message>

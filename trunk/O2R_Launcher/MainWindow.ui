@@ -206,6 +206,9 @@
           </layout>
          </widget>
          <widget class="QCheckBox" name="towerModeBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="geometry">
            <rect>
             <x>10</x>
@@ -360,7 +363,6 @@
            <string>Reset</string>
           </property>
          </widget>
-         <zorder>emptyLevelBox</zorder>
          <zorder>levelXSpinBox</zorder>
          <zorder>levelYSpinBox</zorder>
          <zorder>label_4</zorder>
@@ -368,7 +370,7 @@
          <zorder>noWarningAtSaveBox</zorder>
          <zorder>label_6</zorder>
          <zorder>resetButton</zorder>
-         <zorder></zorder>
+         <zorder>emptyLevelBox</zorder>
         </widget>
        </item>
        <item row="1" column="1">
@@ -519,6 +521,22 @@
         </property>
         <property name="text">
          <string>Use LES file</string>
+        </property>
+       </widget>
+       <widget class="QCheckBox" name="myPcSucksBox">
+        <property name="geometry">
+         <rect>
+          <x>200</x>
+          <y>110</y>
+          <width>231</width>
+          <height>16</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>If the game seems to have a graphical problem, try to check this case (performances may be reduced)</string>
+        </property>
+        <property name="text">
+         <string>Enable compatibility mode</string>
         </property>
        </widget>
       </widget>

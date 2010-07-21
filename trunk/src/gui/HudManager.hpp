@@ -8,6 +8,7 @@ class HudManager
 {
     public:
         HudManager(sf::RenderTarget *otherTarget = 0);
+        ~HudManager();
 
         void createHud(const sf::Vector2i &levelSize,
                        const bool &useOtherTarget = gv.compatibilityMode);
