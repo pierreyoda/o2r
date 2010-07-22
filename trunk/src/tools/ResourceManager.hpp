@@ -32,6 +32,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <string>
 #include <map>
+//#include "FilesPathHandler.hpp"
 
 template< class T >
 class ResourceManager

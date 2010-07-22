@@ -4,12 +4,12 @@
 #include <list>
 #include <string>
 #include <sstream>
-#include <SFML/Graphics.hpp>
 #include "constantes.hpp"
 
 struct LesElement
 {
-    LesElement() : character('0'),  type(NOTHING), imagefile("nothing.png")
+    LesElement() : character(CHAR_NOTHING),  type(NOTHING),
+        imagefile("nothing.png")
     { }
     LesElement(const char &letter, const CASETYPE &ctype, const std::string &imgfile) :
         character(letter), type(ctype), imagefile(imgfile)
@@ -34,7 +34,6 @@ struct GlobalVariables
     l_LesElement baseLesElements, lesElements;
 
     void resizeGame();
-    static void drawFps(sf::RenderWindow &App);
 
     int textToNb(const std::string &text)
     {

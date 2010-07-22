@@ -377,7 +377,7 @@ CASETYPE Level::charToCasetype(const char &character)
 char Level::casetypeToChar(const CASETYPE &type)
 {
     char character = CHAR_NOTHING;
-    l_LesElement::iterator iter;
+    l_LesElement::const_iterator iter;
     for (iter = gv.baseLesElements.begin(); iter != gv.baseLesElements.end(); iter++)
         if (type == iter->type)
         {

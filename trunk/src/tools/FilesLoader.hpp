@@ -13,8 +13,12 @@ class FilesLoader
         FilesLoader() { }
 
         static bool loadModules(const std::vector<std::string> &modules,
-            const bool &recursive = false, const bool &modulesOnlyKnownFiles = true);
-        static bool fileExists(const std::string &filename);
+            const bool &recursive = false,
+            const bool &modulesOnlyKnownFiles = true);
+        static inline bool fileExists(const std::string &filename)
+        {
+            return (boost::filesystem::exists(filename));
+        }
 
     private:
         static bool loadFiles(const fileList &files, const std::string &dir,
@@ -22,7 +26,8 @@ class FilesLoader
             const bool &basemodule = false);
         static bool loadFile(const std::string &filepath);
         static bool findDefinedFiles(fileList &files, const std::string &imgdir);
-        static bool findPresentFiles(fileList &files, const std::string &imgdir, const bool &recursive = false);
+        static bool findPresentFiles(fileList &files, const std::string &imgdir,
+            const bool &recursive = false);
 };
 
 #endif /* FILESLOADER_HPP */
