@@ -2,14 +2,12 @@
 #include "ImageManager.hpp"
 #include "Logger.hpp"
 
-using namespace std;
-
 ImageManager gImageManager;
 
-sf::Image* ImageManager::load( const std::string& strId )
+sf::Image *ImageManager::load(const std::string& strId)
 {
-    sf::Image* image = new sf::Image();
-    if( !image->LoadFromFile( strId ) )
+    sf::Image *image = new sf::Image();
+    if(!image->LoadFromFile(strId))
     {
         gLog << "[WARN] ImageManager failed to load: " << strId << "\n";
         /*delete image;
