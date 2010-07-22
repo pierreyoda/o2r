@@ -8,7 +8,7 @@ using namespace std;
 
 const string NEW_ARG_STRING = "-";
 const char EGUALS_SYMBOL = '=';
-const bool STRICT_PARSING = false;
+const bool STRICT_CL_PARSING = false, REPLACE_IF_EXISTING = false;
 
 ProgramOptions::ProgramOptions()
 {
@@ -64,25 +64,29 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
         gLog << logH << "- ";
         try
         {
-            args.push_back(parseArgument(argv[i]));
-            gLog << "Argument " << i;
+            const Option arg = parseArgument(argv[i]);
+            args.push_back(arg);
+            gLog << "Option " << i;
             if (i < 10)
                 gLog << " ";
-            gLog <<  " : " << argv[i] << "\n";
+            gLog <<  " : " << arg.name << " ";
+            if (!arg.value.empty())
+                gLog << EGUALS_SYMBOL << " " << arg.value;
+             gLog << "\n";
         }
         catch (const string &error)
         {
             gLog << error << "\n";
         }
     }
+    parseArgument("-mod=true");
     return true;
 }
 
-Argument ProgramOptions::parseArgument(const string &argument) const
+Option ProgramOptions::parseArgument(const string &argument) const
 {
     string parsingError("Error parsing argument '" + argument + "' : unknown format."),
         name, value;
-    bool a = true;
     if (argument.size() <= NEW_ARG_STRING.size())
         throw parsingError;
     string temp = argument;
@@ -90,25 +94,30 @@ Argument ProgramOptions::parseArgument(const string &argument) const
     {
         string message = "missing '" + NEW_ARG_STRING + "' at the begin of '"
                     + argument + "'.";
-        if (STRICT_PARSING)
+        if (STRICT_CL_PARSING)
             throw "Error : " + message;
-        else
-            gLog << "Warning : " << message << "\n" << logH << "->";
-        a = false;
+        gLog << "Warning : " << message << "\n" << logH << "->";
     }
     else
         temp = argument.substr(NEW_ARG_STRING.size(), argument.size());
 
-    string::size_type egualsPos = argument.find(EGUALS_SYMBOL);
-    if (egualsPos == string::npos)
-        return Argument(temp, "");
-    if (egualsPos >= temp.size())
-        throw parsingError;
-    if (!a)
-        ++egualsPos;
-    name = temp.substr(0, egualsPos-1), value = temp.substr(egualsPos, temp.size());
+    return parseOptionLine(temp);
+}
 
-    return Argument(name, value);
+Option ProgramOptions::parseOptionLine(const string &line) const
+{
+    string parsingError("Error parsing line '" + line
+        + "' : unknown format."), name(""), value("");
+
+    string::size_type egualsPos = line.find(EGUALS_SYMBOL);
+    if (egualsPos == string::npos)
+        return Option(line, "");
+    if (egualsPos >= line.size())
+        throw parsingError;
+    name = line.substr(0, egualsPos),
+    value = line.substr(egualsPos+1, line.size());
+
+    return Option(name, value);
 }
 
 bool ProgramOptions::stringToBool(const string &text)
