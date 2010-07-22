@@ -123,19 +123,19 @@ bool FilesLoader::loadFile(const string &filepath)
         return true;
     }
     extension = extension.substr(1, extension.size());
+    const string filename = file.filename();
     if (extension == "bmp" || extension == "png" || extension == "jpg" ||
         extension == "tga" || extension == "dds" || extension == "psd")
     {
         //gLog << " (Image)";
-        gFph.addFile(file.filename(), filepath);
-        return (gImageManager.getResource(file.filename(), filepath,
-                                          true) != NULL);
+        gFph.addFile(filename, filepath);
+        return (gImageManager.getResource(filename) != 0);
     }
     else if (extension == "sfx")
     {
         gLog << " (Shader)";
-        return (gShaderManager.getResource(file.filename(), filepath,
-                                           true) != NULL);
+        gFph.addFile(filename, filepath);
+        return (gShaderManager.getResource(filename) != 0);
     }
     else
     {

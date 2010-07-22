@@ -32,30 +32,29 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 #include <string>
 #include <map>
-//#include "FilesPathHandler.hpp"
+#include "FilesPathHandler.hpp"
 
-template< class T >
+template <class T>
 class ResourceManager
 {
     public:
-        typedef std::pair< std::string, T* >    Resource;
-        typedef std::map< std::string, T* >     ResourceMap;
+        typedef std::pair<std::string, T*> Resource;
+        typedef std::map<std::string, T*>  ResourceMap;
 
     private:
         ResourceMap m_resource;
 
-        T* find( const std::string& strId )
+        T* find (const std::string &strId)
         {
-            T* resource = NULL;
-            typename ResourceMap::iterator it = m_resource.find( strId );
-            if( it != m_resource.end() ) {
+            T* resource = 0;
+            typename ResourceMap::iterator it = m_resource.find(strId);
+            if (it != m_resource.end())
                 resource = it->second;
-            }
             return resource;
         }
 
     protected:
-        virtual T* load( const std::string& strId ) = 0;
+        virtual T* load(const std::string &strId) = 0;
 
     public:
         ResourceManager() { }
@@ -65,30 +64,25 @@ class ResourceManager
             releaseAllResources();
         }
 
-        T* getResource( const std::string& alias, const std::string &fullpath = "",
-                       const bool &replace = false )
+        T* getResource(const std::string &strId, const bool &isAlias = true)
         {
-            std::string filename = alias;
-            if (!fullpath.empty())
-                filename = fullpath;
-            T* resource = find( alias );
-            if( replace || resource == NULL )
+            std::string file = strId;
+            if (isAlias)
+                file = gFph(strId);
+            T* resource = find(file);
+            if (resource == 0)
             {
-                resource = load( filename );
-                if( resource != NULL )
-                {
-                    if (replace)
-                        releaseResource( alias );
-                    m_resource.insert( Resource( alias, resource ) );
-                }
+                resource = load(file);
+                if (resource != 0)
+                    m_resource.insert(Resource(file, resource));
             }
             return resource;
         }
 
-    void releaseResource( const std::string& strId )
+    void releaseResource(const std::string &strId)
     {
-        T* resource = find( strId );
-        if( resource != NULL )
+        T *resource = find(strId);
+        if (resource != 0)
         {
             delete resource;
             m_resource.erase( m_resource.find( strId ) );
@@ -100,7 +94,7 @@ class ResourceManager
         while (m_resource.begin() != m_resource.end())
         {
             delete m_resource.begin()->second;
-            m_resource.erase( m_resource.begin() );
+            m_resource.erase(m_resource.begin());
         }
     }
 };
