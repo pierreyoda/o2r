@@ -54,9 +54,9 @@ struct Value
         const bool m_keyExists;
 };
 
-struct Argument
+struct Option
 {
-    Argument(const std::string &name, const std::string &value) : name(name),
+    Option(const std::string &name, const std::string &value) : name(name),
         value(value) { }
 
     inline bool operator==(const std::string &key) const
@@ -67,7 +67,7 @@ struct Argument
     std::string name, value;
 };
 
-typedef std::list<Argument>::const_iterator arg_cIter;
+typedef std::list<Option>::const_iterator arg_cIter;
 
 class ProgramOptions
 {
@@ -93,9 +93,10 @@ class ProgramOptions
         {
             return std::find(args.begin(), args.end(), name);
         }
-        Argument parseArgument(const std::string &argument) const;
+        Option parseArgument(const std::string &argument) const;
+        Option parseOptionLine(const std::string &line) const;
 
-        std::list<Argument> args;
+        std::list<Option> args;
 };
 
 #endif /* PROGRAMOPTIONS_HPP */
