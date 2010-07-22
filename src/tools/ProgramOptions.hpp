@@ -3,13 +3,14 @@
 
 #include <list>
 #include <string>
+#include <algorithm>
 
 template <typename T, typename U>
-struct ValueConvertMemberFunction
+struct ConvertMethod
 {
     typedef T (U::*t_pointer)(const std::string&);
 
-    ValueConvertMemberFunction(const t_pointer &function, const U &instance)
+    ConvertMethod(const t_pointer &function, const U &instance)
         : pointer(function), instance(instance)
     { }
 
@@ -43,7 +44,7 @@ struct Value
         return converter(m_value);
     }
     template <typename T, typename U>
-    T toPersonalType(const ValueConvertMemberFunction<T, U> &converter) const
+    T toPersonalType(const ConvertMethod<T, U> &converter) const
     {
         return converter(m_value);
     }
@@ -58,7 +59,10 @@ struct Argument
     Argument(const std::string &name, const std::string &value) : name(name),
         value(value) { }
 
-    inline bool operator==(const std::string &key) const { return (name == key); }
+    inline bool operator==(const std::string &key) const
+    {
+        return (name == key);
+    }
 
     std::string name, value;
 };
@@ -85,7 +89,10 @@ class ProgramOptions
         static bool stringToBool(const std::string &text);
 
     private:
-        const arg_cIter findArgFromName(const std::string &name) const;
+        inline const arg_cIter findArgFromName(const std::string &name) const
+        {
+            return std::find(args.begin(), args.end(), name);
+        }
         Argument parseArgument(const std::string &argument) const;
 
         std::list<Argument> args;

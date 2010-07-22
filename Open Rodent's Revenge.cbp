@@ -109,6 +109,7 @@
 		<Unit filename="src\main.cpp" />
 		<Unit filename="src\tools\FilesLoader.cpp" />
 		<Unit filename="src\tools\FilesLoader.hpp" />
+		<Unit filename="src\tools\FilesPathHandler.hpp" />
 		<Unit filename="src\tools\ImageManager.cpp" />
 		<Unit filename="src\tools\ImageManager.hpp" />
 		<Unit filename="src\tools\Logger.cpp" />

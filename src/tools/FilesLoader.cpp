@@ -2,9 +2,9 @@
 #include <fstream>
 #include <SFML/System/Clock.hpp>
 #include "FilesLoader.hpp"
+#include "FilesPathHandler.hpp"
 #include "ImageManager.hpp"
 #include "ShaderManager.hpp"
-#include "Logger.hpp"
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -117,11 +117,17 @@ bool FilesLoader::loadFile(const string &filepath)
     if (filepath.empty() ||  !fs::exists(file))
         return false;
     string extension(file.extension());
+    if (extension.empty() || extension.size() <= 1)
+    {
+        gLog << " Warning : invalid extension name. Skipping file...";
+        return true;
+    }
     extension = extension.substr(1, extension.size());
     if (extension == "bmp" || extension == "png" || extension == "jpg" ||
         extension == "tga" || extension == "dds" || extension == "psd")
     {
         //gLog << " (Image)";
+        gFph.addFile(file.filename(), filepath);
         return (gImageManager.getResource(file.filename(), filepath,
                                           true) != NULL);
     }
@@ -158,7 +164,8 @@ bool FilesLoader::findDefinedFiles(fileList &files, const string &imgdir)
     return true;
 }
 
-bool FilesLoader::findPresentFiles(fileList &files, const string &imgdir, const bool &recursive)
+bool FilesLoader::findPresentFiles(fileList &files, const string &imgdir,
+    const bool &recursive)
 {
     const fs::path dir(imgdir);
     if (!fs::exists(dir))
@@ -179,9 +186,4 @@ bool FilesLoader::findPresentFiles(fileList &files, const string &imgdir, const 
             files.push_back(it->filename());
 	}
     return true;
-}
-
-bool FilesLoader::fileExists(const string &filename)
-{
-    return (fs::exists(filename));
 }

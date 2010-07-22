@@ -119,8 +119,3 @@ bool ProgramOptions::stringToBool(const string &text)
         return true;
     throw "Error : '" + text + "' is not a boolean.";
 }
-
-const arg_cIter ProgramOptions::findArgFromName(const string &name) const
-{
-    return find(args.begin(), args.end(), name);
-}

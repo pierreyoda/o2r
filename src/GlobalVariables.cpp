@@ -1,6 +1,8 @@
 #include "GlobalVariables.hpp"
+#include "tools/FilesPathHandler.hpp"
 
 GlobalVariables gv;
+FilesPathHandler gFph;
 
 GlobalVariables::GlobalVariables() : debugMode(false), sizeChanged(false),
     compatibilityMode(false), useShaders(!compatibilityMode), score(0),
