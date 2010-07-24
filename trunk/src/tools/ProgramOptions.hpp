@@ -3,7 +3,9 @@
 
 #include <list>
 #include <string>
+#include <fstream>
 #include <algorithm>
+#include <boost/algorithm/string/trim.hpp>
 
 template <typename T, typename U>
 struct ConvertMethod
@@ -67,7 +69,8 @@ struct Option
     std::string name, value;
 };
 
-typedef std::list<Option>::const_iterator arg_cIter;
+typedef std::list<Option>::iterator option_iter;
+typedef std::list<Option>::const_iterator option_cIter;
 
 class ProgramOptions
 {
@@ -78,25 +81,46 @@ class ProgramOptions
         template <typename T> Value value(const std::string &key,
             const T &defaultValue = std::string("")) const
         {
-            const arg_cIter iter = findArgFromName(key);
-            if (iter != args.end())
+            const option_cIter iter = findOptionFromNameConst(key);
+            if (iter != options.end())
                 return Value(iter->value, defaultValue, true);
             return Value("", defaultValue, false);
         }
 
+        bool parseIniFile(const std::string &filename, const bool &useTree = true);
         bool parseCommandLine(const unsigned int &argc, char *argv[]);
 
         static bool stringToBool(const std::string &text);
 
     private:
-        inline const arg_cIter findArgFromName(const std::string &name) const
+        inline static std::string removeExtraSpaces(std::string &string)
         {
-            return std::find(args.begin(), args.end(), name);
+            boost::algorithm::trim(string);
+            return string;
+        }
+        inline static bool containsOnlySpaces(const std::string &string)
+        {
+            for (unsigned int i = 0; i < string.size(); i++)
+                if (string[i] != ' ' && string[i] != '\t')
+                    return false;
+            return true;
+        }
+        inline option_iter findOptionFromName(const std::string &name)
+        {
+            return std::find(options.begin(), options.end(), name);
+        }
+        inline const option_cIter findOptionFromNameConst(const std::string &name)
+            const
+        {
+            return std::find(options.begin(), options.end(), name);
         }
         Option parseArgument(const std::string &argument) const;
         Option parseOptionLine(const std::string &line) const;
+        void addOption(const Option &option, const bool &removeSpaces = true,
+            const bool &replaceIfExisting = true);
 
-        std::list<Option> args;
+        std::list<Option> options;
+        std::string prefix;
 };
 
 #endif /* PROGRAMOPTIONS_HPP */

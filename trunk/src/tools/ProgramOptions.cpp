@@ -7,8 +7,9 @@
 using namespace std;
 
 const string NEW_ARG_STRING = "-";
-const char EGUALS_SYMBOL = '=';
-const bool STRICT_CL_PARSING = false, REPLACE_IF_EXISTING = false;
+const char EGUALS_SYMBOL = '=', INI_COMMENT_SYMBOL = ';', INI_PREFIX_OPEN = '[',
+    INI_PREFIX_CLOSE = ']', INI_PREFIXED_ACCESS = '/';
+const bool STRICT_CL_PARSING = false, STRICT_INI_PARSING = false;
 
 ProgramOptions::ProgramOptions()
 {
@@ -56,6 +57,65 @@ bool Value::toBool() const
     return value;
 }
 
+bool ProgramOptions::parseIniFile(const string &filename, const bool &useTree)
+{
+    ifstream file(filename.c_str(), ios::in);
+    if (!file)
+        return false;
+
+    string line, prefix;
+    while (getline(file, line))
+    {
+        const string parsingError("Error parsing line '" + line
+            + "' : invalid format.");
+        const string::size_type prefixOpenPos = line.find(INI_PREFIX_OPEN);
+        if (useTree && prefixOpenPos != string::npos)
+        {
+            if (prefixOpenPos >= line.size())
+            {
+                gLog << logH << parsingError << "\n";
+                continue;
+            }
+            string::size_type prefixClosePos = line.find(INI_PREFIX_CLOSE);
+            if (prefixClosePos == string::npos)
+            {
+                string message("missing '");
+                message.push_back(INI_PREFIX_CLOSE);
+                message  += "' at the end of '" + line + "'.";
+                if (STRICT_INI_PARSING)
+                {
+                    gLog << logH << "Error : " + message;
+                    continue;
+                }
+                gLog << logH << "Warning : " << message << "\n";
+                prefixClosePos = line.size();
+            }
+            if (prefixClosePos-prefixOpenPos >= line.size())
+            {
+                gLog << logH << parsingError << "\n";
+                continue;
+            }
+            prefix = line.substr(prefixOpenPos+1, prefixClosePos-1)
+                + INI_PREFIXED_ACCESS;
+            continue;
+        }
+        const string::size_type commentPos = line.find(INI_COMMENT_SYMBOL);
+        if (commentPos != string::npos)
+        {
+            if (commentPos >= line.size())
+                continue;
+            line = line.substr(0, commentPos);
+        }
+        if (containsOnlySpaces(line))
+            continue;
+        addOption(parseOptionLine(prefix + line));
+    }
+
+    file.close();
+
+    return true;
+}
+
 bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
 {
     gLog.useHierarchy(false);
@@ -65,7 +125,7 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
         try
         {
             const Option arg = parseArgument(argv[i]);
-            args.push_back(arg);
+            addOption(arg);
             gLog << "Option " << i;
             if (i < 10)
                 gLog << " ";
@@ -79,7 +139,6 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
             gLog << error << "\n";
         }
     }
-    parseArgument("-mod=true");
     return true;
 }
 
@@ -118,6 +177,24 @@ Option ProgramOptions::parseOptionLine(const string &line) const
     value = line.substr(egualsPos+1, line.size());
 
     return Option(name, value);
+}
+
+void ProgramOptions::addOption(const Option &option, const bool &removeSpaces,
+    const bool &replaceIfExisting)
+{
+    string name = option.name, value = option.value;
+    if (removeSpaces)
+        removeExtraSpaces(name), removeExtraSpaces(value);
+    if (replaceIfExisting)
+    {
+        const option_iter iter = findOptionFromName(name);
+        if (iter != options.end())
+        {
+            iter->value = value;
+            return;
+        }
+    }
+    options.push_back(Option(name, value));
 }
 
 bool ProgramOptions::stringToBool(const string &text)
