@@ -4,7 +4,6 @@
 #include "FilesLoader.hpp"
 #include "FilesPathHandler.hpp"
 #include "ImageManager.hpp"
-#include "ShaderManager.hpp"
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -135,11 +134,11 @@ bool FilesLoader::loadFile(const string &filepath)
     {
         gLog << " (Shader)";
         gFph.addFile(filename, filepath);
-        return (gShaderManager.getResource(filename) != 0);
+        return true;
     }
     else
     {
-        gLog << " Warning : non supported format. Skipping file...";
+        gLog << " Warning : non supported or unknown format. Skipping file...";
         return true;
     }
     gLog.useHierarchy(true);

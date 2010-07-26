@@ -117,8 +117,6 @@
 		<Unit filename="src\tools\ProgramOptions.cpp" />
 		<Unit filename="src\tools\ProgramOptions.hpp" />
 		<Unit filename="src\tools\ResourceManager.hpp" />
-		<Unit filename="src\tools\ShaderManager.cpp" />
-		<Unit filename="src\tools\ShaderManager.hpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
