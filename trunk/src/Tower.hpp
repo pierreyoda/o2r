@@ -10,15 +10,16 @@ struct Floor
 {
     Floor(const std::string &path, const std::string &alias) : alias(alias)
     {
-        data = NULL;
+
     }
     ~Floor()
     {
-        delete data;
+        if (data.unique())
+            data.reset();
     }
 
     std::string filename, alias;
-    Level *data;
+    levelPtr data;
 };
 
 struct StairsDescriptionElement
@@ -40,10 +41,10 @@ class Tower
         void setStairsDescriptionFlag(const char &flag) {
             m_stairsDescriptionFlag = flag; }
 
-        Level *getCurrentFloor()
+        levelPtr getCurrentFloor()
         {
             if (m_floors.empty() || m_currentFloor >= m_floors.size())
-                return NULL;
+                return levelPtr();
             return m_floors[m_currentFloor].data;
         }
 

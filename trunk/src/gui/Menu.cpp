@@ -48,7 +48,7 @@ bool Menu::run(RenderWindow &App, HudManager &hud, bool &resume,
             {
                 if (writting && Event.Key.Code == Key::Return)
                 {
-                    if (m_buttons[clickedButton].second != NULL)
+                    if (m_buttons[clickedButton].second != 0)
                         m_buttons[clickedButton].second();
                 }
                 if (Event.Key.Code == Key::Escape)
@@ -79,7 +79,7 @@ bool Menu::run(RenderWindow &App, HudManager &hud, bool &resume,
                             writting = true;
                             clickedButton = i;
                         }
-                        else if (!m_writeButtons[i] && m_buttons[i].second != NULL)
+                        else if (!m_writeButtons[i] && m_buttons[i].second != 0)
                         {
                             m_buttons[i].second();
                             return false;

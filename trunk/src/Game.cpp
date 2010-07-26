@@ -8,8 +8,7 @@ using namespace sf;
 
 // TODO (Pierre-Yves#1#): [TOWER] 0.8 : Charger et afficher les Tower
 // TODO (Pierre-Yves#1#): [TOWER] Ajouter 'initializeFloor' (--> facile : initializeGame() avec nb chats perso et reset(floor) du pointeur) à Game
-Game::Game(const bool &loadDefaultLevel) : tower(NULL), cats(),
-    mouse(currentLevel, cats), inTower(false)
+Game::Game(const bool &loadDefaultLevel) : cats(), mouse(currentLevel, cats), inTower(false)
 {
     if (loadDefaultLevel)
         loadLevel("data/1.txt");
@@ -18,35 +17,31 @@ Game::Game(const bool &loadDefaultLevel) : tower(NULL), cats(),
 
 Game::~Game()
 {
-    /*if (inTower)
-    {
-        currentLevel.reset(new Level(emptyLevelName, "", Vector2i(5, 5)));
-        mouse.updateLevelPtr(currentLevel);
-        if (tower != 0)
-            delete tower;
-    }*/
+    if (tower.unique())
+        tower.reset();
+    if (currentLevel.unique())
+        currentLevel.reset();
 }
 
 void Game::testTower()
 {
-    //loadTower("data/towertest/testtower.xml");
-    //tower->setCurrentFloor(1);
-    //updateLevelPointersFromTower();
+    loadTower("data/towertest/testtower.xml");
+    updateLevelPointersFromTower();
 }
 
 void Game::updateLevelPointersFromTower()
 {
-    if (tower == NULL || tower->getCurrentFloor() == NULL)
+    if (tower == 0)
         return;
-    currentLevel.reset(tower->getCurrentFloor());
+    currentLevel = tower->getCurrentFloor();
     mouse.updateLevelPtr(currentLevel);
 }
 
 void Game::renderTower(RenderTarget &target)
 {
-    if (currentLevel.get() == NULL)
+    if (currentLevel.get() == 0)
         return;
-    if (inTower && tower != NULL)
+    if (inTower && tower != 0)
         tower->render(target);
     else if (gv.compatibilityMode)
         currentLevel->renderToOtherTarget(target);
@@ -59,8 +54,8 @@ bool Game::loadTower(const std::string &filename)
     if (filename.empty())
         return false;
     //gv.lesElements.clear();
-    tower = new Tower(filename);
-    if (tower == NULL || tower->getCurrentFloor() == NULL)
+    tower.reset(new Tower(filename));
+    if (tower == 0 || tower->getCurrentFloor() == 0)
         return false;
     inTower = true;
     updateLevelPointersFromTower();

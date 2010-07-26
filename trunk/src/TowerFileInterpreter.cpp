@@ -42,14 +42,14 @@ bool TowerFileInterpreter::readTower(Tower &tower, const string &filename)
         {
             bool ok = true;
             string filename = "", alias = "";
-            if (elem->Attribute("ref") == NULL)
+            if (elem->Attribute("ref") == 0)
             {
                 gLog << logH << "Error : missing attribute 'ref'.\n";
                 ok = false;
             }
             else
                 filename = basedir + elem->Attribute("ref");
-            if (elem->Attribute("name") != NULL)
+            if (elem->Attribute("name") != 0)
                 alias = elem->Attribute("name");
             if (ok && !FilesLoader::fileExists(filename))
                 gLog << logH << "Error : level file '" << filename << "' does not exist.\n";
@@ -119,7 +119,7 @@ bool TowerFileInterpreter::readStairs(const string &filename)
 bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements)
 {
     string basedir = "";
-    if (elem->Attribute("basedir") != NULL)
+    if (elem->Attribute("basedir") != 0)
         basedir = elem->Attribute("basedir");
     if (!basedir.empty())
     {
@@ -138,10 +138,10 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
         bool fromBaseDir = false;
         while (attrib)
         {
-            if (attrib->Name() == NULL)
+            if (attrib->Name() == 0)
                 continue;
             const string attribName = attrib->Name();
-            if (attrib->Value() == NULL)
+            if (attrib->Value() == 0)
                 continue;
             const string attribValueStr = attrib->Value();
             if (attribName == "char" && attribValueStr.size() >= 1)
@@ -154,7 +154,7 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
             {
                 try
                 {
-                    fromBaseDir = ProgramOptions::stringToBool(attribValueStr);
+                    fromBaseDir = OptionsReader::stringToBool(attribValueStr);
                 }
                 catch (const string &error)
                 {

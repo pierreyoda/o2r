@@ -8,15 +8,15 @@ using namespace std;
 
 const string NEW_ARG_STRING = "-";
 const char EGUALS_SYMBOL = '=', INI_COMMENT_SYMBOL = ';', INI_PREFIX_OPEN = '[',
-    INI_PREFIX_CLOSE = ']', INI_PREFIXED_ACCESS = '/';
+    INI_PREFIX_CLOSE = ']';
 const bool STRICT_CL_PARSING = false, STRICT_INI_PARSING = false;
 
-ProgramOptions::ProgramOptions()
+OptionsReader::OptionsReader()
 {
 
 }
 
-ProgramOptions::~ProgramOptions()
+OptionsReader::~OptionsReader()
 {
 
 }
@@ -38,7 +38,7 @@ bool stringToBoolShort(const string &text)
     bool value = false;
     try
     {
-        value = ProgramOptions::stringToBool(text);
+        value = OptionsReader::stringToBool(text);
     }
     catch (const string &error)
     {
@@ -57,13 +57,14 @@ bool Value::toBool() const
     return value;
 }
 
-bool ProgramOptions::parseIniFile(const string &filename, const bool &useTree)
+bool OptionsReader::parseIniFile(const string &filename, const bool &useTree)
 {
     ifstream file(filename.c_str(), ios::in);
     if (!file)
         return false;
 
-    string line, prefix;
+    string line;
+    prefix.clear();
     while (getline(file, line))
     {
         const string parsingError("Error parsing line '" + line
@@ -112,11 +113,12 @@ bool ProgramOptions::parseIniFile(const string &filename, const bool &useTree)
     }
 
     file.close();
+    prefix.clear();
 
     return true;
 }
 
-bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
+bool OptionsReader::parseCommandLine(const unsigned int &argc, char *argv[])
 {
     gLog.useHierarchy(false);
     for (unsigned int i = 1; i < argc; i++)
@@ -142,7 +144,7 @@ bool ProgramOptions::parseCommandLine(const unsigned int &argc, char *argv[])
     return true;
 }
 
-Option ProgramOptions::parseArgument(const string &argument) const
+Option OptionsReader::parseArgument(const string &argument) const
 {
     string parsingError("Error parsing argument '" + argument + "' : unknown format."),
         name, value;
@@ -163,12 +165,12 @@ Option ProgramOptions::parseArgument(const string &argument) const
     return parseOptionLine(temp);
 }
 
-Option ProgramOptions::parseOptionLine(const string &line) const
+Option OptionsReader::parseOptionLine(const string &line) const
 {
     string parsingError("Error parsing line '" + line
         + "' : unknown format."), name(""), value("");
 
-    string::size_type egualsPos = line.find(EGUALS_SYMBOL);
+    const string::size_type egualsPos = line.find(EGUALS_SYMBOL);
     if (egualsPos == string::npos)
         return Option(line, "");
     if (egualsPos >= line.size())
@@ -179,7 +181,7 @@ Option ProgramOptions::parseOptionLine(const string &line) const
     return Option(name, value);
 }
 
-void ProgramOptions::addOption(const Option &option, const bool &removeSpaces,
+void OptionsReader::addOption(const Option &option, const bool &removeSpaces,
     const bool &replaceIfExisting)
 {
     string name = option.name, value = option.value;
@@ -197,7 +199,7 @@ void ProgramOptions::addOption(const Option &option, const bool &removeSpaces,
     options.push_back(Option(name, value));
 }
 
-bool ProgramOptions::stringToBool(const string &text)
+bool OptionsReader::stringToBool(const string &text)
 {
     if (text == "0" || text == "false")
         return false;
