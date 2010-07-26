@@ -8,7 +8,8 @@
 
 struct Floor
 {
-    Floor(const std::string &path, const std::string &alias) : alias(alias)
+    Floor(const std::string &path, const std::string &alias) : filename(path),
+        alias(alias), m_loaded(false)
     {
 
     }
@@ -17,9 +18,21 @@ struct Floor
         if (data.unique())
             data.reset();
     }
+    void loadLevel(const bool &reloadIfLoaded = false)
+    {
+        if (m_loaded && !reloadIfLoaded)
+            return;
+        data.reset(new Level(filename, alias));
+        m_loaded = true;
+    }
 
     std::string filename, alias;
     levelPtr data;
+
+    bool loaded() const { return m_loaded; }
+
+    private:
+        bool m_loaded;
 };
 
 struct StairsDescriptionElement
@@ -54,11 +67,12 @@ class Tower
 
         sf::RenderImage temp, temp2, previousFloorsRender;
         sf::Sprite previousFloorsRenderResult;
-        std::vector<Floor>  m_floors;
+        std::vector<Floor> m_floors;
         l_stairsDescription m_stairs;
-        sf::Shader &m_lowerFloorsShader, &m_lowerFloorsShader2;
+        sf::Shader m_lowerFloorsShader, m_lowerFloorsShader2;
         unsigned int m_currentFloor;
         char m_stairsDescriptionFlag;
+        static std::string shader1, shader2;
 };
 
 #endif /* TOWER_HPP */
