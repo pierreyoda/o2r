@@ -9,7 +9,7 @@ Object::Object(const sf::Vector2i &ipos) : m_pos(ipos)
 
 void Object::setImage(sf::Image *img)
 {
-    if (img == NULL)
+    if (img == 0)
         return;
     m_sprite.SetImage(*img);
     if (ORIGIN_AT_CENTER)

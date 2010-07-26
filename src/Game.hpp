@@ -42,7 +42,7 @@ class Game
         void mouseOnStairs();
 
         levelPtr currentLevel;
-        Tower *tower;
+        boost::shared_ptr<Tower> tower;
         l_cats cats;
         Mouse mouse;
         bool inTower;

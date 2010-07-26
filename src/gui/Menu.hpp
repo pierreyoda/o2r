@@ -18,7 +18,7 @@ class Menu
         Menu();
         virtual ~Menu();
 
-        void addButton(const Button &button, bRunFonction fonction = NULL,
+        void addButton(const Button &button, bRunFonction fonction = 0,
             const bool &write = false);
         void connectButton(const unsigned int &id, bRunFonction function);
         bool run(sf::RenderWindow &App, HudManager &hud, bool &resume,

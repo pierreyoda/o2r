@@ -21,7 +21,7 @@ class Mouse : public Object
         void die();
         void revive();
         bool move(const sf::Vector2i &dir);
-        void updateLevelPtr(levelPtr &level) { lvl = level; }
+        void updateLevelPtr(levelPtr level) { lvl = level; }
 
         bool dead() const { return m_dead; }
         unsigned int remainingLifes() const { return m_remainingLifes; }

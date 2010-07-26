@@ -16,7 +16,7 @@ Tower::Tower(const std::string &file) :
     TowerFileInterpreter::readTower(*this, file);
     if (m_floors.empty())
         return;
-    m_floors[0].data = new Level(m_floors[0].filename, m_floors[0].alias);
+    m_floors[0].data.reset(new Level(m_floors[0].filename, m_floors[0].alias));
 }
 
 Tower::~Tower()
@@ -29,7 +29,7 @@ void Tower::render(sf::RenderTarget &target)
     for (unsigned int i = 0; i < m_floors.size(); i++)
     {
         bool transparent = true;
-        if (m_floors[i].data == NULL)
+        if (m_floors[i].data == 0)
             continue;
         if (i == 0)
             transparent = false;
@@ -61,7 +61,7 @@ const sf::Sprite &Tower::getPrevFloorsRenderResult()
         prevCurrentFloor = m_currentFloor;
         for (unsigned int i = 0; i < m_currentFloor; i++)
         {
-            if (m_floors[i].data != NULL)
+            if (m_floors[i].data != 0)
                 previousFloorsRender.Draw(m_floors[i].data->getRenderResult(),
                                       m_lowerFloorsShader);
         }

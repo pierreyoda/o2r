@@ -11,7 +11,7 @@ sf::Image *ImageManager::load(const std::string& strId)
     {
         gLog << "[WARN] ImageManager failed to load: " << strId << "\n";
         /*delete image;
-        image = NULL;*/
+        image = 0;*/
         image->Create(16, 16, sf::Color::White);
     }
     return image;

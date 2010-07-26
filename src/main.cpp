@@ -29,7 +29,7 @@ void printEndProgram(const float &runningTime)
     gLog << "] ---";
 }
 
-void loadGlobalOptions(const ProgramOptions &options)
+void loadGlobalOptions(const OptionsReader &options)
 {
     gv.debugMode = options.value("d", false).toBool();
     if (gv.debugMode)
@@ -75,13 +75,13 @@ int main(int argc, char *argv[])
     sf::Clock clock;
     gLog << "--- Launch of the program ---\n";
     // Writing date
-    time_t rawtime = time(NULL);
+    time_t rawtime = time(0);
     gLog << "Launched on " << ctime(&rawtime);
     gLog << "Version : " << gameVersion << "\n";
 
     gLog.changeHierarchy(1);
     gLog << "\nInterpreting arguments...\n";
-    ProgramOptions options;
+    OptionsReader options;
         options.parseCommandLine(argc, argv);
 
     gLog.useHierarchy(true);

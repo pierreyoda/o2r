@@ -6,29 +6,34 @@
 #include <fstream>
 #include <algorithm>
 #include <boost/algorithm/string/trim.hpp>
+#include <boost/algorithm/string/erase.hpp>
 
-template <typename T, typename U>
+const char INI_PREFIXED_ACCESS = '/';
+const std::string INI_PREFIX_FORBIDDEN(&INI_PREFIXED_ACCESS);
+
+template <typename ReturnTypeT, typename ClassT>
 struct ConvertMethod
 {
-    typedef T (U::*t_pointer)(const std::string&);
+    typedef ReturnTypeT (ClassT::*t_pointer)(const std::string&);
 
-    ConvertMethod(const t_pointer &function, const U &instance)
+    ConvertMethod(const t_pointer &function, const ClassT &instance)
         : pointer(function), instance(instance)
     { }
 
-    T operator()(const std::string &toConvert) const
+    ReturnTypeT operator()(const std::string &toConvert) const
     {
         return (instance.*pointer)(toConvert);
     }
 
     private:
         const t_pointer &pointer;
-        const U &instance;
+        const ClassT &instance;
 };
 
 struct Value
 {
-    template <typename T> Value(const std::string &value, const T &defaultValue,
+    template <typename TypeT>
+    Value(const std::string &value, const TypeT &defaultValue,
         const bool keyExists) : m_value(value), m_keyExists(keyExists)
     {
         std::ostringstream oss;
@@ -38,15 +43,20 @@ struct Value
 
     bool toBool() const;
     int toInt() const;
-    std::string toString() const { return m_value; }
+    std::string toString() const
+    {
+        if (!m_value.empty())
+            return m_value;
+         return m_defaultValue;
+    }
 
-    template <typename T>
-    T toPersonalType(T (*converter)(const std::string&)) const
+    template <typename TypeT>
+    TypeT toPersonalType(TypeT (*converter)(const std::string&)) const
     {
         return converter(m_value);
     }
-    template <typename T, typename U>
-    T toPersonalType(const ConvertMethod<T, U> &converter) const
+    template <typename TypeT, typename ClassT>
+    TypeT toPersonalType(const ConvertMethod<TypeT, ClassT> &converter) const
     {
         return converter(m_value);
     }
@@ -72,16 +82,21 @@ struct Option
 typedef std::list<Option>::iterator option_iter;
 typedef std::list<Option>::const_iterator option_cIter;
 
-class ProgramOptions
+class OptionsReader
 {
     public:
-        ProgramOptions();
-        ~ProgramOptions();
+        OptionsReader();
+        ~OptionsReader();
 
-        template <typename T> Value value(const std::string &key,
-            const T &defaultValue = std::string("")) const
+        template <typename TypeT> Value value(const std::string &key,
+            const TypeT &defaultValue = std::string(""),
+            const bool &includePrefix = true) const
         {
-            const option_cIter iter = findOptionFromNameConst(key);
+            std::string toFind;
+            if (includePrefix)
+                toFind = prefix;
+            toFind += key;
+            const option_cIter iter = findOptionFromNameConst(toFind);
             if (iter != options.end())
                 return Value(iter->value, defaultValue, true);
             return Value("", defaultValue, false);
@@ -89,10 +104,44 @@ class ProgramOptions
 
         bool parseIniFile(const std::string &filename, const bool &useTree = true);
         bool parseCommandLine(const unsigned int &argc, char *argv[]);
+        void addOption(const Option &option, const bool &removeSpaces = true,
+            const bool &replaceIfExisting = true);
+
+        void beginGroup(const std::string &name)
+        {
+            const std::string toAdd(clearPrefix(name));
+            if (!toAdd.empty())
+                prefix += toAdd + INI_PREFIXED_ACCESS;
+        }
+        void endGroup()
+        {
+            if (prefix.empty())
+                return;
+            if (prefix.size() <= 1)
+            {
+                prefix.clear();
+                return;
+            }
+            boost::algorithm::trim_right_if(prefix, boost::algorithm::is_any_of(
+                INI_PREFIX_FORBIDDEN));
+            const std::string::size_type pos = prefix.find_last_of(INI_PREFIXED_ACCESS);
+            if (pos != prefix.npos)
+                prefix.erase(pos+1, prefix.npos);
+            else
+                prefix.clear();
+        }
+        std::string currentPrefix() const { return prefix; }
 
         static bool stringToBool(const std::string &text);
 
     private:
+        inline static std::string clearPrefix(const std::string &string)
+        {
+           std::string temp = string;
+            for (unsigned int i = 0; i < INI_PREFIX_FORBIDDEN.size(); i++)
+                boost::algorithm::erase_all(temp, &INI_PREFIX_FORBIDDEN[i]);
+            return temp;
+        }
         inline static std::string removeExtraSpaces(std::string &string)
         {
             boost::algorithm::trim(string);
@@ -116,11 +165,14 @@ class ProgramOptions
         }
         Option parseArgument(const std::string &argument) const;
         Option parseOptionLine(const std::string &line) const;
-        void addOption(const Option &option, const bool &removeSpaces = true,
-            const bool &replaceIfExisting = true);
 
         std::list<Option> options;
         std::string prefix;
+};
+
+class OptionsSaver
+{
+    OptionsSaver() { }
 };
 
 #endif /* PROGRAMOPTIONS_HPP */

@@ -13,7 +13,7 @@ sf::Shader* ShaderManager::load( const std::string& strId)
     {
         gLog << "[WARN] ShaderManager failed to load: " << strId << "\n";
         delete shader;
-        shader = NULL;
+        shader = 0;
     }
     return shader;
 }
