@@ -32,7 +32,6 @@ class FilesPathHandler
             const map_filesPath::const_iterator iter = find(alias);
             if (iter != filespath.end())
                 return iter->second;
-            gLog << logH << "Error : cannot found '" << alias << "'.";
             return "";
         }
 

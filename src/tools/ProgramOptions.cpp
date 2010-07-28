@@ -33,27 +33,13 @@ int Value::toInt() const
     return value;
 }
 
-bool stringToBoolShort(const string &text)
-{
-    bool value = false;
-    try
-    {
-        value = OptionsReader::stringToBool(text);
-    }
-    catch (const string &error)
-    {
-        gLog << logH << error << "\n";
-    }
-    return value;
-}
-
 bool Value::toBool() const
 {
     bool value = false;
     if (!m_keyExists)
-        value = stringToBoolShort(m_defaultValue);
+        value = OptionsReader::stringToBool(m_defaultValue);
     else
-        value = stringToBoolShort(m_value);
+        value = OptionsReader::stringToBool(m_value);
     return value;
 }
 
@@ -205,5 +191,6 @@ bool OptionsReader::stringToBool(const string &text)
         return false;
     else if (text == "1" || text == "true" || text.empty())
         return true;
-    throw "Error : '" + text + "' is not a boolean.";
+    gLog << "Error : '" + text + "' is not a boolean.";
+    return false;
 }

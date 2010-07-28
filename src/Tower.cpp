@@ -1,21 +1,19 @@
+#include <boost/algorithm/string.hpp>
 #include "Tower.hpp"
 #include "TowerFileInterpreter.hpp"
-
-std::string Tower::shader1 = std::string(), Tower::shader2 = std::string();
 
 // TODO (Pierre-Yves#4#): [EFFET VISUEL] Ajouter flou progressif + changement de teinte (effet profondeur verticale < ==shaders)
 // TODO (Pierre-Yves#5#): [EFFET VISUEL] Ajouter une option pour désactiver les shaders
 Tower::Tower(const std::string &file) : m_currentFloor(0),
     m_stairsDescriptionFlag(stairsDescriptionDefaultFlag)
 {
-    if (shader1.empty())
-        shader1 = gFph("blur.sfx");
-    if (shader2.empty())
-        shader2 = gFph("colorize.sfx");
+    shader1 = gFph("blur.sfx"), shader2 = gFph("colorize.sfx");
     if (!m_lowerFloorsShader.LoadFromFile(shader1))
-        gLog << "Error : cannot load shader blur from '" << shader1 << "'.\n";
-    if (!m_lowerFloorsShader.LoadFromFile(shader2))
-        gLog << "Error : cannot load shader blur from '" << shader2 << "'.\n";
+        gLog << logH << "[Tower] Error : cannot load shader 1 from '"
+            << shader1 << "'.\n";
+    if (!m_lowerFloorsShader2.LoadFromFile(shader2))
+        gLog << logH << "[Tower] Error : cannot load shader 2 from '"
+            << shader2 << "'.\n";
     if (!gv.compatibilityMode)
     {
         temp.Create(SCREEN_W, SCREEN_H);
@@ -57,16 +55,21 @@ void Tower::render(sf::RenderTarget &target)
                 target.Draw(sf::Sprite(temp2.GetImage()));
             }
             else
-            ; // to be continued...
+                m_floors[i].data->renderToOtherTarget(target, transparent);
         }
         else if (i > m_currentFloor)
             break;
+        else if (gv.compatibilityMode)
+            m_floors[i].data->renderToOtherTarget(target, transparent);
         else
             target.Draw(m_floors[i].data->getRenderResult(transparent));
     }
-    target.Draw(getPrevFloorsRenderResult(), m_lowerFloorsShader2);
-    bool transparent = (m_currentFloor == 0);
-    target.Draw(m_floors[m_currentFloor].data->getRenderResult(transparent));
+    if (!gv.compatibilityMode)
+    {
+        target.Draw(getPrevFloorsRenderResult(), m_lowerFloorsShader2);
+        bool transparent = (m_currentFloor == 0);
+        target.Draw(m_floors[m_currentFloor].data->getRenderResult(transparent));
+    }
 }
 
 const sf::Sprite &Tower::getPrevFloorsRenderResult()
@@ -103,4 +106,29 @@ std::string Tower::getNextFloorDefaultName()
     if (m_floors.size() < 10)
         temp += '0';
     return temp + size;
+}
+
+void Tower::addStairs(const std::string &source, const std::string &dest)
+{
+    if (source.empty() || dest.empty())
+        return;
+    StairsDescriptionElement stair;
+    std::vector<std::string> result;
+    // Sources informations
+    boost::algorithm::split(result, source,
+        boost::algorithm::is_any_of(&m_stairsDescriptionFlag));
+    if (result.size() < 2 || result[0].empty() || result[1].empty())
+        return;
+    stair.sourceLevel = result[0];
+    stair.sourceChar = result[1][0];
+    result.clear();
+    // Destination informations
+    boost::algorithm::split(result, dest,
+        boost::algorithm::is_any_of(&m_stairsDescriptionFlag));
+    if (result.size() < 2 || result[0].empty() || result[1].empty())
+        return;
+    stair.destLevel = result[0];
+    stair.destChar = result[1][0];
+    // Adding stairs
+    m_stairs.push_back(stair);
 }
