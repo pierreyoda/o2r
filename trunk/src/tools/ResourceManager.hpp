@@ -66,9 +66,9 @@ class ResourceManager
 
         T* getResource(const std::string &strId, const bool &isAlias = true)
         {
-            std::string file = strId;
-            if (isAlias)
-                file = gFph(strId);
+            std::string file = gFph(strId);
+            if (!isAlias || file.empty())
+                file = strId;
             T* resource = find(file);
             if (resource == 0)
             {
@@ -85,7 +85,7 @@ class ResourceManager
         if (resource != 0)
         {
             delete resource;
-            m_resource.erase( m_resource.find( strId ) );
+            m_resource.erase(m_resource.find(strId));
         }
     }
 

@@ -37,8 +37,8 @@ struct Floor
 
 struct StairsDescriptionElement
 {
-    std::string fromStairsName, toStairsName;
-    sf::Vector2i fromStairsPos, toStairsPos;
+    char sourceChar, destChar;
+    std::string sourceLevel, destLevel;
 };
 
 typedef std::list<StairsDescriptionElement> l_stairsDescription;
@@ -51,6 +51,7 @@ class Tower
 
         void render(sf::RenderTarget &target);
         void addFloor(const std::string &name, const std::string &alias = "");
+        void addStairs(const std::string &source, const std::string &dest);
         void setStairsDescriptionFlag(const char &flag) {
             m_stairsDescriptionFlag = flag; }
 
@@ -72,7 +73,7 @@ class Tower
         sf::Shader m_lowerFloorsShader, m_lowerFloorsShader2;
         unsigned int m_currentFloor;
         char m_stairsDescriptionFlag;
-        static std::string shader1, shader2;
+        std::string shader1, shader2;
 };
 
 #endif /* TOWER_HPP */

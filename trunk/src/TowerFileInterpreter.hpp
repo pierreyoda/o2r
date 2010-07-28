@@ -14,8 +14,8 @@ class TowerFileInterpreter
                             const bool &clearPreviousLes = true);
 
     private:
-        static bool readStairs(TiXmlElement *elem);
-            static bool readStairs(const std::string &filename);
+        static bool readStairs(TiXmlElement *elem, Tower &tower);
+            static bool readStairs(const std::string &filename, Tower &tower);
         static bool readLes(TiXmlElement *elem, l_LesElement &lesElements);
 };
 

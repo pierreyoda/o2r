@@ -170,9 +170,34 @@ class OptionsReader
         std::string prefix;
 };
 
-class OptionsSaver
+struct OptionsSaver
 {
     OptionsSaver() { }
+    virtual ~OptionsSaver() { }
+
+    virtual void openFile(const std::string &filename) = 0;
+    virtual void closeFile() = 0;
+
+    virtual void beginGroup(const std::string &group) = 0;
+    virtual void endGroup() = 0;
+};
+
+class OptionsSaverIni : public OptionsSaver
+{
+    public:
+        OptionsSaverIni() { }
+        ~OptionsSaverIni();
+
+        void openFile(const std::string &filename);
+        void closeFile();
+
+        void beginGroup(const std::string &group);
+        void endGroup();
+
+    private:
+        std::ifstream file;
+        std::string prefix;
+        bool mainPrefixWritten;
 };
 
 #endif /* PROGRAMOPTIONS_HPP */

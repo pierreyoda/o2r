@@ -57,9 +57,9 @@ bool TowerFileInterpreter::readTower(Tower &tower, const string &filename)
                 tower.addFloor(filename, alias);
         }
         else if (nodeName == "LES")
-            ;//readLes(elem, gv.lesElements);
+            readLes(elem, gv.lesElements);
         else if (nodeName == "stairs")
-            ;//readStairs(elem);
+            readStairs(elem, tower);
         else
             gLog << logH << "Warning : unrecognized node '" << nodeName << "'.\n";
         elem = elem->NextSiblingElement();
@@ -69,7 +69,7 @@ bool TowerFileInterpreter::readTower(Tower &tower, const string &filename)
     return true;
 }
 
-bool TowerFileInterpreter::readStairs(TiXmlElement *elem)
+bool TowerFileInterpreter::readStairs(TiXmlElement *elem, Tower &tower)
 {
     TiXmlAttribute *attrib = elem->FirstAttribute();
     while (attrib)
@@ -77,22 +77,60 @@ bool TowerFileInterpreter::readStairs(TiXmlElement *elem)
         const string attribName = attrib->Name();
         const string attribValueStr = attrib->Value();
         if (attribName == "ref")
-            return readStairs(attribValueStr);
-        else if (attribName == "basedir");
-        else if (attribName == "persoflag");
+            return readStairs(attribValueStr, tower);
+        else if (attribName == "persoflag")
+        {
+            if (!attribValueStr.empty())
+                tower.setStairsDescriptionFlag(attribValueStr[0]);
+        }
         attrib = attrib->Next();
     }
 
     elem = elem->FirstChildElement("staircase");
     while (elem)
     {
+        string from, to;
+        bool final = false;
+        TiXmlAttribute *attrib = elem->FirstAttribute();
+        while (attrib)
+        {
+            if (attrib->Name() == 0)
+                continue;
+            const string attribName = attrib->Name();
+            if (attrib->Value() == 0)
+                continue;
+            const string attribValueStr = attrib->Value();
+            if (!attribValueStr.empty())
+            {
+                if (attribName == "from")
+                    from = attribValueStr;
+                else if (attribName == "to")
+                    to = attribValueStr;
+                else if (attribName == "final")
+                    final = OptionsReader::stringToBool(attribValueStr);
+            }
+            attrib = attrib->Next();
+        }
+        bool add = true;
+        if (from.empty())
+        {
+            gLog << logH << "[Tower] Stairs error : no source specified.\n";
+            add = false;
+        }
+        if (!final && to.empty())
+        {
+            gLog << logH << "[Tower] Stairs error : no destination specified.\n";
+            add = false;
+        }
+        if (add)
+            tower.addStairs(from, to);
         elem = elem->NextSiblingElement("staircase");
     }
 
     return true;
 }
 
-bool TowerFileInterpreter::readStairs(const string &filename)
+bool TowerFileInterpreter::readStairs(const string &filename, Tower &tower)
 {
     gLog << "\tReading stairs '" << filename << "'.\n";
     TiXmlDocument file(filename.c_str());
@@ -113,7 +151,7 @@ bool TowerFileInterpreter::readStairs(const string &filename)
         gLog << logH << "Error : main node is not 'stairs'.\n";
         return false;
     }
-    return readStairs(elem);
+    return readStairs(elem, tower);
 }
 
 bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements)
@@ -151,16 +189,7 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
             else if (attribName == "type")
                 type = Level::stringToCasetype(attribValueStr);
             else if (attribName == "fromBaseDir")
-            {
-                try
-                {
-                    fromBaseDir = OptionsReader::stringToBool(attribValueStr);
-                }
-                catch (const string &error)
-                {
-                    gLog << logH << error << "\n";
-                }
-            }
+                fromBaseDir = OptionsReader::stringToBool(attribValueStr);
             attrib = attrib->Next();
         }
         bool ok = true;
@@ -169,8 +198,8 @@ bool TowerFileInterpreter::readLes(TiXmlElement *elem, l_LesElement &lesElements
             gLog << logH << "Error : no image specified.\n";
             ok = false;
         }
-        else if (!FilesLoader::fileExists(imgpath))
-            gLog << logH << "Warning : image '" << imgpath << "' not found.\n";
+        /*else if (!FilesLoader::fileExists(imgpath))
+            gLog << logH << "Warning : image '" << imgpath << "' not found.\n";*/
         if (ok)
             lesElements.push_back(LesElement(character, type, imgpath));
         elem = elem->NextSiblingElement("element");
