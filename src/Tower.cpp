@@ -132,3 +132,11 @@ void Tower::addStairs(const std::string &source, const std::string &dest)
     // Adding stairs
     m_stairs.push_back(stair);
 }
+
+/* From a level name and a case position, if there is stairs there will return
+the other side position (which can be 'from' or 'dest') */
+sf::Vector2i Tower::getStairsDestination(const sf::Vector2i &pos,
+    const std::string &levelName)
+{
+    // To be implemented
+}

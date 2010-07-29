@@ -146,7 +146,7 @@ void LauncherEditionEngine::runAsGame(const std::string &level,
             }
         }
 
-        game.updateCats(astar);
+        game.update(astar);
         if (mouse.dead())
             return;
 

@@ -62,6 +62,9 @@ class Tower
             return m_floors[m_currentFloor].data;
         }
 
+        sf::Vector2i getStairsDestination(const sf::Vector2i &pos,
+            const std::string &levelName);
+
     private:
         std::string getNextFloorDefaultName();
         const sf::Sprite &getPrevFloorsRenderResult();

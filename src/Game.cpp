@@ -17,18 +17,20 @@ Game::Game(const bool &loadDefaultLevel) : cats(), mouse(currentLevel, cats), in
 
 Game::~Game()
 {
+    // Deleting if free (prevents from crashes)
     if (tower.unique())
         tower.reset();
     if (currentLevel.unique())
         currentLevel.reset();
 }
 
-void Game::testTower()
+void Game::testTower() // For debug and beta-testing
 {
     loadTower("data/towertest/testtower.xml");
     updateLevelPointersFromTower();
 }
 
+// Provides current level's pointers to the right class
 void Game::updateLevelPointersFromTower()
 {
     if (tower == 0)
@@ -37,6 +39,7 @@ void Game::updateLevelPointersFromTower()
     mouse.updateLevelPtr(currentLevel);
 }
 
+// Render the tower, or the level, to the provided target
 void Game::renderTower(RenderTarget &target)
 {
     if (currentLevel.get() == 0)
@@ -53,10 +56,12 @@ bool Game::loadTower(const std::string &filename)
 {
     if (filename.empty())
         return false;
-    //gv.lesElements.clear();
     tower.reset(new Tower(filename));
     if (tower == 0 || tower->getCurrentFloor() == 0)
+    {
+        tower.reset();
         return false;
+    }
     inTower = true;
     updateLevelPointersFromTower();
     return true;
@@ -82,6 +87,7 @@ bool Game::loadLevel(const std::string &filename, const Vector2i &sizeIfEmpty,
     return true;
 }
 
+// (Re-)Initialize the game
 void Game::initializeGame(const bool &newlvl)
 {
     gLog << "Initializing game.\n";
@@ -93,6 +99,7 @@ void Game::initializeGame(const bool &newlvl)
     initializeLevel();
 }
 
+// Initialize the current level
 void Game::initializeLevel()
 {
     currentLevel->randomWalls();
@@ -105,13 +112,22 @@ void Game::initializeLevel()
     }
 }
 
-void Game::mouseOnStairs()
+// Updates game (must be called in a game loop before the drawing)
+void Game::update(const bool &astar)
 {
-    if (currentLevel->getCaseType(mouse.pos()) != STAIRS)
-        return;
+    mouseOnStairs();
+    updateCats(astar);
 }
 
-void Game::updateCats(const bool &astar)
+void Game::mouseOnStairs() // Manages stair system in Tower mode
+{
+    if (!inTower && currentLevel->getCaseType(mouse.pos()) != STAIRS)
+        return;
+    const sf::Vector2i from = tower->getStairsDestination(mouse.pos(),
+        currentLevel->getInfos().name);
+}
+
+void Game::updateCats(const bool &astar) // Manages cats IA
 {
     static l_cats::iterator iter;
     for (iter = cats.begin(); iter != cats.end(); iter++)
@@ -135,11 +151,13 @@ void Game::updateCats(const bool &astar)
     }
 }
 
+// Clear the picked case if mouse is over a valid case
 void Game::clearCase(const Vector2f &mousepos)
 {
     currentLevel->setCaseType(pixelToCase(mousepos), NOTHING);
 }
 
+// Set the picked case's type if mouse is over a valid case
 void Game::placeCaseType(const Vector2f &mousepos, const CASETYPE &type)
 {
     Vector2i pos = pixelToCase(mousepos);
@@ -147,6 +165,7 @@ void Game::placeCaseType(const Vector2f &mousepos, const CASETYPE &type)
         currentLevel->setCaseType(pos, type);
 }
 
+// Places the mouse (player) under the mouse if mouse is over a valid case
 void Game::placeMouse(const Vector2f &mousepos)
 {
     Vector2i pos = pixelToCase(mousepos);
@@ -158,6 +177,7 @@ void Game::placeMouse(const Vector2f &mousepos)
     }
 }
 
+// Converts a pixel position to a case position (float to int)
 Vector2i Game::pixelToCase(const Vector2f &pos) const
 {
     unsigned int x = static_cast<unsigned int>(pos.x/CASE_SIZE),
