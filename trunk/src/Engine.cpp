@@ -179,7 +179,7 @@ void Engine::runGame()
             }
         }
 
-        game.updateCats(astar);
+        game.update(astar);
         if (mouse.dead())
             run();
 

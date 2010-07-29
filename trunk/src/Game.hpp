@@ -17,7 +17,7 @@ class Game
         void testTower();
 
         void renderTower(sf::RenderTarget &target);
-        void update();
+        void update(const bool &astar);
         bool loadTower(const std::string &filename);
         bool saveLevel(const std::string &filename);
         bool loadLevel(const std::string &filename,
@@ -25,7 +25,6 @@ class Game
                 const int persoNbOfCats = -1, const int persoNbOfRW = -1,
                 const bool &initGame = true);
             void initializeGame(const bool &newlvl = false);
-        void updateCats(const bool &astar);
         void clearCase(const sf::Vector2f &mousepos);
         void placeCaseType(const sf::Vector2f &mousepos, const CASETYPE &type);
         void placeMouse(const sf::Vector2f &mousepos);
@@ -40,6 +39,7 @@ class Game
         void initializeLevel();
         inline sf::Vector2i pixelToCase(const sf::Vector2f &pos) const;
         void mouseOnStairs();
+        void updateCats(const bool &astar);
 
         levelPtr currentLevel;
         boost::shared_ptr<Tower> tower;

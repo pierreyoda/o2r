@@ -185,7 +185,7 @@ struct OptionsSaver
 class OptionsSaverIni : public OptionsSaver
 {
     public:
-        OptionsSaverIni() { }
+        OptionsSaverIni() : mainPrefixWritten(false) { }
         ~OptionsSaverIni();
 
         void openFile(const std::string &filename);
