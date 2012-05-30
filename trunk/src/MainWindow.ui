@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Open Rodent's Revenge</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/res/icon</normaloff>:/res/icon</iconset>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuGame">
+    <property name="title">
+     <string>Game</string>
+    </property>
+    <addaction name="actionPlayLevel"/>
+    <addaction name="actionPlayCampaign"/>
+    <addaction name="separator"/>
+    <addaction name="actionRestartLevel"/>
+    <addaction name="actionChangeCampaignLevel"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuEditor">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>Editor</string>
+    </property>
+    <addaction name="actionEditorNewLevel"/>
+    <addaction name="actionEditorSaveLevel"/>
+    <addaction name="separator"/>
+    <addaction name="actionEditorEditlevel"/>
+   </widget>
+   <widget class="QMenu" name="menuOptions">
+    <property name="title">
+     <string>Options</string>
+    </property>
+    <widget class="QMenu" name="menuChangeLanguage">
+     <property name="title">
+      <string>Change language</string>
+     </property>
+     <addaction name="actionLanguageEnglish"/>
+     <addaction name="actionLanguageFrench"/>
+    </widget>
+    <addaction name="actionEditMods"/>
+    <addaction name="menuChangeLanguage"/>
+   </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionAboutQt"/>
+   </widget>
+   <addaction name="menuGame"/>
+   <addaction name="menuEditor"/>
+   <addaction name="menuOptions"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionEditMods">
+   <property name="text">
+    <string>Edit mods</string>
+   </property>
+  </action>
+  <action name="actionPlayLevel">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Play level</string>
+   </property>
+  </action>
+  <action name="actionRestartLevel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Restart level</string>
+   </property>
+  </action>
+  <action name="actionPlayCampaign">
+   <property name="text">
+    <string>Play campaign</string>
+   </property>
+  </action>
+  <action name="actionChangeCampaignLevel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Change campaign level</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionEditorNewLevel">
+   <property name="text">
+    <string>New level</string>
+   </property>
+  </action>
+  <action name="actionEditorSaveLevel">
+   <property name="text">
+    <string>Save level</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionEditorEditlevel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Edit level</string>
+   </property>
+  </action>
+  <action name="actionLanguageEnglish">
+   <property name="text">
+    <string>English</string>
+   </property>
+  </action>
+  <action name="actionLanguageFrench">
+   <property name="text">
+    <string>French</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionQuit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>299</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
