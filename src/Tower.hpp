@@ -5,6 +5,7 @@
 #include <vector>
 #include "Level.hpp"
 #include "tools/FilesLoader.hpp"
+#include "boost/tuple/tuple.hpp"
 
 struct Floor
 {
@@ -42,6 +43,7 @@ struct StairsDescriptionElement
 };
 
 typedef std::list<StairsDescriptionElement> l_stairsDescription;
+typedef boost::tuples::tuple<const std::string, const sf::Vector2i> tuple_stairsFound;
 
 class Tower
 {
@@ -62,7 +64,7 @@ class Tower
             return m_floors[m_currentFloor].data;
         }
 
-        sf::Vector2i getStairsDestination(const sf::Vector2i &pos,
+        tuple_stairsFound getStairsOtherSide(const sf::Vector2i &pos,
             const std::string &levelName);
 
     private:

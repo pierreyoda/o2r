@@ -8,7 +8,6 @@
 using namespace std;
 namespace fs = boost::filesystem;
 
-// TODO (Pierre-Yves#3#): [GESTION FICHIER] Réécrire gestion des 'alias' (sortir des XXX-Manager) et des managers de ressources
 bool FilesLoader::loadModules(const vector<string> &modules,
                   const bool &recursive, const bool &modulesOnlyKnownFiles)
 {

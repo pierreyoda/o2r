@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <boost/algorithm/string.hpp>
 #include "Tower.hpp"
 #include "TowerFileInterpreter.hpp"
@@ -133,10 +134,23 @@ void Tower::addStairs(const std::string &source, const std::string &dest)
     m_stairs.push_back(stair);
 }
 
-/* From a level name and a case position, if there is stairs there will return
-the other side position (which can be 'from' or 'dest') */
-sf::Vector2i Tower::getStairsDestination(const sf::Vector2i &pos,
+/* From a level name and a case position, if there is stairs there
+will return the other side position (which can be 'from' or 'dest')
+and the level alias (where the stairs are located) */
+tuple_stairsFound Tower::getStairsOtherSide(const sf::Vector2i &pos,
     const std::string &levelName)
 {
+    const tuple_stairsFound error("", sf::Vector2i(-1, -1));
+    if (m_floors.empty())
+        return error;
+    std::vector<Floor>::iterator iter = m_floors.end();
+    do
+    {
+        --iter;
+    } while (iter != m_floors.begin() && iter->loaded() &&
+        iter->data->getInfos().name != levelName);
+    if (iter == m_floors.end() || !iter->loaded())
+        return error;
+    return error;
     // To be implemented
 }

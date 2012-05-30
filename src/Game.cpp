@@ -123,8 +123,10 @@ void Game::mouseOnStairs() // Manages stair system in Tower mode
 {
     if (!inTower && currentLevel->getCaseType(mouse.pos()) != STAIRS)
         return;
-    const sf::Vector2i from = tower->getStairsDestination(mouse.pos(),
+    const tuple_stairsFound stairs = tower->getStairsOtherSide(mouse.pos(),
         currentLevel->getInfos().name);
+    if (boost::tuples::get<0>(stairs).empty())
+        return;
 }
 
 void Game::updateCats(const bool &astar) // Manages cats IA

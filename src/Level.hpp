@@ -9,6 +9,7 @@
 #include "GlobalVariables.hpp"
 #include "Object.hpp"
 
+// Level case
 struct LevelCase
 {
     LevelCase(const sf::Vector2i &cpos, const char &character);
@@ -20,6 +21,7 @@ struct LevelCase
     Object drawable;
 };
 
+// Level informations (more convenient than a boost::tuple)
 struct LevelInformations
 {
     sf::Vector2i size, mouseStartPos;
@@ -28,6 +30,7 @@ struct LevelInformations
     bool hasChanged;
 };
 
+// Level
 class Level
 {
     public:
