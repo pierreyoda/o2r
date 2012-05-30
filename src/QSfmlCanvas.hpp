@@ -16,14 +16,33 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#include <QApplication>
-#include "MainWindow.hpp"
+#ifndef QSFMLCANVAS_HPP
+#define QSFMLCANVAS_HPP
 
-int main(int argc, char *argv[])
+#include <QWidget>
+#include <QTimer>
+#include <SFML/Graphics.hpp>
+
+class QSfmlCanvas : public QWidget, public sf::RenderWindow
 {
-    QApplication app(argc, argv);
-    MainWindow window;
-    window.show();
+    Q_OBJECT
+public:
+    explicit QSfmlCanvas(QWidget *parent, const QPoint &position,
+                         const QSize &size, unsigned int frameTime = 0);
+    virtual ~QSfmlCanvas();
 
-    return app.exec();
-}
+private :
+
+    virtual void onInit() = 0;
+    virtual void onUpdate() = 0;
+
+    virtual QPaintEngine* paintEngine() const;
+
+    virtual void showEvent(QShowEvent*);
+    virtual void paintEvent(QPaintEvent*);
+
+    QTimer mTimer;
+    bool   mInitialized;
+};
+
+#endif // QSFMLCANVAS_HPP
