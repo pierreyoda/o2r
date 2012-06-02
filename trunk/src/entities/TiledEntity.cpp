@@ -16,22 +16,44 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#include <SFML/Graphics/RenderTarget.hpp>
+#include <SFML/Graphics.hpp>
 #include "TiledEntity.hpp"
 
-TiledEntity::TiledEntity(int x, int y, const std::string &imageId) : mX(x),
-    mY(y), mImageId(imageId)
+using namespace sf;
+
+const unsigned int TiledEntity::TILE_SIZE = 16;
+const Vertex TiledEntity::VERTICES[4]  = {
+    Vertex(Vector2f(0, 0), Vector2f(0, 0)),
+    Vertex(Vector2f(0, TILE_SIZE), Vector2f(0, TILE_SIZE)),
+    Vertex(Vector2f(TILE_SIZE, TILE_SIZE), Vector2f(TILE_SIZE, TILE_SIZE)),
+    Vertex(Vector2f(TILE_SIZE, 0), Vector2f(TILE_SIZE, 0))
+};
+
+TiledEntity::TiledEntity(int x, int y, const std::string &textureAlias) : mX(x),
+    mY(y), mTextureAlias(textureAlias)
 {
 
 }
 
-void TiledEntity::setImageId(const std::string &imageId)
+void TiledEntity::setTextureAlias(const std::string &textureAlias)
 {
-    mImageId = imageId;
-    reloadTexture();
+    mTextureAlias = textureAlias;
+    loadTexture();
 }
 
-void TiledEntity::reloadTexture()
+void TiledEntity::loadTexture()
 {
+    mTexturePtr = AssetsManager::getTexture(mTextureAlias);
+}
 
+TexturePtr TiledEntity::getTexture()
+{
+    return mTexturePtr;
+}
+
+void TiledEntity::draw(RenderTarget &target, RenderStates states) const
+{
+    states.transform.translate(mX * TILE_SIZE, mY * TILE_SIZE);
+    states.texture = mTexturePtr.data();
+    target.draw(TiledEntity::VERTICES, 4, Quads, states);
 }

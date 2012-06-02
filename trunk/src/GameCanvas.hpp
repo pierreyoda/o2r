@@ -20,6 +20,7 @@
 #define GAMECANVAS_HPP
 
 #include "QSfmlCanvas.hpp"
+#include "entities/Mouse.hpp"
 
 /** The Game canvas, where all the game stuff (updating, drawing...) is actually made.
 *
@@ -31,19 +32,19 @@ public:
     explicit GameCanvas(QWidget *parent, const QPoint &position);
     ~GameCanvas();
 
-    void onStart();
     void onPause();
     void onResume();
     void onRetranslate();
 
-    static unsigned int DEFAULT_WIDTH;
-    static unsigned int DEFAULT_HEIGHT;
+    static const unsigned int DEFAULT_WIDTH;
+    static const unsigned int DEFAULT_HEIGHT;
     
 private:
     void onInit();
     void onUpdate();
 
     bool mRunning;
+    Mouse mMouse;
 };
 
 #endif // GAMECANVAS_HPP

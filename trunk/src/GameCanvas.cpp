@@ -20,12 +20,14 @@
 #include "managers/FilespathProvider.hpp"
 #include "QsLog.h"
 
-unsigned int GameCanvas::DEFAULT_WIDTH  = 500;
-unsigned int GameCanvas::DEFAULT_HEIGHT = 500;
+const unsigned int GameCanvas::DEFAULT_WIDTH  = 500;
+const unsigned int GameCanvas::DEFAULT_HEIGHT = 500;
+
+const sf::Color DEFAULT_CLEAR_COLOR(128, 128, 0); // background color in "original" mod
 
 GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
     QSfmlCanvas(parent, position, QSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)),
-    mRunning(false)
+    mRunning(false), mMouse(0, 0)
 {
     setMinimumSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
@@ -34,18 +36,13 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
     QStringList nameFilters;
     nameFilters << "*.bmp" << "*.dds" << "*.jpg" << "*.png" << "*.tga" << "*.psd";
     FilespathProvider::setAssetsNameFilters(nameFilters);
-    FilespathProvider::addMods(QStringList() << "new" << "zelda", true);
+    FilespathProvider::addMods(QStringList() << "zelda", true);
     FilespathProvider::refreshAssetsList();
 }
 
 GameCanvas::~GameCanvas()
 {
 
-}
-
-void GameCanvas::onStart()
-{
-    mRunning = true;
 }
 
 void GameCanvas::onPause()
@@ -65,18 +62,23 @@ void GameCanvas::onRetranslate()
 
 void GameCanvas::onInit()
 {
-
+    QLOG_INFO() << "Initializing game.";
+    mMouse.loadTexture();
+    mMouse.setX(qrand() % 30).setY(qrand() % 30);
+    QLOG_INFO() << "Starting game.";
+    mRunning = true;
 }
 
 void GameCanvas::onUpdate()
 {
     // Clear screen
     if (mRunning)
-        clear(sf::Color::White);
+        clear(DEFAULT_CLEAR_COLOR);
     else
         clear(sf::Color::Black);
 
     // Update entities
 
     // Draw entities
+   mMouse.draw(static_cast<sf::RenderWindow&>(*this));
 }
