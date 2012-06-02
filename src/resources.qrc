@@ -1,5 +1,7 @@
 <RCC>
-    <qresource prefix="/res">
-        <file>icon.ico</file>
+    <qresource prefix="/">
+        <file alias="icon.ico">data_compiled/icon.ico</file>
+        <file alias="translation_fr.qm">data_compiled/o2r_fr.qm</file>
+        <file alias="translation_qt_fr.qm">data_compiled/qt_fr.qm</file>
     </qresource>
 </RCC>

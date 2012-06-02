@@ -19,25 +19,55 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+class QTranslator;
 class GameCanvas;
+class AboutDialog;
 
+#include <QSettings>
+#include <QMessageBox>
 #include "ui_MainWindow.h"
 
+/** \brief The main window.
+*
+*/
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT
     
 public:
     explicit MainWindow(QWidget *parent = 0);
+
+    static QString VERSION;
     
 protected:
     void changeEvent(QEvent *e);
+    void closeEvent(QCloseEvent *e);
 
 private:
+    void loadSettings();
+    void saveSettings();
+    void changeLanguage(const QString &id);
+
+    // Game
     GameCanvas *mGameCanvas;
+    // Dialogs
+    AboutDialog *mAboutDialog;
+    // MainWindow stuff
+    QSettings mSettings;
+    QTranslator *mTranslator, *mQtTranslator;
+    QString mCurrentLanguage;
+    const QString mDefaultLanguage;
 
 private slots:
+    // Language change slots
+    void on_actionLanguageEnglish_triggered(bool state);
+    void on_actionLanguageFrench_triggered(bool state);
+    // AboutDialog slots
+    void on_actionAbout_triggered();
+    void aboutDialog_finished(int);
+    // "About Qt" slots
     void on_actionAboutQt_triggered();
+    void aboutQtMessageBox_finished(int);
 };
 
 #endif // MAINWINDOW_HPP

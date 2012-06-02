@@ -14,8 +14,11 @@
    <string>Open Rodent's Revenge</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/res/icon</normaloff>:/res/icon</iconset>
+   <iconset resource="resources.qrc">
+    <normaloff>:/icon.ico</normaloff>:/icon.ico</iconset>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
   </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
@@ -47,9 +50,10 @@
      <string>Editor</string>
     </property>
     <addaction name="actionEditorNewLevel"/>
+    <addaction name="actionEditorCurrentLevel"/>
     <addaction name="actionEditorSaveLevel"/>
     <addaction name="separator"/>
-    <addaction name="actionEditorEditlevel"/>
+    <addaction name="actionEditorLevelProperties"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
     <property name="title">
@@ -67,7 +71,7 @@
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
-     <string>Help</string>
+     <string>?</string>
     </property>
     <addaction name="actionAbout"/>
     <addaction name="actionAboutQt"/>
@@ -90,7 +94,7 @@
   </action>
   <action name="actionEditMods">
    <property name="text">
-    <string>Edit mods</string>
+    <string>Mods</string>
    </property>
   </action>
   <action name="actionPlayLevel">
@@ -132,10 +136,13 @@
   </action>
   <action name="actionEditorNewLevel">
    <property name="text">
-    <string>New level</string>
+    <string>Create new level</string>
    </property>
   </action>
   <action name="actionEditorSaveLevel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>Save level</string>
    </property>
@@ -143,27 +150,49 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="actionEditorEditlevel">
+  <action name="actionEditorLevelProperties">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Edit level</string>
+    <string>Level properties</string>
    </property>
   </action>
   <action name="actionLanguageEnglish">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
-    <string>English</string>
+    <string notr="true">English</string>
    </property>
   </action>
   <action name="actionLanguageFrench">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
    <property name="text">
-    <string>French</string>
+    <string notr="true">Français</string>
+   </property>
+  </action>
+  <action name="actionEditorCurrentLevel">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Edit current level</string>
    </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>

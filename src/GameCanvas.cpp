@@ -17,15 +17,43 @@
 */
 
 #include "GameCanvas.hpp"
+#include "managers/FilespathProvider.hpp"
+#include "QsLog.h"
 
-GameCanvas::GameCanvas(QWidget *parent, const QPoint &position,
-                       const QSize &size) :
-    QSfmlCanvas(parent, position, size)
+unsigned int GameCanvas::DEFAULT_WIDTH  = 500;
+unsigned int GameCanvas::DEFAULT_HEIGHT = 500;
+
+GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
+    QSfmlCanvas(parent, position, QSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)),
+    mRunning(false)
+{
+    setMinimumSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+
+    FilespathProvider::setModsLocation("mods/");
+    FilespathProvider::setMainModFolder("original");
+}
+
+GameCanvas::~GameCanvas()
 {
 
 }
 
-GameCanvas::~GameCanvas()
+void GameCanvas::onStart()
+{
+    mRunning = true;
+}
+
+void GameCanvas::onPause()
+{
+    mRunning = false;
+}
+
+void GameCanvas::onResume()
+{
+    mRunning = true;
+}
+
+void GameCanvas::onRetranslate()
 {
 
 }
@@ -37,5 +65,13 @@ void GameCanvas::onInit()
 
 void GameCanvas::onUpdate()
 {
+    // Clear screen
+    if (mRunning)
+        clear(sf::Color::White);
+    else
+        clear(sf::Color::Black);
 
+    // Update entities
+
+    // Draw entities
 }

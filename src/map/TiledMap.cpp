@@ -16,34 +16,12 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef GAMECANVAS_HPP
-#define GAMECANVAS_HPP
+#include "TiledMap.hpp"
 
-#include "QSfmlCanvas.hpp"
-
-/** \brief The Game canvas, where all the game stuff (updating, drawing...) is actually made.
-*
-*/
-class GameCanvas : public QSfmlCanvas
+/**
+ * A TiledMap handles a variable number of tiles to form a 2D map.
+ *
+ */
+TiledMap::TiledMap()
 {
-    Q_OBJECT
-public:
-    explicit GameCanvas(QWidget *parent, const QPoint &position);
-    ~GameCanvas();
-
-    void onStart();
-    void onPause();
-    void onResume();
-    void onRetranslate();
-
-    static unsigned int DEFAULT_WIDTH;
-    static unsigned int DEFAULT_HEIGHT;
-    
-private:
-    void onInit();
-    void onUpdate();
-
-    bool mRunning;
-};
-
-#endif // GAMECANVAS_HPP
+}
