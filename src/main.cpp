@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
     logger.addDestination(fileDestination.get());
 
     QLOG_INFO() << "Open Rodent's Revenge version"
-                << MainWindow::VERSION.toLatin1().constData() // avoids quotation marks
+                << MainWindow::VERSION.toLocal8Bit().constData() // avoids quotation marks
                 << "started.";
     QLOG_INFO() << "Built with Qt" << QT_VERSION_STR << "running on"
                 << qVersion() << ".";

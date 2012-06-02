@@ -21,7 +21,7 @@
 
 #include "QSfmlCanvas.hpp"
 
-/** \brief The Game canvas, where all the game stuff (updating, drawing...) is actually made.
+/** The Game canvas, where all the game stuff (updating, drawing...) is actually made.
 *
 */
 class GameCanvas : public QSfmlCanvas

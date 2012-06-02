@@ -21,7 +21,7 @@
 
 #include "TiledEntity.hpp"
 
-/** \brief A Tile is a fragment of a TiledMap.
+/** A Tile is a fragment of a TiledMap.
 *
 */
 class Tile : public TiledEntity

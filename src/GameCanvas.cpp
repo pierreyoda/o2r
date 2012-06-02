@@ -31,6 +31,11 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
 
     FilespathProvider::setModsLocation("mods/");
     FilespathProvider::setMainModFolder("original");
+    QStringList nameFilters;
+    nameFilters << "*.bmp" << "*.dds" << "*.jpg" << "*.png" << "*.tga" << "*.psd";
+    FilespathProvider::setAssetsNameFilters(nameFilters);
+    FilespathProvider::addMods(QStringList() << "new" << "zelda", true);
+    FilespathProvider::refreshAssetsList();
 }
 
 GameCanvas::~GameCanvas()
