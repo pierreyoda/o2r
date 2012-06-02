@@ -22,7 +22,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <QSharedPointer>
 
-/** \brief A TiledEntity consists of a single texture with a fixed size.
+/** A TiledEntity consists of a single texture with a fixed size.
 *
 */
 class TiledEntity

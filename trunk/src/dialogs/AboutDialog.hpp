@@ -21,7 +21,7 @@
 
 #include "ui_AboutDialog.h"
 
-/** \brief AboutDialog shows the project's licence.
+/** AboutDialog shows the project's licence.
 *
 */
 class AboutDialog : public QDialog, private Ui::AboutDialog

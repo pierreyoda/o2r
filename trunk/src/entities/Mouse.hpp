@@ -21,7 +21,7 @@
 
 #include "TiledEntity.hpp"
 
-/** \brief Mouse controlled by the player.
+/** Mouse controlled by the player.
 *
 */
 class Mouse : public TiledEntity

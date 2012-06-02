@@ -19,9 +19,9 @@
 #ifndef TILEDMAP_HPP
 #define TILEDMAP_HPP
 
-/** \brief A TiledMap handles a variable number of tiles to form a 2D map.
+/** A TiledMap handles a variable number of tiles to form a 2D map.
 *
-*\sa Tile
+* @see Tile
 */
 class TiledMap
 {

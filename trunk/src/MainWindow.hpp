@@ -27,7 +27,7 @@ class AboutDialog;
 #include <QMessageBox>
 #include "ui_MainWindow.h"
 
-/** \brief The main window.
+/** The main window.
 *
 */
 class MainWindow : public QMainWindow, private Ui::MainWindow
