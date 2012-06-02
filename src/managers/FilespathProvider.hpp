@@ -20,7 +20,6 @@
 #define FILESPATHPROVIDER_HPP
 
 #include <QDir>
-#include <QMap>
 
 /** Set of fonctions providing an asset filepath from an asset ID.
 *
@@ -29,6 +28,13 @@
 */
 namespace FilespathProvider
 {
+    /** Get an asset path from its name. Uses assets list.
+    *@param name Asset name (ex. : "mouse.png").
+    *@return Asset path (ex. : "./mods/original/mouse.png") or an empty string if not found.
+    *@see refreshAssetsList()
+    */
+    QString assetPathFromAlias(const QString &alias);
+
     /** Refresh the assets list.
     *Order is : main mod / then mod 1 then mod 2... overwriting if needed.
     *Warning : the current list will be erased.
@@ -63,10 +69,11 @@ namespace FilespathProvider
     /** Is the given path a valid mod?
     *To be valid the given path must be an existing and readable folder in the mods location.
     *@param path Mod's path.
+    *@param isMainMod Is the mod the (future) main mod?
     *@return True if mod is valid, false otherwise.
     *@see modsLocation()
     */
-    bool isModValid(const QString &path);
+    bool isModValid(const QString &path, bool isMainMod = false);
 
     /** Get the mods location. May be a relative or absolute path.
     *@return Mods location.
@@ -85,6 +92,6 @@ namespace FilespathProvider
     *@see refreshAssetsList()
     */
     void setAssetsNameFilters(const QStringList &nameFilters);
-};
+}
 
 #endif // FILESPATHPROVIDER_HPP

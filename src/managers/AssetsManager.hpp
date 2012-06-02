@@ -16,35 +16,25 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef GAMECANVAS_HPP
-#define GAMECANVAS_HPP
+#ifndef ASSETSMANAGER_HPP
+#define ASSETSMANAGER_HPP
 
-#include "QSfmlCanvas.hpp"
-#include "entities/Mouse.hpp"
+#include <QSharedPointer>
+#include <SFML/Graphics/Texture.hpp>
 
-/** The Game canvas, where all the game stuff (updating, drawing...) is actually made.
-*
+typedef QSharedPointer<sf::Texture> TexturePtr;
+
+/** Set of fonctions managing the game assets.
 */
-class GameCanvas : public QSfmlCanvas
+namespace AssetsManager
 {
-    Q_OBJECT
-public:
-    explicit GameCanvas(QWidget *parent, const QPoint &position);
-    ~GameCanvas();
+    /** Get a texture (load it if not already done).
+    *@param path Texture name (ex. : "mouse.png").
+    *@param isAlias If true, use FilespathProvider to get the texture path.
+    *@return Pointer to the loaded texture.
+    *@see FilespathProvider::assetPathFromAlias()
+    */
+    TexturePtr getTexture(const std::string &path, bool isAlias = true);
+}
 
-    void onPause();
-    void onResume();
-    void onRetranslate();
-
-    static const unsigned int DEFAULT_WIDTH;
-    static const unsigned int DEFAULT_HEIGHT;
-    
-private:
-    void onInit();
-    void onUpdate();
-
-    bool mRunning;
-    Mouse mMouse;
-};
-
-#endif // GAMECANVAS_HPP
+#endif // ASSETSMANAGER_HPP

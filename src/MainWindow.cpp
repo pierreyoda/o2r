@@ -40,7 +40,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     mGameCanvas = new GameCanvas(Ui_MainWindow::centralWidget, QPoint());
     Ui_MainWindow::centralWidget->setMinimumSize(GameCanvas::DEFAULT_WIDTH,
                                                  GameCanvas::DEFAULT_HEIGHT);
-    mGameCanvas->onStart();
 
     // Init dialogs
     mAboutDialog = new AboutDialog(this);

@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     entities/Mouse.cpp \
     map/TiledMap.cpp \
     managers/FilespathProvider.cpp \
-    dialogs/AboutDialog.cpp
+    dialogs/AboutDialog.cpp \
+    managers/AssetsManager.cpp
 
 HEADERS  += MainWindow.hpp \
     GameCanvas.hpp \
@@ -35,7 +36,8 @@ HEADERS  += MainWindow.hpp \
     entities/Mouse.hpp \
     map/TiledMap.hpp \
     managers/FilespathProvider.hpp \
-    dialogs/AboutDialog.hpp
+    dialogs/AboutDialog.hpp \
+    managers/AssetsManager.hpp
 
 FORMS    += MainWindow.ui \
     dialogs/AboutDialog.ui

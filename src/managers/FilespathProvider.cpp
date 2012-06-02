@@ -16,6 +16,7 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
+#include <QMap>
 #include "FilespathProvider.hpp"
 #include "QsLog.h"
 
@@ -25,21 +26,39 @@ typedef QMapIterator<QString, QString> AssetsMapIterator;
 namespace FilespathProvider {
 
 namespace {
-QDir MAIN_MOD_PATH("");
-QDir MODS_LOCATION("");
-QStringList MODS_LIST;
-QStringList ASSETS_NAME_FILTERS("*");
-QMap<QString, QString> ASSETS_LIST;
+    QDir MAIN_MOD_PATH("");
+    QDir MODS_LOCATION("");
+    QStringList MODS_LIST;
+    QStringList ASSETS_NAME_FILTERS("*");
+    QMap<QString, QString> ASSETS_MAP;
 } // anonymous namespace
+
+QString assetPathFromAlias(const QString &alias)
+{
+    return ASSETS_MAP.value(alias, "");
+}
 
 /** \internal Refresh the assets list from the given dir.
 */
-void refreshAssetsListFromDir(const QDir &dir);
+void refreshAssetsListFromDir(const QDir &dir)
+{
+    dir.refresh();
+    // Get the files list, accorting to the filters and sorted by name
+    QFileInfoList filesList = dir.entryInfoList(ASSETS_NAME_FILTERS,
+                                                QDir::Files, QDir::Name);
+    // Update the assets list
+    QFileInfoListIterator fileInfoIter(filesList);
+    while (fileInfoIter.hasNext())
+    {
+        QFileInfo fileInfo = fileInfoIter.next();
+        ASSETS_MAP[fileInfo.fileName()] = fileInfo.filePath();
+    }
+}
 
 void refreshAssetsList()
 {
     // Clear current list
-    ASSETS_LIST.clear();
+    ASSETS_MAP.clear();
 
     // First search in main mod
     refreshAssetsListFromDir(MAIN_MOD_PATH);
@@ -54,7 +73,7 @@ void refreshAssetsList()
 
     // Finally, log the new assets list
     QString log("FilespathProvider : refreshed assets list :");
-    AssetsMapIterator assetIter(ASSETS_LIST);
+    AssetsMapIterator assetIter(ASSETS_MAP);
     while (assetIter.hasNext())
     {
         assetIter.next();
@@ -65,21 +84,6 @@ void refreshAssetsList()
     QLOG_INFO() << log.toLocal8Bit().constData(); // avoids quotation marks
 }
 
-void refreshAssetsListFromDir(const QDir &dir)
-{
-    dir.refresh();
-    // Get the files list, accorting to the filters and sorted by name
-    QFileInfoList filesList = dir.entryInfoList(ASSETS_NAME_FILTERS,
-                                                QDir::Files, QDir::Name);
-    // Update the assets list
-    QFileInfoListIterator fileInfoIter(filesList);
-    while (fileInfoIter.hasNext())
-    {
-        QFileInfo fileInfo = fileInfoIter.next();
-        ASSETS_LIST[fileInfo.baseName()] = fileInfo.filePath();
-    }
-}
-
 QString mainModPath()
 {
     return MAIN_MOD_PATH.path();
@@ -87,7 +91,7 @@ QString mainModPath()
 
 void setMainModFolder(const QString &folder)
 {
-    if (isModValid(folder))
+    if (isModValid(folder, true))
     {
         MAIN_MOD_PATH = MODS_LOCATION;
         MAIN_MOD_PATH.cd(folder);
@@ -139,7 +143,7 @@ void addMods(const QStringList &mods, bool resetModsList)
                 << "\n\tIn mods location:" << MODS_LOCATION.path();
 }
 
-bool isModValid(const QString &path)
+bool isModValid(const QString &path, bool isMainMod)
 {
     // Is the mods location defined and existing?
     if (!MODS_LOCATION.exists())
@@ -147,8 +151,14 @@ bool isModValid(const QString &path)
         QLOG_ERROR() << "FilespathProvider : undefined mods location.";
         return false;
     }
+    if (path.isEmpty())
+        return false;
+    QDir temp(MODS_LOCATION);
     // Is the provided path a folder in the mods location folder?
-    return !path.isEmpty() && QDir(MODS_LOCATION).cd(path);
+    if (!temp.cd(path))
+        return false;
+    // Is the provided path different from the main mod path?
+    return (isMainMod || temp != MAIN_MOD_PATH);
 }
 
 QString modsLocation()

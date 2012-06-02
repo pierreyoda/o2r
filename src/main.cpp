@@ -40,6 +40,7 @@
 
 #include <QApplication>
 #include <QDir>
+#include <QTime>
 #include "MainWindow.hpp"
 #include "QsLog.h"
 #include "QsLogDest.h"
@@ -47,6 +48,9 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    // Random number generation
+    qsrand(QTime::currentTime().msec());
 
     // Init the logging mechanism (comes from QsLog's example)
     QsLogging::Logger &logger = QsLogging::Logger::instance();
