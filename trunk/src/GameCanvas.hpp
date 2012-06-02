@@ -21,16 +21,29 @@
 
 #include "QSfmlCanvas.hpp"
 
+/** \brief The Game canvas, where all the game stuff (updating, drawing...) is actually made.
+*
+*/
 class GameCanvas : public QSfmlCanvas
 {
     Q_OBJECT
 public:
-    explicit GameCanvas(QWidget *parent, const QPoint &position, const QSize &size);
+    explicit GameCanvas(QWidget *parent, const QPoint &position);
     ~GameCanvas();
+
+    void onStart();
+    void onPause();
+    void onResume();
+    void onRetranslate();
+
+    static unsigned int DEFAULT_WIDTH;
+    static unsigned int DEFAULT_HEIGHT;
     
 private:
     void onInit();
     void onUpdate();
+
+    bool mRunning;
 };
 
 #endif // GAMECANVAS_HPP

@@ -32,6 +32,7 @@ QSfmlCanvas::QSfmlCanvas(QWidget *parent, const QPoint& position,
 
     move(position);
     resize(size);
+
     mTimer.setInterval(frameTime);
 }
 
@@ -41,7 +42,7 @@ QSfmlCanvas::~QSfmlCanvas()
 }
 
 #ifdef Q_WS_X11
-    #include <Qt/qx11info_x11.h>
+#include <Qt/qx11info_x11.h>
     #include <X11/Xlib.h>
 #endif
 
@@ -77,7 +78,7 @@ void QSfmlCanvas::paintEvent(QPaintEvent*)
     display();
 }
 
-QPaintEngine *QSfmlCanvas::paintEngine() const
+QPaintEngine* QSfmlCanvas::paintEngine() const
 {
     return 0;
 }

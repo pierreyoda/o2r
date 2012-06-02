@@ -23,6 +23,10 @@
 #include <QTimer>
 #include <SFML/Graphics.hpp>
 
+/** \brief A QSfmlCanvas is an abstract class inheriting from both QWidget and sf::RenderWindow
+*in order to handle a SFML context inside a Qt window.
+*
+*/
 class QSfmlCanvas : public QWidget, public sf::RenderWindow
 {
     Q_OBJECT
