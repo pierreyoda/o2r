@@ -19,8 +19,10 @@
 #ifndef GAMECANVAS_HPP
 #define GAMECANVAS_HPP
 
+#include <QScopedPointer>
 #include "QSfmlCanvas.hpp"
 #include "entities/Mouse.hpp"
+#include "map/TiledMap.hpp"
 
 /** The Game canvas, where all the game stuff (updating, drawing...) is actually made.
 *
@@ -36,6 +38,8 @@ public:
     void onResume();
     void onRetranslate();
 
+    bool loadLevel(const QString &path);
+
     static const unsigned int DEFAULT_WIDTH;
     static const unsigned int DEFAULT_HEIGHT;
     
@@ -45,6 +49,7 @@ private:
 
     bool mRunning;
     Mouse mMouse;
+    QScopedPointer<TiledMap> mLevelPtr;
 };
 
 #endif // GAMECANVAS_HPP

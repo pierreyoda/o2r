@@ -18,10 +18,11 @@
 
 #include "GameCanvas.hpp"
 #include "managers/FilespathProvider.hpp"
+#include "managers/TilesTypesManager.hpp"
 #include "QsLog.h"
 
-const unsigned int GameCanvas::DEFAULT_WIDTH  = 500;
-const unsigned int GameCanvas::DEFAULT_HEIGHT = 500;
+const unsigned int GameCanvas::DEFAULT_WIDTH  = TiledEntity::TILE_SIZE * 32;
+const unsigned int GameCanvas::DEFAULT_HEIGHT = TiledEntity::TILE_SIZE * 32;
 
 const sf::Color DEFAULT_CLEAR_COLOR(128, 128, 0); // background color in "original" mod
 
@@ -31,6 +32,7 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
 {
     setMinimumSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
+    // Initialize FilespathProvider
     FilespathProvider::setModsLocation("mods/");
     FilespathProvider::setMainModFolder("original");
     QStringList nameFilters;
@@ -38,11 +40,16 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
     FilespathProvider::setAssetsNameFilters(nameFilters);
     FilespathProvider::addMods(QStringList() << "zelda", true);
     FilespathProvider::refreshAssetsList();
+
+    // Set up default tiles
+    TilesTypesManager::setType('0', "void.png", "GROUND");
+    TilesTypesManager::setType('1', "block.png", "BLOCK");
+    TilesTypesManager::setType('2', "wall.png", "WALL");
 }
 
 GameCanvas::~GameCanvas()
 {
-
+    mLevelPtr.reset();
 }
 
 void GameCanvas::onPause()
@@ -60,11 +67,24 @@ void GameCanvas::onRetranslate()
 
 }
 
+bool GameCanvas::loadLevel(const QString &path)
+{
+    mLevelPtr.reset(new TiledMap(32, 32));
+    if (!mLevelPtr->rebuildMap())
+    {
+        QLOG_ERROR() << "Game : cannot load level" << path << ".";
+        return false;
+    }
+    QLOG_INFO() << "Game : loaded level" << path << ".";
+    return true;
+}
+
 void GameCanvas::onInit()
 {
     QLOG_INFO() << "Initializing game.";
     mMouse.loadTexture();
     mMouse.setX(qrand() % 30).setY(qrand() % 30);
+    loadLevel("levels/1.txt");
     QLOG_INFO() << "Starting game.";
     mRunning = true;
 }
@@ -72,13 +92,20 @@ void GameCanvas::onInit()
 void GameCanvas::onUpdate()
 {
     // Clear screen
+    clear(DEFAULT_CLEAR_COLOR);
+
+    // Update entities (if running)
     if (mRunning)
-        clear(DEFAULT_CLEAR_COLOR);
-    else
-        clear(sf::Color::Black);
+    {
+        sf::Event event;
+        while (pollEvent(event))
+        {
+            mMouse.handleEvent(event);
+        }
+    }
 
-    // Update entities
-
-    // Draw entities
-   mMouse.draw(static_cast<sf::RenderWindow&>(*this));
+    // Draw map and entities
+    if (!mLevelPtr.isNull())
+        mLevelPtr->draw(static_cast<sf::RenderWindow&>(*this));
+    mMouse.draw(static_cast<sf::RenderWindow&>(*this));
 }

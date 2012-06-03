@@ -18,7 +18,25 @@
 
 #include "Tile.hpp"
 
-Tile::Tile(int x, int y, const std::string &type) : TiledEntity(x, y, "void.png")
+Tile::Tile(int x, int y, const QChar &c) : TiledEntity(x, y, "void.png"), mC(c)
 {
 
+}
+
+bool Tile::loadTexture()
+{
+    mInfo = TilesTypesManager::tileInfoFromChar(mC);
+    if (!mInfo.isValid)
+        return false;
+    return setTextureAlias(mInfo.textureAlias);
+}
+
+bool Tile::setChar(const QChar &c)
+{
+    if (c != ' ')
+    {
+        mC = c;
+        return loadTexture();
+    }
+    return false;
 }

@@ -37,17 +37,21 @@ public:
     */
     TiledEntity(int x, int y, const std::string &textureAlias);
 
-    /** Change the texture alias.
+    virtual ~TiledEntity();
+
+    /** Change the texture alias and load the associated texture.
     *@param textureAlias New texture alias.
-    *@see FilespathProvider::assetPathFromAlias()
+    *@see loadTexture() FilespathProvider::assetPathFromAlias()
+    *@return True if successful, false otherwise.
     */
-    void setTextureAlias(const std::string &textureAlias);
+    bool setTextureAlias(const std::string &textureAlias);
 
     /** (Re)load the texture.
     *Must be called at least once, AFTER having set the main mod.
-    *@see AssetsManager::getTexture()
+    *@see setTextureAlias() AssetsManager::getTexture()
+    *@return True if successful, false otherwise.
     */
-    void loadTexture();
+    bool loadTexture();
 
     /** Get the texture.
     *@return Smart pointer to the used sf::Texture.

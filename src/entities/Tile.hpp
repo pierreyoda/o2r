@@ -20,6 +20,7 @@
 #define TILE_HPP
 
 #include "TiledEntity.hpp"
+#include "../managers/TilesTypesManager.hpp"
 
 /** A Tile is a fragment of a TiledMap.
 *
@@ -27,7 +28,26 @@
 class Tile : public TiledEntity
 {
 public:
-    Tile(int x, int y, const std::string &type);
+    Tile(int x, int y, const QChar &c);
+
+    /** Update if needed and (re)load the texture.
+    *Must be called at least once, AFTER having set the main mod and the tiles types.
+    *@see TiledEntity::loadTexture()
+    *@see AssetsManager::getTexture() TilesTypesManager::tileInfoFromChar()
+    *@return True if successful, false otherwise.
+    */
+    bool loadTexture();
+
+    /** Change the tile character ID and update the texture..
+    *@param c New tile character (ex. : '5'), unicode 16 bits.
+    *@see loadTexture()
+    *@return True if successful, false otherwise.
+    */
+    bool setChar(const QChar &c);
+
+private:
+    TileInfo mInfo;
+    QChar mC;
 };
 
 #endif // TILE_HPP

@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     map/TiledMap.cpp \
     managers/FilespathProvider.cpp \
     dialogs/AboutDialog.cpp \
-    managers/AssetsManager.cpp
+    managers/AssetsManager.cpp \
+    managers/TilesTypesManager.cpp
 
 HEADERS  += MainWindow.hpp \
     GameCanvas.hpp \
@@ -37,7 +38,8 @@ HEADERS  += MainWindow.hpp \
     map/TiledMap.hpp \
     managers/FilespathProvider.hpp \
     dialogs/AboutDialog.hpp \
-    managers/AssetsManager.hpp
+    managers/AssetsManager.hpp \
+    managers/TilesTypesManager.hpp
 
 FORMS    += MainWindow.ui \
     dialogs/AboutDialog.ui

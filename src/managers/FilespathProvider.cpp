@@ -39,6 +39,7 @@ QString assetPathFromAlias(const QString &alias)
 }
 
 /** \internal Refresh the assets list from the given dir.
+*@param dir Directory where to search.
 */
 void refreshAssetsListFromDir(const QDir &dir)
 {
