@@ -18,25 +18,23 @@
 
 #include "Tile.hpp"
 
-Tile::Tile(int x, int y, const QChar &c) : TiledEntity(x, y, "void.png"), mC(c)
+Tile::Tile(int x, int y, const QChar &c) : TiledEntity(x, y, "void.png")
 {
-
+    setChar(c);
 }
 
 bool Tile::loadTexture()
 {
-    mInfo = TilesTypesManager::tileInfoFromChar(mC);
     if (!mInfo.isValid)
         return false;
     return setTextureAlias(mInfo.textureAlias);
 }
 
-bool Tile::setChar(const QChar &c)
+bool Tile::setChar(const QChar &c, bool updateTexture)
 {
-    if (c != ' ')
-    {
-        mC = c;
-        return loadTexture();
-    }
-    return false;
+    if (c == ' ')
+        return false;
+    mC = c;
+    mInfo = TilesTypesManager::tileInfoFromChar(mC);
+    return (updateTexture ? loadTexture() : mInfo.isValid);
 }

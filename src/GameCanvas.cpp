@@ -70,7 +70,7 @@ void GameCanvas::onRetranslate()
 bool GameCanvas::loadLevel(const QString &path)
 {
     mLevelPtr.reset(new TiledMap(32, 32));
-    if (!mLevelPtr->rebuildMap())
+    if (!mLevelPtr->buildMap())
     {
         QLOG_ERROR() << "Game : cannot load level" << path << ".";
         return false;

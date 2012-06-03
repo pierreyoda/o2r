@@ -16,9 +16,13 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
+#include <SFML/Graphics/RenderTarget.hpp>
 #include "TiledMap.hpp"
+#include "QsLog.h"
 
-using namespace std;
+using namespace sf;
+
+const unsigned int TILE_SIZE = TiledEntity::TILE_SIZE;
 
 TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY) :
     mSizeX(sizeX), mSizeY(sizeY)
@@ -26,12 +30,14 @@ TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY) :
     // Fill the map with default tiles
     for (unsigned int i = 0; i < sizeY; i++)
     {
-        mTiles.push_back(vector<Tile>());
+        mTiles.append(QList<Tile>());
         for (unsigned int j = 0; j < sizeX; j++)
-        {
-            mTiles[i].push_back(Tile(j, i, '1'));
-        }
+            mTiles[i].append(Tile(j, i, '1'));
     }
+    // test
+    const int middleY = static_cast<int>(sizeY/2);
+    for (unsigned int i = 0; i < sizeX; i++)
+        mTiles[middleY][i].setChar('0');
 }
 
 TiledMap::~TiledMap()
@@ -39,18 +45,53 @@ TiledMap::~TiledMap()
 
 }
 
-bool TiledMap::rebuildMap()
+bool TiledMap::buildMap()
 {
-    for (unsigned int i = 0; i < mSizeY; i++)
-        for (unsigned int j = 0; j < mSizeX; j++)
-            if (!mTiles[i][j].loadTexture())
+    // (Re)load all textures
+    mTilesVertices.clear();
+    for (int i = 0; i < mTiles.size(); i++)
+    {
+        QList<Tile> &list = mTiles[i];
+        for (int j = 0; j < list.size(); j++)
+        {
+            Tile &tile = list[j];
+            if (!tile.loadTexture())
                 return false;
+            // init the associated VertexArray if needed
+            const QChar &c = tile.getChar();
+            if (!mTilesVertices.contains(c))
+                mTilesVertices.insert(c, TileGroupVertices(tile.getTexture()));
+            TileGroupVertices &group = mTilesVertices[c];
+            // keep in memory the index in the VertexArray, and increase the tiles counter
+            tile.mVertexIndex = group.tilesCount++;
+            // add the 4 vertices of the VertexArray
+            group.vertices.append(Vertex(Vector2f((j+0) * TILE_SIZE, (i+0) * TILE_SIZE),
+                                                   Vector2f(0, 0)));
+            group.vertices.append(Vertex(Vector2f((j+0) * TILE_SIZE, (i+1) * TILE_SIZE),
+                                                   Vector2f(0, TILE_SIZE)));
+            group.vertices.append(Vertex(Vector2f((j+1) * TILE_SIZE, (i+1) * TILE_SIZE),
+                                                   Vector2f(TILE_SIZE, TILE_SIZE)));
+            group.vertices.append(Vertex(Vector2f((j+1) * TILE_SIZE, (i+0) * TILE_SIZE),
+                                                   Vector2f(TILE_SIZE, 0)));
+        }
+    }
     return true;
 }
 
-void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
+void TiledMap::draw(RenderTarget &target, RenderStates states) const
 {
-    for (unsigned int i = 0; i < mSizeY; i++)
+    //BASIC DRAWING : slow
+    // uses a default Vertex array transformed for each tile with X and Y positions
+    /*for (unsigned int i = 0; i < mSizeY; i++)
         for (unsigned int j = 0; j < mSizeX; j++)
-            mTiles[i][j].draw(target, states);
+            mTiles[i][j].draw(target, states);*/
+
+    // OPTIMIZED DRAWING : much more faster but needs more memory
+    // groups all tile of same tile (and thus same texture) in a single VertexArray
+    QHashIterator<QChar, TileGroupVertices> iter(mTilesVertices);
+    while (iter.hasNext())
+    {
+        states.texture = iter.next().value().commonTexture.data(); // set texture for this type
+        target.draw(iter.value().vertices, states); // draw all tiles of this type
+    }
 }

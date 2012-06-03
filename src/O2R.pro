@@ -11,7 +11,11 @@ TEMPLATE = app
 
 INCLUDEPATH += "F:/Prog/LIBS/SFML - Qt build/include/"
 win32:LIBS += -L"F:/Prog/LIBS/SFML - Qt build/lib"
+CONFIG( debug, debug|release ) {
+LIBS += -lsfml-system-d -lsfml-window-d -lsfml-graphics-d
+}  else {
 LIBS += -lsfml-system -lsfml-window -lsfml-graphics
+}
 
 include(QsLog/QsLog.pri)
 

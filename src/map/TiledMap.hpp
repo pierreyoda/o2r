@@ -19,8 +19,27 @@
 #ifndef TILEDMAP_HPP
 #define TILEDMAP_HPP
 
-#include <vector>
+#include <QHash>
+#include <QPair>
+#include <SFML/Graphics/VertexArray.hpp>
 #include "../entities/Tile.hpp"
+
+/** Group of tiles with the same type (and thus the same texture).
+*Used in TiledMap, it allows to reduce the number of OpenGL calls,
+*in other words to improve performances (gain of 1200 fps / +200% on my computer).
+*/
+struct TileGroupVertices
+{
+    TileGroupVertices() : commonTexture(0), vertices(sf::Quads), tilesCount(0)
+    { }
+    TileGroupVertices(TexturePtr texture) : commonTexture(texture),
+        vertices(sf::Quads), tilesCount(0)
+    { }
+
+    TexturePtr commonTexture;
+    sf::VertexArray vertices;
+    unsigned int tilesCount;
+};
 
 /** A TiledMap handles a variable number of tiles to form a 2D map.
 *
@@ -32,7 +51,7 @@ public:
     TiledMap(unsigned int sizeX, unsigned int sizeY);
     virtual ~TiledMap();
 
-    bool rebuildMap();
+    bool buildMap();
 
     /** Draw the TiledMap to the given sf::RenderTarget.
     *Implements the abstract function from sf::Drawable.
@@ -44,7 +63,8 @@ public:
 
 private:
     unsigned int mSizeX, mSizeY;
-    std::vector< std::vector<Tile> > mTiles;
+    QList< QList<Tile> > mTiles;
+    QHash<QChar, TileGroupVertices> mTilesVertices;
 };
 
 #endif // TILEDMAP_HPP

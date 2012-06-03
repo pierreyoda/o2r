@@ -22,6 +22,8 @@
 #include "TiledEntity.hpp"
 #include "../managers/TilesTypesManager.hpp"
 
+class TiledMap;
+
 /** A Tile is a fragment of a TiledMap.
 *
 */
@@ -38,16 +40,26 @@ public:
     */
     bool loadTexture();
 
-    /** Change the tile character ID and update the texture..
-    *@param c New tile character (ex. : '5'), unicode 16 bits.
-    *@see loadTexture()
-    *@return True if successful, false otherwise.
+    /** Get the tile character ID.
+    *@see setChar()
+    *@return The tile character ID, unicode 16 bits.*
     */
-    bool setChar(const QChar &c);
+    const QChar &getChar() const { return mC; }
+
+    /** Change the tile character ID and refresh the TileInfo.
+    *@param c New tile character (ex. : '5'), unicode 16 bits.
+    *@param updateTexture Update the texture? True by default.
+    *@see loadTexture() getChar()
+    **@return True if TileInfo valid, false otherwise.
+    */
+    bool setChar(const QChar &c, bool updateTexture = true);
 
 private:
     TileInfo mInfo;
     QChar mC;
+    unsigned int mVertexIndex; // index in the associated TiledMap's VertexArray
+
+    friend class TiledMap; // only TiledMap can change mVertexIndex
 };
 
 #endif // TILE_HPP
