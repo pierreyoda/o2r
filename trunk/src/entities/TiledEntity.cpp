@@ -35,15 +35,21 @@ TiledEntity::TiledEntity(int x, int y, const std::string &textureAlias) : mX(x),
 
 }
 
-void TiledEntity::setTextureAlias(const std::string &textureAlias)
+TiledEntity::~TiledEntity()
 {
-    mTextureAlias = textureAlias;
-    loadTexture();
+    mTexturePtr.clear();
 }
 
-void TiledEntity::loadTexture()
+bool TiledEntity::setTextureAlias(const std::string &textureAlias)
+{
+    mTextureAlias = textureAlias;
+    return loadTexture();
+}
+
+bool TiledEntity::loadTexture()
 {
     mTexturePtr = AssetsManager::getTexture(mTextureAlias);
+    return !mTexturePtr.isNull();
 }
 
 TexturePtr TiledEntity::getTexture()

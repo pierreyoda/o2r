@@ -16,8 +16,29 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
+#include <SFML/Window/Event.hpp>
 #include "Mouse.hpp"
 
 Mouse::Mouse(int x, int y) : TiledEntity(x, y, "mouse.png")
 {
+
+}
+
+void Mouse::handleEvent(const sf::Event &event)
+{
+    if (event.type != sf::Event::KeyPressed)
+        return;
+    if (event.key.code == sf::Keyboard::Up)
+        move(0, -1);
+    else if (event.key.code == sf::Keyboard::Down)
+        move(0, 1);
+    else if (event.key.code == sf::Keyboard::Left)
+        move(-1, 0);
+    else if (event.key.code == sf::Keyboard::Right)
+        move(1, 0);
+}
+
+void Mouse::move(int dx, int dy)
+{
+    mX += dx, mY += dy;
 }

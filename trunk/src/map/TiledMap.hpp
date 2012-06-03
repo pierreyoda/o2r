@@ -19,14 +19,32 @@
 #ifndef TILEDMAP_HPP
 #define TILEDMAP_HPP
 
+#include <vector>
+#include "../entities/Tile.hpp"
+
 /** A TiledMap handles a variable number of tiles to form a 2D map.
 *
 * @see Tile
 */
-class TiledMap
+class TiledMap : public sf::Drawable
 {
 public:
-    TiledMap();
+    TiledMap(unsigned int sizeX, unsigned int sizeY);
+    virtual ~TiledMap();
+
+    bool rebuildMap();
+
+    /** Draw the TiledMap to the given sf::RenderTarget.
+    *Implements the abstract function from sf::Drawable.
+    *@param target Target where the TiledEntity is drawn.
+    *@param states Current render states.
+    */
+    void draw(sf::RenderTarget &target,
+              sf::RenderStates states = sf::RenderStates::Default) const;
+
+private:
+    unsigned int mSizeX, mSizeY;
+    std::vector< std::vector<Tile> > mTiles;
 };
 
 #endif // TILEDMAP_HPP

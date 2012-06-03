@@ -29,7 +29,7 @@
 namespace FilespathProvider
 {
     /** Get an asset path from its name. Uses assets list.
-    *@param name Asset name (ex. : "mouse.png").
+    *@param alias Asset alias (ex. : "mouse.png").
     *@return Asset path (ex. : "./mods/original/mouse.png") or an empty string if not found.
     *@see refreshAssetsList()
     */

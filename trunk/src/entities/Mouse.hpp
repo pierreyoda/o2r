@@ -21,6 +21,11 @@
 
 #include "TiledEntity.hpp"
 
+namespace sf
+{
+    class Event;
+}
+
 /** Mouse controlled by the player.
 *
 */
@@ -28,6 +33,11 @@ class Mouse : public TiledEntity
 {
 public:
     Mouse(int x, int y);
+
+    void handleEvent(const sf::Event &event);
+
+private:
+    void move(int dx, int dy);
 };
 
 #endif // MOUSE_HPP

@@ -18,10 +18,39 @@
 
 #include "TiledMap.hpp"
 
-/**
- * A TiledMap handles a variable number of tiles to form a 2D map.
- *
- */
-TiledMap::TiledMap()
+using namespace std;
+
+TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY) :
+    mSizeX(sizeX), mSizeY(sizeY)
 {
+    // Fill the map with default tiles
+    for (unsigned int i = 0; i < sizeY; i++)
+    {
+        mTiles.push_back(vector<Tile>());
+        for (unsigned int j = 0; j < sizeX; j++)
+        {
+            mTiles[i].push_back(Tile(j, i, '1'));
+        }
+    }
+}
+
+TiledMap::~TiledMap()
+{
+
+}
+
+bool TiledMap::rebuildMap()
+{
+    for (unsigned int i = 0; i < mSizeY; i++)
+        for (unsigned int j = 0; j < mSizeX; j++)
+            if (!mTiles[i][j].loadTexture())
+                return false;
+    return true;
+}
+
+void TiledMap::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    for (unsigned int i = 0; i < mSizeY; i++)
+        for (unsigned int j = 0; j < mSizeX; j++)
+            mTiles[i][j].draw(target, states);
 }
