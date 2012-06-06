@@ -23,6 +23,9 @@
 #include <QPair>
 #include <SFML/Graphics/VertexArray.hpp>
 #include "../entities/Tile.hpp"
+#include "LevelInfo.hpp"
+
+class TiledMapFactory;
 
 /** Group of tiles with the same type (and thus the same texture).
 *Used in TiledMap, it allows to reduce the number of OpenGL calls,
@@ -30,15 +33,14 @@
 */
 struct TileGroupVertices
 {
-    TileGroupVertices() : commonTexture(0), vertices(sf::Quads), tilesCount(0)
+    TileGroupVertices() : commonTexture(0), vertices(sf::Quads)
     { }
     TileGroupVertices(TexturePtr texture) : commonTexture(texture),
-        vertices(sf::Quads), tilesCount(0)
+        vertices(sf::Quads)
     { }
 
     TexturePtr commonTexture;
     sf::VertexArray vertices;
-    unsigned int tilesCount;
 };
 
 /** A TiledMap handles a variable number of tiles to form a 2D map.
@@ -51,6 +53,9 @@ public:
     TiledMap(unsigned int sizeX, unsigned int sizeY);
     virtual ~TiledMap();
 
+    /** Load all tiles and build vertices map.
+    *Must be called when tiles change.
+    */
     bool buildMap();
 
     /** Draw the TiledMap to the given sf::RenderTarget.
@@ -61,10 +66,31 @@ public:
     void draw(sf::RenderTarget &target,
               sf::RenderStates states = sf::RenderStates::Default) const;
 
+    /** Get the LevelInfo.
+    *@return Const reference to the level infos.
+    */
+    const LevelInfo &info() const { return mInfo; }
+
+    /** Get the X size.
+    *@return Map X size, in tiles units.
+    */
+    unsigned int sizeX() const { return mSizeX; }
+
+    /** Get the Y size.
+    *@return Map Y size, in tiles units.
+    */
+    unsigned int sizeY() const { return mSizeY; }
+
+    static const unsigned int SIZE_LIMIT_X;
+    static const unsigned int SIZE_LIMIT_Y;
+
 private:
     unsigned int mSizeX, mSizeY;
     QList< QList<Tile> > mTiles;
     QHash<QChar, TileGroupVertices> mTilesVertices;
+    LevelInfo mInfo;
+
+    friend class TiledMapFactory;
 };
 
 #endif // TILEDMAP_HPP

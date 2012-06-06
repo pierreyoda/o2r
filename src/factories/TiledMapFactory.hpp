@@ -16,29 +16,36 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#include "Tile.hpp"
+#ifndef TILEDMAPFACTORY_HPP
+#define TILEDMAPFACTORY_HPP
 
-Tile::Tile(int x, int y, const QChar &c, bool buildNow) :
-    TiledEntity(x, y, "void.png"), mC(c)
-{
-    if (buildNow)
-        setChar(c);
-}
+#include <QPair>
+#include <QFile>
 
-bool Tile::loadTexture(bool updateInfo)
-{
-    if (updateInfo)
-        setChar(mC, false);
-    if (!mInfo.isValid)
-        return false;
-    return setTextureAlias(mInfo.textureAlias);
-}
+class TiledMap;
 
-bool Tile::setChar(const QChar &c, bool updateTexture)
+typedef QPair<QString, QString> Option;
+
+/** Static class able to load/save a TiledMap.
+*
+* @see TiledMap
+*/
+struct TiledMapFactory
 {
-    if (c == ' ')
-        return false;
-    mC = c;
-    mInfo = TilesTypesManager::tileInfoFromChar(mC);
-    return (updateTexture ? loadTexture() : mInfo.isValid);
-}
+    static unsigned int computeLevelSizeX(const TiledMap &level);
+
+    static TiledMap *loadLevel(QString path);
+
+private:
+    static TiledMap *loadMapTxtFormat(QFile &file);
+    static Option processTxtOptionLine(const QString &line);
+
+    static TiledMap *loadMapXmlFormat(QFile &file);
+
+    static bool interpretOption(const Option &option, TiledMap &lvl, bool oldFormat);
+
+    static bool processTilesLine(const QString &line, TiledMap &lvl, unsigned int lineNb,
+                                 bool oldFormat);
+};
+
+#endif // TILEDMAPFACTORY_HPP

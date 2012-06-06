@@ -16,29 +16,10 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#include "Tile.hpp"
+#include "LevelInfo.hpp"
 
-Tile::Tile(int x, int y, const QChar &c, bool buildNow) :
-    TiledEntity(x, y, "void.png"), mC(c)
+LevelInfo::LevelInfo() : name("undefined"), author("undefined"),
+    date(QDate::currentDate()), lesFilePath(""), mousePosX(0), mousePosY(0),
+    mouseRandomPos(false)
 {
-    if (buildNow)
-        setChar(c);
-}
-
-bool Tile::loadTexture(bool updateInfo)
-{
-    if (updateInfo)
-        setChar(mC, false);
-    if (!mInfo.isValid)
-        return false;
-    return setTextureAlias(mInfo.textureAlias);
-}
-
-bool Tile::setChar(const QChar &c, bool updateTexture)
-{
-    if (c == ' ')
-        return false;
-    mC = c;
-    mInfo = TilesTypesManager::tileInfoFromChar(mC);
-    return (updateTexture ? loadTexture() : mInfo.isValid);
 }

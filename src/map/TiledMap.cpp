@@ -22,10 +22,13 @@
 
 using namespace sf;
 
-const unsigned int TILE_SIZE = TiledEntity::TILE_SIZE;
+const unsigned int TiledMap::SIZE_LIMIT_X = 250;
+const unsigned int TiledMap::SIZE_LIMIT_Y = 250;
+
+const unsigned int &TILE_SIZE = TiledEntity::TILE_SIZE;
 
 TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY) :
-    mSizeX(sizeX), mSizeY(sizeY)
+    mSizeX(sizeX), mSizeY(sizeY), mInfo()
 {
     // Fill the map with default tiles
     for (unsigned int i = 0; i < sizeY; i++)
@@ -34,10 +37,6 @@ TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY) :
         for (unsigned int j = 0; j < sizeX; j++)
             mTiles[i].append(Tile(j, i, '1'));
     }
-    // test
-    const int middleY = static_cast<int>(sizeY/2);
-    for (unsigned int i = 0; i < sizeX; i++)
-        mTiles[middleY][i].setChar('0');
 }
 
 TiledMap::~TiledMap()
@@ -55,15 +54,19 @@ bool TiledMap::buildMap()
         for (int j = 0; j < list.size(); j++)
         {
             Tile &tile = list[j];
-            if (!tile.loadTexture())
-                return false;
-            // init the associated VertexArray if needed
             const QChar &c = tile.getChar();
+            if (!tile.loadTexture(true))
+            {
+                QLOG_ERROR() << QString("Cannot build tile from character '%1'")
+                              .arg(c).toLocal8Bit().constData();
+                return false;
+            }
+            // init the associated VertexArray if needed
             if (!mTilesVertices.contains(c))
                 mTilesVertices.insert(c, TileGroupVertices(tile.getTexture()));
             TileGroupVertices &group = mTilesVertices[c];
-            // keep in memory the index in the VertexArray, and increase the tiles counter
-            tile.mVertexIndex = group.tilesCount++;
+            // keep in memory the index in the VertexArray
+            tile.mVertexIndex = group.vertices.getVertexCount() / 4;
             // add the 4 vertices of the VertexArray
             group.vertices.append(Vertex(Vector2f((j+0) * TILE_SIZE, (i+0) * TILE_SIZE),
                                                    Vector2f(0, 0)));
@@ -87,7 +90,7 @@ void TiledMap::draw(RenderTarget &target, RenderStates states) const
             mTiles[i][j].draw(target, states);*/
 
     // OPTIMIZED DRAWING : much more faster but needs more memory
-    // groups all tile of same tile (and thus same texture) in a single VertexArray
+    // groups all tiles of same type (and thus same texture) in a single VertexArray
     QHashIterator<QChar, TileGroupVertices> iter(mTilesVertices);
     while (iter.hasNext())
     {

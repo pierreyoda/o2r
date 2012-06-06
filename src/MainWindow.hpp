@@ -59,6 +59,8 @@ private:
     const QString mDefaultLanguage;
 
 private slots:
+    // Game slots
+    void on_actionPlayLevel_triggered();
     // Language change slots
     void on_actionLanguageEnglish_triggered(bool state);
     void on_actionLanguageFrench_triggered(bool state);

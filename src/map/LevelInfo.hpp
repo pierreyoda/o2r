@@ -16,29 +16,27 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#include "Tile.hpp"
+#ifndef LEVELINFO_HPP
+#define LEVELINFO_HPP
 
-Tile::Tile(int x, int y, const QChar &c, bool buildNow) :
-    TiledEntity(x, y, "void.png"), mC(c)
-{
-    if (buildNow)
-        setChar(c);
-}
+#include <QDate>
+#include <QFileInfo>
 
-bool Tile::loadTexture(bool updateInfo)
+/** LevelInfo contains all the informations needed in order to form a complete level.
+*Contains : name, author, creation date, (optional) external LES file.
+*Each TiledMap has its own LevelInfo.
+*/
+class LevelInfo
 {
-    if (updateInfo)
-        setChar(mC, false);
-    if (!mInfo.isValid)
-        return false;
-    return setTextureAlias(mInfo.textureAlias);
-}
+public:
+    LevelInfo();
 
-bool Tile::setChar(const QChar &c, bool updateTexture)
-{
-    if (c == ' ')
-        return false;
-    mC = c;
-    mInfo = TilesTypesManager::tileInfoFromChar(mC);
-    return (updateTexture ? loadTexture() : mInfo.isValid);
-}
+    QString name;
+    QString author;
+    QDate date;
+    QString lesFilePath;
+    unsigned int mousePosX, mousePosY;
+    bool mouseRandomPos;
+};
+
+#endif // LEVELINFO_HPP

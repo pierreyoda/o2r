@@ -112,6 +112,11 @@ void MainWindow::closeEvent(QCloseEvent *e)
     QMainWindow::closeEvent(e);
 }
 
+void MainWindow::on_actionPlayLevel_triggered()
+{
+    mGameCanvas->loadLevel("test_load.txt");
+}
+
 void MainWindow::on_actionLanguageEnglish_triggered(bool state)
 {
     if (state)
