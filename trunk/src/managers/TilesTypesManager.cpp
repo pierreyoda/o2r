@@ -38,7 +38,7 @@ TileInfo tileInfoFromChar(const QChar &c)
 void setType(const QChar &c, const std::string &textureAlias,
              const std::string &type)
 {
-    const QString log = QString("char \"%1\", texture alias \"%2\", type \"%3\"")
+    const QString log = QString("character '%1', texture alias \"%2\", type \"%3\"")
             .arg(c, textureAlias.c_str(), type.c_str());
     if (c == ' ' || textureAlias.empty() || type.empty())
     {

@@ -18,13 +18,17 @@
 
 #include "Tile.hpp"
 
-Tile::Tile(int x, int y, const QChar &c) : TiledEntity(x, y, "void.png")
+Tile::Tile(int x, int y, const QChar &c, bool buildNow) :
+    TiledEntity(x, y, "void.png"), mC(c)
 {
-    setChar(c);
+    if (buildNow)
+        setChar(c);
 }
 
-bool Tile::loadTexture()
+bool Tile::loadTexture(bool updateInfo)
 {
+    if (updateInfo)
+        setChar(mC, false);
     if (!mInfo.isValid)
         return false;
     return setTextureAlias(mInfo.textureAlias);

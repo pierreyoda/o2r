@@ -19,12 +19,13 @@
 #include "GameCanvas.hpp"
 #include "managers/FilespathProvider.hpp"
 #include "managers/TilesTypesManager.hpp"
+#include "factories/TiledMapFactory.hpp"
 #include "QsLog.h"
 
 const unsigned int GameCanvas::DEFAULT_WIDTH  = TiledEntity::TILE_SIZE * 32;
 const unsigned int GameCanvas::DEFAULT_HEIGHT = TiledEntity::TILE_SIZE * 32;
 
-const sf::Color DEFAULT_CLEAR_COLOR(128, 128, 0); // background color in "original" mod
+const sf::Color DEFAULT_CLEAR_COLOR(0, 0, 0);
 
 GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
     QSfmlCanvas(parent, position, QSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)),
@@ -69,13 +70,33 @@ void GameCanvas::onRetranslate()
 
 bool GameCanvas::loadLevel(const QString &path)
 {
-    mLevelPtr.reset(new TiledMap(32, 32));
-    if (!mLevelPtr->buildMap())
+    // Load the level
+    mLevelPtr.reset(TiledMapFactory::loadLevel(path));
+    if (mLevelPtr.isNull() || !mLevelPtr->buildMap())
     {
         QLOG_ERROR() << "Game : cannot load level" << path << ".";
+        mLevelPtr.reset();
         return false;
     }
+
+    const LevelInfo &info = mLevelPtr->info();
+    const unsigned int sizeX = mLevelPtr->sizeX(), sizeY = mLevelPtr->sizeY();
+
+    // Place the mouse
+    // TODO : CHECK IF TILE VALID (== ground)
+    unsigned int mouseX = 0, mouseY = 0;
+    if (!info.mouseRandomPos && info.mousePosX < sizeX && info.mousePosY < sizeY)
+        mouseX = info.mousePosX, mouseY = info.mousePosY;
+    else // random pos
+        mouseX = qrand() % sizeX, mouseY = qrand() % sizeY;
+    mMouse.setX(mouseX).setY(mouseY);
+
     QLOG_INFO() << "Game : loaded level" << path << ".";
+
+    // Start the game
+    QLOG_INFO() << "Starting game.";
+    mRunning = true;
+
     return true;
 }
 
@@ -83,17 +104,12 @@ void GameCanvas::onInit()
 {
     QLOG_INFO() << "Initializing game.";
     mMouse.loadTexture();
-    mMouse.setX(qrand() % 30).setY(qrand() % 30);
-    loadLevel("levels/1.txt");
-    QLOG_INFO() << "Starting game.";
-    mRunning = true;
 }
 
 void GameCanvas::onUpdate()
 {
     // Clear screen
     clear(DEFAULT_CLEAR_COLOR);
-
     // Update entities (if running)
     if (mRunning)
     {

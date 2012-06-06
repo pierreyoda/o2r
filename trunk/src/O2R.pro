@@ -31,7 +31,9 @@ SOURCES += main.cpp\
     managers/FilespathProvider.cpp \
     dialogs/AboutDialog.cpp \
     managers/AssetsManager.cpp \
-    managers/TilesTypesManager.cpp
+    managers/TilesTypesManager.cpp \
+    factories/TiledMapFactory.cpp \
+    map/LevelInfo.cpp
 
 HEADERS  += MainWindow.hpp \
     GameCanvas.hpp \
@@ -43,7 +45,9 @@ HEADERS  += MainWindow.hpp \
     managers/FilespathProvider.hpp \
     dialogs/AboutDialog.hpp \
     managers/AssetsManager.hpp \
-    managers/TilesTypesManager.hpp
+    managers/TilesTypesManager.hpp \
+    factories/TiledMapFactory.hpp \
+    map/LevelInfo.hpp
 
 FORMS    += MainWindow.ui \
     dialogs/AboutDialog.ui
