@@ -26,8 +26,9 @@ GameScreen::GameScreen() : mMouse(0, 0)
 
 void GameScreen::render(sf::RenderTarget &target, sf::RenderStates states)
 {
-    if (!mLevelPtr.isNull())
-        mLevelPtr->draw(target, states);
+    if (mLevelPtr.isNull())
+        return;
+    mLevelPtr->draw(target, states);
     mMouse.draw(target, states);
 }
 
@@ -40,6 +41,8 @@ void GameScreen::handleEvent(const sf::Event &event)
 {
     // Move the mouse, but only inside the level
     const sf::Vector2i moveOffset = mMouse.handleEvent(event);
+    if (moveOffset.x == 0 && moveOffset.y == 0)
+        return;
     const sf::Vector2i newPos(mMouse.x() + moveOffset.x, mMouse.y() + moveOffset.y);
     if (isInLevel(newPos.x, newPos.y))
         mMouse.move(moveOffset.x, moveOffset.y);
@@ -50,7 +53,7 @@ bool GameScreen::start(TiledMapPtr level)
     if (!Screen::start(level))
         return false;
 
-    QLOG_INFO() << "Playing level" << level->info().filePath << ".";
+    QLOG_INFO() << "Game Screen : playing level" << level->info().filePath << ".";
     mMouse.loadTexture();
 
     const LevelInfo &info = mLevelPtr->info();
@@ -65,7 +68,7 @@ bool GameScreen::start(TiledMapPtr level)
         mouseX = qrand() % levelSizeX, mouseY = qrand() % levelSizeY;
     mMouse.setX(mouseX).setY(mouseY);
 
-    QLOG_INFO() << "Starting game.";
+    QLOG_INFO() << "Game Screen : starting game.";
 
     return true;
 }

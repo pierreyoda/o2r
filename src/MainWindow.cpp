@@ -18,7 +18,7 @@
 
 #include <QTranslator>
 #include <QLibraryInfo>
-#include <QDir>
+#include <QFileDialog>
 #include "MainWindow.hpp"
 #include "GameCanvas.hpp"
 #include "dialogs/AboutDialog.hpp"
@@ -123,11 +123,29 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::on_actionPlayLevel_triggered()
 {
-    if (mGameCanvas->loadLevel("test_load.txt"))
+    // Get the level file path
+    QString path = QFileDialog::getOpenFileName(this, tr("Play a level"),
+                                                "", tr("Level files (*.txt *.xml)"));
+    if (path.isEmpty())
+        return; // aborted
+    QFileInfo relativePath = QDir(QDir::currentPath()).relativeFilePath(path);
+    if (relativePath.isRelative()) // make relative if possible
+        path = relativePath.filePath();
+    // Load and play the level
+    if (mGameCanvas->loadLevel(path))
     {
-        mGameScreen->start(mGameCanvas->loadedLevel());
+        setFocus(); // needed for some reason
+        if (!mGameScreen->start(mGameCanvas->loadedLevel()))
+        {
+            QMessageBox::critical(this, tr("Critical error"),
+                                  tr("Cannot play level \"%1\"").arg(path));
+            return;
+        }
         mGameCanvas->setScreen(mGameScreen);
     }
+    else
+        QMessageBox::critical(this, tr("Critical error"),
+                              tr("Cannot load level \"%1\"").arg(path));
 }
 
 void MainWindow::on_actionLanguageEnglish_triggered(bool state)
