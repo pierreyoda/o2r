@@ -88,6 +88,9 @@ TiledMap *TiledMapFactory::loadLevel(QString path)
             QLOG_WARN() << "Incorrect specified level Y size : setting Y size to"
                         << sizeY;
         }
+
+        // Set level path
+        level->mInfo.filePath = path;
     }
     catch (const std::exception &e)
     {

@@ -22,6 +22,7 @@
 #include "MainWindow.hpp"
 #include "GameCanvas.hpp"
 #include "dialogs/AboutDialog.hpp"
+#include "game/GameScreen.hpp"
 #include "QsLog.h"
 
 const QString LANGUAGE_KEY = "language";
@@ -36,15 +37,23 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     mTranslator = new QTranslator(this), mQtTranslator = new QTranslator(this);
     loadSettings();
 
-    // Init game
+    // Init game canvas
     mGameCanvas = new GameCanvas(Ui_MainWindow::centralWidget, QPoint());
     Ui_MainWindow::centralWidget->setMinimumSize(GameCanvas::DEFAULT_WIDTH,
                                                  GameCanvas::DEFAULT_HEIGHT);
+
+    // Init game screens
+    mGameScreen = ScreenPtr(new GameScreen());
 
     // Init dialogs
     mAboutDialog = new AboutDialog(this);
     connect(mAboutDialog, SIGNAL(finished(int)), this,
             SLOT(aboutDialog_finished(int)));
+}
+
+MainWindow::~MainWindow()
+{
+    mGameScreen.clear();
 }
 
 void MainWindow::loadSettings()
@@ -114,7 +123,11 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::on_actionPlayLevel_triggered()
 {
-    mGameCanvas->loadLevel("test_load.txt");
+    if (mGameCanvas->loadLevel("test_load.txt"))
+    {
+        mGameScreen->start(mGameCanvas->loadedLevel());
+        mGameCanvas->setScreen(mGameScreen);
+    }
 }
 
 void MainWindow::on_actionLanguageEnglish_triggered(bool state)

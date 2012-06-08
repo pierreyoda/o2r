@@ -21,15 +21,18 @@
 
 #include <QScopedPointer>
 #include "QSfmlCanvas.hpp"
-#include "entities/Mouse.hpp"
 #include "map/TiledMap.hpp"
+#include "game/EmptyScreen.hpp"
 
-/** The Game canvas, where all the game stuff (updating, drawing...) is actually made.
-*
+typedef QSharedPointer<Screen> ScreenPtr;
+
+/** The Game canvas, where the whole game is rendered.
+*Actual game stuff is made in the Screen's subclasses.
 */
 class GameCanvas : public QSfmlCanvas
 {
     Q_OBJECT
+
 public:
     explicit GameCanvas(QWidget *parent, const QPoint &position);
     ~GameCanvas();
@@ -38,7 +41,23 @@ public:
     void onResume();
     void onRetranslate();
 
+    /** Get the loaded level.
+    *@return Pointer to the loaded level (may be null).
+    */
+    TiledMapPtr loadedLevel() { return mLevelPtr; }
+
+    /** Load a level from the given file path.
+    *Warning : won't affect the current screen.
+    *@param path Path to the level file.
+    *@return True if successful, false otherwise.
+    */
     bool loadLevel(const QString &path);
+
+    /** Set the current screen.
+    *@param screen Pointer to the new screen. Ignored if null.
+    *@param run Start updating the new screen. True by default.
+    */
+    void setScreen(ScreenPtr screen, bool run = true);
 
     static const unsigned int DEFAULT_WIDTH;
     static const unsigned int DEFAULT_HEIGHT;
@@ -48,8 +67,10 @@ private:
     void onUpdate();
 
     bool mRunning;
-    Mouse mMouse;
-    QScopedPointer<TiledMap> mLevelPtr;
+    TiledMapPtr mLevelPtr;
+    EmptyScreen mDefaultScreen;
+    ScreenPtr mCurrentScreen;
+    sf::Clock mFrameClock;
 };
 
 #endif // GAMECANVAS_HPP

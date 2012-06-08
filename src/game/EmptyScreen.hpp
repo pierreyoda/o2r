@@ -16,37 +16,27 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef MOUSE_HPP
-#define MOUSE_HPP
+#ifndef EMPTYSCREEN_HPP
+#define EMPTYSCREEN_HPP
 
-#include "TiledEntity.hpp"
+#include "Screen.hpp"
 
-namespace sf
-{
-    class Event;
-}
-
-/** Mouse controlled by the player.
-*
+/** Empty screen.
+*@todo Add "demo" feature = random level with AI entities moving around?
 */
-class Mouse : public TiledEntity
+class EmptyScreen : public Screen
 {
 public:
-    /** Default constructor.
-    */
-    Mouse(int x, int y);
+    EmptyScreen();
 
-    /** Compute movement order from event.
-    *@see move()
-    *@return Movement order, in tiles units.
-    */
-    sf::Vector2i handleEvent(const sf::Event &event);
+    void render(sf::RenderTarget &target,
+                sf::RenderStates states = sf::RenderStates::Default);
 
-    /** Move the mouse.
-    *@see handleEvent()
-    *@param Movement order, in tiles units.
-    */
-    void move(int dx, int dy);
+    void update(const sf::Time &dt);
+
+    void handleEvent(const sf::Event &event);
+
+    bool start(TiledMapPtr level);
 };
 
-#endif // MOUSE_HPP
+#endif // EMPTYSCREEN_HPP

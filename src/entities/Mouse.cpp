@@ -24,18 +24,18 @@ Mouse::Mouse(int x, int y) : TiledEntity(x, y, "mouse.png")
 
 }
 
-void Mouse::handleEvent(const sf::Event &event)
+sf::Vector2i Mouse::handleEvent(const sf::Event &event)
 {
     if (event.type != sf::Event::KeyPressed)
-        return;
+        return sf::Vector2i();
     if (event.key.code == sf::Keyboard::Up)
-        move(0, -1);
+        return sf::Vector2i(0, -1);
     else if (event.key.code == sf::Keyboard::Down)
-        move(0, 1);
+        return sf::Vector2i(0, 1);
     else if (event.key.code == sf::Keyboard::Left)
-        move(-1, 0);
+        return sf::Vector2i(-1, 0);
     else if (event.key.code == sf::Keyboard::Right)
-        move(1, 0);
+        return sf::Vector2i(1, 0);
 }
 
 void Mouse::move(int dx, int dy)

@@ -16,37 +16,28 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef MOUSE_HPP
-#define MOUSE_HPP
+#include "EmptyScreen.hpp"
 
-#include "TiledEntity.hpp"
-
-namespace sf
+EmptyScreen::EmptyScreen()
 {
-    class Event;
+
 }
 
-/** Mouse controlled by the player.
-*
-*/
-class Mouse : public TiledEntity
+void EmptyScreen::render(sf::RenderTarget &target, sf::RenderStates states)
 {
-public:
-    /** Default constructor.
-    */
-    Mouse(int x, int y);
 
-    /** Compute movement order from event.
-    *@see move()
-    *@return Movement order, in tiles units.
-    */
-    sf::Vector2i handleEvent(const sf::Event &event);
+}
 
-    /** Move the mouse.
-    *@see handleEvent()
-    *@param Movement order, in tiles units.
-    */
-    void move(int dx, int dy);
-};
+void EmptyScreen::update(const sf::Time &dt)
+{
+}
 
-#endif // MOUSE_HPP
+void EmptyScreen::handleEvent(const sf::Event &event)
+{
+
+}
+
+bool EmptyScreen::start(TiledMapPtr level)
+{
+    return Screen::start(level);
+}

@@ -16,37 +16,24 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef MOUSE_HPP
-#define MOUSE_HPP
+#ifndef EDITORSCREEN_HPP
+#define EDITORSCREEN_HPP
 
-#include "TiledEntity.hpp"
+#include "Screen.hpp"
 
-namespace sf
-{
-    class Event;
-}
-
-/** Mouse controlled by the player.
-*
+/** The editor screen.
 */
-class Mouse : public TiledEntity
+class EditorScreen : public Screen
 {
 public:
-    /** Default constructor.
-    */
-    Mouse(int x, int y);
+    EditorScreen();
 
-    /** Compute movement order from event.
-    *@see move()
-    *@return Movement order, in tiles units.
-    */
-    sf::Vector2i handleEvent(const sf::Event &event);
+    void render(sf::RenderTarget &target,
+                sf::RenderStates states = sf::RenderStates::Default);
 
-    /** Move the mouse.
-    *@see handleEvent()
-    *@param Movement order, in tiles units.
-    */
-    void move(int dx, int dy);
+    void update(const sf::Time &dt);
+
+    void handleEvent(const sf::Event &event);
 };
 
-#endif // MOUSE_HPP
+#endif // EDITORSCREEN_HPP

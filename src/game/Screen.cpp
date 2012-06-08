@@ -16,37 +16,22 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef MOUSE_HPP
-#define MOUSE_HPP
+#include <SFML/Graphics.hpp>
+#include "Screen.hpp"
 
-#include "TiledEntity.hpp"
-
-namespace sf
+Screen::Screen() : mLevelPtr(0), mStarted(false)
 {
-    class Event;
+
 }
 
-/** Mouse controlled by the player.
-*
-*/
-class Mouse : public TiledEntity
+Screen::~Screen()
 {
-public:
-    /** Default constructor.
-    */
-    Mouse(int x, int y);
 
-    /** Compute movement order from event.
-    *@see move()
-    *@return Movement order, in tiles units.
-    */
-    sf::Vector2i handleEvent(const sf::Event &event);
+}
 
-    /** Move the mouse.
-    *@see handleEvent()
-    *@param Movement order, in tiles units.
-    */
-    void move(int dx, int dy);
-};
-
-#endif // MOUSE_HPP
+bool Screen::start(TiledMapPtr level)
+{
+    mLevelPtr = level;
+    mStarted = !mLevelPtr.isNull();
+    return mStarted;
+}

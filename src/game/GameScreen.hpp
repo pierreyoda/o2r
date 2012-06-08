@@ -16,37 +16,34 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef MOUSE_HPP
-#define MOUSE_HPP
+#ifndef GAMESCREEN_HPP
+#define GAMESCREEN_HPP
 
-#include "TiledEntity.hpp"
+#include "Screen.hpp"
+#include "entities/Mouse.hpp"
 
-namespace sf
-{
-    class Event;
-}
-
-/** Mouse controlled by the player.
-*
+/** The game screen.
+*On start, places the Mouse and all AI entites.
 */
-class Mouse : public TiledEntity
+class GameScreen : public Screen
 {
 public:
-    /** Default constructor.
-    */
-    Mouse(int x, int y);
+    GameScreen();
 
-    /** Compute movement order from event.
-    *@see move()
-    *@return Movement order, in tiles units.
-    */
-    sf::Vector2i handleEvent(const sf::Event &event);
+    void render(sf::RenderTarget &target,
+                sf::RenderStates states = sf::RenderStates::Default);
 
-    /** Move the mouse.
-    *@see handleEvent()
-    *@param Movement order, in tiles units.
-    */
-    void move(int dx, int dy);
+    void update(const sf::Time &dt);
+
+    void handleEvent(const sf::Event &event);
+
+    bool start(TiledMapPtr level);
+
+private:
+    bool isInLevel(int x, int y) const;
+
+    Mouse mMouse;
+    unsigned int levelSizeX, levelSizeY;
 };
 
-#endif // MOUSE_HPP
+#endif // GAMESCREEN_HPP

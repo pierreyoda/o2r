@@ -33,7 +33,11 @@ SOURCES += main.cpp\
     managers/AssetsManager.cpp \
     managers/TilesTypesManager.cpp \
     factories/TiledMapFactory.cpp \
-    map/LevelInfo.cpp
+    map/LevelInfo.cpp \
+    game/Screen.cpp \
+    game/GameScreen.cpp \
+    game/EditorScreen.cpp \
+    game/EmptyScreen.cpp
 
 HEADERS  += MainWindow.hpp \
     GameCanvas.hpp \
@@ -47,7 +51,11 @@ HEADERS  += MainWindow.hpp \
     managers/AssetsManager.hpp \
     managers/TilesTypesManager.hpp \
     factories/TiledMapFactory.hpp \
-    map/LevelInfo.hpp
+    map/LevelInfo.hpp \
+    game/Screen.hpp \
+    game/GameScreen.hpp \
+    game/EditorScreen.hpp \
+    game/EmptyScreen.hpp
 
 FORMS    += MainWindow.ui \
     dialogs/AboutDialog.ui
