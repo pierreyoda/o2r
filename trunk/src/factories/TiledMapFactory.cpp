@@ -23,13 +23,14 @@
 #include "../map/TiledMap.hpp"
 #include "QsLog.h"
 
-static const unsigned int DSIZE_X = 23, DSIZE_Y = 23;
-static const QString OPTION_TXT_SIZE_X("x");
-static const QString OPTION_XML_SIZE_X("sizeX");
-static const QString OPTION_TXT_SIZE_Y("y");
-static const QString OPTION_XML_SIZE_Y("sizeY");
-static const QChar TXT_CHAR_MOUSE('M');
-static const QChar DEFAULT_TILE('0');
+const unsigned int DSIZE_X = 23, DSIZE_Y = 23;
+const QString OPTION_TXT_SIZE_X("x");
+const QString OPTION_XML_SIZE_X("sizeX");
+const QString OPTION_TXT_SIZE_Y("y");
+const QString OPTION_XML_SIZE_Y("sizeY");
+const QString OPTION_AUTHOR("author");
+const QChar TXT_CHAR_MOUSE('M');
+const QChar DEFAULT_TILE('0');
 
 // Return the longest tile line size
 unsigned int TiledMapFactory::computeLevelSizeX(const TiledMap &level)
@@ -89,8 +90,17 @@ TiledMap *TiledMapFactory::loadLevel(QString path)
                         << sizeY;
         }
 
-        // Set level path
-        level->mInfo.filePath = path;
+        LevelInfo &info = level->mInfo;
+
+        // Level path
+        info.filePath = path;
+
+        // Level author
+        if (info.author.isEmpty())
+            QLOG_WARN() << "No author specified.";
+        else
+            QLOG_INFO() << QString("Author is \"%1\"").arg(info.author)
+                           .toLocal8Bit().constData();
     }
     catch (const std::exception &e)
     {
@@ -219,6 +229,13 @@ bool TiledMapFactory::interpretOption(const Option &option, TiledMap &lvl,
         else
             return false;
     }
+    // Author
+    else if (option.first == OPTION_AUTHOR)
+    {
+        info.author = option.second;
+        return true;
+    }
+
     return false;
 }
 

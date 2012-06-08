@@ -68,7 +68,7 @@ private:
 
     bool mRunning;
     TiledMapPtr mLevelPtr;
-    EmptyScreen mDefaultScreen;
+    ScreenPtr mDefaultScreen;
     ScreenPtr mCurrentScreen;
     sf::Clock mFrameClock;
 };

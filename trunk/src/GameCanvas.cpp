@@ -29,7 +29,7 @@ const sf::Color DEFAULT_CLEAR_COLOR(0, 0, 0);
 
 GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
     QSfmlCanvas(parent, position, QSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)),
-    mRunning(false), mDefaultScreen(), mCurrentScreen(&mDefaultScreen)
+    mRunning(false), mDefaultScreen(0), mCurrentScreen(0)
 {
     setMinimumSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
@@ -51,6 +51,8 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
 GameCanvas::~GameCanvas()
 {
     mLevelPtr.clear();
+    mCurrentScreen.clear();
+    mDefaultScreen.clear();
 }
 
 void GameCanvas::onPause()
@@ -93,6 +95,9 @@ void GameCanvas::setScreen(ScreenPtr screen, bool run)
 void GameCanvas::onInit()
 {
     QLOG_INFO() << "Initializing game.";
+    mDefaultScreen = ScreenPtr(new EmptyScreen());
+    mCurrentScreen = ScreenPtr(mDefaultScreen);
+    mRunning = true;
 }
 
 void GameCanvas::onUpdate()

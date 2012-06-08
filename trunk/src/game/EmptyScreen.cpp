@@ -16,6 +16,7 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
+#include <SFML/Graphics.hpp>
 #include "EmptyScreen.hpp"
 
 EmptyScreen::EmptyScreen()
@@ -30,6 +31,7 @@ void EmptyScreen::render(sf::RenderTarget &target, sf::RenderStates states)
 
 void EmptyScreen::update(const sf::Time &dt)
 {
+
 }
 
 void EmptyScreen::handleEvent(const sf::Event &event)

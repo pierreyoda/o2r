@@ -61,10 +61,11 @@ public:
     virtual void handleEvent(const sf::Event &event) = 0;
 
     /** (Re)start the screen with the specified level.
+    *Default implementation : get level with null-check.
     *@param level Loaded level.
     *@return True if successful, false otherwise.
     */
-    virtual bool start(TiledMapPtr level);
+    virtual bool start(TiledMapPtr level) = 0;
 
 protected:
     TiledMapPtr mLevelPtr;
