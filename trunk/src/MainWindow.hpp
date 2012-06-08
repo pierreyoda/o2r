@@ -20,12 +20,14 @@
 #define MAINWINDOW_HPP
 
 class QTranslator;
-class GameCanvas;
 class AboutDialog;
 
 #include <QSettings>
 #include <QMessageBox>
+#include "GameCanvas.hpp"
 #include "ui_MainWindow.h"
+
+class GameScreen;
 
 /** The main window.
 *
@@ -36,6 +38,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
     
 public:
     explicit MainWindow(QWidget *parent = 0);
+    virtual ~MainWindow();
 
     static QString VERSION;
     
@@ -50,6 +53,7 @@ private:
 
     // Game
     GameCanvas *mGameCanvas;
+    ScreenPtr mGameScreen;
     // Dialogs
     AboutDialog *mAboutDialog;
     // MainWindow stuff

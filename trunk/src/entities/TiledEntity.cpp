@@ -59,7 +59,7 @@ TexturePtr TiledEntity::getTexture()
 
 void TiledEntity::draw(RenderTarget &target, RenderStates states) const
 {
-    states.transform.translate(mX * TILE_SIZE, mY * TILE_SIZE);
-    states.texture = mTexturePtr.data();
+    states.transform.translate(mX * TILE_SIZE, mY * TILE_SIZE); // tiles units to pixels
+    states.texture = mTexturePtr.data(); // set texture
     target.draw(TiledEntity::VERTICES, 4, Quads, states);
 }

@@ -29,7 +29,7 @@ const sf::Color DEFAULT_CLEAR_COLOR(0, 0, 0);
 
 GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
     QSfmlCanvas(parent, position, QSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)),
-    mRunning(false), mMouse(0, 0)
+    mRunning(false), mDefaultScreen(), mCurrentScreen(&mDefaultScreen)
 {
     setMinimumSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
@@ -50,7 +50,7 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
 
 GameCanvas::~GameCanvas()
 {
-    mLevelPtr.reset();
+    mLevelPtr.clear();
 }
 
 void GameCanvas::onPause()
@@ -70,58 +70,44 @@ void GameCanvas::onRetranslate()
 
 bool GameCanvas::loadLevel(const QString &path)
 {
-    // Load the level
-    mLevelPtr.reset(TiledMapFactory::loadLevel(path));
+    QLOG_INFO() << "Game : loading level" << path << ".";
+    mLevelPtr = TiledMapPtr(TiledMapFactory::loadLevel(path));
     if (mLevelPtr.isNull() || !mLevelPtr->buildMap())
     {
         QLOG_ERROR() << "Game : cannot load level" << path << ".";
-        mLevelPtr.reset();
+        mLevelPtr.clear();
         return false;
     }
-
-    const LevelInfo &info = mLevelPtr->info();
-    const unsigned int sizeX = mLevelPtr->sizeX(), sizeY = mLevelPtr->sizeY();
-
-    // Place the mouse
-    // TODO : CHECK IF TILE VALID (== ground)
-    unsigned int mouseX = 0, mouseY = 0;
-    if (!info.mouseRandomPos && info.mousePosX < sizeX && info.mousePosY < sizeY)
-        mouseX = info.mousePosX, mouseY = info.mousePosY;
-    else // random pos
-        mouseX = qrand() % sizeX, mouseY = qrand() % sizeY;
-    mMouse.setX(mouseX).setY(mouseY);
-
     QLOG_INFO() << "Game : loaded level" << path << ".";
-
-    // Start the game
-    QLOG_INFO() << "Starting game.";
-    mRunning = true;
-
     return true;
+}
+
+void GameCanvas::setScreen(ScreenPtr screen, bool run)
+{
+    if (screen.isNull())
+        return;
+    mCurrentScreen = screen;
+    mRunning = run;
 }
 
 void GameCanvas::onInit()
 {
     QLOG_INFO() << "Initializing game.";
-    mMouse.loadTexture();
 }
 
 void GameCanvas::onUpdate()
 {
-    // Clear screen
-    clear(DEFAULT_CLEAR_COLOR);
-    // Update entities (if running)
+    // Update current Screen (if running)
     if (mRunning)
     {
         sf::Event event;
         while (pollEvent(event))
-        {
-            mMouse.handleEvent(event);
-        }
+            mCurrentScreen->handleEvent(event);
+        mCurrentScreen->update(mFrameClock.restart());
     }
 
-    // Draw map and entities
-    if (!mLevelPtr.isNull())
-        mLevelPtr->draw(static_cast<sf::RenderWindow&>(*this));
-    mMouse.draw(static_cast<sf::RenderWindow&>(*this));
+    // Clear previous render
+    clear(DEFAULT_CLEAR_COLOR);
+    // Render current Screen
+    mCurrentScreen->render(static_cast<sf::RenderWindow&>(*this));
 }

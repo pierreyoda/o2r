@@ -34,6 +34,7 @@ public:
     QString name;
     QString author;
     QDate date;
+    QString filePath;
     QString lesFilePath;
     unsigned int mousePosX, mousePosY;
     bool mouseRandomPos;

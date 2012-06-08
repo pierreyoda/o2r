@@ -19,7 +19,7 @@
 #include "LevelInfo.hpp"
 
 LevelInfo::LevelInfo() : name("undefined"), author("undefined"),
-    date(QDate::currentDate()), lesFilePath(""), mousePosX(0), mousePosY(0),
-    mouseRandomPos(false)
+    date(QDate::currentDate()), filePath(""), lesFilePath(""), mousePosX(0),
+    mousePosY(0), mouseRandomPos(false)
 {
 }
