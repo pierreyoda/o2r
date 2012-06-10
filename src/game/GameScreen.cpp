@@ -44,7 +44,7 @@ void GameScreen::handleEvent(const sf::Event &event)
     if (moveOffset.x == 0 && moveOffset.y == 0)
         return;
     const sf::Vector2i newPos(mMouse.x() + moveOffset.x, mMouse.y() + moveOffset.y);
-    if (isInLevel(newPos.x, newPos.y))
+    if (mLevelPtr->isInsideMap(newPos.x, newPos.y))
         mMouse.move(moveOffset.x, moveOffset.y);
 }
 
@@ -61,20 +61,27 @@ bool GameScreen::start(TiledMapPtr level)
 
     // Place the mouse
     // TODO : CHECK IF TILE VALID (== ground)
-    unsigned int mouseX = 0, mouseY = 0;
-    if (!info.mouseRandomPos && isInLevel(info.mousePosX, info.mousePosY))
+    unsigned int mouseX = 0, mouseY = 0, loopCount = 0;
+    if (!info.mouseRandomPos &&
+            mLevelPtr->getTileChar(info.mousePosX, info.mousePosY) == '0')
         mouseX = info.mousePosX, mouseY = info.mousePosY;
-    else // random pos
-        mouseX = qrand() % levelSizeX, mouseY = qrand() % levelSizeY;
+    else
+    {
+        QList<sf::Vector2u> emptyTiles = mLevelPtr->getTilesOfChars(
+                    QList<QChar>() << '0');
+        if (emptyTiles.empty())
+        {
+            QLOG_ERROR() << "GameScreen : CANNOT PLACE MOUSE";
+            return false;
+        }
+        const unsigned int index = qrand() % emptyTiles.size();
+        const sf::Vector2u &pos  = emptyTiles[index];
+        mouseX = pos.x, mouseY = pos.y;
+    }
     mMouse.setX(mouseX).setY(mouseY);
+
 
     QLOG_INFO() << "Game Screen : starting game.";
 
     return true;
-}
-
-bool GameScreen::isInLevel(int x, int y) const
-{
-    return (x >= 0 && x < static_cast<int>(levelSizeX) &&
-            y >= 0 && y < static_cast<int>(levelSizeY));
 }

@@ -74,6 +74,7 @@ bool GameCanvas::loadLevel(const QString &path)
 {
     // Load the level
     QLOG_INFO() << "Game : loading level" << path << ".";
+    mLevelPtr.clear();
     mLevelPtr = TiledMapPtr(TiledMapFactory::loadLevel(path));
     if (mLevelPtr.isNull() || !mLevelPtr->buildMap() ||
             (mLevelPtr->sizeX() == 0 && mLevelPtr->sizeY() == 0))
