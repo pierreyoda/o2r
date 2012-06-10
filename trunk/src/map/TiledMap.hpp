@@ -53,10 +53,33 @@ public:
     TiledMap(unsigned int sizeX, unsigned int sizeY);
     virtual ~TiledMap();
 
-    /** Load all tiles and build vertices map.
+    /** (Re)load all tiles and build vertices map.
     *Must be called when tiles change.
     */
     bool buildMap();
+
+    /** Get the character of the tile at the given position.
+    *@param x Tile's x position, in tiles units.
+    *@param y Tile's y position, in tiles units.
+    *@return Tile's character, null ('\0') if invalid position.
+    */
+    const QChar &getTileChar(unsigned int x, unsigned int y);
+
+    /** Helper fonction : get the positions of all the tiles of the given characters.
+    *@param charFilters List of allowed characters (ex. : ['0', '2'] )
+    *@return List of positions (in tiles units) of all the tiles of the desired characters.
+    */
+    QList<sf::Vector2u> getTilesOfChars(const QList<QChar> &charFilters);
+
+    /** Change the character of the tile at the given position (if possible) and load it.
+    *@param x Tile's x position, in tiles units.
+    *@param y Tile's y position, in tiles units.
+    *@param c Tile's new character (must be different from the older one).
+    *@param optimizedRebuild True by default, preferred when only a few tiles change.
+    *If false, buildMap() must be called afterwhile.
+    */
+    void setTileChar(unsigned int x, unsigned int y, const QChar &c,
+                        bool optimizedRebuild = true);
 
     /** Draw the TiledMap to the given sf::RenderTarget.
     *Implements the abstract function from sf::Drawable.
@@ -70,6 +93,15 @@ public:
     *@return Const reference to the level infos.
     */
     const LevelInfo &info() const { return mInfo; }
+
+    /** Is the given position inside the map?
+    *@param x X position, in tiles units.
+    *@param y Y position, in tiles units.
+    *@param acceptUndefinedTiles True by default. If true, a tile must be present at the given position.
+    *@return True if inside the map, false otherwise.
+    */
+    bool isInsideMap(unsigned int x, unsigned int y,
+                     bool acceptUndefinedTiles = false) const;
 
     /** Get the X size.
     *@return Map X size, in tiles units.

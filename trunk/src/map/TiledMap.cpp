@@ -27,6 +27,8 @@ const unsigned int TiledMap::SIZE_LIMIT_Y = 250;
 
 const unsigned int &TILE_SIZE = TiledEntity::TILE_SIZE;
 
+const QChar NULL_TILE_CHAR = QChar();
+
 TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY) :
     mSizeX(sizeX), mSizeY(sizeY), mInfo()
 {
@@ -81,6 +83,34 @@ bool TiledMap::buildMap()
     return true;
 }
 
+const QChar &TiledMap::getTileChar(unsigned int x, unsigned int y)
+{
+    if (!isInsideMap(x, y, false))
+        return NULL_TILE_CHAR;
+    return mTiles[y][x].getChar();
+}
+
+QList<sf::Vector2u> TiledMap::getTilesOfChars(const QList<QChar> &charFilters)
+{
+    QList<sf::Vector2u> tiles;
+    if (charFilters.empty())
+        return tiles;
+    for (int i = 0; i < mTiles.size(); i++)
+    {
+        QList<Tile> &list = mTiles[i];
+        for (int j = 0; j < list.size(); j++)
+            if (charFilters.contains(list[j].getChar()))
+                tiles.append(sf::Vector2u(j, i));
+    }
+    return tiles;
+}
+
+void TiledMap::setTileChar(unsigned int x, unsigned int y, const QChar &c,
+                           bool optimizedRebuild)
+{
+    // TODO
+}
+
 void TiledMap::draw(RenderTarget &target, RenderStates states) const
 {
     //BASIC DRAWING : slow
@@ -97,4 +127,13 @@ void TiledMap::draw(RenderTarget &target, RenderStates states) const
         states.texture = iter.next().value().commonTexture.data(); // set texture for this type
         target.draw(iter.value().vertices, states); // draw all tiles of this type
     }
+}
+
+bool TiledMap::isInsideMap(unsigned int x, unsigned int y,
+                           bool acceptUndefinedTiles) const
+{
+    const bool inMap = (x >= 0 && x < mSizeX && y >= 0 && y < mSizeY);
+    if (!inMap)
+        return false;
+    return acceptUndefinedTiles? inMap : (static_cast<int>(x) < mTiles[y].size());
 }

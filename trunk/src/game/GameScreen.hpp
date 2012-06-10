@@ -40,8 +40,6 @@ public:
     bool start(TiledMapPtr level);
 
 private:
-    bool isInLevel(int x, int y) const;
-
     Mouse mMouse;
     unsigned int levelSizeX, levelSizeY;
 };

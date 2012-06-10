@@ -26,7 +26,7 @@ Screen::Screen() : mLevelPtr(0), mStarted(false)
 
 Screen::~Screen()
 {
-
+    mLevelPtr.clear();
 }
 
 bool Screen::start(TiledMapPtr level)
