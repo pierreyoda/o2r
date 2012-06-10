@@ -21,6 +21,7 @@
 AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
+    setFixedSize(size());
 }
 
 void AboutDialog::changeEvent(QEvent *e)

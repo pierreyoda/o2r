@@ -33,14 +33,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     mSettings("settings.ini", QSettings::IniFormat, this), mDefaultLanguage("en")
 {
     setupUi(this);
-    setFixedSize(size());
     mTranslator = new QTranslator(this), mQtTranslator = new QTranslator(this);
     loadSettings();
 
     // Init game canvas
     mGameCanvas = new GameCanvas(Ui_MainWindow::centralWidget, QPoint());
-    Ui_MainWindow::centralWidget->setMinimumSize(GameCanvas::DEFAULT_WIDTH,
-                                                 GameCanvas::DEFAULT_HEIGHT);
+    setCentralWidget(mGameCanvas);
+    connect(mGameCanvas, SIGNAL(requestResize(int,int)),
+            this, SLOT(resizeCanvas(int,int)));
 
     // Init game screens
     mGameScreen = ScreenPtr(new GameScreen());
@@ -69,11 +69,13 @@ void MainWindow::loadSettings()
         language = mDefaultLanguage;
         actionLanguageEnglish->setChecked(true);
     }
-    changeLanguage(language);
 
     // Log
     QLOG_INFO() << "Settings loaded from" << mSettings.fileName() << ":"
                 << "\n\t-language =" << language;
+
+    // Apply settings
+    changeLanguage(language);
 }
 
 void MainWindow::saveSettings()
@@ -119,6 +121,13 @@ void MainWindow::closeEvent(QCloseEvent *e)
     saveSettings();
     QLOG_INFO() << "Closing Open Rodent's Revenge.";
     QMainWindow::closeEvent(e);
+}
+
+void MainWindow::resizeCanvas(int w, int h)
+{
+    mGameCanvas->setFixedSize(w, h);
+    setFixedSize(w, h + Ui_MainWindow::menuBar->height()
+                 + Ui_MainWindow::statusBar->height());
 }
 
 void MainWindow::on_actionPlayLevel_triggered()

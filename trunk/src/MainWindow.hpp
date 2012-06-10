@@ -63,6 +63,8 @@ private:
     const QString mDefaultLanguage;
 
 private slots:
+    // Canvas slots
+    void resizeCanvas(int w, int h);
     // Game slots
     void on_actionPlayLevel_triggered();
     // Language change slots
