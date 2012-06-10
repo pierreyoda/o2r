@@ -31,7 +31,7 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
     QSfmlCanvas(parent, position, QSize(DEFAULT_WIDTH, DEFAULT_HEIGHT)),
     mRunning(false), mDefaultScreen(0), mCurrentScreen(0)
 {
-    setMinimumSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+    setFixedSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 
     // Initialize FilespathProvider
     FilespathProvider::setModsLocation("mods/");
@@ -72,6 +72,7 @@ void GameCanvas::onRetranslate()
 
 bool GameCanvas::loadLevel(const QString &path)
 {
+    // Load the level
     QLOG_INFO() << "Game : loading level" << path << ".";
     mLevelPtr = TiledMapPtr(TiledMapFactory::loadLevel(path));
     if (mLevelPtr.isNull() || !mLevelPtr->buildMap())
@@ -81,6 +82,17 @@ bool GameCanvas::loadLevel(const QString &path)
         return false;
     }
     QLOG_INFO() << "Game : loaded level" << path << ".";
+
+    // Resize the canvas
+    const int w = mLevelPtr->sizeX() * TiledEntity::TILE_SIZE,
+            h = mLevelPtr->sizeY() * TiledEntity::TILE_SIZE;
+    setSize(sf::Vector2u(w, h));
+    // Resize the window
+    emit requestResize(w, h);
+    // Resize the view
+    mView.reset(sf::FloatRect(0, 0, w, h));
+    setView(mView);
+
     return true;
 }
 
@@ -97,6 +109,8 @@ void GameCanvas::onInit()
     QLOG_INFO() << "Initializing game.";
     mDefaultScreen = ScreenPtr(new EmptyScreen());
     mCurrentScreen = ScreenPtr(mDefaultScreen);
+    mView.reset(sf::FloatRect(0, 0, width(), height()));
+    setView(mView);
     mRunning = true;
 }
 

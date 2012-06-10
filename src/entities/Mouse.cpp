@@ -36,6 +36,7 @@ sf::Vector2i Mouse::handleEvent(const sf::Event &event)
         return sf::Vector2i(-1, 0);
     else if (event.key.code == sf::Keyboard::Right)
         return sf::Vector2i(1, 0);
+    return sf::Vector2i();
 }
 
 void Mouse::move(int dx, int dy)

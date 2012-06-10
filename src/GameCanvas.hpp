@@ -20,6 +20,7 @@
 #define GAMECANVAS_HPP
 
 #include <QScopedPointer>
+#include <SFML/Graphics/View.hpp>
 #include "QSfmlCanvas.hpp"
 #include "map/TiledMap.hpp"
 #include "game/EmptyScreen.hpp"
@@ -61,6 +62,9 @@ public:
 
     static const unsigned int DEFAULT_WIDTH;
     static const unsigned int DEFAULT_HEIGHT;
+
+signals:
+    void requestResize(int w, int h);
     
 private:
     void onInit();
@@ -71,6 +75,7 @@ private:
     ScreenPtr mDefaultScreen;
     ScreenPtr mCurrentScreen;
     sf::Clock mFrameClock;
+    sf::View mView;
 };
 
 #endif // GAMECANVAS_HPP
