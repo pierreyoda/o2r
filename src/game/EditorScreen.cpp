@@ -18,6 +18,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "EditorScreen.hpp"
+#include "QsLog.h"
 
 EditorScreen::EditorScreen()
 {
@@ -25,6 +26,9 @@ EditorScreen::EditorScreen()
 
 void EditorScreen::render(sf::RenderTarget &target, sf::RenderStates states)
 {
+    if (mLevelPtr.isNull())
+        return;
+    mLevelPtr->draw(target, states);
 }
 
 void EditorScreen::update(const sf::Time &dt)
@@ -33,4 +37,12 @@ void EditorScreen::update(const sf::Time &dt)
 
 void EditorScreen::handleEvent(const sf::Event &event)
 {
+}
+
+bool EditorScreen::start(TiledMapPtr level)
+{
+    if (!Screen::start(level))
+        return false;
+    QLOG_INFO() << QString("EditorScreen : started editing level (name = \"%1\").")
+                   .arg(level->info().name).toLocal8Bit().constData();
 }

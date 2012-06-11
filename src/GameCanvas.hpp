@@ -42,23 +42,33 @@ public:
     void onResume();
     void onRetranslate();
 
-    /** Get the loaded level.
-    *@return Pointer to the loaded level (may be null).
+    /** Get the current level.
+    *@return Pointer to the current level (may be null).
+    *@see setLevel() loadLevel()
     */
-    TiledMapPtr loadedLevel() { return mLevelPtr; }
+    TiledMapPtr level() { return mCurrentLevel; }
 
-    /** Load a level from the given file path.
+    /** Load a level from the given file path and set it as the current level.
     *Warning : won't affect the current screen.
     *@param path Path to the level file.
     *@return True if successful, false otherwise.
+    *@see level() setLevel()
     */
     bool loadLevel(const QString &path);
 
+    /** Set the current level and resize the canvas.
+    *Warning : won't affect the current screen.
+    *@param level Pointer to the level. Ignored if null.
+    *@see level() loadLevel()
+    */
+    void setLevel(TiledMapPtr level);
+
     /** Set the current screen.
     *@param screen Pointer to the new screen. Ignored if null.
-    *@param run Start updating the new screen. True by default.
+    *@param start Start the new screen (with the current level). True by default.
+    *@return True if successful, false otherwise.
     */
-    void setScreen(ScreenPtr screen, bool run = true);
+    bool setScreen(ScreenPtr screen, bool start = true);
 
     static const unsigned int DEFAULT_WIDTH;
     static const unsigned int DEFAULT_HEIGHT;
@@ -70,8 +80,10 @@ private:
     void onInit();
     void onUpdate();
 
+    void adjustSizeToLevel();
+
     bool mRunning;
-    TiledMapPtr mLevelPtr;
+    TiledMapPtr mCurrentLevel;
     ScreenPtr mDefaultScreen;
     ScreenPtr mCurrentScreen;
     sf::Clock mFrameClock;

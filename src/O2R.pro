@@ -37,7 +37,8 @@ SOURCES += main.cpp\
     game/Screen.cpp \
     game/GameScreen.cpp \
     game/EditorScreen.cpp \
-    game/EmptyScreen.cpp
+    game/EmptyScreen.cpp \
+    dialogs/EditorNewLevelDialog.cpp
 
 HEADERS  += MainWindow.hpp \
     GameCanvas.hpp \
@@ -55,10 +56,12 @@ HEADERS  += MainWindow.hpp \
     game/Screen.hpp \
     game/GameScreen.hpp \
     game/EditorScreen.hpp \
-    game/EmptyScreen.hpp
+    game/EmptyScreen.hpp \
+    dialogs/EditorNewLevelDialog.hpp
 
 FORMS    += MainWindow.ui \
-    dialogs/AboutDialog.ui
+    dialogs/AboutDialog.ui \
+    dialogs/EditorNewLevelDialog.ui
 
 TRANSLATIONS = o2r_fr.ts
 

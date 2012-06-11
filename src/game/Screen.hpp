@@ -67,6 +67,11 @@ public:
     */
     virtual bool start(TiledMapPtr level) = 0;
 
+    /** Stop the screen.
+    *Default implementation : drop the level pointer.
+    */
+    virtual void stop();
+
 protected:
     TiledMapPtr mLevelPtr;
     bool mStarted;

@@ -184,7 +184,7 @@ bool TiledMapFactory::interpretOption(const Option &option, TiledMap &lvl,
         unsigned int number = option.second.toUInt(&ok);
         if (ok)
         {
-            if (number < TiledMap::SIZE_LIMIT_X)
+            if (number < TiledMap::SIZE_MAX_LIMIT_X)
             {
                 lvl.mSizeX = number;
                 QLOG_INFO() << "Level X size set to" << number << ".";
@@ -194,7 +194,7 @@ bool TiledMapFactory::interpretOption(const Option &option, TiledMap &lvl,
                 lvl.mSizeX = number;
                 QLOG_WARN() << QString("Excessive X level size (%1) : level X size set to limit (%2)")
                                .arg(QString::number(number),
-                                    QString::number(TiledMap::SIZE_LIMIT_X))
+                                    QString::number(TiledMap::SIZE_MAX_LIMIT_X))
                                .toLocal8Bit().constData();
             }
             return true;
@@ -211,7 +211,7 @@ bool TiledMapFactory::interpretOption(const Option &option, TiledMap &lvl,
         unsigned int number = option.second.toUInt(&ok);
         if (ok)
         {
-            if (number < TiledMap::SIZE_LIMIT_X)
+            if (number < TiledMap::SIZE_MAX_LIMIT_X)
             {
                 lvl.mSizeY = number;
                 QLOG_INFO() << "Level Y size set to" << number << ".";
@@ -221,7 +221,7 @@ bool TiledMapFactory::interpretOption(const Option &option, TiledMap &lvl,
                 lvl.mSizeY = number;
                 QLOG_WARN() << QString("Excessive Y level size (%1) : level Y size set to limit (%2)")
                                .arg(QString::number(number),
-                                    QString::number(TiledMap::SIZE_LIMIT_Y))
+                                    QString::number(TiledMap::SIZE_MAX_LIMIT_Y))
                                .toLocal8Bit().constData();
             }
             return true;

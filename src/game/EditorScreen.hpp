@@ -34,6 +34,11 @@ public:
     void update(const sf::Time &dt);
 
     void handleEvent(const sf::Event &event);
+
+    /** Start editing an existing level.
+    *@param level Level to edit.
+    */
+    bool start(TiledMapPtr level);
 };
 
 #endif // EDITORSCREEN_HPP

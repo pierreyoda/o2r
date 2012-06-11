@@ -16,28 +16,32 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#include <SFML/Graphics.hpp>
-#include "Screen.hpp"
+#ifndef EDITORNEWLEVELDIALOG_HPP
+#define EDITORNEWLEVELDIALOG_HPP
 
-Screen::Screen() : mLevelPtr(0), mStarted(false)
+#include "ui_EditorNewLevelDialog.h"
+
+/** The editor new level dialog.
+*User can change the name, the author name and the size.
+*/
+class EditorNewLevelDialog : public QDialog, private Ui::EditorNewLevelDialog
 {
+    Q_OBJECT
+    
+public:
+    explicit EditorNewLevelDialog(QWidget *parent = 0);
 
-}
+    unsigned int levelSizeX() const;
+    unsigned int levelSizeY() const;
 
-Screen::~Screen()
-{
-    mLevelPtr.clear();
-}
+    QString levelName() const;
+    QString levelAuthor() const;
+    
+protected:
+    void changeEvent(QEvent *e);
 
-bool Screen::start(TiledMapPtr level)
-{
-    mLevelPtr = level;
-    mStarted = !mLevelPtr.isNull();
-    return mStarted;
-}
+private slots:
+    void on_lineEdit_name_textChanged(const QString &text);
+};
 
-void Screen::stop()
-{
-    mStarted = false;
-    mLevelPtr.clear();
-}
+#endif // EDITORNEWLEVELDIALOG_HPP

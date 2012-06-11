@@ -50,7 +50,7 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
 
 GameCanvas::~GameCanvas()
 {
-    mLevelPtr.clear();
+    mCurrentLevel.clear();
     mCurrentScreen.clear();
     mDefaultScreen.clear();
 }
@@ -74,36 +74,38 @@ bool GameCanvas::loadLevel(const QString &path)
 {
     // Load the level
     QLOG_INFO() << "Game : loading level" << path << ".";
-    mLevelPtr.clear();
-    mLevelPtr = TiledMapPtr(TiledMapFactory::loadLevel(path));
-    if (mLevelPtr.isNull() || !mLevelPtr->buildMap() ||
-            (mLevelPtr->sizeX() == 0 && mLevelPtr->sizeY() == 0))
+    TiledMapPtr newLevel(TiledMapFactory::loadLevel(path));
+    if (newLevel.isNull() || !newLevel->buildMap() ||
+            (newLevel->sizeX() < TiledMap::SIZE_MIN_LIMIT_X &&
+             newLevel->sizeY() < TiledMap::SIZE_MIN_LIMIT_Y))
     {
         QLOG_ERROR() << "Game : cannot load level" << path << ".";
-        mLevelPtr.clear();
+        newLevel.clear();
         return false;
     }
     QLOG_INFO() << "Game : loaded level" << path << ".";
 
-    // Resize the canvas
-    const int w = mLevelPtr->sizeX() * TiledEntity::TILE_SIZE,
-            h = mLevelPtr->sizeY() * TiledEntity::TILE_SIZE;
-    setSize(sf::Vector2u(w, h));
-    // Resize the window
-    emit requestResize(w, h);
-    // Resize the view
-    mView.reset(sf::FloatRect(0, 0, w, h));
-    setView(mView);
+    setLevel(newLevel);
 
     return true;
 }
 
-void GameCanvas::setScreen(ScreenPtr screen, bool run)
+void GameCanvas::setLevel(TiledMapPtr level)
+{
+    if (level.isNull())
+        return;
+    mCurrentLevel = level;
+    adjustSizeToLevel();
+}
+
+bool GameCanvas::setScreen(ScreenPtr screen, bool start)
 {
     if (screen.isNull())
-        return;
+        return false;
+    mCurrentScreen->stop();
     mCurrentScreen = screen;
-    mRunning = run;
+    mRunning = start;
+    return (start ? mCurrentScreen->start(mCurrentLevel) : true);
 }
 
 void GameCanvas::onInit()
@@ -131,4 +133,19 @@ void GameCanvas::onUpdate()
     clear(DEFAULT_CLEAR_COLOR);
     // Render current Screen
     mCurrentScreen->render(static_cast<sf::RenderWindow&>(*this));
+}
+
+void GameCanvas::adjustSizeToLevel()
+{
+    if (mCurrentLevel.isNull())
+        return;
+    // Resize the canvas
+    const int w = mCurrentLevel->sizeX() * TiledEntity::TILE_SIZE,
+            h = mCurrentLevel->sizeY() * TiledEntity::TILE_SIZE;
+    setSize(sf::Vector2u(w, h));
+    // Resize the window
+    emit requestResize(w, h);
+    // Resize the view
+    mView.reset(sf::FloatRect(0, 0, w, h));
+    setView(mView);
 }
