@@ -30,11 +30,11 @@ namespace AssetsManager
 {
     /** Get a texture (load it if not already done).
     *@param path Texture name (ex. : "mouse.png").
-    *@param isAlias If true, use FilespathProvider to get the texture path.
+    *@param isAlias If true, use FilespathProvider to get the texture path. True by default.
     *@return Pointer to the loaded texture.
     *@see FilespathProvider::assetPathFromAlias()
     */
-    TexturePtr getTexture(const std::string &path, bool isAlias = true);
+    TexturePtr getTexture(const QString &path, bool isAlias = true);
 }
 
 #endif // ASSETSMANAGER_HPP

@@ -35,7 +35,7 @@ public:
     *@param textureAlias Texture alias.
     *@see FilespathProvider::assetPathFromAlias()
     */
-    TiledEntity(int x, int y, const std::string &textureAlias);
+    TiledEntity(int x, int y, const QString &textureAlias);
 
     virtual ~TiledEntity();
 
@@ -44,7 +44,7 @@ public:
     *@see loadTexture() FilespathProvider::assetPathFromAlias()
     *@return True if successful, false otherwise.
     */
-    bool setTextureAlias(const std::string &textureAlias);
+    bool setTextureAlias(const QString &textureAlias);
 
     /** (Re)load the texture.
     *Must be called at least once, AFTER having set the main mod.
@@ -106,7 +106,7 @@ protected:
     int mY;
 
 private:
-    std::string mTextureAlias;
+    QString mTextureAlias;
     TexturePtr mTexturePtr;
 };
 

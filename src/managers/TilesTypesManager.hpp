@@ -31,13 +31,15 @@ struct TileInfo
 {
     TileInfo() : isValid(false)
     { }
-    TileInfo(std::string _textureAlias, std::string _type) :
+    TileInfo(QString _textureAlias, QString _type) :
         textureAlias(_textureAlias), type(_type), isValid(true)
     { }
 
-    std::string textureAlias;
-    std::string type;
+    QString textureAlias;
+    QString type;
     bool isValid;
+
+    static const QString TYPE_GROUND, TYPE_BLOCK, TYPE_WALL;
 };
 
 
@@ -70,8 +72,8 @@ namespace TilesTypesManager
     *@param type Tile's type.
     *@see tileInfoFromChar()
     */
-    void setType(const QChar &c, const std::string &textureAlias,
-                 const std::string &type);
+    void setType(const QChar &c, const QString &textureAlias,
+                 const QString &type);
 }
 
 

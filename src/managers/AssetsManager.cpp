@@ -26,7 +26,7 @@ namespace AssetsManager
 
 namespace
 {
-    QMap<std::string, TexturePtr> TEXTURE_MAP;
+    QMap<QString, TexturePtr> TEXTURE_MAP;
 } // anonymous namespace
 
 
@@ -34,7 +34,7 @@ namespace
 /** \internal Search for a texture in the AssetsManager's texture map.
 *@return Pointer to the texture (null if not found).
 */
-TexturePtr findTexture(const std::string &path)
+TexturePtr findTexture(const QString &path)
 {
     return TEXTURE_MAP.value(path, TexturePtr());
 }
@@ -42,10 +42,10 @@ TexturePtr findTexture(const std::string &path)
 /** \internal Load the requested texture.
 *@return Pointer to the texture (null if failed).
 */
-TexturePtr loadTexture(const std::string &path)
+TexturePtr loadTexture(const QString &path)
 {
     sf::Texture *texture = new(std::nothrow) sf::Texture();
-    if (texture == 0 || !texture->loadFromFile(path))
+    if (texture == 0 || !texture->loadFromFile(path.toStdString()))
     {
         delete texture;
         return TexturePtr();
@@ -53,12 +53,10 @@ TexturePtr loadTexture(const std::string &path)
     return TexturePtr(texture);
 }
 
-TexturePtr getTexture(const std::string &path, bool isAlias)
+TexturePtr getTexture(const QString &path, bool isAlias)
 {
-    std::string texturePath = isAlias ?
-                FilespathProvider::assetPathFromAlias(
-                    QString::fromStdString(path)).toStdString()
-              : path;
+    QString texturePath = isAlias ?
+                FilespathProvider::assetPathFromAlias(path) : path;
     TexturePtr texture = findTexture(texturePath);
     // Texture already loaded
     if (!texture.isNull())
@@ -68,13 +66,11 @@ TexturePtr getTexture(const std::string &path, bool isAlias)
     if (!texture.isNull())
     {
         TEXTURE_MAP[texturePath] = texture;
-        QLOG_INFO() << "AssetsManager : loaded texture"
-                     << QString::fromStdString(texturePath) << ".";
+        QLOG_INFO() << "AssetsManager : loaded texture" << texturePath << ".";
         return texture;
     }
     // Cannot load the texture
-    QLOG_ERROR() << "AssetsManager : cannot load texture"
-                 << QString::fromStdString(texturePath) << ".";
+    QLOG_ERROR() << "AssetsManager : cannot load texture" << texturePath << ".";
     return TexturePtr();
 }
 

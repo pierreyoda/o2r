@@ -19,6 +19,7 @@
 #include <QTranslator>
 #include <QLibraryInfo>
 #include <QFileDialog>
+#include <QDesktopWidget>
 #include "MainWindow.hpp"
 #include "GameCanvas.hpp"
 #include "dialogs/AboutDialog.hpp"
@@ -106,6 +107,13 @@ void MainWindow::changeLanguage(const QString &id)
     QLOG_INFO() << "Language set to" << id << ".";
 }
 
+void MainWindow::adjustSizeToCanvas()
+{
+    setFixedSize(mGameCanvas->width(), mGameCanvas->height()
+                 + Ui_MainWindow::menuBar->height()
+                 + Ui_MainWindow::statusBar->height());
+}
+
 void MainWindow::changeEvent(QEvent *e)
 {
     QMainWindow::changeEvent(e);
@@ -125,9 +133,18 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::resizeCanvas(int w, int h)
 {
+    const QRect screen = QApplication::desktop()->availableGeometry(this);
+    if (w >= screen.width() || h >= screen.height())
+    {
+        QMessageBox::warning(this, tr("Size problem"),
+                             tr("Level size is bigger than screen size, level cannot be displayed properly."));
+        mGameCanvas->setFixedSize(GameCanvas::DEFAULT_WIDTH,
+                                  GameCanvas::DEFAULT_HEIGHT);
+        adjustSizeToCanvas();
+        return;
+    }
     mGameCanvas->setFixedSize(w, h);
-    setFixedSize(w, h + Ui_MainWindow::menuBar->height()
-                 + Ui_MainWindow::statusBar->height());
+    adjustSizeToCanvas();
 }
 
 void MainWindow::on_actionPlayLevel_triggered()

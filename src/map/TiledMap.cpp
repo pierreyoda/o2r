@@ -16,6 +16,7 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
+#include <QStringList>
 #include <SFML/Graphics/RenderTarget.hpp>
 #include "TiledMap.hpp"
 #include "QsLog.h"
@@ -28,6 +29,7 @@ const unsigned int TiledMap::SIZE_LIMIT_Y = 250;
 const unsigned int &TILE_SIZE = TiledEntity::TILE_SIZE;
 
 const QChar NULL_TILE_CHAR = QChar();
+const TileInfo NULL_TILE_INFO = TileInfo();
 
 TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY) :
     mSizeX(sizeX), mSizeY(sizeY), mInfo()
@@ -67,8 +69,6 @@ bool TiledMap::buildMap()
             if (!mTilesVertices.contains(c))
                 mTilesVertices.insert(c, TileGroupVertices(tile.getTexture()));
             TileGroupVertices &group = mTilesVertices[c];
-            // keep in memory the index in the VertexArray
-            tile.mVertexIndex = group.vertices.getVertexCount() / 4;
             // add the 4 vertices of the VertexArray
             group.vertices.append(Vertex(Vector2f((j+0) * TILE_SIZE, (i+0) * TILE_SIZE),
                                                    Vector2f(0, 0)));
@@ -85,9 +85,14 @@ bool TiledMap::buildMap()
 
 const QChar &TiledMap::getTileChar(unsigned int x, unsigned int y)
 {
-    if (!isInsideMap(x, y, false))
-        return NULL_TILE_CHAR;
-    return mTiles[y][x].getChar();
+    const Tile *tile = findTile(x, y);
+    return (tile != 0 ? tile->getChar() : NULL_TILE_CHAR);
+}
+
+const TileInfo &TiledMap::getTileInfo(unsigned int x, unsigned int y)
+{
+    const Tile *tile = findTile(x, y);
+    return (tile != 0 ? tile->getInfo() : NULL_TILE_INFO);
 }
 
 QList<sf::Vector2u> TiledMap::getTilesOfChars(const QList<QChar> &charFilters)
@@ -105,10 +110,30 @@ QList<sf::Vector2u> TiledMap::getTilesOfChars(const QList<QChar> &charFilters)
     return tiles;
 }
 
-void TiledMap::setTileChar(unsigned int x, unsigned int y, const QChar &c,
-                           bool optimizedRebuild)
+QList<Vector2u> TiledMap::getTilesOfTypes(const QStringList &typeFilters)
 {
-    // TODO
+    QList<sf::Vector2u> tiles;
+    if (typeFilters.empty())
+        return tiles;
+    for (int i = 0; i < mTiles.size(); i++)
+    {
+        QList<Tile> &list = mTiles[i];
+        for (int j = 0; j < list.size(); j++)
+            if (typeFilters.contains(list[j].getInfo().type))
+                tiles.append(sf::Vector2u(j, i));
+    }
+    return tiles;
+}
+
+void TiledMap::setTileChar(unsigned int x, unsigned int y, const QChar &c,
+                           bool rebuildNow)
+{
+    if (!isInsideMap(x, y, false))
+        return;
+    Tile &tile = mTiles[y][x];
+    tile.setChar(c);
+    if (rebuildNow)
+        buildMap();
 }
 
 void TiledMap::draw(RenderTarget &target, RenderStates states) const
@@ -136,4 +161,9 @@ bool TiledMap::isInsideMap(unsigned int x, unsigned int y,
     if (!inMap)
         return false;
     return acceptUndefinedTiles? inMap : (static_cast<int>(x) < mTiles[y].size());
+}
+
+Tile *TiledMap::findTile(unsigned int x, unsigned int y)
+{
+    return (isInsideMap(x, y, false) ? &mTiles[y][x] : 0);
 }
