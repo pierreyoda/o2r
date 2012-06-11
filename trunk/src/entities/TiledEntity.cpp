@@ -29,7 +29,7 @@ const Vertex TiledEntity::VERTICES[4]  = {
     Vertex(Vector2f(TILE_SIZE, 0), Vector2f(TILE_SIZE, 0))
 };
 
-TiledEntity::TiledEntity(int x, int y, const std::string &textureAlias) : mX(x),
+TiledEntity::TiledEntity(int x, int y, const QString &textureAlias) : mX(x),
     mY(y), mTextureAlias(textureAlias)
 {
 
@@ -40,7 +40,7 @@ TiledEntity::~TiledEntity()
     mTexturePtr.clear();
 }
 
-bool TiledEntity::setTextureAlias(const std::string &textureAlias)
+bool TiledEntity::setTextureAlias(const QString &textureAlias)
 {
     mTextureAlias = textureAlias;
     return loadTexture();

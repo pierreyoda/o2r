@@ -25,6 +25,7 @@
 #include "../entities/Tile.hpp"
 #include "LevelInfo.hpp"
 
+class QStringList;
 class TiledMapFactory;
 
 /** Group of tiles with the same type (and thus the same texture).
@@ -65,21 +66,34 @@ public:
     */
     const QChar &getTileChar(unsigned int x, unsigned int y);
 
+    /** Get the TileInfo of the tile at the given position.
+    *@param x Tile's x position, in tiles units.
+    *@param y Tile's y position, in tiles units.
+    *@return Tile's information, empty if invalid position.
+    */
+    const TileInfo &getTileInfo(unsigned int x, unsigned int y);
+
     /** Helper fonction : get the positions of all the tiles of the given characters.
     *@param charFilters List of allowed characters (ex. : ['0', '2'] )
     *@return List of positions (in tiles units) of all the tiles of the desired characters.
     */
     QList<sf::Vector2u> getTilesOfChars(const QList<QChar> &charFilters);
 
+    /** Helper fonction : get the positions of all the tiles of the given type.
+    *@param typeFilters List of allowed types (ex. : ["BLOCK", "WALL"] )
+    *@return List of positions (in tiles units) of all the tiles of the desired types.
+    */
+    QList<sf::Vector2u> getTilesOfTypes(const QStringList &typeFilters);
+
     /** Change the character of the tile at the given position (if possible) and load it.
     *@param x Tile's x position, in tiles units.
     *@param y Tile's y position, in tiles units.
     *@param c Tile's new character (must be different from the older one).
-    *@param optimizedRebuild True by default, preferred when only a few tiles change.
-    *If false, buildMap() must be called afterwhile.
+    *@param rebuildNow True by default, manual call of buildMap() is preferred
+    *when several tiles change.
     */
     void setTileChar(unsigned int x, unsigned int y, const QChar &c,
-                        bool optimizedRebuild = true);
+                        bool rebuildNow = true);
 
     /** Draw the TiledMap to the given sf::RenderTarget.
     *Implements the abstract function from sf::Drawable.
@@ -117,6 +131,8 @@ public:
     static const unsigned int SIZE_LIMIT_Y;
 
 private:
+    Tile *findTile(unsigned int x, unsigned int y);
+
     unsigned int mSizeX, mSizeY;
     QList< QList<Tile> > mTiles;
     QHash<QChar, TileGroupVertices> mTilesVertices;

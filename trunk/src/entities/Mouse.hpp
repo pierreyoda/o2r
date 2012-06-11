@@ -25,6 +25,7 @@ namespace sf
 {
     class Event;
 }
+class TiledMap;
 
 /** Mouse controlled by the player.
 *
@@ -42,11 +43,13 @@ public:
     */
     sf::Vector2i handleEvent(const sf::Event &event);
 
-    /** Move the mouse.
+    /** Move the mouse, taking into account its environment.
     *@see handleEvent()
-    *@param Movement order, in tiles units.
+    *@param dx X move, in tiles units.
+    *@param dy Y move, in tiles units.
+    *@param level Reference to the current level.
     */
-    void move(int dx, int dy);
+    void move(int dx, int dy, TiledMap &level);
 };
 
 #endif // MOUSE_HPP

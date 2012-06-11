@@ -20,6 +20,9 @@
 #include "TilesTypesManager.hpp"
 #include "QsLog.h"
 
+const QString TileInfo::TYPE_GROUND = "GROUND";
+const QString TileInfo::TYPE_BLOCK = "BLOCK";
+const QString TileInfo::TYPE_WALL = "WALL";
 
 namespace TilesTypesManager
 {
@@ -35,12 +38,12 @@ TileInfo tileInfoFromChar(const QChar &c)
     return TILES_TYPES.value(c, NULL_TILE_INFO);
 }
 
-void setType(const QChar &c, const std::string &textureAlias,
-             const std::string &type)
+void setType(const QChar &c, const QString &textureAlias,
+             const QString &type)
 {
     const QString log = QString("character '%1', texture alias \"%2\", type \"%3\"")
-            .arg(c, textureAlias.c_str(), type.c_str());
-    if (c == ' ' || textureAlias.empty() || type.empty())
+            .arg(c, textureAlias, type);
+    if (c == ' ' || textureAlias.isEmpty() || type.isEmpty())
     {
         QLOG_WARN() << "TilesTypesManager : cannot add tile type"
                     << log.toLocal8Bit().constData();

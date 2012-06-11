@@ -18,6 +18,7 @@
 
 #include <SFML/Window/Event.hpp>
 #include "Mouse.hpp"
+#include "../map/TiledMap.hpp"
 
 Mouse::Mouse(int x, int y) : TiledEntity(x, y, "mouse.png")
 {
@@ -39,7 +40,14 @@ sf::Vector2i Mouse::handleEvent(const sf::Event &event)
     return sf::Vector2i();
 }
 
-void Mouse::move(int dx, int dy)
+void Mouse::move(int dx, int dy, TiledMap &level)
 {
-    mX += dx, mY += dy;
+    const int x = mX + dx, y = mY + dy;
+    const TileInfo &info = level.getTileInfo(x, y);
+    // Ground tile : move
+    if (info.type == TileInfo::TYPE_GROUND)
+    {
+        mX = x, mY = y;
+        return;
+    }
 }

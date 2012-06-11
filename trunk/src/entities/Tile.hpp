@@ -48,9 +48,15 @@ public:
     */
     bool loadTexture(bool updateInfo = false);
 
-    /** Get the tile character ID.
+    /** Get the tile's informations.
+    *@see TileInfo
+    *@return The til's informations.
+    */
+    const TileInfo &getInfo() const { return mInfo; }
+
+    /** Get the tile's character ID.
     *@see setChar()
-    *@return The tile character ID, unicode 16 bits.
+    *@return The tile's character ID, unicode 16 bits.
     */
     const QChar &getChar() const { return mC; }
 
@@ -65,9 +71,6 @@ public:
 private:
     TileInfo mInfo;
     QChar mC;
-    unsigned int mVertexIndex; // index in the associated TiledMap's VertexArray
-
-    friend class TiledMap; // only TiledMap can change mVertexIndex
 };
 
 #endif // TILE_HPP

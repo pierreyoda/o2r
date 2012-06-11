@@ -16,6 +16,7 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
+#include <QStringList>
 #include <SFML/Graphics.hpp>
 #include "GameScreen.hpp"
 #include "QsLog.h"
@@ -45,7 +46,7 @@ void GameScreen::handleEvent(const sf::Event &event)
         return;
     const sf::Vector2i newPos(mMouse.x() + moveOffset.x, mMouse.y() + moveOffset.y);
     if (mLevelPtr->isInsideMap(newPos.x, newPos.y))
-        mMouse.move(moveOffset.x, moveOffset.y);
+        mMouse.move(moveOffset.x, moveOffset.y, *mLevelPtr);
 }
 
 bool GameScreen::start(TiledMapPtr level)
@@ -55,31 +56,29 @@ bool GameScreen::start(TiledMapPtr level)
 
     QLOG_INFO() << "Game Screen : playing level" << level->info().filePath << ".";
     mMouse.loadTexture();
-
     const LevelInfo &info = mLevelPtr->info();
     levelSizeX = mLevelPtr->sizeX(), levelSizeY = mLevelPtr->sizeY();
 
     // Place the mouse
     // TODO : CHECK IF TILE VALID (== ground)
-    unsigned int mouseX = 0, mouseY = 0, loopCount = 0;
+    unsigned int mouseX = 0, mouseY = 0;
     if (!info.mouseRandomPos &&
             mLevelPtr->getTileChar(info.mousePosX, info.mousePosY) == '0')
         mouseX = info.mousePosX, mouseY = info.mousePosY;
     else
     {
-        QList<sf::Vector2u> emptyTiles = mLevelPtr->getTilesOfChars(
-                    QList<QChar>() << '0');
-        if (emptyTiles.empty())
+        QList<sf::Vector2u> groundTiles = mLevelPtr->getTilesOfTypes(
+                    QStringList() << "GROUND");
+        if (groundTiles.empty())
         {
             QLOG_ERROR() << "GameScreen : CANNOT PLACE MOUSE";
             return false;
         }
-        const unsigned int index = qrand() % emptyTiles.size();
-        const sf::Vector2u &pos  = emptyTiles[index];
+        const unsigned int index = qrand() % groundTiles.size();
+        const sf::Vector2u &pos  = groundTiles[index];
         mouseX = pos.x, mouseY = pos.y;
     }
     mMouse.setX(mouseX).setY(mouseY);
-
 
     QLOG_INFO() << "Game Screen : starting game.";
 

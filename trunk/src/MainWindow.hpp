@@ -50,6 +50,7 @@ private:
     void loadSettings();
     void saveSettings();
     void changeLanguage(const QString &id);
+    void adjustSizeToCanvas();
 
     // Game
     GameCanvas *mGameCanvas;

@@ -43,9 +43,9 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
     FilespathProvider::refreshAssetsList();
 
     // Set up default tiles
-    TilesTypesManager::setType('0', "void.png", "GROUND");
-    TilesTypesManager::setType('1', "block.png", "BLOCK");
-    TilesTypesManager::setType('2', "wall.png", "WALL");
+    TilesTypesManager::setType('0', "void.png", TileInfo::TYPE_GROUND);
+    TilesTypesManager::setType('1', "block.png", TileInfo::TYPE_BLOCK);
+    TilesTypesManager::setType('2', "wall.png", TileInfo::TYPE_WALL);
 }
 
 GameCanvas::~GameCanvas()
