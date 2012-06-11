@@ -42,12 +42,22 @@ sf::Vector2i Mouse::handleEvent(const sf::Event &event)
 
 void Mouse::move(int dx, int dy, TiledMap &level)
 {
-    const int x = mX + dx, y = mY + dy;
-    const TileInfo &info = level.getTileInfo(x, y);
+    const int newX = mX + dx, newY = mY + dy;
+    const TileInfo &tileInfo = level.getTileInfo(newX, newY);
     // Ground tile : move
-    if (info.type == TileInfo::TYPE_GROUND)
+    if (tileInfo.type == TileInfo::TYPE_GROUND)
+        mX = newX, mY = newY;
+    // Block tile : move it if possible
+    else if (tileInfo.type == TileInfo::TYPE_BLOCK)
     {
-        mX = x, mY = y;
-        return;
+        int blockEndX = newX, blockEndY = newY;
+        do {
+            blockEndX += dx, blockEndY += dy;
+        } while (level.getTileInfo(blockEndX, blockEndY).type == TileInfo::TYPE_BLOCK);
+        if (level.getTileInfo(blockEndX, blockEndY).type != TileInfo::TYPE_GROUND)
+            return;
+        level.setTileChar(newX, newY, '0', false);
+        level.setTileChar(blockEndX, blockEndY, '1', true);
+        mX = newX, mY = newY;
     }
 }
