@@ -51,7 +51,13 @@ struct TileGroupVertices
 class TiledMap : public sf::Drawable
 {
 public:
-    TiledMap(unsigned int sizeX, unsigned int sizeY);
+    /** Default constructor.
+    *@param sizeX X size, in tiles units.
+    *@param sizeY Y size, in tiles units.
+    *@param info Optional : specify a custom LevelInfo.
+    */
+    TiledMap(unsigned int sizeX, unsigned int sizeY, const LevelInfo &info
+             = LevelInfo());
     virtual ~TiledMap();
 
     /** (Re)load all tiles and build vertices map.
@@ -127,8 +133,10 @@ public:
     */
     unsigned int sizeY() const { return mSizeY; }
 
-    static const unsigned int SIZE_LIMIT_X;
-    static const unsigned int SIZE_LIMIT_Y;
+    static const unsigned int SIZE_MIN_LIMIT_X;
+    static const unsigned int SIZE_MAX_LIMIT_X;
+    static const unsigned int SIZE_MIN_LIMIT_Y;
+    static const unsigned int SIZE_MAX_LIMIT_Y;
 
 private:
     Tile *findTile(unsigned int x, unsigned int y);

@@ -23,23 +23,25 @@
 
 using namespace sf;
 
-const unsigned int TiledMap::SIZE_LIMIT_X = 250;
-const unsigned int TiledMap::SIZE_LIMIT_Y = 250;
+const unsigned int TiledMap::SIZE_MIN_LIMIT_X = 5;
+const unsigned int TiledMap::SIZE_MAX_LIMIT_X = 250;
+const unsigned int TiledMap::SIZE_MIN_LIMIT_Y = 5;
+const unsigned int TiledMap::SIZE_MAX_LIMIT_Y = 250;
 
 const unsigned int &TILE_SIZE = TiledEntity::TILE_SIZE;
 
 const QChar NULL_TILE_CHAR = QChar();
 const TileInfo NULL_TILE_INFO = TileInfo();
 
-TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY) :
-    mSizeX(sizeX), mSizeY(sizeY), mInfo()
+TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY, const LevelInfo &info) :
+    mSizeX(sizeX), mSizeY(sizeY), mInfo(info)
 {
     // Fill the map with default tiles
     for (unsigned int i = 0; i < sizeY; i++)
     {
         mTiles.append(QList<Tile>());
         for (unsigned int j = 0; j < sizeX; j++)
-            mTiles[i].append(Tile(j, i, '1'));
+            mTiles[i].append(Tile(j, i, '0'));
     }
 }
 

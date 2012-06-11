@@ -35,3 +35,9 @@ bool Screen::start(TiledMapPtr level)
     mStarted = !mLevelPtr.isNull();
     return mStarted;
 }
+
+void Screen::stop()
+{
+    mStarted = false;
+    mLevelPtr.clear();
+}

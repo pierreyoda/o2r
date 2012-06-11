@@ -54,7 +54,7 @@ private:
 
     // Game
     GameCanvas *mGameCanvas;
-    ScreenPtr mGameScreen;
+    ScreenPtr mGameScreen, mEditorScreen;
     // Dialogs
     AboutDialog *mAboutDialog;
     // MainWindow stuff
@@ -68,6 +68,8 @@ private slots:
     void resizeCanvas(int w, int h);
     // Game slots
     void on_actionPlayLevel_triggered();
+    // Editor slots
+    void on_actionEditorNewLevel_triggered();
     // Language change slots
     void on_actionLanguageEnglish_triggered(bool state);
     void on_actionLanguageFrench_triggered(bool state);

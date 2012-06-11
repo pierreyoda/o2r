@@ -23,7 +23,9 @@
 #include "MainWindow.hpp"
 #include "GameCanvas.hpp"
 #include "dialogs/AboutDialog.hpp"
+#include "dialogs/EditorNewLevelDialog.hpp"
 #include "game/GameScreen.hpp"
+#include "game/EditorScreen.hpp"
 #include "QsLog.h"
 
 const QString LANGUAGE_KEY = "language";
@@ -45,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 
     // Init game screens
     mGameScreen = ScreenPtr(new GameScreen());
+    mEditorScreen = ScreenPtr(new EditorScreen());
 
     // Init dialogs
     mAboutDialog = new AboutDialog(this);
@@ -55,6 +58,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 MainWindow::~MainWindow()
 {
     mGameScreen.clear();
+    mEditorScreen.clear();
 }
 
 void MainWindow::loadSettings()
@@ -161,17 +165,40 @@ void MainWindow::on_actionPlayLevel_triggered()
     if (mGameCanvas->loadLevel(path))
     {
         setFocus(); // needed for some reason
-        if (!mGameScreen->start(mGameCanvas->loadedLevel()))
+        if (!mGameCanvas->setScreen(mGameScreen))
         {
             QMessageBox::critical(this, tr("Critical error"),
                                   tr("Cannot play level \"%1\"").arg(path));
             return;
         }
-        mGameCanvas->setScreen(mGameScreen);
     }
     else
         QMessageBox::critical(this, tr("Critical error"),
                               tr("Cannot load level \"%1\"").arg(path));
+}
+
+void MainWindow::on_actionEditorNewLevel_triggered()
+{
+    // Launch an EditorNewLevelDialog
+    EditorNewLevelDialog *newLevelDialog = new EditorNewLevelDialog(this);
+    const int result = newLevelDialog->exec();
+    if (result == QDialog::Rejected)
+        return;
+    // Init and launch the Editor screen
+    const unsigned int sizeX = newLevelDialog->levelSizeY(),
+            sizeY = newLevelDialog->levelSizeY();
+    LevelInfo info;
+    info.name = newLevelDialog->levelName(),
+            info.author = newLevelDialog->levelAuthor();
+    TiledMapPtr newLevel(new TiledMap(sizeX, sizeY, info));
+    if (!newLevel->buildMap())
+    {
+        QMessageBox::critical(this, tr("Critical error"),
+                              tr("Cannot create level \"%1\"").arg(info.name));
+        return;
+    }
+    mGameCanvas->setLevel(newLevel);
+    mGameCanvas->setScreen(mEditorScreen, true);
 }
 
 void MainWindow::on_actionLanguageEnglish_triggered(bool state)
