@@ -34,7 +34,7 @@ const QChar NULL_TILE_CHAR = QChar();
 const TileInfo NULL_TILE_INFO = TileInfo();
 
 TiledMap::TiledMap(unsigned int sizeX, unsigned int sizeY, const LevelInfo &info) :
-    mSizeX(sizeX), mSizeY(sizeY), mInfo(info)
+    mSizeX(sizeX), mSizeY(sizeY), mInfo(info), mPathfinder(*this)
 {
     // Fill the map with default tiles
     for (unsigned int i = 0; i < sizeY; i++)
@@ -85,21 +85,21 @@ bool TiledMap::buildMap()
     return true;
 }
 
-const QChar &TiledMap::getTileChar(unsigned int x, unsigned int y)
+const QChar &TiledMap::getTileChar(unsigned int x, unsigned int y) const
 {
     const Tile *tile = findTile(x, y);
     return (tile != 0 ? tile->getChar() : NULL_TILE_CHAR);
 }
 
-const TileInfo &TiledMap::getTileInfo(unsigned int x, unsigned int y)
+const TileInfo &TiledMap::getTileInfo(unsigned int x, unsigned int y) const
 {
     const Tile *tile = findTile(x, y);
     return (tile != 0 ? tile->getInfo() : NULL_TILE_INFO);
 }
 
-QList<sf::Vector2u> TiledMap::getTilesOfChars(const QList<QChar> &charFilters)
+TilePosList TiledMap::getTilesOfChars(const QList<QChar> &charFilters)
 {
-    QList<sf::Vector2u> tiles;
+    TilePosList tiles;
     if (charFilters.empty())
         return tiles;
     for (int i = 0; i < mTiles.size(); i++)
@@ -107,14 +107,14 @@ QList<sf::Vector2u> TiledMap::getTilesOfChars(const QList<QChar> &charFilters)
         QList<Tile> &list = mTiles[i];
         for (int j = 0; j < list.size(); j++)
             if (charFilters.contains(list[j].getChar()))
-                tiles.append(sf::Vector2u(j, i));
+                tiles.append(sf::Vector2i(j, i));
     }
     return tiles;
 }
 
-QList<Vector2u> TiledMap::getTilesOfTypes(const QStringList &typeFilters)
+TilePosList TiledMap::getTilesOfTypes(const QStringList &typeFilters)
 {
-    QList<sf::Vector2u> tiles;
+    TilePosList tiles;
     if (typeFilters.empty())
         return tiles;
     for (int i = 0; i < mTiles.size(); i++)
@@ -122,7 +122,7 @@ QList<Vector2u> TiledMap::getTilesOfTypes(const QStringList &typeFilters)
         QList<Tile> &list = mTiles[i];
         for (int j = 0; j < list.size(); j++)
             if (typeFilters.contains(list[j].getInfo().type))
-                tiles.append(sf::Vector2u(j, i));
+                tiles.append(sf::Vector2i(j, i));
     }
     return tiles;
 }
@@ -136,6 +136,7 @@ void TiledMap::setTileChar(unsigned int x, unsigned int y, const QChar &c,
     tile.setChar(c);
     if (rebuildNow)
         buildMap();
+    mPathfinder.reset();
 }
 
 void TiledMap::draw(RenderTarget &target, RenderStates states) const
@@ -156,6 +157,23 @@ void TiledMap::draw(RenderTarget &target, RenderStates states) const
     }
 }
 
+TilePosList TiledMap::computePath(const Vector2i &start, const Vector2i &end)
+{
+    TilePosList path;
+    /*if (start == end || !isInsideMap(start.x, start.y)
+            || !isInsideMap(end.x, end.y))
+        return path; // no need to go further*/
+    std::vector<void*> rawPath;
+    // Compute path
+    const int result = mPathfinder.computePath(start, end, rawPath);
+    if (result != micropather::MicroPather::SOLVED)
+        return path; // if unsolved : return empty path
+    // Convert to TilePosList
+    for (unsigned int i = 0; i < rawPath.size(); i++)
+        path.append(mPathfinder.stateToPos(rawPath[i]));
+    return path;
+}
+
 bool TiledMap::isInsideMap(unsigned int x, unsigned int y,
                            bool acceptUndefinedTiles) const
 {
@@ -165,7 +183,7 @@ bool TiledMap::isInsideMap(unsigned int x, unsigned int y,
     return acceptUndefinedTiles? inMap : (static_cast<int>(x) < mTiles[y].size());
 }
 
-Tile *TiledMap::findTile(unsigned int x, unsigned int y)
+const Tile *TiledMap::findTile(unsigned int x, unsigned int y) const
 {
     return (isInsideMap(x, y, false) ? &mTiles[y][x] : 0);
 }

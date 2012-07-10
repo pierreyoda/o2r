@@ -19,18 +19,33 @@
 #ifndef TILEDMAP_HPP
 #define TILEDMAP_HPP
 
+#include <SFML/System/Vector2.hpp>
+
+/** \internal Used in TiledMapPathfinder by QHash containers.
+*Must be located before QHash include.
+*/
+inline unsigned int qHash(const sf::Vector2i &pos)
+{
+    return pos.x * pos.y;
+}
+
 #include <QHash>
 #include <QPair>
 #include <SFML/Graphics/VertexArray.hpp>
 #include "../entities/Tile.hpp"
 #include "LevelInfo.hpp"
+#include "TiledMapPathfinder.hpp"
 
 class QStringList;
 class TiledMapFactory;
 
+typedef QSharedPointer<TiledMap> TiledMapPtr;
+
 /** Group of tiles with the same type (and thus the same texture).
 *Used in TiledMap, it allows to reduce the number of OpenGL calls,
 *in other words to improve performances (gain of 1200 fps / +200% on my computer).
+*
+*Each map has its own TiledMapPathfinder, which is updated whenever a tile change.
 */
 struct TileGroupVertices
 {
@@ -43,6 +58,7 @@ struct TileGroupVertices
     TexturePtr commonTexture;
     sf::VertexArray vertices;
 };
+
 
 /** A TiledMap handles a variable number of tiles to form a 2D map.
 *
@@ -70,26 +86,26 @@ public:
     *@param y Tile's y position, in tiles units.
     *@return Tile's character, null ('\0') if invalid position.
     */
-    const QChar &getTileChar(unsigned int x, unsigned int y);
+    const QChar &getTileChar(unsigned int x, unsigned int y) const;
 
     /** Get the TileInfo of the tile at the given position.
     *@param x Tile's x position, in tiles units.
     *@param y Tile's y position, in tiles units.
     *@return Tile's information, empty if invalid position.
     */
-    const TileInfo &getTileInfo(unsigned int x, unsigned int y);
+    const TileInfo &getTileInfo(unsigned int x, unsigned int y) const;
 
     /** Helper fonction : get the positions of all the tiles of the given characters.
     *@param charFilters List of allowed characters (ex. : ['0', '2'] )
     *@return List of positions (in tiles units) of all the tiles of the desired characters.
     */
-    QList<sf::Vector2u> getTilesOfChars(const QList<QChar> &charFilters);
+    TilePosList getTilesOfChars(const QList<QChar> &charFilters);
 
     /** Helper fonction : get the positions of all the tiles of the given type.
     *@param typeFilters List of allowed types (ex. : ["BLOCK", "WALL"] )
     *@return List of positions (in tiles units) of all the tiles of the desired types.
     */
-    QList<sf::Vector2u> getTilesOfTypes(const QStringList &typeFilters);
+    TilePosList getTilesOfTypes(const QStringList &typeFilters);
 
     /** Change the character of the tile at the given position (if possible) and load it.
     *@param x Tile's x position, in tiles units.
@@ -113,6 +129,13 @@ public:
     *@return Const reference to the level infos.
     */
     const LevelInfo &info() const { return mInfo; }
+
+    /** Compute a path between @a start and @a end.
+    *@param start Start position.
+    *@param end End position.
+    *@return The computed path (list of positions, in tiles units). Empty if not found.
+    */
+    TilePosList computePath(const sf::Vector2i &start, const sf::Vector2i &end);
 
     /** Is the given position inside the map?
     *@param x X position, in tiles units.
@@ -139,12 +162,13 @@ public:
     static const unsigned int SIZE_MAX_LIMIT_Y;
 
 private:
-    Tile *findTile(unsigned int x, unsigned int y);
+    const Tile *findTile(unsigned int x, unsigned int y) const;
 
     unsigned int mSizeX, mSizeY;
     QList< QList<Tile> > mTiles;
     QHash<QChar, TileGroupVertices> mTilesVertices;
     LevelInfo mInfo;
+    TiledMapPathfinder mPathfinder;
 
     friend class TiledMapFactory;
 };

@@ -16,35 +16,38 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef EDITORSCREEN_HPP
-#define EDITORSCREEN_HPP
+#ifndef CAT_HPP
+#define CAT_HPP
 
-#include "Screen.hpp"
-#include <SFML/Graphics/Text.hpp>
+#include <SFML/System/Clock.hpp>
+#include "TiledEntity.hpp"
+#include "../map/TiledMap.hpp"
 
-/** The editor screen.
+class Mouse;
+
+/** The cat is the enemy in Open Rodent's Revenge.
+*Using TiledMapPathfinder class, it tracks the mouse (the player) and tries to eat it.
+*If the player manages to trap the cat, it will be transform in cheese.
 */
-class EditorScreen : public Screen
+class Cat : public TiledEntity
 {
 public:
-    EditorScreen();
+    Cat(int x, int y);
 
-    void render(sf::RenderTarget &target,
-                sf::RenderStates states = sf::RenderStates::Default);
-
-    void update(const sf::Time &dt);
-
-    void handleEvent(const sf::Event &event);
-
-    /** Start editing an existing level.
-    *@param level Level to edit.
+    /** Update the cat.
+    *@param map Current map.
+    *@param mouse Mouse to track.
     */
-    bool start(TiledMapPtr level);
+    void update(TiledMapPtr level, const Mouse &mouse);
 
 private:
-    bool mFirstClick;
-    sf::Vector2i mFirstClickPos;
-    sf::Text mClickText;
+    bool isBlocked(const TiledMap &map);
+
+    sf::Vector2i mOldMousePos;
+    TilePosList  mTrackingPath;
+    sf::Clock    mTrackingClock;
+    sf::Clock    mWaitingClock;
+    bool         mBlocked;
 };
 
-#endif // EDITORSCREEN_HPP
+#endif // CAT_HPP

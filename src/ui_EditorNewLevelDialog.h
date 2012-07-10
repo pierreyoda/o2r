@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'EditorNewLevelDialog.ui'
 **
-** Created: Mon 11. Jun 17:19:51 2012
+** Created: Tue 10. Jul 14:33:44 2012
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
