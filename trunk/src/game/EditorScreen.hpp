@@ -20,6 +20,7 @@
 #define EDITORSCREEN_HPP
 
 #include "Screen.hpp"
+#include <SFML/Graphics/Text.hpp>
 
 /** The editor screen.
 */
@@ -39,6 +40,11 @@ public:
     *@param level Level to edit.
     */
     bool start(TiledMapPtr level);
+
+private:
+    bool mFirstClick;
+    sf::Vector2i mFirstClickPos;
+    sf::Text mClickText;
 };
 
 #endif // EDITORSCREEN_HPP

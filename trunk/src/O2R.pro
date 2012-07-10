@@ -38,7 +38,10 @@ SOURCES += main.cpp\
     game/GameScreen.cpp \
     game/EditorScreen.cpp \
     game/EmptyScreen.cpp \
-    dialogs/EditorNewLevelDialog.cpp
+    dialogs/EditorNewLevelDialog.cpp \
+    entities/Cat.cpp \
+    map/TiledMapPathfinder.cpp \
+    map/micropather/micropather.cpp
 
 HEADERS  += MainWindow.hpp \
     GameCanvas.hpp \
@@ -57,7 +60,10 @@ HEADERS  += MainWindow.hpp \
     game/GameScreen.hpp \
     game/EditorScreen.hpp \
     game/EmptyScreen.hpp \
-    dialogs/EditorNewLevelDialog.hpp
+    dialogs/EditorNewLevelDialog.hpp \
+    entities/Cat.hpp \
+    map/TiledMapPathfinder.hpp \
+    map/micropather/micropather.h
 
 FORMS    += MainWindow.ui \
     dialogs/AboutDialog.ui \

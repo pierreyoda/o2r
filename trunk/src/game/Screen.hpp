@@ -29,8 +29,6 @@ namespace sf
     class Event;
 }
 
-typedef QSharedPointer<TiledMap> TiledMapPtr;
-
 /** Abstract base class for all game screens.
 *
 */

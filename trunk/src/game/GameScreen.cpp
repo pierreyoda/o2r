@@ -21,7 +21,7 @@
 #include "GameScreen.hpp"
 #include "QsLog.h"
 
-GameScreen::GameScreen() : mMouse(0, 0)
+GameScreen::GameScreen() : mMouse(0, 0), mTestCat(-1, -1)
 {
 }
 
@@ -31,11 +31,12 @@ void GameScreen::render(sf::RenderTarget &target, sf::RenderStates states)
         return;
     mLevelPtr->draw(target, states);
     mMouse.draw(target, states);
+    mTestCat.draw(target, states);
 }
 
 void GameScreen::update(const sf::Time &dt)
 {
-
+    mTestCat.update(mLevelPtr, mMouse);
 }
 
 void GameScreen::handleEvent(const sf::Event &event)
@@ -59,28 +60,45 @@ bool GameScreen::start(TiledMapPtr level)
     const LevelInfo &info = mLevelPtr->info();
     levelSizeX = mLevelPtr->sizeX(), levelSizeY = mLevelPtr->sizeY();
 
+    const TilePosList groundTiles = mLevelPtr->getTilesOfTypes(
+                QStringList() << "GROUND");
+
     // Place the mouse
-    // TODO : CHECK IF TILE VALID (== ground)
     unsigned int mouseX = 0, mouseY = 0;
     if (!info.mouseRandomPos &&
             mLevelPtr->getTileChar(info.mousePosX, info.mousePosY) == '0')
         mouseX = info.mousePosX, mouseY = info.mousePosY;
     else
     {
-        QList<sf::Vector2u> groundTiles = mLevelPtr->getTilesOfTypes(
-                    QStringList() << "GROUND");
-        if (groundTiles.empty())
+        sf::Vector2i pos = randomEmptyPos(groundTiles);
+        if (!mLevelPtr->isInsideMap(pos.x, pos.y, false))
         {
             QLOG_ERROR() << "GameScreen : CANNOT PLACE MOUSE";
             return false;
         }
-        const unsigned int index = qrand() % groundTiles.size();
-        const sf::Vector2u &pos  = groundTiles[index];
         mouseX = pos.x, mouseY = pos.y;
     }
     mMouse.setX(mouseX).setY(mouseY);
 
+    // Place the test cat
+    mTestCat.loadTexture();
+    sf::Vector2i pos = randomEmptyPos(groundTiles, TilePosList()
+                                      << sf::Vector2i(mouseX, mouseY));
+    mTestCat.setX(pos.x).setY(pos.y);
+
     QLOG_INFO() << "Game Screen : starting game.";
 
     return true;
+}
+
+sf::Vector2i GameScreen::randomEmptyPos(const TilePosList &emptyTiles,
+                                        const TilePosList forbiddenPos)
+{
+    if (emptyTiles.isEmpty())
+        return sf::Vector2i(-1, -1);
+    const unsigned int index = qrand() % emptyTiles.size();
+    const sf::Vector2i &pos = emptyTiles[index];
+    if (forbiddenPos.contains(pos))
+        return sf::Vector2i(-1, -1);
+    return pos;
 }
