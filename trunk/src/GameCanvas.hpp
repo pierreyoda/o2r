@@ -24,11 +24,14 @@
 #include "QSfmlCanvas.hpp"
 #include "map/TiledMap.hpp"
 #include "game/EmptyScreen.hpp"
+#include "ui/HudRectangle.hpp"
 
 typedef QSharedPointer<Screen> ScreenPtr;
 
 /** The Game canvas, where the whole game is rendered.
 *Actual game stuff is made in the Screen's subclasses.
+*
+*Important : FilespathProvider must be initialized before running any screen.
 */
 class GameCanvas : public QSfmlCanvas
 {
@@ -88,6 +91,8 @@ private:
     ScreenPtr mCurrentScreen;
     sf::Clock mFrameClock;
     sf::View mView;
+    HudRectangle mHudRectangle;
+    sf::Transform mHudTransform;
 };
 
 #endif // GAMECANVAS_HPP

@@ -22,16 +22,13 @@ AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
 {
     setupUi(this);
     setFixedSize(size());
+    // Remove "what's this" icon in title bar
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 }
 
 void AboutDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
+    if (e->type() == QEvent::LanguageChange)
         retranslateUi(this);
-        break;
-    default:
-        break;
-    }
 }

@@ -40,11 +40,6 @@ public:
     *@param level Level to edit.
     */
     bool start(TiledMapPtr level);
-
-private:
-    bool mFirstClick;
-    sf::Vector2i mFirstClickPos;
-    sf::Text mClickText;
 };
 
 #endif // EDITORSCREEN_HPP

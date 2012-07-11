@@ -25,6 +25,8 @@ EditorNewLevelDialog::EditorNewLevelDialog(QWidget *parent) :
 {
     setupUi(this);
     setFixedSize(size());
+    // Remove "what's this" icon in title bar
+    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
     spinBox_xSize->setMinimum(TiledMap::SIZE_MIN_LIMIT_X);
     spinBox_xSize->setMaximum(TiledMap::SIZE_MAX_LIMIT_X);
@@ -55,13 +57,8 @@ QString EditorNewLevelDialog::levelAuthor() const
 void EditorNewLevelDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
+    if (e->type() == QEvent::LanguageChange)
         retranslateUi(this);
-        break;
-    default:
-        break;
-    }
 }
 
 void EditorNewLevelDialog::on_lineEdit_name_textChanged(const QString &text)

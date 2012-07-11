@@ -41,7 +41,10 @@ SOURCES += main.cpp\
     dialogs/EditorNewLevelDialog.cpp \
     entities/Cat.cpp \
     map/TiledMapPathfinder.cpp \
-    map/micropather/micropather.cpp
+    map/micropather/micropather.cpp \
+    ui/HudRectangle.cpp \
+    dialogs/ModsDialog.cpp \
+    dialogs/AvailableModsDialog.cpp
 
 HEADERS  += MainWindow.hpp \
     GameCanvas.hpp \
@@ -63,11 +66,16 @@ HEADERS  += MainWindow.hpp \
     dialogs/EditorNewLevelDialog.hpp \
     entities/Cat.hpp \
     map/TiledMapPathfinder.hpp \
-    map/micropather/micropather.h
+    map/micropather/micropather.h \
+    ui/HudRectangle.hpp \
+    dialogs/ModsDialog.hpp \
+    dialogs/AvailableModsDialog.hpp
 
 FORMS    += MainWindow.ui \
     dialogs/AboutDialog.ui \
-    dialogs/EditorNewLevelDialog.ui
+    dialogs/EditorNewLevelDialog.ui \
+    dialogs/ModsDialog.ui \
+    dialogs/AvailableModsDialog.ui
 
 TRANSLATIONS = o2r_fr.ts
 
