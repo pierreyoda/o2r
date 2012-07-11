@@ -16,19 +16,40 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#include "AboutDialog.hpp"
+#ifndef MODSDIALOG_HPP
+#define MODSDIALOG_HPP
 
-AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
-{
-    setupUi(this);
-    setFixedSize(size());
-    // Remove "what's this" icon in title bar
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
-}
+#include "ui_ModsDialog.h"
+#include <QStringListModel>
 
-void AboutDialog::changeEvent(QEvent *e)
+
+/** Add/remove mods, and change their load order.
+*
+*/
+class ModsDialog : public QDialog, private Ui::ModsDialog
 {
-    QDialog::changeEvent(e);
-    if (e->type() == QEvent::LanguageChange)
-        retranslateUi(this);
-}
+    Q_OBJECT
+    
+public:
+    explicit ModsDialog(const QStringList &modsList, QWidget *parent = 0);
+
+    const QStringList &modsList() const { return mModsList; }
+    
+protected:
+    void changeEvent(QEvent *e);
+
+private:
+    void buildModsList();
+
+    QStringList mModsList;
+
+private slots:
+    void buildResult(int result);
+    void on_buttonAdd_clicked();
+    void on_buttonDelete_clicked();
+    void on_buttonUp_clicked();
+    void on_buttonDown_clicked();
+    void on_modsListWidget_itemSelectionChanged();
+};
+
+#endif // MODSDIALOG_HPP

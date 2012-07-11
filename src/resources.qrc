@@ -3,5 +3,9 @@
         <file alias="icon.ico">data_compiled/icon.ico</file>
         <file alias="translation_fr.qm">data_compiled/o2r_fr.qm</file>
         <file alias="translation_qt_fr.qm">data_compiled/qt_fr.qm</file>
+        <file>data_compiled/add.png</file>
+        <file>data_compiled/delete.png</file>
+        <file>data_compiled/down.png</file>
+        <file>data_compiled/up.png</file>
     </qresource>
 </RCC>

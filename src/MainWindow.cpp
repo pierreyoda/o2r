@@ -24,11 +24,15 @@
 #include "GameCanvas.hpp"
 #include "dialogs/AboutDialog.hpp"
 #include "dialogs/EditorNewLevelDialog.hpp"
+#include "dialogs/ModsDialog.hpp"
 #include "game/GameScreen.hpp"
 #include "game/EditorScreen.hpp"
+#include "managers/FilespathProvider.hpp"
 #include "QsLog.h"
 
+const int STATUS_BAR_MSG_TIME = 2000;
 const QString LANGUAGE_KEY = "language";
+const QString MODS_KEY = "mods";
 
 QString MainWindow::VERSION("1.0");
 
@@ -37,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
 {
     setupUi(this);
     mTranslator = new QTranslator(this), mQtTranslator = new QTranslator(this);
+    initManagers();
     loadSettings();
 
     // Init game canvas
@@ -61,6 +66,21 @@ MainWindow::~MainWindow()
     mEditorScreen.clear();
 }
 
+void MainWindow::initManagers()
+{
+    // Initialize FilespathProvider
+    FilespathProvider::setModsLocation("mods/");
+    FilespathProvider::setMainModFolder("original");
+    QStringList nameFilters;
+    nameFilters << "*.bmp" << "*.dds" << "*.jpg" << "*.png" << "*.tga" << "*.psd";
+    FilespathProvider::setAssetsNameFilters(nameFilters);
+
+    // Set up default tiles
+    TilesTypesManager::setType('0', "void.png", TileInfo::TYPE_GROUND);
+    TilesTypesManager::setType('1', "block.png", TileInfo::TYPE_BLOCK);
+    TilesTypesManager::setType('2', "wall.png", TileInfo::TYPE_WALL);
+}
+
 void MainWindow::loadSettings()
 {
     // Language
@@ -75,19 +95,32 @@ void MainWindow::loadSettings()
         actionLanguageEnglish->setChecked(true);
     }
 
+    // Mods
+    const QString mods = mSettings.value(MODS_KEY, "").toString();
+    mModsList = mods.split(";", QString::SkipEmptyParts);
+
     // Log
     QLOG_INFO() << "Settings loaded from" << mSettings.fileName() << ":"
-                << "\n\t-language =" << language;
+                << "\n\t-language =" << language
+                << "\n\t-mods =" << mods;
 
     // Apply settings
     changeLanguage(language);
+    if (!mModsList.isEmpty())
+    {
+        FilespathProvider::addMods(mModsList, true);
+        FilespathProvider::refreshAssetsList();
+    }
 }
 
 void MainWindow::saveSettings()
 {
+    const QString mods = mModsList.join(";");
     QLOG_INFO() << "Saving settings to" << mSettings.fileName() << ":"
-                << "\n\t-language =" << mCurrentLanguage;;
+                << "\n\t-language =" << mCurrentLanguage
+                << "\n\t-mods =" << mods;
     mSettings.setValue(LANGUAGE_KEY, mCurrentLanguage);
+    mSettings.setValue(MODS_KEY, mods);
 }
 
 
@@ -185,7 +218,7 @@ void MainWindow::on_actionEditorNewLevel_triggered()
     if (result == QDialog::Rejected)
         return;
     // Init and launch the Editor screen
-    const unsigned int sizeX = newLevelDialog->levelSizeY(),
+    const unsigned int sizeX = newLevelDialog->levelSizeX(),
             sizeY = newLevelDialog->levelSizeY();
     LevelInfo info;
     info.name = newLevelDialog->levelName(),
@@ -199,6 +232,23 @@ void MainWindow::on_actionEditorNewLevel_triggered()
     }
     mGameCanvas->setLevel(newLevel);
     mGameCanvas->setScreen(mEditorScreen, true);
+}
+
+void MainWindow::on_actionEditMods_triggered()
+{
+    // Launch a ModsDialog for result
+    ModsDialog *modsDialog = new ModsDialog(mModsList, this);
+    const int result = modsDialog->exec();
+    if (result == QDialog::Rejected)
+        return;
+    // Keep changes and print status bar message if changes were made
+    const QStringList &newModsList = modsDialog->modsList();
+    if (mModsList == newModsList)
+        return;
+    mModsList = modsDialog->modsList();
+    Ui_MainWindow::statusBar->showMessage(tr("Mods list changed."), STATUS_BAR_MSG_TIME);
+    modsDialog->deleteLater();
+    /// TODO refresh textures without restarting game
 }
 
 void MainWindow::on_actionLanguageEnglish_triggered(bool state)

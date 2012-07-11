@@ -60,7 +60,7 @@ public:
 
     /** Draw the TiledEntity to the given sf::RenderTarget.
     *Implements the abstract function from sf::Drawable.
-    *@param target Target where the TiledEntity is drawn.
+    *@param target Target where the TiledEntity must be drawn.
     *@param states Current render states.
     *
     *Note : should be called only for dynamic entities (likely to move often), static ones (such as Tile)

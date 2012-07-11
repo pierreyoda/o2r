@@ -16,30 +16,37 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#ifndef EDITORSCREEN_HPP
-#define EDITORSCREEN_HPP
+#ifndef HUDRECTANGLE_HPP
+#define HUDRECTANGLE_HPP
 
-#include "Screen.hpp"
-#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
 
-/** The editor screen.
+/** Rectangle where all game informations will be displayed (number of lives, score...).
+*
 */
-class EditorScreen : public Screen
+class HudRectangle : public sf::Drawable
 {
 public:
-    EditorScreen();
+    HudRectangle();
 
-    void render(sf::RenderTarget &target,
-                sf::RenderStates states = sf::RenderStates::Default);
-
-    void update(const sf::Time &dt);
-
-    void handleEvent(const sf::Event &event);
-
-    /** Start editing an existing level.
-    *@param level Level to edit.
+    /** Set the rectangle width. Must be called once.
+    *
+    *@param w Width.
     */
-    bool start(TiledMapPtr level);
+    void setWidth(unsigned int width);
+
+    /** Draw the TiledEntity to the given sf::RenderTarget.
+    *Implements the abstract function from sf::Drawable.
+    *@param target Target where the rectangle must be drawn.
+    *@param states Current render states.
+    */
+    void draw(sf::RenderTarget &target,
+              sf::RenderStates states = sf::RenderStates::Default) const;
+
+    static const unsigned int HEIGHT;
+
+private:
+    sf::RectangleShape mRectangleShape;
 };
 
-#endif // EDITORSCREEN_HPP
+#endif // HUDRECTANGLE_HPP

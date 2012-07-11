@@ -16,19 +16,23 @@
     along with this program.  If not, see http://www.gnu.org/licenses/.
 */
 
-#include "AboutDialog.hpp"
+#include "HudRectangle.hpp"
+#include "../GameCanvas.hpp"
 
-AboutDialog::AboutDialog(QWidget *parent) : QDialog(parent)
+const sf::Color FILL_COLOR(150, 150, 150);
+const unsigned int HudRectangle::HEIGHT = 60;
+
+HudRectangle::HudRectangle()
 {
-    setupUi(this);
-    setFixedSize(size());
-    // Remove "what's this" icon in title bar
-    setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    mRectangleShape.setFillColor(FILL_COLOR);
 }
 
-void AboutDialog::changeEvent(QEvent *e)
+void HudRectangle::setWidth(unsigned int width)
 {
-    QDialog::changeEvent(e);
-    if (e->type() == QEvent::LanguageChange)
-        retranslateUi(this);
+    mRectangleShape.setSize(sf::Vector2f(width, HEIGHT));
+}
+
+void HudRectangle::draw(sf::RenderTarget &target, sf::RenderStates states) const
+{
+    target.draw(mRectangleShape, states);
 }

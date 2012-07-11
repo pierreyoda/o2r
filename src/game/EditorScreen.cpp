@@ -20,7 +20,7 @@
 #include "EditorScreen.hpp"
 #include "QsLog.h"
 
-EditorScreen::EditorScreen() : mFirstClick(true), mClickText("Click again for pathfinding")
+EditorScreen::EditorScreen()
 {
 }
 
@@ -29,8 +29,6 @@ void EditorScreen::render(sf::RenderTarget &target, sf::RenderStates states)
     if (mLevelPtr.isNull())
         return;
     mLevelPtr->draw(target, states);
-    if (!mFirstClick)
-        target.draw(mClickText);
 }
 
 void EditorScreen::update(const sf::Time &dt)
@@ -39,30 +37,6 @@ void EditorScreen::update(const sf::Time &dt)
 
 void EditorScreen::handleEvent(const sf::Event &event)
 {
-    // A* test
-    if (event.type == sf::Event::MouseButtonReleased)
-    {
-        sf::Vector2f mousePos(event.mouseButton.x, event.mouseButton.y);
-        sf::Vector2i mousePosTiles((int)mousePos.x / TiledEntity::TILE_SIZE,
-                                   (int)mousePos.y / TiledEntity::TILE_SIZE);
-        if (mFirstClick)
-        {
-            mFirstClickPos = mousePosTiles;
-        }
-        else
-        {
-            TilePosList path = mLevelPtr->computePath(mFirstClickPos, mousePosTiles);
-            QLOG_INFO() << "PATH SIZE =" << path.size();
-            QListIterator<sf::Vector2i> iter(path);
-            while (iter.hasNext())
-            {
-                const sf::Vector2i pos = iter.next();
-                mLevelPtr->setTileChar(pos.x, pos.y, '2', false);
-            }
-            mLevelPtr->buildMap();
-        }
-        mFirstClick = !mFirstClick;
-    }
 }
 
 bool EditorScreen::start(TiledMapPtr level)

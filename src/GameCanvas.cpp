@@ -23,7 +23,8 @@
 #include "QsLog.h"
 
 const unsigned int GameCanvas::DEFAULT_WIDTH  = TiledEntity::TILE_SIZE * 32;
-const unsigned int GameCanvas::DEFAULT_HEIGHT = TiledEntity::TILE_SIZE * 32;
+const unsigned int GameCanvas::DEFAULT_HEIGHT = TiledEntity::TILE_SIZE * 32
+        + HudRectangle::HEIGHT;
 
 const sf::Color DEFAULT_CLEAR_COLOR(0, 0, 0);
 
@@ -32,20 +33,6 @@ GameCanvas::GameCanvas(QWidget *parent, const QPoint &position) :
     mRunning(false), mDefaultScreen(0), mCurrentScreen(0)
 {
     setFixedSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
-
-    // Initialize FilespathProvider
-    FilespathProvider::setModsLocation("mods/");
-    FilespathProvider::setMainModFolder("original");
-    QStringList nameFilters;
-    nameFilters << "*.bmp" << "*.dds" << "*.jpg" << "*.png" << "*.tga" << "*.psd";
-    FilespathProvider::setAssetsNameFilters(nameFilters);
-    FilespathProvider::addMods(QStringList() << "zelda", true);
-    FilespathProvider::refreshAssetsList();
-
-    // Set up default tiles
-    TilesTypesManager::setType('0', "void.png", TileInfo::TYPE_GROUND);
-    TilesTypesManager::setType('1', "block.png", TileInfo::TYPE_BLOCK);
-    TilesTypesManager::setType('2', "wall.png", TileInfo::TYPE_WALL);
 }
 
 GameCanvas::~GameCanvas()
@@ -115,7 +102,13 @@ void GameCanvas::onInit()
     mCurrentScreen = ScreenPtr(mDefaultScreen);
     mView.reset(sf::FloatRect(0, 0, width(), height()));
     setView(mView);
+    mHudRectangle.setWidth(DEFAULT_WIDTH);
+    mHudTransform.translate(0, HudRectangle::HEIGHT);
     mRunning = true;
+
+    // Set fixed main window size
+    setSize(sf::Vector2u(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+    emit requestResize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
 }
 
 void GameCanvas::onUpdate()
@@ -131,8 +124,12 @@ void GameCanvas::onUpdate()
 
     // Clear previous render
     clear(DEFAULT_CLEAR_COLOR);
-    // Render current Screen
-    mCurrentScreen->render(static_cast<sf::RenderWindow&>(*this));
+    // Draw HUD rectangle in default view
+    //setView(getDefaultView());
+    draw(mHudRectangle);
+    // Render current Screen in game view, taking in account HUD height
+    //setView(mView);
+    mCurrentScreen->render(static_cast<sf::RenderWindow&>(*this), mHudTransform);
 }
 
 void GameCanvas::adjustSizeToLevel()
@@ -141,11 +138,13 @@ void GameCanvas::adjustSizeToLevel()
         return;
     // Resize the canvas
     const int w = mCurrentLevel->sizeX() * TiledEntity::TILE_SIZE,
-            h = mCurrentLevel->sizeY() * TiledEntity::TILE_SIZE;
+            h = mCurrentLevel->sizeY() * TiledEntity::TILE_SIZE + HudRectangle::HEIGHT;
     setSize(sf::Vector2u(w, h));
     // Resize the window
     emit requestResize(w, h);
     // Resize the view
     mView.reset(sf::FloatRect(0, 0, w, h));
     setView(mView);
+    // Resize the HUD
+    mHudRectangle.setWidth(w);
 }
