@@ -73,6 +73,10 @@ public:
     */
     bool setScreen(ScreenPtr screen, bool start = true);
 
+    /** Reload all used textures.
+    */
+    void reloadTextures();
+
     static const unsigned int DEFAULT_WIDTH;
     static const unsigned int DEFAULT_HEIGHT;
 

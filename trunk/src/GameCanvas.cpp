@@ -95,6 +95,12 @@ bool GameCanvas::setScreen(ScreenPtr screen, bool start)
     return (start ? mCurrentScreen->start(mCurrentLevel) : true);
 }
 
+void GameCanvas::reloadTextures()
+{
+    AssetsManager::clearTextureCache();
+    mCurrentScreen->reloadTextures();
+}
+
 void GameCanvas::onInit()
 {
     QLOG_INFO() << "Initializing game.";
