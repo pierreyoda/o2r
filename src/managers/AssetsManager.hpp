@@ -35,6 +35,11 @@ namespace AssetsManager
     *@see FilespathProvider::assetPathFromAlias()
     */
     TexturePtr getTexture(const QString &path, bool isAlias = true);
+
+    /** Clear the texture cache.
+    *All used textures should be reloaded through getTexture() then.
+    */
+    void clearTextureCache();
 }
 
 #endif // ASSETSMANAGER_HPP

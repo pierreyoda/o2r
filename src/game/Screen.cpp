@@ -41,3 +41,9 @@ void Screen::stop()
     mStarted = false;
     mLevelPtr.clear();
 }
+
+void Screen::reloadTextures()
+{
+    if (!mLevelPtr.isNull())
+        mLevelPtr->buildMap();
+}

@@ -74,4 +74,10 @@ TexturePtr getTexture(const QString &path, bool isAlias)
     return TexturePtr();
 }
 
+void clearTextureCache()
+{
+    QLOG_INFO() << "AssetsManager : cleared texture cache.";
+    TEXTURE_MAP.clear();
+}
+
 } // namespace AssetsManager

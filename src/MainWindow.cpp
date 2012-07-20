@@ -74,6 +74,7 @@ void MainWindow::initManagers()
     QStringList nameFilters;
     nameFilters << "*.bmp" << "*.dds" << "*.jpg" << "*.png" << "*.tga" << "*.psd";
     FilespathProvider::setAssetsNameFilters(nameFilters);
+    FilespathProvider::refreshAssetsList();
 
     // Set up default tiles
     TilesTypesManager::setType('0', "void.png", TileInfo::TYPE_GROUND);
@@ -248,7 +249,10 @@ void MainWindow::on_actionEditMods_triggered()
     mModsList = modsDialog->modsList();
     Ui_MainWindow::statusBar->showMessage(tr("Mods list changed."), STATUS_BAR_MSG_TIME);
     modsDialog->deleteLater();
-    /// TODO refresh textures without restarting game
+    // Reload textures
+    FilespathProvider::addMods(mModsList, true);
+    FilespathProvider::refreshAssetsList();
+    mGameCanvas->reloadTextures();
 }
 
 void MainWindow::on_actionLanguageEnglish_triggered(bool state)

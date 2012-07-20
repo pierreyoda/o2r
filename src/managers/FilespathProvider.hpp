@@ -47,6 +47,7 @@ namespace FilespathProvider
     *@see setMainModFolder()
     */
     QString mainModPath();
+
     /** Set the main mod folder.
     *@param folder Main mod folder (relative to the mods location).
     *@see mainModPath() modsLocation()
@@ -60,7 +61,7 @@ namespace FilespathProvider
     const QStringList &modsList();
 
     /** Add mods to the mods list. Each mod will first be checked by isModValid() function.
-    *@param mods Mods to add.
+    *@param mods Mods to add, relative to the mods location (ex. : "zelda" ; "new").
     *@param resetModsList Reset mods list first?
     *@see modsList() isModValid()
     */

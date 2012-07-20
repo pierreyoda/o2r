@@ -102,3 +102,10 @@ sf::Vector2i GameScreen::randomEmptyPos(const TilePosList &emptyTiles,
         return sf::Vector2i(-1, -1);
     return pos;
 }
+
+void GameScreen::reloadTextures()
+{
+    mMouse.loadTexture();
+    mTestCat.loadTexture();
+    Screen::reloadTextures();
+}

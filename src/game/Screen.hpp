@@ -70,6 +70,11 @@ public:
     */
     virtual void stop();
 
+    /** Reload all used textures.
+    *Default implementation : update the level.
+    */
+    virtual void reloadTextures();
+
 protected:
     TiledMapPtr mLevelPtr;
     bool mStarted;

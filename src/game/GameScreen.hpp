@@ -40,6 +40,8 @@ public:
 
     bool start(TiledMapPtr level);
 
+    void reloadTextures();
+
 private:
     sf::Vector2i randomEmptyPos(const TilePosList &emptyTiles,
                                 const TilePosList forbiddenPos = TilePosList());
