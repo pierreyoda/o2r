@@ -29,6 +29,14 @@ class AboutDialog;
 
 class GameScreen;
 
+/** Possible game modes.
+*/
+enum GAME_MODE {
+    PLAY,
+    EDIT,
+    NONE
+};
+
 /** The main window.
 *
 */
@@ -48,6 +56,9 @@ protected:
 
 private:
     void initManagers();
+    void switchToGameMode(GAME_MODE mode);
+    void toggleGameActions(bool enable);
+    void toggleEditorActions(bool enable);
     void loadSettings();
     void saveSettings();
     void changeLanguage(const QString &id);
@@ -73,6 +84,8 @@ private slots:
     void on_actionPlayLevel_triggered();
     // Editor slots
     void on_actionEditorNewLevel_triggered();
+    void on_actionEditorExistingLevel_triggered();
+    void on_actionEditorCurrentLevel_triggered();
     // Options slots
     void on_actionEditMods_triggered();
     // Language change slots
