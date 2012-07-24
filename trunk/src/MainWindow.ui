@@ -50,9 +50,11 @@
      <string>Editor</string>
     </property>
     <addaction name="actionEditorNewLevel"/>
+    <addaction name="actionEditorExistingLevel"/>
     <addaction name="actionEditorCurrentLevel"/>
-    <addaction name="actionEditorSaveLevel"/>
     <addaction name="separator"/>
+    <addaction name="actionEditorSaveLevel"/>
+    <addaction name="actionEditorSaveLevelAs"/>
     <addaction name="actionEditorLevelProperties"/>
    </widget>
    <widget class="QMenu" name="menuOptions">
@@ -111,7 +113,7 @@
   </action>
   <action name="actionRestartLevel">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Restart level</string>
@@ -124,7 +126,7 @@
   </action>
   <action name="actionChangeCampaignLevel">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Change campaign level</string>
@@ -145,7 +147,7 @@
   </action>
   <action name="actionEditorSaveLevel">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Save level</string>
@@ -156,7 +158,7 @@
   </action>
   <action name="actionEditorLevelProperties">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Level properties</string>
@@ -186,10 +188,23 @@
   </action>
   <action name="actionEditorCurrentLevel">
    <property name="enabled">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>Edit current level</string>
+   </property>
+  </action>
+  <action name="actionEditorExistingLevel">
+   <property name="text">
+    <string>Edit existing level</string>
+   </property>
+  </action>
+  <action name="actionEditorSaveLevelAs">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Save level as...</string>
    </property>
   </action>
  </widget>

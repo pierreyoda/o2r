@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     mTranslator = new QTranslator(this), mQtTranslator = new QTranslator(this);
     initManagers();
     loadSettings();
+    switchToGameMode(NONE);
 
     // Init game canvas
     mGameCanvas = new GameCanvas(Ui_MainWindow::centralWidget, QPoint());
@@ -80,6 +81,41 @@ void MainWindow::initManagers()
     TilesTypesManager::setType('0', "void.png", TileInfo::TYPE_GROUND);
     TilesTypesManager::setType('1', "block.png", TileInfo::TYPE_BLOCK);
     TilesTypesManager::setType('2', "wall.png", TileInfo::TYPE_WALL);
+}
+
+void MainWindow::switchToGameMode(GAME_MODE mode)
+{
+    if (mode == PLAY)
+    {
+        toggleEditorActions(false);
+        toggleGameActions(true);
+    }
+    else if (mode == EDIT)
+    {
+        toggleGameActions(false);
+        toggleEditorActions(true);
+    }
+    else
+    {
+        toggleGameActions(false);
+        toggleEditorActions(false);
+    }
+}
+
+void MainWindow::toggleGameActions(bool enable)
+{
+    // Enable or disable all game-related actions
+    actionRestartLevel->setEnabled(enable);
+    actionChangeCampaignLevel->setEnabled(enable);
+    actionEditorCurrentLevel->setEnabled(enable);
+}
+
+void MainWindow::toggleEditorActions(bool enable)
+{
+    // Enable or disable all editor-related actions
+    actionEditorSaveLevel->setEnabled(enable);
+    actionEditorSaveLevelAs->setEnabled(enable);
+    actionEditorLevelProperties->setEnabled(enable);
 }
 
 void MainWindow::loadSettings()
@@ -203,12 +239,17 @@ void MainWindow::on_actionPlayLevel_triggered()
         {
             QMessageBox::critical(this, tr("Critical error"),
                                   tr("Cannot play level \"%1\"").arg(path));
+            switchToGameMode(NONE);
             return;
         }
+        switchToGameMode(PLAY);
     }
     else
+    {
         QMessageBox::critical(this, tr("Critical error"),
                               tr("Cannot load level \"%1\"").arg(path));
+        switchToGameMode(NONE);
+    }
 }
 
 void MainWindow::on_actionEditorNewLevel_triggered()
@@ -229,10 +270,56 @@ void MainWindow::on_actionEditorNewLevel_triggered()
     {
         QMessageBox::critical(this, tr("Critical error"),
                               tr("Cannot create level \"%1\"").arg(info.name));
+        switchToGameMode(NONE);
         return;
     }
     mGameCanvas->setLevel(newLevel);
     mGameCanvas->setScreen(mEditorScreen, true);
+    switchToGameMode(EDIT);
+}
+
+void MainWindow::on_actionEditorExistingLevel_triggered()
+{
+    // Get the level file path
+    QString path = QFileDialog::getOpenFileName(this, tr("Edit an existing level"),
+                                                "", tr("Level files (*.txt *.xml)"));
+    if (path.isEmpty())
+        return; // aborted
+    QFileInfo relativePath = QDir(QDir::currentPath()).relativeFilePath(path);
+    if (relativePath.isRelative()) // make relative if possible
+        path = relativePath.filePath();
+    // Load and edit the level
+    if (mGameCanvas->loadLevel(path))
+    {
+        setFocus(); // needed for some reason
+        if (!mGameCanvas->setScreen(mEditorScreen))
+        {
+            QMessageBox::critical(this, tr("Critical error"),
+                                  tr("Cannot edit level \"%1\"").arg(path));
+            return;
+        }
+        switchToGameMode(EDIT);
+    }
+    else
+    {
+        QMessageBox::critical(this, tr("Critical error"),
+                              tr("Cannot load level \"%1\"").arg(path));
+        switchToGameMode(NONE);
+    }
+}
+
+void MainWindow::on_actionEditorCurrentLevel_triggered()
+{
+    // Check for current level validity and start editing it if possible
+    if (!mGameCanvas->level().isNull() && mGameCanvas->setScreen(mEditorScreen))
+        switchToGameMode(EDIT);
+    else
+    {
+        QMessageBox::critical(this, tr("Critical error"),
+                              tr("Cannot edit the current level"));
+        switchToGameMode(NONE);
+    }
+
 }
 
 void MainWindow::on_actionEditMods_triggered()

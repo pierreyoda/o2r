@@ -81,135 +81,165 @@
         <translation>Éditeur</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="60"/>
+        <location filename="MainWindow.ui" line="62"/>
         <source>Options</source>
         <translation>Options</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="64"/>
+        <location filename="MainWindow.ui" line="66"/>
         <source>Change language</source>
         <translation>Changer la langue</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="74"/>
+        <location filename="MainWindow.ui" line="76"/>
         <source>?</source>
         <translation>?</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="91"/>
+        <location filename="MainWindow.ui" line="93"/>
         <source>About</source>
         <translation>À propos</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="96"/>
-        <location filename="MainWindow.cpp" line="295"/>
+        <location filename="MainWindow.ui" line="98"/>
+        <location filename="MainWindow.cpp" line="418"/>
         <source>About Qt</source>
         <translation>À propos de Qt</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="101"/>
+        <location filename="MainWindow.ui" line="103"/>
         <source>Mods</source>
         <translation>Mods</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="109"/>
+        <location filename="MainWindow.ui" line="111"/>
         <source>Play level</source>
         <translation>Jouer un niveau</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="117"/>
+        <location filename="MainWindow.ui" line="119"/>
         <source>Restart level</source>
         <translation>Recommencer le niveau</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="122"/>
+        <location filename="MainWindow.ui" line="124"/>
         <source>Play campaign</source>
         <translation>Jouer une campagne</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="130"/>
+        <location filename="MainWindow.ui" line="132"/>
         <source>Change campaign level</source>
         <translation>Changer le niveau de la campagne</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="135"/>
+        <location filename="MainWindow.ui" line="137"/>
         <source>Quit</source>
         <translation>Quitter</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="138"/>
+        <location filename="MainWindow.ui" line="140"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="143"/>
+        <location filename="MainWindow.ui" line="145"/>
         <source>Create new level</source>
         <translation>Créer un nouveau niveau</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="151"/>
+        <location filename="MainWindow.ui" line="153"/>
         <source>Save level</source>
-        <translation>Sauvegarder le niveau</translation>
+        <translation>Enregistrer le niveau</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="154"/>
+        <location filename="MainWindow.ui" line="156"/>
         <source>Ctrl+S</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="162"/>
+        <location filename="MainWindow.ui" line="164"/>
         <source>Level properties</source>
         <translation>Propriétés du niveau</translation>
     </message>
     <message>
-        <location filename="MainWindow.ui" line="192"/>
+        <location filename="MainWindow.ui" line="194"/>
         <source>Edit current level</source>
         <translation>Éditer le niveau actuel</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="145"/>
+        <location filename="MainWindow.ui" line="199"/>
+        <source>Edit existing level</source>
+        <translation>Éditer un niveau existant</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.ui" line="207"/>
+        <source>Save level as...</source>
+        <translation>Enregister le niveau sous...</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="213"/>
         <source>Size problem</source>
         <translation>Problème de dimensions</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="146"/>
+        <location filename="MainWindow.cpp" line="214"/>
         <source>Level size is bigger than screen size, level cannot be displayed properly.</source>
         <translation>La taille du niveau est supérieure à celle de l&apos;écran, le niveau ne peut pas être affiché correctement.</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="159"/>
+        <location filename="MainWindow.cpp" line="227"/>
         <source>Play a level</source>
         <translation>Jouer un niveau</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="160"/>
+        <location filename="MainWindow.cpp" line="228"/>
+        <location filename="MainWindow.cpp" line="285"/>
         <source>Level files (*.txt *.xml)</source>
         <translation>Fichiers de niveau (*.txt *.xml)</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="172"/>
-        <location filename="MainWindow.cpp" line="178"/>
-        <location filename="MainWindow.cpp" line="198"/>
+        <location filename="MainWindow.cpp" line="240"/>
+        <location filename="MainWindow.cpp" line="249"/>
+        <location filename="MainWindow.cpp" line="271"/>
+        <location filename="MainWindow.cpp" line="297"/>
+        <location filename="MainWindow.cpp" line="305"/>
+        <location filename="MainWindow.cpp" line="318"/>
         <source>Critical error</source>
         <translation>Erreur critique</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="173"/>
+        <location filename="MainWindow.cpp" line="241"/>
         <source>Cannot play level &quot;%1&quot;</source>
         <translation>Impossible de jouer le niveau &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="179"/>
+        <location filename="MainWindow.cpp" line="250"/>
+        <location filename="MainWindow.cpp" line="306"/>
         <source>Cannot load level &quot;%1&quot;</source>
         <translation>Impossible de charger le niveau &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="199"/>
+        <location filename="MainWindow.cpp" line="272"/>
         <source>Cannot create level &quot;%1&quot;</source>
         <translation>Impossible de créer le niveau &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="218"/>
+        <location filename="MainWindow.cpp" line="284"/>
+        <source>Edit an existing level</source>
+        <translation>Éditer un niveau existant</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="298"/>
+        <source>Cannot edit level &quot;%1&quot;</source>
+        <translation>Impossible d&apos;éditer le niveau &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="319"/>
+        <source>Cannot edit the current level</source>
+        <translation>Impossible d&apos;éditer le niveau actuel</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="337"/>
         <source>Mods list changed.</source>
         <translation>Liste de mods changée.</translation>
     </message>
@@ -230,12 +260,12 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="MainWindow.cpp" line="259"/>
+        <location filename="MainWindow.cpp" line="382"/>
         <source>&lt;h3&gt;About Qt&lt;/h3&gt;&lt;p&gt;This program uses Qt version %1.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="264"/>
+        <location filename="MainWindow.cpp" line="387"/>
         <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across MS&amp;nbsp;Windows, Mac&amp;nbsp;OS&amp;nbsp;X, Linux, and all major commercial Unix variants. Qt is also available for embedded devices as Qt for Embedded Linux and Qt for Windows CE.&lt;/p&gt;&lt;p&gt;Qt is available under three different licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of the GNU LGPL version 2.1 or GNU GPL version 3.0.&lt;/p&gt;&lt;p&gt;Qt licensed under the GNU LGPL version 2.1 is appropriate for the development of Qt applications (proprietary or open source) provided you can comply with the terms and conditions of the GNU LGPL version 2.1.&lt;/p&gt;&lt;p&gt;Qt licensed under the GNU General Public License version 3.0 is appropriate for the development of Qt applications where you wish to use such applications in combination with software subject to the terms of the GNU GPL version 3.0 or where you are otherwise willing to comply with the terms of the GNU GPL version 3.0.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://qt.nokia.com/products/licensing&quot;&gt;qt.nokia.com/products/licensing&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).&lt;/p&gt;&lt;p&gt;Qt is a Nokia product. See &lt;a href=&quot;http://qt.nokia.com/&quot;&gt;qt.nokia.com&lt;/a&gt; for more information.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
