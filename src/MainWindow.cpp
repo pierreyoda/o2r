@@ -28,6 +28,7 @@
 #include "game/GameScreen.hpp"
 #include "game/EditorScreen.hpp"
 #include "managers/FilespathProvider.hpp"
+#include "factories/TiledMapFactory.hpp"
 #include "QsLog.h"
 
 const int STATUS_BAR_MSG_TIME = 2000;
@@ -238,7 +239,7 @@ void MainWindow::on_actionPlayLevel_triggered()
         if (!mGameCanvas->setScreen(mGameScreen))
         {
             QMessageBox::critical(this, tr("Critical error"),
-                                  tr("Cannot play level \"%1\"").arg(path));
+                                  tr("Cannot play level \"%1\".").arg(path));
             switchToGameMode(NONE);
             return;
         }
@@ -247,7 +248,7 @@ void MainWindow::on_actionPlayLevel_triggered()
     else
     {
         QMessageBox::critical(this, tr("Critical error"),
-                              tr("Cannot load level \"%1\"").arg(path));
+                              tr("Cannot load level \"%1\".").arg(path));
         switchToGameMode(NONE);
     }
 }
@@ -269,7 +270,7 @@ void MainWindow::on_actionEditorNewLevel_triggered()
     if (!newLevel->buildMap())
     {
         QMessageBox::critical(this, tr("Critical error"),
-                              tr("Cannot create level \"%1\"").arg(info.name));
+                              tr("Cannot create level \"%1\".").arg(info.name));
         switchToGameMode(NONE);
         return;
     }
@@ -295,15 +296,18 @@ void MainWindow::on_actionEditorExistingLevel_triggered()
         if (!mGameCanvas->setScreen(mEditorScreen))
         {
             QMessageBox::critical(this, tr("Critical error"),
-                                  tr("Cannot edit level \"%1\"").arg(path));
+                                  tr("Cannot edit level \"%1\".").arg(path));
             return;
         }
         switchToGameMode(EDIT);
+
+        // User feedback (status bar message)
+        Ui_MainWindow::statusBar->showMessage(tr("Level loaded."), STATUS_BAR_MSG_TIME);
     }
     else
     {
-        QMessageBox::critical(this, tr("Critical error"),
-                              tr("Cannot load level \"%1\"").arg(path));
+        QMessageBox::critical(this, tr("Loading error"),
+                              tr("Cannot load level \"%1\".").arg(path));
         switchToGameMode(NONE);
     }
 }
@@ -316,9 +320,46 @@ void MainWindow::on_actionEditorCurrentLevel_triggered()
     else
     {
         QMessageBox::critical(this, tr("Critical error"),
-                              tr("Cannot edit the current level"));
+                              tr("Cannot edit the current level."));
         switchToGameMode(NONE);
     }
+
+}
+
+void MainWindow::on_actionEditorSaveLevel_triggered()
+{
+}
+
+void MainWindow::on_actionEditorSaveLevelAs_triggered()
+{
+    // Level check
+    TiledMapPtr level = mGameCanvas->level();
+    if (level.isNull())
+    {
+        QMessageBox::critical(this, tr("Saving error"),
+                              tr("Empty level, cannot save it."));
+        return;
+    }
+
+    // Get the level file path
+    const QString currentPath = level->info().filePath;
+    QString selectedFilter = tr("Level new format (*.xml)");
+    if (!currentPath.isEmpty() && currentPath.section('.', -1) != "xml")
+        selectedFilter = tr("Level old format (*.txt)");
+    QString path = QFileDialog::getSaveFileName(this, tr("Save level as"),
+                                                currentPath,
+                                                tr("Level new format (*.xml);;Level old format (*.txt)"),
+                                                &selectedFilter);
+    if (path.isEmpty())
+        return; // aborted
+
+    // Save the level
+    if (!TiledMapFactory::saveLevel(*level, path))
+        QMessageBox::critical(this, tr("Saving error"),
+                              tr("Error while saving the level as \"%1\".").arg(path));
+
+    // User feedback (status bar message)
+    Ui_MainWindow::statusBar->showMessage(tr("Level saved."), STATUS_BAR_MSG_TIME);
 
 }
 

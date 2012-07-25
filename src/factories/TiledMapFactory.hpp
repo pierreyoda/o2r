@@ -36,16 +36,24 @@ struct TiledMapFactory
 
     static TiledMap *loadLevel(QString path);
 
+    static bool saveLevel(TiledMap &level, QString path);
+
 private:
+    // Load
     static TiledMap *loadMapTxtFormat(QFile &file);
     static Option processTxtOptionLine(const QString &line);
 
     static TiledMap *loadMapXmlFormat(QFile &file);
 
     static bool interpretOption(const Option &option, TiledMap &lvl, bool oldFormat);
-
     static bool processTilesLine(const QString &line, TiledMap &lvl, unsigned int lineNb,
                                  bool oldFormat);
+
+    // Save
+    static bool saveMapTxtFormat(const TiledMap &level);
+    static QString formTxtOptionLine(const QString &name, const QString &value);
+
+    static bool saveMapXmlFormat(const TiledMap &level);
 };
 
 #endif // TILEDMAPFACTORY_HPP

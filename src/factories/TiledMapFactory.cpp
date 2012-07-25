@@ -24,12 +24,15 @@
 #include "QsLog.h"
 
 const unsigned int DSIZE_X = 23, DSIZE_Y = 23;
+const QString XML_FILE_SUFFIX("xml");
 const QString OPTION_TXT_SIZE_X("x");
 const QString OPTION_XML_SIZE_X("sizeX");
 const QString OPTION_TXT_SIZE_Y("y");
 const QString OPTION_XML_SIZE_Y("sizeY");
+const QString OPTION_NAME("name");
 const QString OPTION_AUTHOR("author");
 const QChar TXT_CHAR_MOUSE('M');
+const QChar TXT_OPTION_SEP('=');
 const QChar DEFAULT_TILE('0');
 
 // Return the longest tile line size
@@ -54,7 +57,7 @@ TiledMap *TiledMapFactory::loadLevel(QString path)
     {
         if (!fileInfo.exists())
             throw std::runtime_error("file does not exists");
-        if (fileInfo.suffix() == "xml")
+        if (fileInfo.suffix() == XML_FILE_SUFFIX)
             level = loadMapXmlFormat(file);
         else
             level = loadMapTxtFormat(file);
@@ -163,7 +166,7 @@ TiledMap *TiledMapFactory::loadMapXmlFormat(QFile &file)
 // Ex. : "X=35" ==> Option("X", "35")
 Option TiledMapFactory::processTxtOptionLine(const QString &line)
 {
-    QStringList split = line.split("=", QString::KeepEmptyParts);
+    QStringList split = line.split(TXT_OPTION_SEP, QString::KeepEmptyParts);
     if (split.size() > 1)
         return Option(split.at(0), split.at(1));
     return Option();
@@ -262,5 +265,81 @@ bool TiledMapFactory::processTilesLine(const QString &line, TiledMap &lvl,
     }
     lvl.mTiles.append(tilesLine);
     return true;
+}
+
+bool TiledMapFactory::saveLevel(TiledMap &level, QString path)
+{
+    // File extension check
+    const QString suffix = path.section('.', -1);
+    if (suffix.isEmpty())
+    {
+        QLOG_ERROR() << QString("TiledMapFactory : cannot save level to \"%1\" (invalid extension).")
+                        .arg(path).toLocal8Bit().constData();
+        return false;
+    }
+    // Save the level
+    bool success = false;
+    level.mInfo.filePath = path;
+    if (suffix == XML_FILE_SUFFIX)
+        success = saveMapXmlFormat(level);
+    else
+        success = saveMapTxtFormat(level);
+    if (!success)
+    {
+        QLOG_ERROR() << QString("TiledMapFactory : cannot save level to \"%1\" (writing error).")
+                        .arg(path).toLocal8Bit().constData();
+        return false;
+    }
+    return true;
+}
+
+
+bool TiledMapFactory::saveMapTxtFormat(const TiledMap &level)
+{
+    const LevelInfo &info = level.info();
+    QFile file(info.filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+        return false;
+    QTextStream out(&file);
+
+    // Write options
+    out << formTxtOptionLine(OPTION_TXT_SIZE_X, QString::number(level.sizeX()));
+    out << formTxtOptionLine(OPTION_TXT_SIZE_Y, QString::number(level.sizeY()));
+    if (!info.name.isEmpty())
+        out << formTxtOptionLine(OPTION_NAME, info.name);
+    if (!info.author.isEmpty())
+        out << formTxtOptionLine(OPTION_AUTHOR, info.author);
+
+    // Write lines of tiles
+    const QList< QList<Tile> > &tiles = level.mTiles;
+    for (int i = 0; i < tiles.size(); i++)
+    {
+        const QList<Tile> &list = tiles[i];
+        for (int j = 0; j < list.size(); j++)
+        {
+            const Tile &tile = list[j];
+            out << tile.getChar();
+        }
+        // avoid empty line at the end (not really important though)
+        if (i != tiles.size())
+            out << "\n";
+    }
+    QLOG_INFO() << QString("TiledMapFactory : finished saving TXT level to \"%1\".")
+                   .arg(info.filePath).toLocal8Bit().constData();
+
+    return true;
+}
+
+QString TiledMapFactory::formTxtOptionLine(const QString &name, const QString &value)
+{
+    return QString(name + TXT_OPTION_SEP + value + '\n');
+}
+
+bool TiledMapFactory::saveMapXmlFormat(const TiledMap &level)
+{
+    QFile file(level.info().filePath);
+    if (!file.open(QIODevice::WriteOnly))
+        return false;
+    return false;
 }
 

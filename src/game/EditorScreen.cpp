@@ -43,7 +43,7 @@ bool EditorScreen::start(TiledMapPtr level)
 {
     if (!Screen::start(level))
         return false;
-    QLOG_INFO() << QString("EditorScreen : started editing level (name = \"%1\").")
-                   .arg(level->info().name).toLocal8Bit().constData();
+    QLOG_INFO() << QString("EditorScreen : started editing level (name = \"%1\", filepath = \"%2\").")
+                   .arg(level->info().name, level->info().filePath).toLocal8Bit().constData();
     return true;
 }
