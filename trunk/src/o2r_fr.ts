@@ -102,7 +102,7 @@
     </message>
     <message>
         <location filename="MainWindow.ui" line="98"/>
-        <location filename="MainWindow.cpp" line="418"/>
+        <location filename="MainWindow.cpp" line="459"/>
         <source>About Qt</source>
         <translation>À propos de Qt</translation>
     </message>
@@ -177,69 +177,139 @@
         <translation>Enregister le niveau sous...</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="213"/>
+        <location filename="MainWindow.cpp" line="214"/>
         <source>Size problem</source>
         <translation>Problème de dimensions</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="214"/>
+        <location filename="MainWindow.cpp" line="215"/>
         <source>Level size is bigger than screen size, level cannot be displayed properly.</source>
         <translation>La taille du niveau est supérieure à celle de l&apos;écran, le niveau ne peut pas être affiché correctement.</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="227"/>
+        <location filename="MainWindow.cpp" line="228"/>
         <source>Play a level</source>
         <translation>Jouer un niveau</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="228"/>
-        <location filename="MainWindow.cpp" line="285"/>
+        <location filename="MainWindow.cpp" line="229"/>
+        <location filename="MainWindow.cpp" line="286"/>
         <source>Level files (*.txt *.xml)</source>
         <translation>Fichiers de niveau (*.txt *.xml)</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="240"/>
-        <location filename="MainWindow.cpp" line="249"/>
-        <location filename="MainWindow.cpp" line="271"/>
-        <location filename="MainWindow.cpp" line="297"/>
-        <location filename="MainWindow.cpp" line="305"/>
-        <location filename="MainWindow.cpp" line="318"/>
+        <location filename="MainWindow.cpp" line="241"/>
+        <location filename="MainWindow.cpp" line="250"/>
+        <location filename="MainWindow.cpp" line="272"/>
+        <location filename="MainWindow.cpp" line="298"/>
+        <location filename="MainWindow.cpp" line="322"/>
         <source>Critical error</source>
         <translation>Erreur critique</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="241"/>
+        <location filename="MainWindow.cpp" line="242"/>
+        <source>Cannot play level &quot;%1&quot;.</source>
+        <translation>Impossible de lancer le niveau &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="251"/>
+        <location filename="MainWindow.cpp" line="310"/>
+        <source>Cannot load level &quot;%1&quot;.</source>
+        <translation>Impossible de charger le niveau &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="273"/>
+        <source>Cannot create level &quot;%1&quot;.</source>
+        <translation>Impossible de créer le niveau &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="299"/>
+        <source>Cannot edit level &quot;%1&quot;.</source>
+        <translation>Impossible d&apos;éditer le niveau &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="305"/>
+        <source>Level loaded.</source>
+        <translation>Niveau chargé.</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="309"/>
+        <source>Loading error</source>
+        <translation>Erreur de chargement</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="323"/>
+        <source>Cannot edit the current level.</source>
+        <translation>Impossible d&apos;éditer le niveau actuel.</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="339"/>
+        <location filename="MainWindow.cpp" line="358"/>
+        <source>Saving error</source>
+        <translation>Erreur de sauvegarde</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="340"/>
+        <source>Empty level, cannot save it.</source>
+        <translation>Niveau vide, impossible de le sauvegarder.</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="346"/>
+        <source>Level new format (*.xml)</source>
+        <translation>Niveau, nouveau format (*.xml)</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="348"/>
+        <source>Level old format (*.txt)</source>
+        <translation>Niveau, ancien format (*.txt)</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="349"/>
+        <source>Save level as</source>
+        <translation>Enregistrer le niveau sous</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="351"/>
+        <source>Level new format (*.xml);;Level old format (*.txt)</source>
+        <translation>Niveau, nouveau format (*.xml);;Niveau, ancien format (*.txt)</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="359"/>
+        <source>Error while saving the level as &quot;%1&quot;.</source>
+        <translation>Erreur lors de l&apos;enregistrement du niveau &quot;%1&quot;.</translation>
+    </message>
+    <message>
+        <location filename="MainWindow.cpp" line="362"/>
+        <source>Level saved.</source>
+        <translation>Niveau enregistré.</translation>
+    </message>
+    <message>
         <source>Cannot play level &quot;%1&quot;</source>
-        <translation>Impossible de jouer le niveau &quot;%1&quot;</translation>
+        <translation type="obsolete">Impossible de jouer le niveau &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="250"/>
-        <location filename="MainWindow.cpp" line="306"/>
         <source>Cannot load level &quot;%1&quot;</source>
-        <translation>Impossible de charger le niveau &quot;%1&quot;</translation>
+        <translation type="obsolete">Impossible de charger le niveau &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="272"/>
         <source>Cannot create level &quot;%1&quot;</source>
-        <translation>Impossible de créer le niveau &quot;%1&quot;</translation>
+        <translation type="obsolete">Impossible de créer le niveau &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="284"/>
+        <location filename="MainWindow.cpp" line="285"/>
         <source>Edit an existing level</source>
         <translation>Éditer un niveau existant</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="298"/>
         <source>Cannot edit level &quot;%1&quot;</source>
-        <translation>Impossible d&apos;éditer le niveau &quot;%1&quot;</translation>
+        <translation type="obsolete">Impossible d&apos;éditer le niveau &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="319"/>
         <source>Cannot edit the current level</source>
-        <translation>Impossible d&apos;éditer le niveau actuel</translation>
+        <translation type="obsolete">Impossible d&apos;éditer le niveau actuel</translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="337"/>
+        <location filename="MainWindow.cpp" line="378"/>
         <source>Mods list changed.</source>
         <translation>Liste de mods changée.</translation>
     </message>
@@ -260,12 +330,12 @@
 <context>
     <name>QMessageBox</name>
     <message>
-        <location filename="MainWindow.cpp" line="382"/>
+        <location filename="MainWindow.cpp" line="423"/>
         <source>&lt;h3&gt;About Qt&lt;/h3&gt;&lt;p&gt;This program uses Qt version %1.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="MainWindow.cpp" line="387"/>
+        <location filename="MainWindow.cpp" line="428"/>
         <source>&lt;p&gt;Qt is a C++ toolkit for cross-platform application development.&lt;/p&gt;&lt;p&gt;Qt provides single-source portability across MS&amp;nbsp;Windows, Mac&amp;nbsp;OS&amp;nbsp;X, Linux, and all major commercial Unix variants. Qt is also available for embedded devices as Qt for Embedded Linux and Qt for Windows CE.&lt;/p&gt;&lt;p&gt;Qt is available under three different licensing options designed to accommodate the needs of our various users.&lt;/p&gt;&lt;p&gt;Qt licensed under our commercial license agreement is appropriate for development of proprietary/commercial software where you do not want to share any source code with third parties or otherwise cannot comply with the terms of the GNU LGPL version 2.1 or GNU GPL version 3.0.&lt;/p&gt;&lt;p&gt;Qt licensed under the GNU LGPL version 2.1 is appropriate for the development of Qt applications (proprietary or open source) provided you can comply with the terms and conditions of the GNU LGPL version 2.1.&lt;/p&gt;&lt;p&gt;Qt licensed under the GNU General Public License version 3.0 is appropriate for the development of Qt applications where you wish to use such applications in combination with software subject to the terms of the GNU GPL version 3.0 or where you are otherwise willing to comply with the terms of the GNU GPL version 3.0.&lt;/p&gt;&lt;p&gt;Please see &lt;a href=&quot;http://qt.nokia.com/products/licensing&quot;&gt;qt.nokia.com/products/licensing&lt;/a&gt; for an overview of Qt licensing.&lt;/p&gt;&lt;p&gt;Copyright (C) 2012 Nokia Corporation and/or its subsidiary(-ies).&lt;/p&gt;&lt;p&gt;Qt is a Nokia product. See &lt;a href=&quot;http://qt.nokia.com/&quot;&gt;qt.nokia.com&lt;/a&gt; for more information.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
