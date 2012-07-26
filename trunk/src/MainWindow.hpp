@@ -88,6 +88,7 @@ private slots:
     void on_actionEditorCurrentLevel_triggered();
     void on_actionEditorSaveLevel_triggered();
     void on_actionEditorSaveLevelAs_triggered();
+    void on_actionEditorLevelProperties_triggered();
     // Options slots
     void on_actionEditMods_triggered();
     // Language change slots

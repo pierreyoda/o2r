@@ -38,7 +38,7 @@ SOURCES += main.cpp\
     game/GameScreen.cpp \
     game/EditorScreen.cpp \
     game/EmptyScreen.cpp \
-    dialogs/EditorNewLevelDialog.cpp \
+    dialogs/EditorLevelPropertiesDialog.cpp \
     entities/Cat.cpp \
     map/TiledMapPathfinder.cpp \
     map/micropather/micropather.cpp \
@@ -63,7 +63,7 @@ HEADERS  += MainWindow.hpp \
     game/GameScreen.hpp \
     game/EditorScreen.hpp \
     game/EmptyScreen.hpp \
-    dialogs/EditorNewLevelDialog.hpp \
+    dialogs/EditorLevelPropertiesDialog.hpp \
     entities/Cat.hpp \
     map/TiledMapPathfinder.hpp \
     map/micropather/micropather.h \
@@ -73,7 +73,7 @@ HEADERS  += MainWindow.hpp \
 
 FORMS    += MainWindow.ui \
     dialogs/AboutDialog.ui \
-    dialogs/EditorNewLevelDialog.ui \
+    dialogs/EditorLevelPropertiesDialog.ui \
     dialogs/ModsDialog.ui \
     dialogs/AvailableModsDialog.ui
 

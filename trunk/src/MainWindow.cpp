@@ -23,7 +23,7 @@
 #include "MainWindow.hpp"
 #include "GameCanvas.hpp"
 #include "dialogs/AboutDialog.hpp"
-#include "dialogs/EditorNewLevelDialog.hpp"
+#include "dialogs/EditorLevelPropertiesDialog.hpp"
 #include "dialogs/ModsDialog.hpp"
 #include "game/GameScreen.hpp"
 #include "game/EditorScreen.hpp"
@@ -147,6 +147,7 @@ void MainWindow::loadSettings()
     if (!mModsList.isEmpty())
     {
         FilespathProvider::addMods(mModsList, true);
+        mModsList = FilespathProvider::modsList(); // all invalid mods have been deleted in addMods()
         FilespathProvider::refreshAssetsList();
     }
 }
@@ -255,8 +256,10 @@ void MainWindow::on_actionPlayLevel_triggered()
 
 void MainWindow::on_actionEditorNewLevel_triggered()
 {
-    // Launch an EditorNewLevelDialog
-    EditorNewLevelDialog *newLevelDialog = new EditorNewLevelDialog(this);
+    // Launch an EditorLevelPropertiesDialog
+    EditorLevelPropertiesDialog *newLevelDialog = new EditorLevelPropertiesDialog(
+                0, this);
+    newLevelDialog->setWindowTitle(tr("New level properties"));
     const int result = newLevelDialog->exec();
     if (result == QDialog::Rejected)
         return;
@@ -327,7 +330,30 @@ void MainWindow::on_actionEditorCurrentLevel_triggered()
 }
 
 void MainWindow::on_actionEditorSaveLevel_triggered()
-{
+{   
+    // Level check
+    TiledMapPtr level = mGameCanvas->level();
+    if (level.isNull())
+    {
+        QMessageBox::critical(this, tr("Saving error"),
+                              tr("Empty level, cannot save it."));
+        return;
+    }
+
+    // If no filepath specified : save as...
+    const QString filepath = level->info().filePath;
+    if (filepath.isEmpty())
+    {
+        on_actionEditorSaveLevelAs_triggered();
+        return;
+    }
+    // Else, save the level
+    else if (!TiledMapFactory::saveLevel(*level, filepath))
+        QMessageBox::critical(this, tr("Saving error"),
+                              tr("Error while saving the level as \"%1\".").arg(filepath));
+
+    // User feedback (status bar message)
+    Ui_MainWindow::statusBar->showMessage(tr("Level saved."), STATUS_BAR_MSG_TIME);
 }
 
 void MainWindow::on_actionEditorSaveLevelAs_triggered()
@@ -361,6 +387,49 @@ void MainWindow::on_actionEditorSaveLevelAs_triggered()
     // User feedback (status bar message)
     Ui_MainWindow::statusBar->showMessage(tr("Level saved."), STATUS_BAR_MSG_TIME);
 
+}
+
+void MainWindow::on_actionEditorLevelProperties_triggered()
+{
+    // Level check
+    TiledMapPtr level = mGameCanvas->level();
+    if (level.isNull())
+    {
+        QMessageBox::critical(this, tr("Critical error"),
+                              tr("Empty level, cannot edit its properties."));
+        return;
+    }
+
+    // Launch an EditorLevelPropertiesDialog
+    EditorLevelPropertiesDialog *propertiesDialog = new EditorLevelPropertiesDialog(
+                level.data(), this);
+    const int oldX = level->sizeX(), oldY = level->sizeY();
+    const int result = propertiesDialog->exec();
+    if (result == QDialog::Rejected)
+        return;
+    // Apply LevelInfo changes
+    LevelInfo info = level->info();
+    info.name = propertiesDialog->levelName();
+    info.author = propertiesDialog->levelAuthor();
+    // Apply level size changes (warning if needed)
+    const int newX = propertiesDialog->levelSizeX(), newY = propertiesDialog->levelSizeY();
+    if (newX == oldX && newY == oldY)
+        return;
+    if (newX < oldX || newY < oldY) // reducing level size : ask for confirmation
+    {
+        int result = QMessageBox::question(this, tr("Warning"),
+                                           tr("Do you really want to reduce the size of the level? The affected tiles will be lost for good."),
+                                           QMessageBox::Yes | QMessageBox::No);
+        if (result != QMessageBox::Yes)
+            return;
+    }
+    level->resizeX(newX);
+    level->resizeY(newY);
+    if (!level->buildMap())
+    {
+        QLOG_ERROR() << "build error";
+    }
+    mGameCanvas->adjustSizeToLevel();
 }
 
 void MainWindow::on_actionEditMods_triggered()

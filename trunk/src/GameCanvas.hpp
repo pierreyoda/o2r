@@ -45,6 +45,10 @@ public:
     void onResume();
     void onRetranslate();
 
+    /** Adjust canvas size to level, and ask for a main window resize.
+    */
+    void adjustSizeToLevel();
+
     /** Get the current level.
     *@return Pointer to the current level (may be null).
     *@see setLevel() loadLevel()
@@ -86,8 +90,6 @@ signals:
 private:
     void onInit();
     void onUpdate();
-
-    void adjustSizeToLevel();
 
     bool mRunning;
     TiledMapPtr mCurrentLevel;
