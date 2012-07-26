@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>New level</string>
+   <string>Level properties</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>

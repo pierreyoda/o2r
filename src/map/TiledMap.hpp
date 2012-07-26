@@ -130,6 +130,11 @@ public:
     */
     const LevelInfo &info() const { return mInfo; }
 
+    /** Set the LevelInfo.
+    *@param info New level infos.
+    */
+    void setInfo(const LevelInfo &info);
+
     /** Compute a path between @a start and @a end.
     *@param start Start position.
     *@param end End position.
@@ -155,6 +160,16 @@ public:
     *@return Map Y size, in tiles units.
     */
     unsigned int sizeY() const { return mSizeY; }
+
+    /** Set the X size. buildMap() should be called right after.
+    *@param sizeX New x size (ignored if invalid).
+    */
+    void resizeX(unsigned int sizeX);
+
+    /** Set the Y size. buildMap() should be called right after.
+    *@param sizeY New y size (ignored if invalid).
+    */
+    void resizeY(unsigned int sizeY);
 
     static const unsigned int SIZE_MIN_LIMIT_X;
     static const unsigned int SIZE_MAX_LIMIT_X;

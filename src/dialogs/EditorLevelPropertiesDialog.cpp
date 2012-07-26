@@ -17,11 +17,12 @@
 */
 
 #include <QPushButton>
-#include "EditorNewLevelDialog.hpp"
+#include "EditorLevelPropertiesDialog.hpp"
 #include "../map/TiledMap.hpp"
 
-EditorNewLevelDialog::EditorNewLevelDialog(QWidget *parent) :
-    QDialog(parent)
+EditorLevelPropertiesDialog::EditorLevelPropertiesDialog(const TiledMap *level,
+                                                         QWidget *parent) :
+    QDialog(parent), mNewLevelMode(level == 0)
 {
     setupUi(this);
     setFixedSize(size());
@@ -32,37 +33,46 @@ EditorNewLevelDialog::EditorNewLevelDialog(QWidget *parent) :
     spinBox_xSize->setMaximum(TiledMap::SIZE_MAX_LIMIT_X);
     spinBox_ySize->setMinimum(TiledMap::SIZE_MIN_LIMIT_Y);
     spinBox_ySize->setMaximum(TiledMap::SIZE_MAX_LIMIT_Y);
+
+    // If a level is edited, load its current properties
+    if (mNewLevelMode)
+        return;
+    spinBox_xSize->setValue(level->sizeX());
+    spinBox_ySize->setValue(level->sizeY());
+    lineEdit_name->setText(level->info().name);
+    lineEdit_author->setText(level->info().author);
 }
 
-unsigned int EditorNewLevelDialog::levelSizeX() const
+unsigned int EditorLevelPropertiesDialog::levelSizeX() const
 {
     return spinBox_xSize->value();
 }
 
-unsigned int EditorNewLevelDialog::levelSizeY() const
+unsigned int EditorLevelPropertiesDialog::levelSizeY() const
 {
     return spinBox_ySize->value();
 }
 
-QString EditorNewLevelDialog::levelName() const
+QString EditorLevelPropertiesDialog::levelName() const
 {
     return lineEdit_name->text();
 }
 
-QString EditorNewLevelDialog::levelAuthor() const
+QString EditorLevelPropertiesDialog::levelAuthor() const
 {
     return lineEdit_author->text();
 }
 
-void EditorNewLevelDialog::changeEvent(QEvent *e)
+void EditorLevelPropertiesDialog::changeEvent(QEvent *e)
 {
     QDialog::changeEvent(e);
     if (e->type() == QEvent::LanguageChange)
         retranslateUi(this);
 }
 
-void EditorNewLevelDialog::on_lineEdit_name_textChanged(const QString &text)
+void EditorLevelPropertiesDialog::on_lineEdit_name_textChanged(const QString &text)
 {
-    buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!text.isEmpty());
+    if (mNewLevelMode)
+        buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!text.isEmpty());
 }
 

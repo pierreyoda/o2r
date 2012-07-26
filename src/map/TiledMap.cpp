@@ -139,6 +139,11 @@ void TiledMap::setTileChar(unsigned int x, unsigned int y, const QChar &c,
     mPathfinder.reset();
 }
 
+void TiledMap::setInfo(const LevelInfo &info)
+{
+    mInfo = info;
+}
+
 void TiledMap::draw(RenderTarget &target, RenderStates states) const
 {
     //BASIC DRAWING : slow
@@ -181,6 +186,44 @@ bool TiledMap::isInsideMap(unsigned int x, unsigned int y,
     if (!inMap)
         return false;
     return acceptUndefinedTiles? inMap : (static_cast<int>(x) < mTiles[y].size());
+}
+
+void TiledMap::resizeX(unsigned int sizeX)
+{
+    if (sizeX < SIZE_MIN_LIMIT_X || sizeX > SIZE_MAX_LIMIT_X || sizeX == mSizeX)
+        return;
+    if (sizeX > mSizeX)
+        for (int i = 0; i < mTiles.size(); i++)
+        {
+            QList<Tile> &line = mTiles[i];
+            for (int j = line.size(); j < sizeX; j++)
+                line.append(Tile(j, i, '0'));
+        }
+    else
+        for (int i = 0; i < mTiles.size(); i++)
+        {
+            QList<Tile> &line = mTiles[i];
+            while (line.size() > sizeX && !line.isEmpty())
+                line.removeLast();
+        }
+    mSizeX = sizeX;
+}
+
+void TiledMap::resizeY(unsigned int sizeY)
+{
+    if (sizeY < SIZE_MIN_LIMIT_Y || sizeY > SIZE_MAX_LIMIT_Y || sizeY == mSizeY)
+        return;
+    if (sizeY > mSizeY)
+        for (unsigned int i = mTiles.size(); i < sizeY; i++)
+        {
+            mTiles.append(QList<Tile>());
+            for (unsigned int j = 0; j < mSizeX; j++)
+                mTiles[i].append(Tile(j, i, '0'));
+        }
+    else
+        while (mTiles.size() > sizeY && !mTiles.isEmpty())
+            mTiles.removeLast();
+    mSizeY = sizeY;
 }
 
 const Tile *TiledMap::findTile(unsigned int x, unsigned int y) const
