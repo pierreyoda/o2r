@@ -42,7 +42,6 @@ SOURCES += main.cpp\
     entities/Cat.cpp \
     map/TiledMapPathfinder.cpp \
     map/micropather/micropather.cpp \
-    ui/HudRectangle.cpp \
     dialogs/ModsDialog.cpp \
     dialogs/AvailableModsDialog.cpp
 
@@ -67,7 +66,6 @@ HEADERS  += MainWindow.hpp \
     entities/Cat.hpp \
     map/TiledMapPathfinder.hpp \
     map/micropather/micropather.h \
-    ui/HudRectangle.hpp \
     dialogs/ModsDialog.hpp \
     dialogs/AvailableModsDialog.hpp
 

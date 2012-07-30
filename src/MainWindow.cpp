@@ -34,6 +34,7 @@
 const int STATUS_BAR_MSG_TIME = 2000;
 const QString LANGUAGE_KEY = "language";
 const QString MODS_KEY = "mods";
+const char *PROPERTY_CHAR = "char";
 
 QString MainWindow::VERSION("1.0");
 
@@ -44,7 +45,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
     mTranslator = new QTranslator(this), mQtTranslator = new QTranslator(this);
     initManagers();
     loadSettings();
+    FilespathProvider::refreshAssetsList();
     switchToGameMode(NONE);
+
+    // Init editor bar (make it "unhideable" from context menus and populate it)
+    prevSelectedAction = 0;
+    editorBar->setContextMenuPolicy(Qt::PreventContextMenu);
+    setContextMenuPolicy(Qt::PreventContextMenu);
+    populateEditorBar();
 
     // Init game canvas
     mGameCanvas = new GameCanvas(Ui_MainWindow::centralWidget, QPoint());
@@ -53,8 +61,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),
             this, SLOT(resizeCanvas(int,int)));
 
     // Init game screens
-    mGameScreen = ScreenPtr(new GameScreen());
-    mEditorScreen = ScreenPtr(new EditorScreen());
+    mGameScreen = ScreenPtr(new GameScreen(*mGameCanvas));
+    mEditorScreen = ScreenPtr(new EditorScreen(*mGameCanvas));
 
     // Init dialogs
     mAboutDialog = new AboutDialog(this);
@@ -66,6 +74,7 @@ MainWindow::~MainWindow()
 {
     mGameScreen.clear();
     mEditorScreen.clear();
+    prevSelectedAction = 0;
 }
 
 void MainWindow::initManagers()
@@ -76,12 +85,55 @@ void MainWindow::initManagers()
     QStringList nameFilters;
     nameFilters << "*.bmp" << "*.dds" << "*.jpg" << "*.png" << "*.tga" << "*.psd";
     FilespathProvider::setAssetsNameFilters(nameFilters);
-    FilespathProvider::refreshAssetsList();
 
     // Set up default tiles
     TilesTypesManager::setType('0', "void.png", TileInfo::TYPE_GROUND);
     TilesTypesManager::setType('1', "block.png", TileInfo::TYPE_BLOCK);
     TilesTypesManager::setType('2', "wall.png", TileInfo::TYPE_WALL);
+}
+
+void MainWindow::populateEditorBar()
+{
+    // Add "Mouse" action (place mouse)
+    QIcon mouseIcon(FilespathProvider::assetPathFromAlias("mouse.png"));
+    QAction *mouseAction = editorBar->addAction(mouseIcon, tr("Mouse"));
+    if (mouseAction == 0)
+    {
+        QLOG_ERROR() << "Cannot populate the editor toolbar.";
+        return;
+    }
+    mouseAction->setStatusTip(tr("Place the mouse start position"));
+    mouseAction->setProperty(PROPERTY_CHAR, EditorScreen::MOUSE_POS_CHAR);
+    mouseAction->setCheckable(true);
+
+    // Add all available tiles
+    const QMap<QChar, TileInfo> &tilesTypes = TilesTypesManager::getMap();
+    QMapIterator<QChar, TileInfo> it(tilesTypes);
+    while (it.hasNext())
+    {
+        it.next();
+        const TileInfo &tileInfo = it.value();
+        addEditorBarAction(it.key(), tileInfo.type,
+                           FilespathProvider::assetPathFromAlias(
+                               tileInfo.textureAlias));
+    }
+}
+
+void MainWindow::addEditorBarAction(const QChar &c, const QString &text,
+                                    const QString &iconPath)
+{
+    QAction *added = editorBar->addAction(QIcon(iconPath),
+                                          tr("Tile ID : '%1'").arg(c));
+    if (added == 0)
+        return;
+    if (text == TileInfo::TYPE_WALL)
+        added->setStatusTip(tr("Tile type : wall"));
+    else if (text == TileInfo::TYPE_BLOCK)
+        added->setStatusTip(tr("Tile type : block"));
+    else if (text == TileInfo::TYPE_GROUND)
+        added->setStatusTip(tr("Tile type : ground"));
+    added->setProperty(PROPERTY_CHAR, c);
+    added->setCheckable(true);
 }
 
 void MainWindow::switchToGameMode(GAME_MODE mode)
@@ -117,6 +169,8 @@ void MainWindow::toggleEditorActions(bool enable)
     actionEditorSaveLevel->setEnabled(enable);
     actionEditorSaveLevelAs->setEnabled(enable);
     actionEditorLevelProperties->setEnabled(enable);
+    // Also show/hide editor bar
+    editorBar->setVisible(enable);
 }
 
 void MainWindow::loadSettings()
@@ -148,7 +202,6 @@ void MainWindow::loadSettings()
     {
         FilespathProvider::addMods(mModsList, true);
         mModsList = FilespathProvider::modsList(); // all invalid mods have been deleted in addMods()
-        FilespathProvider::refreshAssetsList();
     }
 }
 
@@ -187,7 +240,23 @@ void MainWindow::adjustSizeToCanvas()
 {
     setFixedSize(mGameCanvas->width(), mGameCanvas->height()
                  + Ui_MainWindow::menuBar->height()
-                 + Ui_MainWindow::statusBar->height());
+                 + Ui_MainWindow::statusBar->height()
+                 + (editorBar->isVisible() ? editorBar->height() : 0));
+}
+
+void MainWindow::on_editorBar_visibilityChanged(bool visible)
+{
+    adjustSizeToCanvas();
+}
+
+void MainWindow::on_editorBar_actionTriggered(QAction *action)
+{
+    static_cast<EditorScreen*>(mEditorScreen.data())->setPlaceableChar(
+                action->property(PROPERTY_CHAR).toChar());
+    action->setChecked(true);
+    if (prevSelectedAction != 0)
+        prevSelectedAction->setChecked(false);
+    prevSelectedAction = action;
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -242,16 +311,14 @@ void MainWindow::on_actionPlayLevel_triggered()
             QMessageBox::critical(this, tr("Critical error"),
                                   tr("Cannot play level \"%1\".").arg(path));
             switchToGameMode(NONE);
+            mGameCanvas->setScreen(ScreenPtr());
             return;
         }
         switchToGameMode(PLAY);
     }
     else
-    {
         QMessageBox::critical(this, tr("Critical error"),
                               tr("Cannot load level \"%1\".").arg(path));
-        switchToGameMode(NONE);
-    }
 }
 
 void MainWindow::on_actionEditorNewLevel_triggered()
@@ -263,18 +330,22 @@ void MainWindow::on_actionEditorNewLevel_triggered()
     const int result = newLevelDialog->exec();
     if (result == QDialog::Rejected)
         return;
-    // Init and launch the Editor screen
+    // Init the new level
     const unsigned int sizeX = newLevelDialog->levelSizeX(),
             sizeY = newLevelDialog->levelSizeY();
     LevelInfo info;
     info.name = newLevelDialog->levelName(),
             info.author = newLevelDialog->levelAuthor();
+    info.mousePosX = static_cast<unsigned int>(sizeX / 2),
+            info.mousePosY = static_cast<unsigned int>(sizeY / 2);
     TiledMapPtr newLevel(new TiledMap(sizeX, sizeY, info));
+    // Launch the editor screen
     if (!newLevel->buildMap())
     {
         QMessageBox::critical(this, tr("Critical error"),
                               tr("Cannot create level \"%1\".").arg(info.name));
         switchToGameMode(NONE);
+        mGameCanvas->setScreen(ScreenPtr());
         return;
     }
     mGameCanvas->setLevel(newLevel);
@@ -300,6 +371,8 @@ void MainWindow::on_actionEditorExistingLevel_triggered()
         {
             QMessageBox::critical(this, tr("Critical error"),
                                   tr("Cannot edit level \"%1\".").arg(path));
+            switchToGameMode(NONE);
+            mGameCanvas->setScreen(ScreenPtr());
             return;
         }
         switchToGameMode(EDIT);
@@ -308,11 +381,8 @@ void MainWindow::on_actionEditorExistingLevel_triggered()
         Ui_MainWindow::statusBar->showMessage(tr("Level loaded."), STATUS_BAR_MSG_TIME);
     }
     else
-    {
         QMessageBox::critical(this, tr("Loading error"),
                               tr("Cannot load level \"%1\".").arg(path));
-        switchToGameMode(NONE);
-    }
 }
 
 void MainWindow::on_actionEditorCurrentLevel_triggered()
@@ -408,9 +478,8 @@ void MainWindow::on_actionEditorLevelProperties_triggered()
     if (result == QDialog::Rejected)
         return;
     // Apply LevelInfo changes
-    LevelInfo info = level->info();
-    info.name = propertiesDialog->levelName();
-    info.author = propertiesDialog->levelAuthor();
+    level->info().name = propertiesDialog->levelName();
+    level->info().author = propertiesDialog->levelAuthor();
     // Apply level size changes (warning if needed)
     const int newX = propertiesDialog->levelSizeX(), newY = propertiesDialog->levelSizeY();
     if (newX == oldX && newY == oldY)

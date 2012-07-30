@@ -128,20 +128,28 @@ TilePosList TiledMap::getTilesOfTypes(const QStringList &typeFilters)
 }
 
 void TiledMap::setTileChar(unsigned int x, unsigned int y, const QChar &c,
-                           bool rebuildNow)
+                           bool allowOutsideIfContiguous, bool rebuildNow)
 {
-    if (!isInsideMap(x, y, false))
+    // If outside and not contiguous, ignore
+    if (!isInsideMap(x, y, true))
         return;
-    Tile &tile = mTiles[y][x];
-    tile.setChar(c);
+    // If outside but contiguous (tile on the left), add a tile if requested
+    if (!isInsideMap(x, y, false))
+    {
+        if (allowOutsideIfContiguous && isInsideMap(x-1, y, false))
+            mTiles[y].append(Tile(x, y, c));
+        else
+            return;
+    }
+    // If inside, change the tile char
+    else
+    {
+        Tile &tile = mTiles[y][x];
+        tile.setChar(c);
+    }
     if (rebuildNow)
         buildMap();
     mPathfinder.reset();
-}
-
-void TiledMap::setInfo(const LevelInfo &info)
-{
-    mInfo = info;
 }
 
 void TiledMap::draw(RenderTarget &target, RenderStates states) const
@@ -196,7 +204,7 @@ void TiledMap::resizeX(unsigned int sizeX)
         for (int i = 0; i < mTiles.size(); i++)
         {
             QList<Tile> &line = mTiles[i];
-            for (int j = line.size(); j < sizeX; j++)
+            for (unsigned int j = line.size(); j < sizeX; j++)
                 line.append(Tile(j, i, '0'));
         }
     else

@@ -23,7 +23,8 @@
 #include <QFileInfo>
 
 /** LevelInfo contains all the informations needed in order to form a complete level.
-*Contains : name, author, creation date, (optional) external LES file.
+*Contains : name, author, creation date, (optional) external LES file,
+*and mouse start position informations.
 *Each TiledMap has its own LevelInfo.
 */
 class LevelInfo

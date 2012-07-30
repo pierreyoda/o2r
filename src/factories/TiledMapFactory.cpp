@@ -21,6 +21,7 @@
 #include <QStringList>
 #include "TiledMapFactory.hpp"
 #include "../map/TiledMap.hpp"
+#include "../game/EditorScreen.hpp"
 #include "QsLog.h"
 
 const unsigned int DSIZE_X = 23, DSIZE_Y = 23;
@@ -31,7 +32,7 @@ const QString OPTION_TXT_SIZE_Y("y");
 const QString OPTION_XML_SIZE_Y("sizeY");
 const QString OPTION_NAME("name");
 const QString OPTION_AUTHOR("author");
-const QChar TXT_CHAR_MOUSE('M');
+const QChar TXT_CHAR_MOUSE = EditorScreen::MOUSE_POS_CHAR;
 const QChar TXT_OPTION_SEP('=');
 const QChar DEFAULT_TILE('0');
 
@@ -238,6 +239,12 @@ bool TiledMapFactory::interpretOption(const Option &option, TiledMap &lvl,
         info.author = option.second;
         return true;
     }
+    // Name
+    else if (option.first == OPTION_NAME)
+    {
+        info.name = option.second;
+        return true;
+    }
 
     return false;
 }
@@ -317,8 +324,15 @@ bool TiledMapFactory::saveMapTxtFormat(const TiledMap &level)
         const QList<Tile> &list = tiles[i];
         for (int j = 0; j < list.size(); j++)
         {
-            const Tile &tile = list[j];
-            out << tile.getChar();
+            // Old format : place mouse pos char ('m' or 'M') if no random pos
+            if (j == info.mousePosX && i == info.mousePosY && !info.mouseRandomPos)
+                out << TXT_CHAR_MOUSE;
+            // Place a tile char
+            else
+            {
+                const Tile &tile = list[j];
+                out << tile.getChar();
+            }
         }
         // avoid empty line at the end (not really important though)
         if (i != tiles.size())

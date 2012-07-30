@@ -56,6 +56,9 @@ protected:
 
 private:
     void initManagers();
+    void populateEditorBar();
+    void addEditorBarAction(const QChar &c, const QString &text,
+                            const QString &iconPath);
     void switchToGameMode(GAME_MODE mode);
     void toggleGameActions(bool enable);
     void toggleEditorActions(bool enable);
@@ -67,6 +70,8 @@ private:
     // Game
     GameCanvas *mGameCanvas;
     ScreenPtr mGameScreen, mEditorScreen;
+    // Editor bar
+    QAction *prevSelectedAction;
     // Options
     QStringList mModsList;
     // Dialogs
@@ -89,6 +94,9 @@ private slots:
     void on_actionEditorSaveLevel_triggered();
     void on_actionEditorSaveLevelAs_triggered();
     void on_actionEditorLevelProperties_triggered();
+    // Editor toolbar slots
+    void on_editorBar_visibilityChanged(bool visible);
+    void on_editorBar_actionTriggered(QAction *action);
     // Options slots
     void on_actionEditMods_triggered();
     // Language change slots

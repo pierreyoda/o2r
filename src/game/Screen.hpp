@@ -20,6 +20,7 @@
 #define SCREEN_HPP
 
 #include <SFML/System/Time.hpp>
+#include <SFML/Window/Window.hpp>
 #include <SFML/Graphics/RenderStates.hpp>
 #include "../map/TiledMap.hpp"
 
@@ -36,8 +37,9 @@ class Screen
 {
 public:
     /** Default constructor.
+    *@param window Containing SFML window (needed for relative mouse position).
     */
-    Screen();
+    Screen(const sf::Window &window);
     virtual ~Screen();
 
     /** Render to the given sf::RenderTarget.
@@ -76,6 +78,7 @@ public:
     virtual void reloadTextures();
 
 protected:
+    const sf::Window &mWindow;
     TiledMapPtr mLevelPtr;
     bool mStarted;
 };

@@ -21,7 +21,8 @@
 #include "GameScreen.hpp"
 #include "QsLog.h"
 
-GameScreen::GameScreen() : mMouse(0, 0), mTestCat(-1, -1)
+GameScreen::GameScreen(const sf::Window &window) : Screen(window),
+    mMouse(0, 0), mTestCat(-1, -1)
 {
 }
 

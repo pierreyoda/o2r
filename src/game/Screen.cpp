@@ -19,7 +19,8 @@
 #include <SFML/Graphics.hpp>
 #include "Screen.hpp"
 
-Screen::Screen() : mLevelPtr(0), mStarted(false)
+Screen::Screen(const sf::Window &window) : mWindow(window), mLevelPtr(0),
+    mStarted(false)
 {
 
 }

@@ -29,7 +29,7 @@
 class GameScreen : public Screen
 {
 public:
-    GameScreen();
+    GameScreen(const sf::Window &window);
 
     void render(sf::RenderTarget &target,
                 sf::RenderStates states = sf::RenderStates::Default);
