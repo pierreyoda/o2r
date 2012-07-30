@@ -19,7 +19,7 @@
 #include <SFML/Graphics.hpp>
 #include "EmptyScreen.hpp"
 
-EmptyScreen::EmptyScreen()
+EmptyScreen::EmptyScreen(const sf::Window &window) : Screen(window)
 {
 
 }

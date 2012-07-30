@@ -720,11 +720,17 @@ RECURSIVE              = YES
 # Note that relative paths are relative to the directory from which doxygen is 
 # run.
 
-EXCLUDE                = ../src/QsLog/ \
-                         ../src/ui_AboutDialog.h \
+EXCLUDE                = ../src/ui_AboutDialog.h \
                          ../src/ui_MainWindow.h \
                          ../src/ui_EditorNewLevelDialog.h \
-                         ../src/map/micropather/
+                         ../src/map/micropather/ \
+                         ../src/ui_AboutDialog.h \
+                         ../src/ui_AvailableModsDialog.h \
+                         ../src/ui_EditorLevelPropertiesDialog.h \
+                         ../src/ui_EditorNewLevelDialog.h \
+                         ../src/ui_ModsDialog.h \
+                         ../src/QsLog \
+                         ../src/map/micropather
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or 
 # directories that are symbolic links (a Unix file system feature) are excluded 

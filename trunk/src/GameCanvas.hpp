@@ -24,7 +24,6 @@
 #include "QSfmlCanvas.hpp"
 #include "map/TiledMap.hpp"
 #include "game/EmptyScreen.hpp"
-#include "ui/HudRectangle.hpp"
 
 typedef QSharedPointer<Screen> ScreenPtr;
 
@@ -71,7 +70,7 @@ public:
     void setLevel(TiledMapPtr level);
 
     /** Set the current screen.
-    *@param screen Pointer to the new screen. Ignored if null.
+    *@param screen Pointer to the new screen. Switch to the default screen if null.
     *@param start Start the new screen (with the current level). True by default.
     *@return True if successful, false otherwise.
     */
@@ -97,7 +96,6 @@ private:
     ScreenPtr mCurrentScreen;
     sf::Clock mFrameClock;
     sf::View mView;
-    HudRectangle mHudRectangle;
     sf::Transform mHudTransform;
 };
 

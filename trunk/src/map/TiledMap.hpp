@@ -108,14 +108,18 @@ public:
     TilePosList getTilesOfTypes(const QStringList &typeFilters);
 
     /** Change the character of the tile at the given position (if possible) and load it.
+    *
     *@param x Tile's x position, in tiles units.
     *@param y Tile's y position, in tiles units.
     *@param c Tile's new character (must be different from the older one).
+    *@param allowOutsideIfNearby False by default. If true, add a tile to the map if needed,
+    *but only if adjacent to an existing tile (i.e. with an existing tile on the left).
     *@param rebuildNow True by default, manual call of buildMap() is preferred
     *when several tiles change.
     */
     void setTileChar(unsigned int x, unsigned int y, const QChar &c,
-                        bool rebuildNow = true);
+                     bool allowOutsideIfContiguous = false,
+                     bool rebuildNow = true);
 
     /** Draw the TiledMap to the given sf::RenderTarget.
     *Implements the abstract function from sf::Drawable.
@@ -125,15 +129,15 @@ public:
     void draw(sf::RenderTarget &target,
               sf::RenderStates states = sf::RenderStates::Default) const;
 
-    /** Get the LevelInfo.
+    /** Get the LevelInfo as a reference.
+    *@return Reference to the level infos.
+    */
+    LevelInfo &info() { return mInfo; }
+
+    /** Get the LevelInfo as a const reference.
     *@return Const reference to the level infos.
     */
     const LevelInfo &info() const { return mInfo; }
-
-    /** Set the LevelInfo.
-    *@param info New level infos.
-    */
-    void setInfo(const LevelInfo &info);
 
     /** Compute a path between @a start and @a end.
     *@param start Start position.

@@ -88,6 +88,23 @@
     <bool>false</bool>
    </property>
   </widget>
+  <widget class="QToolBar" name="editorBar">
+   <property name="windowTitle">
+    <string>Editor Toolbar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>

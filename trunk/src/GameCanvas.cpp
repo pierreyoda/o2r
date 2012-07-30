@@ -23,8 +23,7 @@
 #include "QsLog.h"
 
 const unsigned int GameCanvas::DEFAULT_WIDTH  = TiledEntity::TILE_SIZE * 32;
-const unsigned int GameCanvas::DEFAULT_HEIGHT = TiledEntity::TILE_SIZE * 32
-        + HudRectangle::HEIGHT;
+const unsigned int GameCanvas::DEFAULT_HEIGHT = TiledEntity::TILE_SIZE * 32;
 
 const sf::Color DEFAULT_CLEAR_COLOR(0, 0, 0);
 
@@ -88,7 +87,7 @@ void GameCanvas::setLevel(TiledMapPtr level)
 bool GameCanvas::setScreen(ScreenPtr screen, bool start)
 {
     if (screen.isNull())
-        return false;
+        return setScreen(mDefaultScreen);
     mCurrentScreen->stop();
     mCurrentScreen = screen;
     mRunning = start;
@@ -104,12 +103,10 @@ void GameCanvas::reloadTextures()
 void GameCanvas::onInit()
 {
     QLOG_INFO() << "Initializing game.";
-    mDefaultScreen = ScreenPtr(new EmptyScreen());
+    mDefaultScreen = ScreenPtr(new EmptyScreen(*this));
     mCurrentScreen = ScreenPtr(mDefaultScreen);
     mView.reset(sf::FloatRect(0, 0, width(), height()));
     setView(mView);
-    mHudRectangle.setWidth(DEFAULT_WIDTH);
-    mHudTransform.translate(0, HudRectangle::HEIGHT);
     mRunning = true;
 
     // Set fixed main window size
@@ -130,12 +127,7 @@ void GameCanvas::onUpdate()
 
     // Clear previous render
     clear(DEFAULT_CLEAR_COLOR);
-    // Draw HUD rectangle in default view
-    //setView(getDefaultView());
-    draw(mHudRectangle);
-    // Render current Screen in game view, taking in account HUD height
-    //setView(mView);
-    mCurrentScreen->render(static_cast<sf::RenderWindow&>(*this), mHudTransform);
+    mCurrentScreen->render(static_cast<sf::RenderWindow&>(*this));
 }
 
 void GameCanvas::adjustSizeToLevel()
@@ -144,13 +136,12 @@ void GameCanvas::adjustSizeToLevel()
         return;
     // Resize the canvas
     const int w = mCurrentLevel->sizeX() * TiledEntity::TILE_SIZE,
-            h = mCurrentLevel->sizeY() * TiledEntity::TILE_SIZE + HudRectangle::HEIGHT;
+            h = mCurrentLevel->sizeY() * TiledEntity::TILE_SIZE;
     setSize(sf::Vector2u(w, h));
     // Resize the window
     emit requestResize(w, h);
     // Resize the view
     mView.reset(sf::FloatRect(0, 0, w, h));
     setView(mView);
-    // Resize the HUD
-    mHudRectangle.setWidth(w);
+
 }

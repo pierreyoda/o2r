@@ -21,7 +21,7 @@
 
 #include <QChar>
 #include <QString>
-
+#include <QMap>
 
 /** @class TileInfo
 *@brief A TileInfo contains the Tile's texture alias and type.
@@ -74,6 +74,11 @@ namespace TilesTypesManager
     */
     void setType(const QChar &c, const QString &textureAlias,
                  const QString &type);
+
+    /** Get the tiles types map as a const reference.
+    *@return Tiles types map.
+    */
+    const QMap<QChar, TileInfo> &getMap();
 }
 
 

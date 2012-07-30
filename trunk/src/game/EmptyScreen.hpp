@@ -27,7 +27,7 @@
 class EmptyScreen : public Screen
 {
 public:
-    EmptyScreen();
+    EmptyScreen(const sf::Window &window);
 
     void render(sf::RenderTarget &target,
                 sf::RenderStates states = sf::RenderStates::Default);
