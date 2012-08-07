@@ -244,6 +244,14 @@ void MainWindow::adjustSizeToCanvas()
                  + (editorBar->isVisible() ? editorBar->height() : 0));
 }
 
+int MainWindow::execModalDialog(QDialog &dialog)
+{
+    mGameCanvas->onPause();
+    const int result = dialog.exec();
+    mGameCanvas->onResume();
+    return result;
+}
+
 void MainWindow::on_editorBar_visibilityChanged(bool visible)
 {
     adjustSizeToCanvas();
@@ -327,7 +335,7 @@ void MainWindow::on_actionEditorNewLevel_triggered()
     EditorLevelPropertiesDialog *newLevelDialog = new EditorLevelPropertiesDialog(
                 0, this);
     newLevelDialog->setWindowTitle(tr("New level properties"));
-    const int result = newLevelDialog->exec();
+    const int result = execModalDialog(*newLevelDialog);
     if (result == QDialog::Rejected)
         return;
     // Init the new level
@@ -474,12 +482,13 @@ void MainWindow::on_actionEditorLevelProperties_triggered()
     EditorLevelPropertiesDialog *propertiesDialog = new EditorLevelPropertiesDialog(
                 level.data(), this);
     const int oldX = level->sizeX(), oldY = level->sizeY();
-    const int result = propertiesDialog->exec();
+    const int result = execModalDialog(*propertiesDialog);
     if (result == QDialog::Rejected)
         return;
     // Apply LevelInfo changes
     level->info().name = propertiesDialog->levelName();
     level->info().author = propertiesDialog->levelAuthor();
+    level->info().mouseRandomPos = propertiesDialog->mouseRandomPos();
     // Apply level size changes (warning if needed)
     const int newX = propertiesDialog->levelSizeX(), newY = propertiesDialog->levelSizeY();
     if (newX == oldX && newY == oldY)
@@ -505,7 +514,7 @@ void MainWindow::on_actionEditMods_triggered()
 {
     // Launch a ModsDialog for result
     ModsDialog *modsDialog = new ModsDialog(mModsList, this);
-    const int result = modsDialog->exec();
+    const int result = execModalDialog(*modsDialog);
     if (result == QDialog::Rejected)
         return;
     // Keep changes and print status bar message if changes were made

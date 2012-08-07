@@ -67,6 +67,8 @@ private:
     void changeLanguage(const QString &id);
     void adjustSizeToCanvas();
 
+    int execModalDialog(QDialog &dialog);
+
     // Game
     GameCanvas *mGameCanvas;
     ScreenPtr mGameScreen, mEditorScreen;

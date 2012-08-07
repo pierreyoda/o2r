@@ -19,6 +19,7 @@
 #include <stdexcept>
 #include <QFileInfo>
 #include <QStringList>
+#include <QtXml>
 #include "TiledMapFactory.hpp"
 #include "../map/TiledMap.hpp"
 #include "../game/EditorScreen.hpp"
@@ -32,6 +33,7 @@ const QString OPTION_TXT_SIZE_Y("y");
 const QString OPTION_XML_SIZE_Y("sizeY");
 const QString OPTION_NAME("name");
 const QString OPTION_AUTHOR("author");
+const QString OPTION_RANDOM_MOUSE_POS("randomMousePos");
 const QChar TXT_CHAR_MOUSE = EditorScreen::MOUSE_POS_CHAR;
 const QChar TXT_OPTION_SEP('=');
 const QChar DEFAULT_TILE('0');
@@ -49,9 +51,9 @@ unsigned int TiledMapFactory::computeLevelSizeX(const TiledMap &level)
     return maxSizeX;
 }
 
-TiledMap *TiledMapFactory::loadLevel(QString path)
+TiledMap *TiledMapFactory::loadLevel(const QString &path)
 {
-    TiledMap *level = 0;
+    TiledMap *level = new TiledMap(0, 0);
     QFile file(path);
     const QFileInfo fileInfo(file);
     try
@@ -59,10 +61,10 @@ TiledMap *TiledMapFactory::loadLevel(QString path)
         if (!fileInfo.exists())
             throw std::runtime_error("file does not exists");
         if (fileInfo.suffix() == XML_FILE_SUFFIX)
-            level = loadMapXmlFormat(file);
+            loadMapXmlFormat(*level, file);
         else
-            level = loadMapTxtFormat(file);
-        if (level == 0)
+            loadMapTxtFormat(*level, file);
+        if (level->mTiles.empty())
             throw std::runtime_error("reading error");
 
         // Level size fix
@@ -99,6 +101,13 @@ TiledMap *TiledMapFactory::loadLevel(QString path)
         // Level path
         info.filePath = path;
 
+        // Level name
+        if (info.name.isEmpty())
+            QLOG_WARN() << "No author specified.";
+        else
+            QLOG_INFO() << QString("Name is \"%1\"").arg(info.name)
+                           .toLocal8Bit().constData();
+
         // Level author
         if (info.author.isEmpty())
             QLOG_WARN() << "No author specified.";
@@ -112,19 +121,21 @@ TiledMap *TiledMapFactory::loadLevel(QString path)
                      << fileInfo.filePath()
                      << ":" << e.what() << ".";
         delete level;
+        file.close();
         return 0;
     }
+    file.close();
     return level;
 }
 
-TiledMap *TiledMapFactory::loadMapTxtFormat(QFile &file)
+void TiledMapFactory::loadMapTxtFormat(TiledMap &level, QFile &file)
 {
-    TiledMap *lvl = new TiledMap(0, 0);
-    LevelInfo lvlInfo;
     // Open level file
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         throw std::runtime_error("file not readable");
     QTextStream in(&file);
+
+    // Read the level file
     unsigned int lineCount = 0, nbOfOptions = 0;
     while (!in.atEnd())
     {
@@ -139,13 +150,13 @@ TiledMap *TiledMapFactory::loadMapTxtFormat(QFile &file)
         Option option = processTxtOptionLine(line);
         if (!option.first.isEmpty())
         {
-            if (!interpretOption(option, *lvl, true))
-                QLOG_WARN() << "TiledMapFactory : invalid level option ( name ="
+            if (!interpretOption(option, level, true))
+                QLOG_WARN() << "TiledMapFactory : invalid level option (name ="
                             << option.first << " value =" << option.second << ").";
             ++nbOfOptions;
         }
         // Else : interpret line of tiles
-        else if (!processTilesLine(line, *lvl, lineCount-nbOfOptions, true))
+        else if (!processTilesLine(line, level, lineCount-nbOfOptions, true))
                 throw std::runtime_error(QString("invalid tiles line n°%1 (\"%2\")")
                                          .arg(QString::number(lineCount-nbOfOptions),
                                               line).toStdString());
@@ -153,15 +164,82 @@ TiledMap *TiledMapFactory::loadMapTxtFormat(QFile &file)
     QLOG_INFO() << QString("TiledMapFactory : finished reading TXT level (%1 tiles lines and %2 options lines)")
                    .arg(QString::number(lineCount-nbOfOptions),
                         QString::number(nbOfOptions)).toLocal8Bit().constData();
-    // Close level file
-    file.close();
-
-    return lvl;
 }
 
-TiledMap *TiledMapFactory::loadMapXmlFormat(QFile &file)
+void TiledMapFactory::loadMapXmlFormat(TiledMap &level, QFile &file)
 {
-    return 0;
+    // Open level file and load it in a DOM document
+    QDomDocument doc;
+    QString errorMsg;
+    int errorLine = 0, errorColumn = 0;
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+        throw std::runtime_error("file not readable");
+    if (!doc.setContent(&file, &errorMsg, &errorLine, &errorColumn))
+        throw std::runtime_error(QString("parsing error ; %1 (line %2, column %3)")
+                                 .arg(errorMsg, QString::number(errorLine),
+                                      QString::number(errorColumn) + ")")
+                                 .toStdString());
+
+    QDomElement levelRoot = doc.namedItem("Level").toElement();
+    if (levelRoot.isNull())
+        throw std::runtime_error("no <Level> root element found");
+
+    // Read the options
+    QDomNamedNodeMap levelOptions = levelRoot.attributes();
+    for (int i = 0; i < levelOptions.size(); i++)
+    {
+        QDomAttr option = levelOptions.item(i).toAttr();
+        if (option.isNull())
+            continue;
+        interpretOption(Option(option.name(), option.value()), level, false);
+    }
+    // Read the mouse position info
+    QDomElement mouseNode = levelRoot.namedItem("Mouse").toElement();
+    if (!mouseNode.isNull())
+    {
+        bool ok = false;
+        if (mouseNode.hasAttribute("x"))
+        {
+            unsigned int x = mouseNode.attribute("x").toUInt(&ok);
+            if (ok)
+                level.info().mousePosX = x;
+            else
+                QLOG_WARN() << QString("TiledMapFactory : invalid mouse X position '%1'")
+                               .arg(mouseNode.attribute("x"))
+                               .toLocal8Bit().constData();
+        }
+        if (mouseNode.hasAttribute("y"))
+        {
+            unsigned int y = mouseNode.attribute("y").toUInt(&ok);
+            if (ok)
+                level.info().mousePosY = y;
+            else
+                QLOG_WARN() << QString("TiledMapFactory : invalid mouse Y position '%1'")
+                               .arg(mouseNode.attribute("y"))
+                               .toLocal8Bit().constData();
+        }
+        if (mouseNode.hasAttribute(OPTION_RANDOM_MOUSE_POS))
+            interpretOption(Option(OPTION_RANDOM_MOUSE_POS,
+                                   mouseNode.attribute(OPTION_RANDOM_MOUSE_POS)),
+                            level, false);
+    }
+    else
+        QLOG_WARN() << "TiledMapFactory : no <Mouse> node (mouse start position infos)";
+
+    // Interpret lines of tiles
+    const QDomElement tilesNode = levelRoot.namedItem("Tiles").toElement();
+    if (tilesNode.isNull())
+        throw std::runtime_error("no <Tiles> element found");
+    unsigned int lineNb = 0;
+    const QDomNodeList lineNodes = tilesNode.elementsByTagName("line");
+    for (unsigned int i = 0; i < lineNodes.length(); i++)
+    {
+        const QString line = lineNodes.item(i).toElement().text();
+        if (!processTilesLine(line, level, ++lineNb, false))
+            throw std::runtime_error(QString("invalid tiles line n°%1 (\"%2\")")
+                                     .arg(QString::number(lineNb), line)
+                                     .toStdString());
+    }
 }
 
 // Ex. : "X=35" ==> Option("X", "35")
@@ -233,6 +311,22 @@ bool TiledMapFactory::interpretOption(const Option &option, TiledMap &lvl,
         else
             return false;
     }
+    // Mouse random position
+    else if (option.first == OPTION_RANDOM_MOUSE_POS)
+    {
+        if (option.second == "true" || option.second == "1")
+            info.mouseRandomPos = true;
+        else if (option.second == "false" || option.second == "0")
+            info.mouseRandomPos = false;
+        else
+        {
+            QLOG_WARN() << QString("TiledMapFactory : the option %1 has an invalid value ('%2'")
+                           .arg(option.first, option.second)
+                           .toLocal8Bit().constData();
+            return false;
+        }
+        return true;
+    }
     // Author
     else if (option.first == OPTION_AUTHOR)
     {
@@ -274,7 +368,7 @@ bool TiledMapFactory::processTilesLine(const QString &line, TiledMap &lvl,
     return true;
 }
 
-bool TiledMapFactory::saveLevel(TiledMap &level, QString path)
+bool TiledMapFactory::saveLevel(TiledMap &level, const QString &path)
 {
     // File extension check
     const QString suffix = path.section('.', -1);
@@ -303,6 +397,7 @@ bool TiledMapFactory::saveLevel(TiledMap &level, QString path)
 
 bool TiledMapFactory::saveMapTxtFormat(const TiledMap &level)
 {
+    // Open the file
     const LevelInfo &info = level.info();
     QFile file(info.filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -341,6 +436,9 @@ bool TiledMapFactory::saveMapTxtFormat(const TiledMap &level)
     QLOG_INFO() << QString("TiledMapFactory : finished saving TXT level to \"%1\".")
                    .arg(info.filePath).toLocal8Bit().constData();
 
+    // Close the file
+    file.close();
+
     return true;
 }
 
@@ -349,11 +447,71 @@ QString TiledMapFactory::formTxtOptionLine(const QString &name, const QString &v
     return QString(name + TXT_OPTION_SEP + value + '\n');
 }
 
-bool TiledMapFactory::saveMapXmlFormat(const TiledMap &level)
+QDomElement addElement(QDomDocument &doc, QDomNode &node, const QString &tag,
+                           const QString &value = QString())
 {
-    QFile file(level.info().filePath);
-    if (!file.open(QIODevice::WriteOnly))
-        return false;
-    return false;
+    QDomElement element = doc.createElement(tag);
+    node.appendChild(element);
+    if (!value.isNull())
+    {
+        const QDomText text = doc.createTextNode(value);
+        element.appendChild(text);
+    }
+    return element;
 }
 
+bool TiledMapFactory::saveMapXmlFormat(const TiledMap &level)
+{
+    // Open the file and init the DOM xml document
+    const LevelInfo &info = level.info();
+    QFile file(info.filePath);
+    if (!file.open(QIODevice::WriteOnly))
+        return false;
+    QDomDocument doc;
+    QDomProcessingInstruction instr = doc.createProcessingInstruction(
+                "xml", "version='1.0' encoding='UTF-8'");
+    doc.appendChild(instr);
+
+    // Add the "Level" root element, with its optional options if needed
+    QDomElement levelRoot = addElement(doc, doc, "Level");
+    levelRoot.setAttribute(OPTION_XML_SIZE_X, level.sizeX());
+    levelRoot.setAttribute(OPTION_XML_SIZE_Y, level.sizeY());
+    if (!info.name.isEmpty())
+        levelRoot.setAttribute(OPTION_NAME, info.name);
+    if (!info.author.isEmpty())
+        levelRoot.setAttribute(OPTION_AUTHOR, info.author);
+
+    // Write mouse position info
+    QDomElement mousePosNode = addElement(doc, levelRoot, "Mouse");
+    mousePosNode.setAttribute("x", info.mousePosX);
+    mousePosNode.setAttribute("y", info.mousePosY);
+    mousePosNode.setAttribute(OPTION_RANDOM_MOUSE_POS,
+                              info.mouseRandomPos ? "true" : "false");
+
+    // Write cats info
+
+    // Write traps position info
+
+    // Write lines of tiles
+    QDomElement tilesNode = addElement(doc, levelRoot, "Tiles");
+    const QList< QList<Tile> > &tiles = level.mTiles;
+    for (int i = 0; i < tiles.size(); i++)
+    {
+        const QList<Tile> &list = tiles[i];
+        QString line;
+        for (int j = 0; j < list.size(); j++)
+        {
+            // Place a tile char
+            const Tile &tile = list[j];
+            line += tile.getChar();
+        }
+        addElement(doc, tilesNode, "line", line);
+    }
+
+    // Finally, write the DOM document to the file and close it
+    QTextStream out(&file);
+    out << doc.toString();
+    file.close();
+
+    return true;
+}

@@ -19,7 +19,7 @@
 #ifndef EDITORNEWLEVELDIALOG_HPP
 #define EDITORNEWLEVELDIALOG_HPP
 
-#include "ui_EditorNewLevelDialog.h"
+#include "ui_EditorLevelPropertiesDialog.h"
 
 class TiledMap;
 
@@ -35,6 +35,7 @@ public:
 
     unsigned int levelSizeX() const;
     unsigned int levelSizeY() const;
+    bool mouseRandomPos() const;
 
     QString levelName() const;
     QString levelAuthor() const;

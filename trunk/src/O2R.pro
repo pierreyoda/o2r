@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui xml
 
 TARGET = O2R
 TEMPLATE = app
@@ -43,7 +43,8 @@ SOURCES += main.cpp\
     map/TiledMapPathfinder.cpp \
     map/micropather/micropather.cpp \
     dialogs/ModsDialog.cpp \
-    dialogs/AvailableModsDialog.cpp
+    dialogs/AvailableModsDialog.cpp \
+    entities/Trap.cpp
 
 HEADERS  += MainWindow.hpp \
     GameCanvas.hpp \
@@ -67,7 +68,8 @@ HEADERS  += MainWindow.hpp \
     map/TiledMapPathfinder.hpp \
     map/micropather/micropather.h \
     dialogs/ModsDialog.hpp \
-    dialogs/AvailableModsDialog.hpp
+    dialogs/AvailableModsDialog.hpp \
+    entities/Trap.hpp
 
 FORMS    += MainWindow.ui \
     dialogs/AboutDialog.ui \
