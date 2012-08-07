@@ -41,6 +41,7 @@ EditorLevelPropertiesDialog::EditorLevelPropertiesDialog(const TiledMap *level,
     spinBox_ySize->setValue(level->sizeY());
     lineEdit_name->setText(level->info().name);
     lineEdit_author->setText(level->info().author);
+    checkBox_mouseRandomPos->setChecked(level->info().mouseRandomPos);
 }
 
 unsigned int EditorLevelPropertiesDialog::levelSizeX() const
@@ -51,6 +52,11 @@ unsigned int EditorLevelPropertiesDialog::levelSizeX() const
 unsigned int EditorLevelPropertiesDialog::levelSizeY() const
 {
     return spinBox_ySize->value();
+}
+
+bool EditorLevelPropertiesDialog::mouseRandomPos() const
+{
+    return checkBox_mouseRandomPos->isChecked();
 }
 
 QString EditorLevelPropertiesDialog::levelName() const

@@ -56,11 +56,9 @@ void EditorScreen::update(const sf::Time &dt)
     // Place the mouse starting position...
     if (mPlaceableChar == MOUSE_POS_CHAR)
     {
-        if (mLevelPtr->getTileInfo(mousePos.x, mousePos.y).type !=
-                TileInfo::TYPE_GROUND)
-            mLevelPtr->setTileChar(mousePos.x, mousePos.y, '0', true, true);
         if (!mLevelPtr->isInsideMap(mousePos.x, mousePos.y, false))
             return;
+        mLevelPtr->info().mouseRandomPos = false;
         mLevelPtr->info().mousePosX = mousePos.x, mLevelPtr->info().mousePosY = mousePos.y;
         relocateMousePosIndicator();
     }
@@ -73,6 +71,7 @@ void EditorScreen::update(const sf::Time &dt)
 
 void EditorScreen::handleEvent(const sf::Event &event)
 {
+
 }
 
 bool EditorScreen::start(TiledMapPtr level)
@@ -83,17 +82,13 @@ bool EditorScreen::start(TiledMapPtr level)
                    .arg(level->info().name,
                         level->info().filePath).toLocal8Bit().constData();
 
-    // Place the mouse start position indicator if needed
-    const LevelInfo &info = level->info();
-    if (!info.mouseRandomPos && level->isInsideMap(info.mousePosX, info.mousePosY))
-    {
-        TexturePtr texturePtr = AssetsManager::getTexture("mouse.png");
-        if (texturePtr.isNull())
-            return false;
-        mMousePosIndicator.setTexture(*texturePtr);
-        mMousePosIndicator.setColor(MOUSE_POS_INDICATOR_COLOR);
-        relocateMousePosIndicator();
-    }
+    // Init the mouse start position indicator (but shown only if needed)
+    TexturePtr texturePtr = AssetsManager::getTexture("mouse.png");
+    if (texturePtr.isNull())
+        return false;
+    mMousePosIndicator.setTexture(*texturePtr);
+    mMousePosIndicator.setColor(MOUSE_POS_INDICATOR_COLOR);
+    relocateMousePosIndicator();
 
     return true;
 }
@@ -113,6 +108,9 @@ void EditorScreen::relocateMousePosIndicator()
     sf::Vector2u mousePos(mLevelPtr->info().mousePosX, mLevelPtr->info().mousePosY);
     if (!mLevelPtr->isInsideMap(mousePos.x, mousePos.y))
         return;
+    if (mLevelPtr->getTileInfo(mousePos.x, mousePos.y).type !=
+            TileInfo::TYPE_GROUND)
+        mLevelPtr->setTileChar(mousePos.x, mousePos.y, '0', true, true);
     mousePos *= TiledEntity::TILE_SIZE;
     mMousePosIndicator.setPosition(mousePos.x, mousePos.y);
 }

@@ -21,8 +21,10 @@
 #include "GameScreen.hpp"
 #include "QsLog.h"
 
+const unsigned int RANDOM_POS_MAX_ATTEMPTS = 500; // "bruteforce" work-around
+
 GameScreen::GameScreen(const sf::Window &window) : Screen(window),
-    mMouse(0, 0), mTestCat(-1, -1)
+    mMouse(0, 0)
 {
 }
 
@@ -32,12 +34,16 @@ void GameScreen::render(sf::RenderTarget &target, sf::RenderStates states)
         return;
     mLevelPtr->draw(target, states);
     mMouse.draw(target, states);
-    mTestCat.draw(target, states);
+    for (int i = 0; i < mCats.size(); i++)
+        mCats[i].draw(target, states);
+    for (int i = 0; i < mTraps.size(); i++)
+        mTraps[i].draw(target, states);
 }
 
 void GameScreen::update(const sf::Time &dt)
 {
-    mTestCat.update(mLevelPtr, mMouse);
+    for (int i = 0; i < mCats.size(); i++)
+        mCats[i].update(mLevelPtr, mMouse);
 }
 
 void GameScreen::handleEvent(const sf::Event &event)
@@ -81,11 +87,9 @@ bool GameScreen::start(TiledMapPtr level)
     }
     mMouse.setX(mouseX).setY(mouseY);
 
-    // Place the test cat
-    mTestCat.loadTexture();
-    sf::Vector2i pos = randomEmptyPos(groundTiles, TilePosList()
-                                      << sf::Vector2i(mouseX, mouseY));
-    mTestCat.setX(pos.x).setY(pos.y);
+    // Place the cats (if needed)
+
+    // Place the traps (if needed)
 
     QLOG_INFO() << "Game Screen : starting game.";
 
@@ -93,20 +97,28 @@ bool GameScreen::start(TiledMapPtr level)
 }
 
 sf::Vector2i GameScreen::randomEmptyPos(const TilePosList &emptyTiles,
-                                        const TilePosList forbiddenPos)
+                                        const TilePosList forbiddenPos,
+                                        unsigned int attempts)
 {
     if (emptyTiles.isEmpty())
         return sf::Vector2i(-1, -1);
     const unsigned int index = qrand() % emptyTiles.size();
     const sf::Vector2i &pos = emptyTiles[index];
     if (forbiddenPos.contains(pos))
+    {
+        if (attempts++ < RANDOM_POS_MAX_ATTEMPTS)
+            return randomEmptyPos(emptyTiles, forbiddenPos, attempts);
         return sf::Vector2i(-1, -1);
+    }
     return pos;
 }
 
 void GameScreen::reloadTextures()
 {
     mMouse.loadTexture();
-    mTestCat.loadTexture();
+    for (int i = 0; i < mCats.size(); i++)
+        mCats[i].loadTexture();
+    for (int i = 0; i < mTraps.size(); i++)
+        mTraps[i].loadTexture();
     Screen::reloadTextures();
 }

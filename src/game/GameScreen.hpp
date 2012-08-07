@@ -22,6 +22,7 @@
 #include "Screen.hpp"
 #include "entities/Mouse.hpp"
 #include "entities/Cat.hpp"
+#include "entities/Trap.hpp"
 
 /** The game screen.
 *On start, places the Mouse and all AI entites.
@@ -44,10 +45,13 @@ public:
 
 private:
     sf::Vector2i randomEmptyPos(const TilePosList &emptyTiles,
-                                const TilePosList forbiddenPos = TilePosList());
+                                const TilePosList forbiddenPos = TilePosList(),
+                                unsigned int attempts = 0);
 
     Mouse mMouse;
-    Cat mTestCat;
+    QList<Cat> mCats;
+    QList<Trap> mTraps;
+
     unsigned int levelSizeX, levelSizeY;
 };
 
