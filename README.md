@@ -22,7 +22,7 @@ I have absolutely no rights over the original property and multiple alternate sp
 - Tiled Map batch rendering for better performance (one drawing call for each sprite type).
 
 ## History
-The original version (of which 0.7 is the latest iteration) was developped and released in 2010 and consists in two different programs : a launcher made with Qt 4 and the actual game made with SFML 2 and Micropather. You can download a Linux build or older versions of the game on the original [Sourceforge] project repository. All versions included (mostly 0.6 and 0.7), this game was downloaded more than 40 thousand times.
+The latest beta version (0.7) was released in 2010 and consists in two different programs : a launcher made with Qt 4 and the actual game made with SFML 2 and Micropather. You can download a Linux build or older versions of the game on the original [Sourceforge] project repository. All versions included (mostly 0.6 and 0.7), this game was downloaded more than 40 thousand times.
 
 I started a rewrite for 1.0 but wasn't able to finish it at the time. This version uses Qt 5 and SFML 2 in order to have a single game window. Note that this would most likely make a port to mobile platforms pretty straightforward.
 
