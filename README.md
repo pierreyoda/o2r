@@ -4,6 +4,11 @@ C++ remake of the famous Microsoft game "Rodent's Revenge" (1991) made with [Qt]
 
 Download link for the [0.7 version for Windows] ([original link](https://sourceforge.net/projects/o2r/)).
 
+See also (made approximatevly at the same time, in my high school years):
+
+- [Open Advanced War](https://github.com/pierreyoda/open-advanced-war)
+- [Space Carrier](https://github.com/pierreyoda/space-carrier)
+
 
 I have absolutely no rights over the original property and multiple alternate sprite sets are included that completely replace the reproduced sprites.
 
