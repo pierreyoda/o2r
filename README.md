@@ -2,7 +2,7 @@
 
 C++ remake of the famous Microsoft game "Rodent's Revenge" (1991) made with [Qt][qt], [SFML][sfml] and [MicroPather][micropather].
 
-Download link for the [0.7 version for Windows].
+Download link for the [0.7 version for Windows] ([original link](https://sourceforge.net/projects/o2r/)).
 
 
 I have absolutely no rights over the original property and multiple alternate sprite sets are included that completely replace the reproduced sprites.
